@@ -1,0 +1,77 @@
+<div class="watchlist-container">
+  <div class="d-flex justify-between px-7 mb-6">
+    <h2 class="main-heading">Watchlists</h2>
+    <div
+      *ngIf="selectedProductCount === 0"
+      class="actions d-flex items-center"
+    >
+      <button
+        mat-raised-button
+        class="btn-custom-outline btn-request mr-3"
+        (click)="goToMarketplace()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="cart" class="mr-3"></mat-icon>
+          <span class="label">
+            Find products
+          </span>
+        </div>
+      </button>
+      <button
+        mat-raised-button
+        class="btn-custom"
+        (click)="openCreateModal()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="eye" class="mr-3"></mat-icon>
+          <span class="label">Create New</span>
+        </div>
+      </button>
+    </div>
+    <div
+      *ngIf="!!selectedProductCount"
+      class="actions d-flex items-center"
+    >
+      <button
+        *ngIf="companyWatchLists.length > 0"
+        mat-raised-button
+        class="btn-custom-outline btn-request mr-3"
+        (click)="openCreateModal()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="eye" class="mr-3"></mat-icon>
+          <span class="label">
+            Copy to new ({{ selectedProductCount }})
+          </span>
+        </div>
+      </button>
+      <button
+        mat-raised-button
+        class="btn-custom"
+        [disabled]="companyWatchListsSelectedItems$ | async"
+        (click)="openRemoveWatchListsModal()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon class="mr-3">clear</mat-icon>
+          <span *ngIf="companyWatchListsSelectedItems$ | async; else removeSelectedProducts" class="label">Remove</span>
+          <ng-template #removeSelectedProducts>
+            <span class="label">Remove ({{ selectedProductCount }})</span>
+          </ng-template>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-3 px-7">
+    <watchlist-filter [watchLists]="myWatchLists"></watchlist-filter>
+  </div>
+  <div class="px-7">
+    <my-watchlists
+      [loading]="loading"
+      [watchLists]="myWatchLists"
+      (refresh)="searchWatchLists()"
+    ></my-watchlists>
+
+    <company-watchlists [watchLists]="companyWatchLists"></company-watchlists>
+  </div>
+</div>

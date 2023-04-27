@@ -1,0 +1,63 @@
+<button mat-mini-fab class="closeModal2" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont membership-modal">
+    <div class="header">
+        <div class="icon">
+            <mat-icon>payment</mat-icon>
+        </div>
+        <h3>Payments</h3>
+    </div>
+    <div class="content alert" *ngIf="removeSubscribrionAlert === true">
+        <h3>Are you sure you want to cancel your subscription?</h3>
+        <div class="alertOptions">
+            <button mat-button mat-raised-button (click)="doRemoveSubscribrion(true)" [disabled]="requestInProgress"
+                color="warn" class="mat-elevation-z0">Yes</button>
+            <button mat-button mat-raised-button (click)="doRemoveSubscribrion(false)" color="primary"
+                [disabled]="requestInProgress" class="mat-elevation-z0">No</button>
+        </div>
+    </div>
+    <div class="content" *ngIf="removeSubscribrionAlert === false">
+
+        <div class="item" *ngIf="subscription.plan">
+            <div>Plan</div>
+            <div>{{subscription.plan.nickname}}</div>
+        </div>
+        <div class="item" *ngIf="subscription.plan">
+            <div>Price</div>
+            <div>£{{subscription.plan.amount/100}} per {{subscription.plan.interval}}</div>
+        </div>
+
+        <div class="item" *ngIf="subscription.status">
+            <div>Status</div>
+            <div>{{subscription.status}}</div>
+        </div>
+        <div class="item" *ngIf="subscription.current_period_start">
+            <div>Start period</div>
+            <div>{{getDateString(subscription.current_period_start)}}</div>
+        </div>
+        <div class="item" *ngIf="subscription.cancel_at_period_end">
+            <div *ngIf="subscription.cancel_at_period_end!=false">End period</div>
+            <div *ngIf="subscription.cancel_at_period_end==false">Renew on</div>
+            <div>{{getDateString(subscription.current_period_end)}}</div>
+        </div>
+
+        <div style="margin-top:24px;"></div>
+        <div class="item" *ngIf="payment && payment.type">
+            <div>Payment method</div>
+            <div>{{payment.type}}</div>
+        </div>
+
+        <div class="item" *ngIf="payment && payment.card && payment.card.last4">
+            <div>Card</div>
+            <div>{{payment.card.brand}} ending {{payment.card.last4}}</div>
+        </div>
+
+    </div>
+    <div class="options" *ngIf="subscription.plan && removeSubscribrionAlert === false">
+        <button mat-button mat-raised-button (click)="removeSubscribrion()" [disabled]="requestInProgress" color="warn"
+            class="mat-elevation-z0">Cancel Subscribtion</button>
+        <button mat-button mat-raised-button (click)="cancel()" color="primary" [disabled]="requestInProgress"
+            class="mat-elevation-z0">Close</button>
+    </div>
+</div>

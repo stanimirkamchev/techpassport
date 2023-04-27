@@ -1,0 +1,62 @@
+<div class="top-contenct">
+  <div class="table-headers">
+    <h3 class="header-table">
+      Current projects and POCs
+      <div class="legend">
+        <div class="blue legendit" matTooltip="Internal Process"></div>
+        <div class="green legendit" matTooltip="Successfully Completed"></div>
+        <div class="amber legendit" matTooltip="Supplier action required"></div>
+        <div class="pink legendit" matTooltip="Your action is required"></div>
+        <div class="red legendit" matTooltip="Unsuccessfully Completed"></div>
+      </div>
+    </h3>
+    <ui-data-filters class="filters">
+      <form [formGroup]="formGroup">
+        <div class="form-field">
+            <mat-label class="label">Projects</mat-label>
+            <mat-form-field>
+              <mat-select formControlName="name">
+                <mat-option value="">All</mat-option>
+                <mat-option *ngFor="let name of projectNames" [value]="name">
+                  {{ name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <mat-label class="label">Suppliers</mat-label>
+            <mat-form-field>
+              <mat-select formControlName="supplier">
+                <mat-option value="">All</mat-option>
+                <mat-option *ngFor="let supplier of suppliers" [value]="supplier">
+                  {{ supplier }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="form-field">
+            <mat-label class="label">Products</mat-label>
+            <mat-form-field>
+              <mat-select formControlName="product">
+                <mat-option value="">All</mat-option>
+                <mat-option *ngFor="let product of products" [value]="product">
+                  {{ product }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+      </form>
+    </ui-data-filters>
+  </div>
+</div>
+
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+
+<ng-template #loaded>
+  <projects-table-buyer
+    (feedbackLoop)="onFeedbackLoop($event)"
+    (sort)="sort($event)"
+    [projects]="_projects"
+  >
+  </projects-table-buyer>
+</ng-template>

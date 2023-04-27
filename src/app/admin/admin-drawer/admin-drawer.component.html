@@ -1,0 +1,121 @@
+<ui-drawer>
+  <mat-sidenav-container class="portal">
+    <mat-sidenav mode="side" opened>
+      <button
+        *ngIf="
+          apiService.sessionObject.role === 'superadmin' ||
+          apiService.sessionObject.role === 'admin'
+        "
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/superuser']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="admins"></mat-icon>
+        <label>Super Admins</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/banks']"
+        routerLinkActive="selected"
+      >
+        <mat-icon>account_balance</mat-icon>
+        <label>Buyers</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/suppliers']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="supplier"></mat-icon>
+        <label>Suppliers</label>
+      </button>
+
+      <button
+        *ngIf="
+          apiService.sessionObject.role === 'superadmin' ||
+          apiService.sessionObject.role === 'admin'
+        "
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/market']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="language"></mat-icon>
+        <label>Market</label>
+      </button>
+
+      <button
+        *ngIf="
+          apiService.sessionObject.role === 'superadmin'"
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/dataIO']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="database"></mat-icon>
+        <label>Database</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/products']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="products"></mat-icon>
+        <label>Products</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/compliance']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="compliance"></mat-icon>
+        <label>Compliance</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/dashboard']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="dashboard"></mat-icon>
+        <label>Dashboard</label>
+      </button>
+
+      <button
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/connections']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="flight"></mat-icon>
+        <label>Connections</label>
+      </button>
+      <button
+        *ngIf="
+          apiService.sessionObject.role === 'superadmin'
+        "
+        mat-button
+        class="sidenav-button img-icon"
+        [routerLink]="['/admin/editTables']"
+        routerLinkActive="selected"
+      >
+        <mat-icon svgIcon="table"></mat-icon>
+        <label>Edit Tables</label>
+      </button>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ui-drawer>

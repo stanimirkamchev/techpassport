@@ -1,0 +1,110 @@
+@import 'colors.scss';
+
+.view-poc-doc{
+
+    @media only screen and (min-width: 1280px){
+      //  width: 44vw;
+    }
+    height: 59vh;
+    padding: 22px;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    // height: 68vh;
+    overflow-x: auto;
+    padding: 22px;
+    padding-top:0;
+    border-radius:15px;
+    background-color:#FFF;
+    z-index:100000;
+    font-size:8pt;
+    color:$tp-dark;
+ /*   -webkit-box-shadow: -12px 11px 42px -12px rgba(128,128,128,1);
+    -moz-box-shadow: -12px 11px 42px -12px rgba(128,128,128,1);
+    box-shadow: -12px 11px 42px -12px rgba(128,128,128,1);*/
+    .clearfix::before, .clearfix::after{
+        content:"";
+        display:block;
+        float:none;
+        clear:both;
+    }
+    .height-scroll{
+        overflow: auto;
+    }
+    .product{
+        color:$tp-green;
+        text-align:center;
+        font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    }
+    h1{
+        font-size:8pt;
+        margin:0;
+        text-align:center;
+        color:$tp-green;
+        top:10px;
+        left:40px;
+        position:absolute;
+        font-weight:normal;
+    }
+    .start{
+        width:100%;
+        text-align:center;
+    }
+    h2{
+        font-size:8pt;
+        padding-left:20px;
+        margin-top:7px;
+        margin:0;
+        color:$tp-green;
+        margin:0;
+        font-weight:normal;
+    }
+    .line{
+        padding:6px 0;
+        span{
+            display:inline-block;
+            max-width:50%;
+        }
+    }
+    .line::after, .line::before{
+        clear:both;
+        content:"";
+        display:block;
+    }
+    .hr{
+        margin:0 -20px;
+        margin-bottom:3px;
+        height:4px;
+        border-top:1px solid #C0c0c0;
+    }
+    .left{
+        float:left;
+        width:49%;
+        margin-right:1%;
+        text-align:right;
+        font-weight:bold;
+    }
+    .right{
+        float:right;
+        width:49%;
+        margin-left:1%;
+    }
+    .section{
+        padding-bottom:7px;
+        position:relative;
+    }
+    .icon{
+        position:absolute;
+        text-align:center;
+        top:9px;
+        width:100%;
+        height:18px;
+    }
+    .mat-icon{
+        height:18px;
+        width:24px;
+        font-size:18px;
+        background-color:#FFF;
+    }
+}

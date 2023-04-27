@@ -1,0 +1,62 @@
+<div class="container">
+  <ui-page-title>Product</ui-page-title>
+  <ui-page-content>
+    <ui-page-close route="/admin/products"></ui-page-close>
+    <mat-spinner diameter="32"></mat-spinner>
+    <ng-template #productDetails>
+      <ng-container>
+        <ng-container>
+          <ui-page-header>
+            <ui-img
+              src="/api/v1/admin/supplier/{{
+                product.supplier._id
+              }}/companylogo"
+              class="logo"
+            ></ui-img>
+            <span class="mat-title">
+              <strong>Product 1</strong> Company Ref <br />
+              <strong>Product 1</strong>
+            </span>
+          </ui-page-header>
+          <header-controls
+            [approvalDisabled]="product.status !== 'SentForApproval'"
+            [downloadHidden]="true"
+          >
+            <button
+              [disabled]="!productDetails.review?.tpWriteAccess || true"
+              mat-stroked-button
+              color="primary"
+            >
+              Edit
+            </button>
+            <!-- TEMPORARY DISABLED -->
+          </header-controls>
+        </ng-container>
+        <nav mat-tab-nav-bar>
+          <a
+            mat-tab-link
+            [routerLink]="['supplier']"
+            [active]="router.url.indexOf('/supplier') > -1"
+          >
+            Supplier Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['review']"
+            [active]="router.url.indexOf('/review') > -1"
+          >
+            Product Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['compliance']"
+            [active]="router.url.indexOf('/compliance') > -1"
+          >
+            Compliance
+          </a>
+        </nav>
+      </ng-container>
+      <router-outlet></router-outlet>
+    </ng-template>
+  </ui-page-content>
+</div>

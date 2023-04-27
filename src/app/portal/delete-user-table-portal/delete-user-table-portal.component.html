@@ -1,0 +1,16 @@
+<button mat-mini-fab class="closeModal2 close-invite-modal" (click)="exit()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal delete-user-table-modal">
+    <div class="header">
+        <h3>Are you sure you want to delete <strong>{{ name }}</strong></h3>
+    </div>
+    <div class="options success-btns">
+        <button (click)="remove()" mat-button mat-raised-button class="continue-btn">
+            Yes
+        </button>
+        <button (click)="exit()" mat-button mat-raised-button class="continue-btn">
+            No
+        </button>
+    </div>
+</div>

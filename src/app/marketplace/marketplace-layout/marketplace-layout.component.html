@@ -1,0 +1,25 @@
+<div>
+  <ui-header>
+  </ui-header>
+  <ui-drawer>
+    <mat-sidenav-container class="portal">
+      <mat-sidenav mode="side" opened>
+        <button *ngFor="let item of pagesList" mat-button class="sidenav-button" [class.selected]="'market' === item.id"
+                [class.disabled]="item.disabled" [disabled]="item.disabled"
+                [matTooltip]="item.tooltip" matTooltipPosition="right">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <div>{{item.label}}</div>
+        </button>
+        <button mat-button class="sidenav-button upgrade">
+          <mat-icon>help</mat-icon>
+          <div>FAQ</div>
+        </button>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="profile-page">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ui-drawer>
+</div>

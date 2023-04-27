@@ -1,0 +1,16 @@
+@import "colors.scss";
+
+:host {
+  flex: 1 1 50%;
+}
+
+.is-invalid {
+  border: 1px solid $tp-red;
+}
+
+.is-filled {
+  label {
+    transform: translateY(-140%);
+    font-size: 12px;
+  }
+}

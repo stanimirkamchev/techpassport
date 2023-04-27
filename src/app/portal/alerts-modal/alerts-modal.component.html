@@ -1,0 +1,52 @@
+<div class="headers">
+  <h2 class="header">Alerts</h2>
+  <div class="action">
+    <span (click)="viewConnections()">View connections</span>
+    <button class="close-btn" (click)="exit()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="alerts">
+  <p *ngIf="newest && newest.length > 0" class="description blue">Latest</p>
+  <ul *ngIf="newest && newest.length > 0" class="newest">
+    <li *ngFor="let alert of newest" class="blue">
+      <strong *ngIf="alert.type != 'requestinfo'"
+        >{{ alert.scope }} {{ alert.name }}</strong
+      >
+      <strong *ngIf="alert.type == 'requestinfo'"
+        >{{ alert.scope }} {{ alert.product }}</strong
+      >
+
+      <span *ngIf="alert.type != 'requestinfo'">
+        {{ alert.ndaDisplayStatus | capitalize }} -
+        {{ alert.date | date : "shortDate" }}
+      </span>
+      <span *ngIf="alert.type == 'requestinfo'">
+        Supplier <b>{{ alert.name }}</b> {{ alert.ndaDisplayStatus }} -
+        {{ alert.date | date : "shortDate" }}
+      </span>
+    </li>
+  </ul>
+
+  <p *ngIf="oldest && oldest.length > 0" class="description">Older</p>
+  <ul *ngIf="oldest && oldest.length > 0" class="oldest">
+    <li *ngFor="let alert of oldest" class="grey">
+      <strong *ngIf="alert.type != 'requestinfo'"
+        >{{ alert.scope }} {{ alert.name }}</strong
+      >
+      <strong *ngIf="alert.type == 'requestinfo'"
+        >{{ alert.scope }} {{ alert.product }}</strong
+      >
+
+      <span *ngIf="alert.type != 'requestinfo'">
+        {{ alert.ndaDisplayStatus | capitalize }} -
+        {{ alert.date | date : "shortDate" }}
+      </span>
+      <span *ngIf="alert.type == 'requestinfo'">
+        Supplier <b>{{ alert.name }}</b> {{ alert.ndaDisplayStatus }} -
+        {{ alert.date | date : "shortDate" }}
+      </span>
+    </li>
+  </ul>
+</div>

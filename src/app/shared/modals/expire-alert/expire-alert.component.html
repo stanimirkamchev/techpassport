@@ -1,0 +1,20 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+   <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont session-modal-cont">
+  <mat-icon class="headerIcon">av_timer</mat-icon>
+  <h3 *ngIf='expiredYet!==true'>Session expires in <strong>{{data.expiresInSeconds}}</strong> seconds!</h3>
+  <h3 *ngIf='expiredYet===true'>Your session has expired!</h3>
+  <div class="options">
+      <button mat-button mat-raised-button
+        *ngIf='expiredYet!==true'
+        color="accent"
+        (click)="renew()"
+        class="mat-elevation-z0">Renew Session!</button>
+      <button mat-button mat-raised-button
+          *ngIf='expiredYet===true'
+          color="primary"
+          (click)="login()"
+          class="mat-elevation-z0">Log in</button>
+  </div>
+</div>

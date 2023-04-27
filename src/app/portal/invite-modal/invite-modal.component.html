@@ -1,0 +1,93 @@
+<button mat-mini-fab class="closeModal2 close-invite-modal" (click)="cancel()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div
+  class="modal-inv invite-modal"
+  [ngClass]="isCancelInvited ? 'invite-modal--cancel' : ''"
+>
+  <div class="header" *ngIf="success !== true && !isCancelInvited">
+    <h3>Invite new supplier</h3>
+    <p>Your are about to invite the following</p>
+  </div>
+  <div class="header" *ngIf="isCancelInvited">
+    <h3>Invitation canceled</h3>
+    <p>Your invitations have been canceled.</p>
+  </div>
+  <div>
+    <div fxLayout="column" *ngIf="success !== true && !isCancelInvited">
+      <div class="formItem suppliers-list">
+        <ul
+          [style.justifyContent]="
+            data.items.length > 4 ? 'flex-start' : 'center'
+          "
+        >
+          <li *ngFor="let supplier of data.items">
+            <mat-checkbox
+              (change)="onCheckboxChange(supplier.isChecked, supplier.orgId)"
+              [checked]="supplier.isChecked"
+              [value]="supplier.orgId"
+            >
+              <span class="supplier-text">{{ supplier.company }}</span>
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div fxLayout="column" *ngIf="success !== true">
+      <div class="label"></div>
+      <div class="formItem">
+        <span class="errorMessage">{{ message }}</span>
+      </div>
+    </div>
+
+    <div fxLayout="column" *ngIf="success === true">
+      <div class="label"></div>
+      <div class="formItem success">
+        <h2>Thank you</h2>
+        <p class="">{{ message }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="options" *ngIf="success !== true && !isCancelInvited">
+    <button
+      mat-button
+      mat-raised-button
+      (click)="sendInvite()"
+      [disabled]="checkboxes.length === 0 || requestInProgress"
+      class="send-invite-btn mat-elevation-z0"
+      [ngClass]="checkboxes.length === 0 ? 'disabled' : ''"
+    >
+      Send the Invite
+    </button>
+  </div>
+
+  <div class="options success-btns" *ngIf="success === true || isCancelInvited">
+    <button
+      *ngIf="!isCancelInvited"
+      mat-button
+      mat-raised-button
+      (click)="cancel()"
+      class="continue-btn mat-elevation-z0"
+    >
+      Continue
+    </button>
+    <button
+      *ngIf="isCancelInvited"
+      mat-button
+      mat-raised-button
+      (click)="cancelInvited()"
+      class="continue-btn mat-elevation-z0"
+    >
+      Continue
+    </button>
+    <button
+      mat-button
+      mat-raised-button
+      (click)="cancel()"
+      class="admin-area-btn mat-elevation-z0"
+    >
+      Admin Area
+    </button>
+  </div>
+</div>

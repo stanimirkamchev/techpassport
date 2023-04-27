@@ -1,0 +1,58 @@
+<div class="personal-settings" id="personal-settings">
+  <form [formGroup]="formGroup" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <div class="page-header-title mb-5">Personal</div>
+      <mat-card-title class="title"> Your Details </mat-card-title>
+      <mat-card-content>
+        <div class="d-flex space-x-5 mb-5">
+          <app-custom-input
+            class="flex-1"
+            [formGroup]="formGroup"
+            formControlName="name"
+            ngDefaultControl
+            label="Name"
+            [isError]="submitted && !!formGroup.controls.name.errors"
+            errorText="Enter your full name"
+          ></app-custom-input>
+          <app-custom-select
+            class="flex-1"
+            label="Permission level"
+            [disabled]="true"
+            [formGroup]="formGroup"
+            [options]="roles"
+            formControlName="role"
+            ngDefaultControl
+            [isError]="submitted && !!formGroup.controls.role.errors"
+            errorText="Enter your permission level"
+          ></app-custom-select>
+        </div>
+        <div class="d-flex space-x-5 mb-5">
+          <app-custom-input
+            class="flex-1"
+            [formGroup]="formGroup"
+            formControlName="email"
+            ngDefaultControl
+            label="Email"
+            [isError]="submitted && !!formGroup.controls.email.errors"
+            [errorText]="
+              formGroup.controls.email.errors?.required
+                ? 'Enter a email address'
+                : formGroup.controls.email.errors?.email
+                ? 'Enter a valid email address'
+                : ''
+            "
+          ></app-custom-input>
+          <app-custom-input
+            class="flex-1"
+            [formGroup]="formGroup"
+            formControlName="jobTitle"
+            ngDefaultControl
+            label="Role in company"
+            [isError]="submitted && !!formGroup.controls.jobTitle.errors"
+            errorText="Role in company is Required"
+          ></app-custom-input>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

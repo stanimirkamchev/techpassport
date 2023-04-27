@@ -1,0 +1,46 @@
+<form [formGroup]="formGroup" autocomplete="off" *ngIf="formGroup">
+  <mat-horizontal-stepper
+    [linear]="true" #stepper
+    (selectionChange)="stepChange($event)">
+    <mat-step [stepControl]="formGroup.get('entity')">
+      <ng-template matStepLabel>Group Company Entity</ng-template>
+      <buyer-entity-step [formGroup]="formGroup.get('entity')"></buyer-entity-step>
+      <div class="controls">
+        <button
+          color="primary"
+          mat-icon-button
+          (click)="cancel.emit()">
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <button
+          color="primary"
+          [disabled]="formGroup.get('entity').invalid"
+          mat-icon-button
+          matStepperNext>
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="formGroup.get('invoices')">
+      <ng-template matStepLabel>Group Company Invoices</ng-template>
+      <buyer-invoices-step [formGroup]="formGroup.get('invoices')"></buyer-invoices-step>
+      <div class="controls">
+        <button
+          color="primary"
+          mat-icon-button
+          matStepperPrevious>
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+        <button
+          color="primary"
+          [disabled]="formGroup.get('invoices').invalid"
+          mat-icon-button
+          (click)="finish.emit()"
+          matStepperNext>
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</form>

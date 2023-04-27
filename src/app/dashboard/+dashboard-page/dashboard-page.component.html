@@ -1,0 +1,357 @@
+<div *ngIf="isAdmin" class="container">
+  <!-- <ui-page-title>Dashboard</ui-page-title>-->
+  <div fxLayout="row" fxLayoutGap="20px">
+    <ui-data-filters>
+      <form [formGroup]="formGroup">
+        <mat-form-field
+          class="bank"
+          *ngIf="bankContextAware && bankShortlist$ | async as bankShortlist"
+        >
+          <mat-label>Bank</mat-label>
+          <mat-select formControlName="bankContext" placeholder="Bank">
+            <mat-option *ngFor="let bank of bankShortlist" [value]="bank._id">
+              {{ bank.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="date">
+          <!--<mat-label>Date</mat-label>-->
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="dateRange"
+            placeholder="Date"
+          />
+          <mat-date-range-input [rangePicker]="picker">
+            <input
+              matStartDate
+              placeholder="Start date"
+              formControlName="dateFrom"
+            />
+            <input matEndDate placeholder="End date" formControlName="dateTo" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <country-picker
+          allEnabled="true"
+          placeholder="Country"
+          [limit]="['GB', 'SG']"
+          formControlName="country"
+        >
+          <!-- 'US',-->
+        </country-picker>
+        350 752 660 82
+        <mat-form-field>
+          <!--<mat-label>Entities</mat-label>-->
+          <mat-select formControlName="entity" placeholder="Entities">
+            <mat-option value="">All</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+          <mat-label>Business Department</mat-label>
+          <mat-select formControlName="businessDepartment">
+            <mat-option value="">All</mat-option>
+          </mat-select>
+        </mat-form-field>
+          -->
+      </form>
+    </ui-data-filters>
+    <div class="utils-menu">
+      <button class="roundTopButton" (click)="refresh()">
+        <mat-icon>cached</mat-icon>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between flex-start"
+    fxLayoutGap="20px"
+  >
+    <ui-page-content fxFlex="60" class="kpis-content">
+      <header class="mat-title">KPIs</header>
+      <dashboard-kpis
+        (previewMarket)="
+          openMarketPreview(this.formGroup.get('bankContext').value)
+        "
+        (previewTechnologies)="
+          openTechnologyPreview(this.formGroup.get('bankContext').value)
+        "
+        (previewSearches)="
+          openSearchesPreview(this.formGroup.get('bankContext').value)
+        "
+        [loading]="kpisLoading$ | async"
+        [kpis]="kpis$ | async"
+      >
+      </dashboard-kpis>
+    </ui-page-content>
+
+    <ui-page-content fxFlex="20" class="alerts-content">
+      <header class="mat-title">Alerts</header>
+      <dashboard-alerts
+        [loading]="alertsLoading$ | async"
+        [alerts]="alerts$ | async"
+      >
+      </dashboard-alerts>
+    </ui-page-content>
+
+    <ui-page-content fxFlex="20" class="sec-trends-content">
+      <header class="mat-title">Security Trends</header>
+      <dashboard-trends
+        (previewTrends)="
+          openTrendsPreview(this.formGroup.get('bankContext').value)
+        "
+        [loading]="trendsLoading$ | async"
+        [trends]="trends$ | async"
+      >
+      </dashboard-trends>
+    </ui-page-content>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between flex-start"
+    fxLayoutGap="20px"
+    class="bottomDsbPanels"
+  >
+    <ui-page-content fxFlex="67">
+      <header class="mat-title">Current projects and POCs</header>
+      <dashboard-projects
+        [loading]="projectsLoading$ | async"
+        [projects]="projects$ | async"
+      >
+      </dashboard-projects>
+    </ui-page-content>
+
+    <ui-page-content fxFlex="33">
+      <header class="mat-title">Resources</header>
+      <dashboard-resources
+        [loading]="resourcesLoading$ | async"
+        [resources]="resources$ | async"
+      >
+      </dashboard-resources>
+    </ui-page-content>
+  </div>
+</div>
+
+<!-- hidden - preventing additional data reloading -->
+<div *ngIf="!isAdmin" [hidden]="viewInvitationsBtn" class="container">
+  <div class="project-headers">
+    <h2 class="header">Dashboard</h2>
+    <div class="actions">
+      <div class="utils-menu">
+        <button class="refresh-btn" (click)="refresh(); refreshIcon()">
+          <mat-icon [ngClass]="{ refresh: refreshTables }">cached</mat-icon>
+          Refresh
+        </button>
+      </div>
+      <button class="button-base" mat-button (click)="inviteNew()">
+        Invite supplier
+      </button>
+
+      <button class="button-base" mat-button (click)="viewInvitations(true)">
+        View invitations
+      </button>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <!-- Filters and Basic info -->
+    <ui-data-filters class="table-headers">
+      <form [formGroup]="formGroup">
+        <div class="form-field">
+          <mat-label class="label">Dates</mat-label>
+          <mat-form-field class="date" appearance="fill">
+            <mat-date-range-input [rangePicker]="picker" #dateRangePicker>
+              <input
+                matStartDate
+                placeholder="Start Date"
+                formControlName="dateFrom"
+              />
+              <input
+                matEndDate
+                placeholder="End Date"
+                formControlName="dateTo"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <svg width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <g clip-path="url(#clip0_44_24823)">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.15385 3.5C7.33746 3.5 7.51355 3.57294 7.64338 3.70277C7.77321 3.83261 7.84615 4.0087 7.84615 4.19231V5.57692H16.1538V4.19231C16.1538 4.0087 16.2268 3.83261 16.3566 3.70277C16.4865 3.57294 16.6625 3.5 16.8462 3.5C17.0298 3.5 17.2059 3.57294 17.3357 3.70277C17.4655 3.83261 17.5385 4.0087 17.5385 4.19231V5.57692H18.2308C18.9652 5.57692 19.6696 5.86868 20.1889 6.38801C20.7082 6.90734 21 7.61171 21 8.34615V18.7308C21 19.4652 20.7082 20.1696 20.1889 20.6889C19.6696 21.2082 18.9652 21.5 18.2308 21.5H5.76923C5.03479 21.5 4.33042 21.2082 3.81109 20.6889C3.29176 20.1696 3 19.4652 3 18.7308V8.34615C3 7.61171 3.29176 6.90734 3.81109 6.38801C4.33042 5.86868 5.03479 5.57692 5.76923 5.57692H6.46154V4.19231C6.46154 4.0087 6.53448 3.83261 6.66431 3.70277C6.79414 3.57294 6.97023 3.5 7.15385 3.5ZM19.6154 11.8077C19.6154 11.4405 19.4695 11.0883 19.2098 10.8286C18.9502 10.569 18.598 10.4231 18.2308 10.4231H5.76923C5.40201 10.4231 5.04983 10.569 4.79016 10.8286C4.53049 11.0883 4.38462 11.4405 4.38462 11.8077V18.7308C4.38462 19.098 4.53049 19.4502 4.79016 19.7098C5.04983 19.9695 5.40201 20.1154 5.76923 20.1154H18.2308C18.598 20.1154 18.9502 19.9695 19.2098 19.7098C19.4695 19.4502 19.6154 19.098 19.6154 18.7308V11.8077Z"
+                    fill="#3F9CF4"
+                  />
+                  <rect
+                    x="6"
+                    y="14"
+                    width="12"
+                    height="3"
+                    rx="0.5"
+                    fill="#3F9CF4"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_44_24823">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0 0.5)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            </mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <mat-label class="label">Countries</mat-label>
+          <country-picker
+            allEnabled="true"
+            [limit]="countries"
+            formControlName="country"
+          >
+          </country-picker>
+        </div>
+
+        <div class="form-field">
+          <mat-label class="label">Entities</mat-label>
+          <mat-form-field>
+            <mat-select formControlName="entity">
+              <mat-option value="">All</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="resetButtonContainer" (click)="resetForm()">
+          Reset Filters
+        </div>
+      </form>
+    </ui-data-filters>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between flex-start"
+    fxLayoutGap="20px"
+  >
+    <!-- Projects and Alerts -->
+    <ui-page-content class="table table--projects" fxFlex="75">
+      <dashboard-projects-buyer
+        [loading]="projectsLoading$ | async"
+        [projects]="projects$ | async"
+      >
+      </dashboard-projects-buyer>
+    </ui-page-content>
+    <ui-page-content class="table table--alerts table--no-padding" fxFlex="25">
+      <div class="table-headers">
+        <h3 class="header">Alerts</h3>
+        <div class="action">
+          <span (click)="viewAllToggle = !viewAllToggle">View all</span>
+        </div>
+      </div>
+      <mat-spinner *ngIf="alertsLoading" diameter="32"></mat-spinner>
+      <dashboard-alerts-buyer
+        #loadedAlerts
+        [loading]="alertsLoading"
+        [newest]="alertsNewest"
+        [oldest]="alertsOldest"
+        [viewAllToggle]="viewAllToggle"
+        (changeViewToggleBtn)="changeViewToggleBtn($event)"
+      ></dashboard-alerts-buyer>
+    </ui-page-content>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between flex-start"
+    fxLayoutGap="20px"
+  >
+    <!-- Watch List and Summary -->
+    <ui-page-content class="table table--watchlist" fxFlex="50">
+      <div class="table-headers">
+        <h3 class="header">Watchlists</h3>
+        <div class="action">
+          <a class="link" (click)="goToWatchlists()">View all</a>
+        </div>
+      </div>
+      <dashboard-watchlist
+        class="h-100 d-flex flex-1"
+        [relaod]="refreshWL"
+      ></dashboard-watchlist>
+      <!-- <mat-spinner *ngIf="favoriteProductsLoading$" diameter="32"></mat-spinner> -->
+    </ui-page-content>
+    <ui-page-content class="table" fxFlex="50">
+      <h3 class="header-table">Summary</h3>
+      <dashboard-summary
+        class="table-content"
+        [loading]="alertsLoading$ | async"
+        [alerts]="alerts$ | async"
+      ></dashboard-summary>
+    </ui-page-content>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="space-between flex-start"
+    fxLayoutGap="20px"
+  >
+    <!-- Watch List and Summary -->
+    <ui-page-content
+      class="table table--no-padding"
+      style="position: relative"
+      fxFlex="100"
+    >
+      <div class="table-headers">
+        <h3 class="header">New products</h3>
+        <div class="action">
+          <span (click)="navigateToMarketPlace()">View all</span>
+        </div>
+      </div>
+      <mat-spinner *ngIf="productsLoading$ | async" diameter="32"></mat-spinner>
+      <dashboard-suppliers
+        #loaded
+        class="scroll"
+        [loading]="productsLoading$ | async"
+        [products]="products$ | async"
+        (addFavoriteProduct)="addProductToFavorite($event)"
+        (addWatchListProduct)="addProductToWatchList($event)"
+      ></dashboard-suppliers>
+    </ui-page-content>
+  </div>
+
+  <app-watch-lists-modal
+    *ngIf="showWatchlists"
+    (close)="closeWatchlistModal()"
+    (added)="closeWatchlistModal()"
+    [selectedProducts]="selectedProducts"
+  ></app-watch-lists-modal>
+</div>
+
+<div *ngIf="!isAdmin && viewInvitationsBtn">
+  <div class="project-headers">
+    <h2 class="header">Supplier invitation details</h2>
+    <div class="actions">
+      <div class="utils-menu"></div>
+      <button class="button-base" mat-button (click)="inviteNew()">
+        Invite supplier
+      </button>
+
+      <button class="button-base" mat-button (click)="viewInvitations(false)">
+        Hide invitations
+      </button>
+    </div>
+  </div>
+
+  <invite-suppliers-page></invite-suppliers-page>
+</div>

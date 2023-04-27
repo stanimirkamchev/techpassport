@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": ["node"],
+    "skipLibCheck": true,
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
+  "include": [
+    "src/main.ts",
+    "src/polyfills.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ]
+}

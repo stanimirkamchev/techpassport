@@ -1,0 +1,23 @@
+<div class="personal-settings">
+  <onboarding-top-bar [supplierIsInProgress]="supplierIsInProgress"></onboarding-top-bar>
+  <div [formGroup]="form">
+    <onboarding-page-header></onboarding-page-header>
+    <personal-settings [onlyMandatory]="onlyMandatory" [submitted]="submitted" formName="profileSettings" formControlName="personalSettings"></personal-settings>
+    <change-password></change-password>
+    <onboarding-invite-users *ngIf="!onlyMandatory" ></onboarding-invite-users>
+    <company-settings [onlyMandatory]="onlyMandatory" [submitted]="submitted" formName="profileSettings" formControlName="companySettings" [supplierId]="supplierId"></company-settings>
+    <!-- <membership formControlName="membershipSettings"></membership> -->
+  </div>
+  <div class="d-flex px-4 justify-between items-center footer">
+    <mat-slide-toggle
+      color="accent"
+      [(ngModel)]="onlyMandatory"
+    >Show mandatory only</mat-slide-toggle>
+    <div class="d-flex justify-end items-center">
+      <div class="last-save">Last saved {{ updatedAt?.toString() | timeAgo }}</div>
+      <mat-icon svgIcon="download_done" class="save-icon"></mat-icon>
+      <app-custom-button label="Save and exit" [disabled]="loading" [loading]="loading" (onClick)="onSubmit()">
+      </app-custom-button>
+    </div>
+  </div>
+</div>

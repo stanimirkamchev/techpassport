@@ -1,0 +1,18 @@
+<div class="text-center">
+  <div class="centered">
+    <span class="mat-heading">Product tag not listed? Add it now!</span>
+  </div>
+  <div class="centered mt-5" [formGroup]="form">
+    <div>
+      <app-custom-input
+      label="Product tag"
+      [formGroup]="form"
+      formControlName="name"
+      ngDefaultControl
+      ></app-custom-input>
+    </div>
+    <div class="mt-5">
+      <app-custom-button class="mr-3" label="Add" [disabled]="form.invalid" (onClick)="onSubmit()"></app-custom-button>
+    </div>
+  </div>
+</div>

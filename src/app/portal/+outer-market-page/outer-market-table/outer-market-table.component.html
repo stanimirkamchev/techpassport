@@ -1,0 +1,332 @@
+<ui-data-table class="paginated outer-market-table">
+  <div class="spinner" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  <div class="sort-btns">
+    <button [class.active]="isActive" (click)="activeTab($event, null)">
+      All <span class="all">{{ allLength }}</span>
+    </button>
+    <button (click)="activeTab($event, invitedLabel)" #invitedButton>
+      {{ invitedLabel }} <span class="invited"> {{ invitedLength }} </span>
+    </button>
+    <button (click)="activeTab($event, onBoardedLabel)">
+      {{ onBoardedLabel }}
+      <span class="onboarded"> {{ onBoardedLength }} </span>
+    </button>
+  </div>
+  <div class="wrapper">
+    <table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+      multiTemplateDataRows
+      (matSortChange)="announceSortChange($event)"
+    >
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="action">
+        <th
+          class="checkbox-action"
+          mat-header-cell
+          *matHeaderCellDef
+          style="width: 40px"
+        >
+          <input
+            type="checkbox"
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [disabled]="disabled || invitedSuppliers.length > 0"
+          />
+        </th>
+        <td mat-cell *matCellDef="let row; let element" style="width: 40px">
+          <input
+            type="checkbox"
+            [ngClass]="disabledClass(element)"
+            [disabled]="disabledItems(element, row)"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="checkedItems(element, row)"
+          />
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="invitationStatus">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Status"
+        >
+          Status
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <span
+            [ngClass]="[
+              'status status--' + setStatusColor(element.invitationStatus)
+            ]"
+          >
+            <span *ngIf="!invitedSuppliers.includes(element.orgId)">
+              {{ element.invitationStatus }}
+            </span>
+            <span
+              *ngIf="invitedSuppliers.includes(element.orgId)"
+              style="color: #f2409d !important"
+            >
+              in progress
+            </span>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="company">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Companies"
+        >
+          Companies
+        </th>
+        <td
+          class="td-info td-info--blue-text"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <a target="_blank" (click)="openLink(element.url)">{{
+            element.company
+          }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="taxonomy">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Taxonomies"
+        >
+          Taxonomies
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.taxonomy }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="country">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Country"
+        >
+          Country
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.country }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalFunding">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Total Funding"
+        >
+          Total Funding ($M)
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.totalFunding }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="latestFundingRound">
+        <th class="th-header" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Latest Funding Round
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.latestFundingRound }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mosaic">
+        <th class="th-header" mat-header-cell *matHeaderCellDef mat-sort-header>
+          CB Insights company score
+          <button
+            class="cb-company-score-button"
+            mat-icon-button
+            matTooltip="The CBInsights score is a metric created by our partners to assess companies based on Momentum, Market, Money, and Management."
+          >
+            <mat-icon>contact_support</mat-icon>
+          </button>
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.mosaic || 0 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="onBoard" *ngIf="isAdmin">
+        <th class="th-header" mat-header-cell *matHeaderCellDef mat-sort-header>
+          On Board
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <mat-radio-button
+            class="onboard-radio"
+            *ngIf="element.invitationStatus === 'invited'"
+            (change)="onChangeStatusToOnBoard(element)"
+            #onBoardRadio
+          >
+          </mat-radio-button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th
+          class="th-header more-button"
+          mat-header-cell
+          *matHeaderCellDef
+          aria-label="row actions"
+        >
+          More
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <button mat-button (click)="toggleDetailRow($event, element)">
+            <svg
+              *ngIf="expandedElement !== element"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M10 0C11.3132 0 12.6136 0.258658 13.8268 0.761205C15.0401 1.26375 16.1425 2.00035 17.0711 2.92893C17.9997 3.85752 18.7362 4.95991 19.2388 6.17317C19.7413 7.38642 20 8.68678 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20C8.68678 20 7.38642 19.7413 6.17317 19.2388C4.95991 18.7362 3.85752 17.9997 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10C0 7.34784 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34784 0 10 0ZM10 2C7.87827 2 5.84344 2.84285 4.34315 4.34315C2.84285 5.84344 2 7.87827 2 10C2 12.1217 2.84285 14.1566 4.34315 15.6569C5.84344 17.1571 7.87827 18 10 18C12.1217 18 14.1566 17.1571 15.6569 15.6569C17.1571 14.1566 18 12.1217 18 10C18 7.87827 17.1571 5.84344 15.6569 4.34315C14.1566 2.84285 12.1217 2 10 2ZM10 8.5C10.3978 8.5 10.7794 8.65804 11.0607 8.93934C11.342 9.22064 11.5 9.60218 11.5 10C11.5 10.3978 11.342 10.7794 11.0607 11.0607C10.7794 11.342 10.3978 11.5 10 11.5C9.60218 11.5 9.22064 11.342 8.93934 11.0607C8.65804 10.7794 8.5 10.3978 8.5 10C8.5 9.60218 8.65804 9.22064 8.93934 8.93934C9.22064 8.65804 9.60218 8.5 10 8.5ZM5.5 8.5C5.89782 8.5 6.27936 8.65804 6.56066 8.93934C6.84196 9.22064 7 9.60218 7 10C7 10.3978 6.84196 10.7794 6.56066 11.0607C6.27936 11.342 5.89782 11.5 5.5 11.5C5.10218 11.5 4.72064 11.342 4.43934 11.0607C4.15804 10.7794 4 10.3978 4 10C4 9.60218 4.15804 9.22064 4.43934 8.93934C4.72064 8.65804 5.10218 8.5 5.5 8.5ZM14.5 8.5C14.8978 8.5 15.2794 8.65804 15.5607 8.93934C15.842 9.22064 16 9.60218 16 10C16 10.3978 15.842 10.7794 15.5607 11.0607C15.2794 11.342 14.8978 11.5 14.5 11.5C14.1022 11.5 13.7206 11.342 13.4393 11.0607C13.158 10.7794 13 10.3978 13 10C13 9.60218 13.158 9.22064 13.4393 8.93934C13.7206 8.65804 14.1022 8.5 14.5 8.5Z"
+                fill="#3F9CF4"
+              />
+            </svg>
+            <svg
+              *ngIf="expandedElement === element"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M10 0C11.3132 0 12.6136 0.258658 13.8268 0.761205C15.0401 1.26375 16.1425 2.00035 17.0711 2.92893C17.9997 3.85752 18.7362 4.95991 19.2388 6.17317C19.7413 7.38642 20 8.68678 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20C8.68678 20 7.38642 19.7413 6.17317 19.2388C4.95991 18.7362 3.85752 17.9997 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10C0 7.34784 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34784 0 10 0ZM10 2C7.87827 2 5.84344 2.84285 4.34315 4.34315C2.84285 5.84344 2 7.87827 2 10C2 12.1217 2.84285 14.1566 4.34315 15.6569C5.84344 17.1571 7.87827 18 10 18C12.1217 18 14.1566 17.1571 15.6569 15.6569C17.1571 14.1566 18 12.1217 18 10C18 7.87827 17.1571 5.84344 15.6569 4.34315C14.1566 2.84285 12.1217 2 10 2ZM10 8.5C10.3978 8.5 10.7794 8.65804 11.0607 8.93934C11.342 9.22064 11.5 9.60218 11.5 10C11.5 10.3978 11.342 10.7794 11.0607 11.0607C10.7794 11.342 10.3978 11.5 10 11.5C9.60218 11.5 9.22064 11.342 8.93934 11.0607C8.65804 10.7794 8.5 10.3978 8.5 10C8.5 9.60218 8.65804 9.22064 8.93934 8.93934C9.22064 8.65804 9.60218 8.5 10 8.5ZM5.5 8.5C5.89782 8.5 6.27936 8.65804 6.56066 8.93934C6.84196 9.22064 7 9.60218 7 10C7 10.3978 6.84196 10.7794 6.56066 11.0607C6.27936 11.342 5.89782 11.5 5.5 11.5C5.10218 11.5 4.72064 11.342 4.43934 11.0607C4.15804 10.7794 4 10.3978 4 10C4 9.60218 4.15804 9.22064 4.43934 8.93934C4.72064 8.65804 5.10218 8.5 5.5 8.5ZM14.5 8.5C14.8978 8.5 15.2794 8.65804 15.5607 8.93934C15.842 9.22064 16 9.60218 16 10C16 10.3978 15.842 10.7794 15.5607 11.0607C15.2794 11.342 14.8978 11.5 14.5 11.5C14.1022 11.5 13.7206 11.342 13.4393 11.0607C13.158 10.7794 13 10.3978 13 10C13 9.60218 13.158 9.22064 13.4393 8.93934C13.7206 8.65804 14.1022 8.5 14.5 8.5Z"
+                fill="#3F9CF4"
+              />
+            </svg>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="columnsToDisplayWithExpand.length"
+        >
+          <div
+            class="example-element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <div>
+              <description-info
+                [description]="element.description"
+              ></description-info>
+            </div>
+            <div>
+              <list-info
+                [prices]="[
+                  {
+                    name: 'Latest Funding Date',
+                    value: formatFundingData(element.latestFundingDate)
+                  },
+                  {
+                    name: 'Latest Funding Amount ($M)',
+                    value: element.latestFundingAmount
+                  },
+                  {
+                    name: 'Latest Valuation ($M)',
+                    value: element.latestValuation
+                  },
+                  {
+                    name: 'Latest Revenue Min ($M)',
+                    value: element.latestRevenueMin
+                  },
+                  {
+                    name: 'Latest Revenue Max ($M)',
+                    value: element.latestRevenueMax
+                  },
+                  {
+                    name: 'Revenue Time Period',
+                    value: element.revenueTimePeriod
+                  }
+                ]"
+              ></list-info>
+            </div>
+            <div>
+              <tabs-info
+                class="tabs-info"
+                [investors]="element.investors"
+                [acquirers]="element.acquirers"
+                [competitors]="element.competitors"
+              ></tabs-info>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="columnsToDisplayWithExpand; sticky: true"
+      ></tr>
+      <tr
+        [ngClass]="{
+          highlight: selection.isSelected(row) && isRowMark(row)
+        }"
+        mat-row
+        *matRowDef="let element; let row; columns: columnsToDisplayWithExpand"
+        class="example-element-row table-header-custom"
+        [class.example-expanded-row]="expandedElement === element"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+      ></tr>
+      <!-- Row shown when there is no matching data. -->
+      <td
+        *matNoDataRow
+        class="mat-cell no-data-table"
+        [attr.colspan]="columnsToDisplayWithExpand.length"
+      >
+        <h2>No results found</h2>
+        <p>
+          Sorry we didn’t find any results for your search, please try searching
+          for something else.
+        </p>
+      </td>
+    </table>
+  </div>
+  <mat-paginator
+    [disabled]="loading"
+    [pageSizeOptions]="[10, 15, 40, 100]"
+    pageIndex
+    pageSize
+    (page)="changePage($event)"
+  >
+  </mat-paginator>
+  <span class="page-index">
+    <strong>{{ pageIndex }}</strong
+    >/{{ getPageLength() }}
+  </span>
+</ui-data-table>

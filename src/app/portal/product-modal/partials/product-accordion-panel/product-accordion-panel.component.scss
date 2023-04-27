@@ -1,0 +1,21 @@
+
+::ng-deep .product-item {
+
+  .product-item-expansion {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.product-view-expanded {
+    .product-item-expansion {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .panel-item {
+        width: 44%;
+      }
+    }
+  }
+}
+

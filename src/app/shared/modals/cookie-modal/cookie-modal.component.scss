@@ -1,0 +1,16 @@
+@import 'colors.scss';
+div.modal-cont {
+
+
+  img {
+    height: 90px;
+  }
+  div.options {
+    margin-top: 20px;
+
+    button:not(:last-child) {
+      margin-right: 8px
+    }
+  }
+
+}

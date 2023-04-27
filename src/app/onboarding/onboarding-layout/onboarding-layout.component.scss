@@ -1,0 +1,17 @@
+@import 'src/styles/colors';
+
+* {
+  box-sizing: border-box;
+}
+
+.profile-page {
+  padding: 18px;
+  height: calc(100vh - 80px);
+  background: rgba(243, 243, 246, 0.8);
+}
+
+::ng-deep {
+  mat-sidenav-content {
+    z-index: 10 !important;
+  }
+}

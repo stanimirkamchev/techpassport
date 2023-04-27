@@ -1,0 +1,36 @@
+@import 'colors.scss';
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+::ng-deep .mat-icon-button {
+  width: 40px !important;
+  padding: 0;
+  min-width: 0;
+  height: 40px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+  position: relative !important;
+  right: 3rem;
+}
+
+::ng-deep {
+  .mat-button-wrapper {
+    label {
+      margin-top: 8px;
+      font-family: 'Public Sans', serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 8px;
+      line-height: 9px;
+      text-align: center;
+      text-transform: uppercase;
+      color: $tp-dark-1;
+    }
+  }
+}

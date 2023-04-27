@@ -1,0 +1,50 @@
+@import 'colors.scss';
+div.modal-cont {
+
+  h2 {
+    margin: 2px;
+  }
+  .buyer-icon{
+      img{
+        width:25px;
+      }
+  }
+  .supplier-icon{
+    svg{
+      width:41px;
+    }
+  }
+  .options {
+    margin-top:29px;
+    margin-left: 0px;
+    text-align: center;
+
+    button {
+      border-radius: 12px!important;
+      margin-left: 12px;
+      margin-right: 12px;
+      width: 78px;
+      height: 78px;
+      padding-left: 2px;
+      font-weight: normal;
+      font-size: 9pt;
+
+      mat-icon.supplier {
+        font-size: 36px;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+      }
+      mat-icon.purchaser {
+        font-size: 44px;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+      }
+
+
+    }
+  }
+
+}
+

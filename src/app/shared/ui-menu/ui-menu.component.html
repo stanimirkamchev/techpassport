@@ -1,0 +1,14 @@
+<mat-menu #uiMenu="matMenu">
+  <button
+    mat-menu-item
+    (click)="selected.emit(option.value)"
+    [class.hidden]="!option.value"
+    *ngFor="let option of options | keyvalue">
+    {{option.key}}
+  </button>
+</mat-menu>
+
+<button mat-button [matMenuTriggerFor]="uiMenu">
+  <ng-content></ng-content>
+  <mat-icon>arrow_drop_down</mat-icon>
+</button>

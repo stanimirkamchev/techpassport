@@ -1,0 +1,46 @@
+<ng-container *ngIf="formGroup">
+  <form autocomplete="off" [formGroup]="formGroup">
+    <div class="row" style="margin-top:12px" *ngFor="let f of files">
+      <div fxFlex=" 50" fxLayout="column"> <label class="mat-caption"> {{f.label}} </label></div>
+      <div fxFlex="15" style="margin-top: -6px">
+        <button mat-icon-button class="assesment-actions" style="display: inline-block;" matTooltip="Upload File"
+          (click)="openInfoSecFileInput(f)" [disabled]="f.hash" color="accent">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+
+        <button mat-icon-button class="assesment-actions" style="display: inline-block;"
+          [disabled]="!(f.status==='allowed' && f.hash)" (click)="downloadFile(f)" matTooltip="Download" color="accent">
+          <mat-icon>move_to_inbox</mat-icon>
+        </button>
+
+        <button mat-icon-button class="assesment-actions" style="display: inline-block;"
+          [disabled]="!f.hash || f.status==='processing'" (click)="removeFile(f)" matTooltip="Remove File" color="warn">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
+      </div>
+
+      <div fxFlex="35">
+        <div class="state-m">
+          <a *ngIf="f.hash && f.status!=='processing'"
+            href="https://metadefender.opswat.com/results#!/file/{{f.hash}}/hash/overview" target="_blank"
+            rel="noopener">
+            <img style="border-radius: 4px; margin-top:0"
+              src="https://api.metadefender.com/v4/hash/{{f.hash}}/badge?size=small&type=svg" />
+          </a>
+          <span *ngIf="f.status==='processing'" class="await-s-label">
+            <mat-icon
+              style="font-size: 13px; margin-left: 5px; padding:2px; height:14px; width: 12px; line-height: 8px;">
+              hourglass_empty</mat-icon>
+            <small style="font-size: 8pt">Scanning file...</small>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <input type="file"
+    accept=".doc,.docx,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.txt,.rtf"
+    (change)="onFileInputChange($event)" id="fileInput" [hidden]='true' #fileInput>
+  <iframe style="display:none;" name="hiddenIframe" id="hiddenIframe"></iframe>
+</ng-container>

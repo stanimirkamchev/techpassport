@@ -1,0 +1,56 @@
+<div class="py-4 company-watchlists" *ngIf="watchLists && watchLists.length">
+  <h3 class="head">Company watchlists</h3>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let watchlist of watchLists">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="d-flex align-center mb-1">
+            <span class="title">{{ watchlist.name }}</span>
+<!--            <mat-icon-->
+<!--              *ngIf="isFavorite(watchlist)"-->
+<!--              class="star-icon"-->
+<!--              svgIcon="star"-->
+<!--            ></mat-icon>-->
+          </div>
+          <div class="d-flex align-center">
+            <p class="my-0 subTitle">
+              {{ watchlist.products.length }} products ·
+              {{ watchlist.collaborators.length }} collaborator{{ getSuffix(watchlist.collaborators.length) }}
+            </p>
+            <ui-tooltip>
+              <mat-icon
+                tooltipIcon
+                class="tooltip-icon"
+                svgIcon="questionnaire"
+              ></mat-icon>
+              <ng-container tooltipTitle>
+                <div class="d-flex align-center mb-4">
+                  <mat-icon class="tooltip-icon ml-0 mr-2" svgIcon="questionnaire"></mat-icon>
+                  <span class="tooltip-label">Collaborators</span>
+                </div>
+              </ng-container>
+              <div tooltipContent class="collaboratorsList">
+                <ul class="collaborator-list-items">
+                  <li *ngFor="let item of uniqueCollaboratorsEmails(watchlist)">
+                    {{ item }}
+                  </li>
+                  <li *ngIf="uniqueCollaboratorsEmails(watchlist).length === 0">No collaborators yet.</li>
+                </ul>
+              </div>
+            </ui-tooltip>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <watchlist-detail
+          [watchlistId]="watchlist._id"
+          [products]="watchlist.products"
+          [selectable]="true"
+          (select)="
+            toggleSelect({ watchlistId: watchlist._id, product: $event })
+          "
+        ></watchlist-detail>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,0 +1,38 @@
+<mat-accordion *ngIf="taxonomies && taxonomies.length > 0">
+    <mat-expansion-panel hideToggle *ngFor="let taxonomy of sortByLevel('lvl_1', taxonomies); let isFirst = first" [expanded]="isFirst" class="list mat-elevation-z0">
+        <mat-expansion-panel-header class="list-header" [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
+            <mat-panel-title>
+                <h3 class="title1">
+                    {{taxonomy.title}}
+                    <div class="title1-actions">
+                        <span class="update" (click)="update('lvl_1', taxonomy)"><mat-icon>edit</mat-icon></span>
+                        <span class="delete" (click)="remove(taxonomy, taxonomy, 'lvl_1')"><mat-icon>close</mat-icon></span>
+                        <span class="create" (click)="create('lvl_1', taxonomy)"><mat-icon>add_circle</mat-icon></span>
+                    </div>
+                </h3>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul *ngIf="taxonomy.level2 && taxonomy.level2.length > 0" class="list-item">
+            <li *ngFor="let taxonomy2 of sortByLevel('lvl_2', taxonomy.level2)">
+                <h4 class="title2">
+                    {{taxonomy2.title2}}
+                    <div class="title2-actions">
+                        <span class="update" (click)="update('lvl_2', taxonomy, taxonomy2)"><mat-icon>edit</mat-icon></span>
+                        <span class="delete" (click)="remove(taxonomy2, taxonomy, 'lvl_2')"><mat-icon>close</mat-icon></span>
+                        <span class="create" (click)="create('lvl_2', taxonomy, taxonomy2)"><mat-icon>add_circle</mat-icon></span>
+                    </div>
+                </h4>
+                <ul *ngIf="taxonomy2.level3 && taxonomy2.level3.length > 0">
+                    <li class="title3" *ngFor="let taxonomy3 of sortByLevel('lvl_3', taxonomy2.level3)">
+                        {{taxonomy3.title3}}
+                        <div class="title3-actions">
+                            <span class="update" (click)="update('lvl_3', taxonomy, taxonomy2, taxonomy3)"><mat-icon>edit</mat-icon></span>
+                            <span class="delete" (click)="remove(taxonomy3, taxonomy, 'lvl_3')"><mat-icon>close</mat-icon></span>
+                            <span class="create" (click)="create('lvl_3', taxonomy, taxonomy2, taxonomy3)"><mat-icon>add_circle</mat-icon></span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </mat-expansion-panel>
+</mat-accordion>

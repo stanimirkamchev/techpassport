@@ -1,0 +1,33 @@
+<div class="product-settings" id="membership">
+  <div>
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title">Membership</mat-card-title>
+      <mat-card-content>
+        <div class="mb-2">Your plan</div>
+        <div class="not-selected d-flex items-center justify-center">
+          <div class="text">NONE SELECTED</div>
+        </div>
+        <div class="label">Plans</div>
+        <div *ngIf="!memberships.length && plansLoading" class="d-flex justify-center items-center">
+          <mat-spinner [diameter]="36"></mat-spinner>
+        </div>
+        <div *ngIf="memberships.length && !plansLoading" class="d-flex overflow-auto">
+          <div
+            *ngFor="let membership of memberships"
+            class="container min-w-80 flex-1 mr-5"
+          >
+            <core-plan
+              [membership]="membership"
+            ></core-plan>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+<!--  <div class="d-flex justify-between footer mt-5">-->
+<!--    <button mat-raised-button class="btn-custom-outline" (click)="router.navigate(['/onboarding/product-settings'])">-->
+<!--      Cancel-->
+<!--    </button>-->
+<!--    <button mat-raised-button class="btn-custom">Next</button>-->
+<!--  </div>-->
+</div>

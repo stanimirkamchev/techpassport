@@ -1,0 +1,222 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont connectme-modal">
+  <h2 class="notSoStrong header" *ngIf="step === 1">
+    <span *ngIf="data.action === 'compliance'"
+      >Request <strong>{{ data.productObj.supplier }}'s</strong> compliance
+      details</span
+    >
+    <span *ngIf="data.action === 'poc'"
+      >Start POC with <strong>{{ data.productObj.supplier }}</strong></span
+    >
+    <span *ngIf="data.action === 'nda'"
+      >Connect me with <strong>{{ data.productObj.supplier }}</strong></span
+    >
+  </h2>
+  <h2 class="header" *ngIf="step === 2">Your request has been sent!</h2>
+  <h4
+    class="notSoStrong header"
+    *ngIf="step === 2 && !inProgress && !inProgress"
+  >
+    <span class="notificationMessage" *ngIf="step === 2"
+      >You will be notified once accepted.</span
+    >
+  </h4>
+
+  <div class="progress" *ngIf="inProgress">
+    <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="options" *ngIf="!inProgress && !inProgress">
+    <button
+      *ngIf="step === 2"
+      mat-button
+      mat-raised-button
+      aria-label=""
+      color="accent"
+      (click)="exit()"
+    >
+      <mat-icon class="supplier">done</mat-icon>
+      OK
+    </button>
+
+    <button
+      *ngIf="step === 1 && data.action === 'nda'"
+      mat-button
+      mat-raised-button
+      aria-label=""
+      color="accent"
+      (click)="createProject('nda')"
+      [disabled]="checkValidation()"
+    >
+      <mat-icon class="supplier">description</mat-icon>
+      <span *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+        >Create new project and
+      </span>
+      request NDA
+    </button>
+
+    <button
+      *ngIf="step === 1 && data.action === 'poc'"
+      mat-button
+      mat-raised-button
+      aria-label=""
+      class="rapid-poc-button"
+      (click)="createProject('poc')"
+      [disabled]="checkValidation()"
+    >
+      <mat-icon class="supplier">description</mat-icon>
+      <span *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+        >Create new project and
+      </span>
+      start POC
+    </button>
+
+    <button
+      *ngIf="step === 1 && data.action === 'compliance'"
+      mat-button
+      mat-raised-button
+      aria-label=""
+      class="rapid-nda-button"
+      (click)="createProject('review')"
+      [disabled]="checkValidation()"
+    >
+      <!-- mat-stroked-button -->
+      <mat-icon class="purchaser">remove_red_eye</mat-icon>
+      <span *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+        >Create new project and
+      </span>
+      send request for Supplier's compliance
+    </button>
+  </div>
+
+  <div class="moreQuestions" *ngIf="step === 1 && !inProgress">
+    <form fxLayout="column" [formGroup]="createProjectFormGroup">
+      <div class="formItem inline">
+        <div class="label">
+          Is this {{ data.action === "nda" ? "NDA" : "POC" }} part of an
+          existing project?
+        </div>
+        <mat-radio-group
+          class="line first"
+          formControlName="isExising"
+          (change)="resizeModal()"
+        >
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div
+        class="formItem"
+        *ngIf="createProjectFormGroup.get('isExising').value === 'yes'"
+      >
+        <div class="label">
+          Please select the project that you want to link it to
+        </div>
+        <mat-form-field>
+          <!--<mat-label>Please select the project that you want to link it to</mat-label>-->
+          <mat-select formControlName="linkedProject">
+            <mat-option
+              *ngFor="let project of projects"
+              [value]="project.id"
+              [disabled]="!project.allow"
+            >
+              {{ project.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div
+        class="formItem"
+        *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+      >
+        <div class="label">
+          What's the <strong>name</strong> of the project title?
+        </div>
+        <mat-form-field floatLabel="never">
+          <input
+            niceOnly
+            matInput
+            type="text"
+            placeholder="Write here..."
+            formControlName="projectTitle"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div
+        class="formItem"
+        *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+      >
+        <div class="label">Internal project <strong>ID</strong>:</div>
+        <mat-form-field floatLabel="never">
+          <input
+            niceOnly
+            matInput
+            type="text"
+            placeholder="Write here..."
+            formControlName="refProjectID"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div
+        class="formItem"
+        *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+      >
+        <div class="label">Where will <strong>notices</strong> be sent to?</div>
+        <mat-form-field class="groupe" floatLabel="never">
+          <input
+            matInput
+            type="text"
+            placeholder="Address"
+            autocomplete="address-level1"
+            formControlName="addressNotice"
+          />
+        </mat-form-field>
+      </div>
+
+      <div
+        class="formItem inline"
+        *ngIf="createProjectFormGroup.get('isExising').value === 'no'"
+      >
+        <div class="label">
+          Are you the <strong>main contact</strong> for the engagement?
+        </div>
+        <mat-radio-group
+          class="line first"
+          formControlName="mainContact"
+          (change)="resizeModal()"
+        >
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div
+        class="formItem"
+        *ngIf="
+          createProjectFormGroup.get('isExising').value === 'no' &&
+          createProjectFormGroup.get('mainContact').value === 'no'
+        "
+      >
+        <div class="label">
+          Please select the <strong>name</strong> from the list below
+        </div>
+        <mat-form-field>
+          <mat-select formControlName="mainContatName">
+            <mat-option *ngFor="let member of team" [value]="member._id">
+              {{ member.name }} ({{ member.email }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>

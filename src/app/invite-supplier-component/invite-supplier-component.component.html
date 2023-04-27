@@ -1,0 +1,82 @@
+<button mat-mini-fab class="closeModal2" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont invite-modal">
+    <div class="header">
+        <div class="icon">
+            <mat-icon>new_releases</mat-icon>
+        </div>
+        <h3>Invite new <strong>Supplier</strong></h3>
+    </div>
+    <form [formGroup]="inviteFormGroup">
+        <div fxLayout="column" *ngIf="success !== true">
+            <div class="label">Email of the Supplier</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never">
+                    <input niceOnly matInput formControlName="email" type="email" placeholder="Write here..."
+                        autocomplete="off" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="column" *ngIf="success !== true">
+            <div class="label">...Or website of the Supplier</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never">
+                    <input niceOnly matInput formControlName="website" type="text" placeholder="Write here..."
+                        autocomplete="off" />
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <div fxLayout="column" *ngIf="success !== true">
+            <div class="label">...Or product functionality requirements</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never" class="textArea">
+                    <textarea rows="3" placeholder="Write here..." formControlName="functionality" maxlength="3000"
+                        matInput type="text" noSpecial niceOnly></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="column" style="min-height: 90px" *ngIf="success !== true">
+            <div class="label">Comment for techPassport</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never" class="textArea">
+                    <textarea rows="3" placeholder="Write here..." formControlName="content" maxlength="3000" matInput
+                        type="text" noSpecial niceOnly></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+
+    <div fxLayout="column" *ngIf="success !== true">
+        <div class="label"></div>
+        <div class="formItem">
+            <span class="errorMessage">{{message}}</span>
+        </div>
+    </div>
+
+
+    <div fxLayout="column" *ngIf="success === true" style="margin-top:16%;">
+        <div class="label"></div>
+        <div class="formItem">
+            <span class="successMessage">{{message}}</span>
+        </div>
+    </div>
+
+    <div class="options" *ngIf="success !== true">
+        <button mat-button mat-raised-button color="accent" [disabled]="!isValid()|| requestInProgress"
+            (click)="invite()" class="mat-elevation-z0">Send</button>
+        <button mat-button mat-raised-button color="primary" class="mat-elevation-z0" (click)="cancel()"
+            [disabled]="requestInProgress">Cancel</button>
+        <!--  <button mat-button mat-raised-button color="accent" (click)="understood()" class="mat-elevation-z0">Understood</button>-->
+    </div>
+
+    <div class="options" *ngIf="success === true">
+        <button mat-button mat-raised-button (click)="cancel()" style="width:100%" color="primary"
+            class="mat-elevation-z0">Close</button>
+    </div>
+</div>

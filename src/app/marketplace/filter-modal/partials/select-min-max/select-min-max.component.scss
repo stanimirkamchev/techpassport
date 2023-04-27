@@ -1,0 +1,69 @@
+
+.min-max-wrp {
+
+    padding: 0 0 0 10px;
+
+    .flex-item {
+        display: flex;
+        justify-content: center;
+
+        &>span {
+            margin-top: 10px;
+            font-family: 'Public Sans';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.02em;
+            color: #464F60;
+        }
+    }
+
+    ::ng-deep .min-max-val {
+        background: none !important;
+        border: none;
+
+        &.mat-form-field-appearance-outline .mat-form-field-outline>div {
+            border: none;
+        }
+
+        .mat-select-trigger {
+            background: #FFFFFF;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.06), 0px 0px 0px 1px rgba(134, 143, 160, 0.16);
+            border-radius: 6px;
+            padding: 9px 0 9px 10px;
+            height: 32px;
+
+            .mat-select-value {
+                padding-top: 1px;
+            }
+
+            .mat-select-placeholder {
+                font-family: 'Public Sans';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 20px;
+                color: #A1A9B8;
+            }
+
+            .mat-select-arrow-wrapper {
+                transform: translateY(0) !important;
+
+                .mat-select-arrow {
+                    width: 8px;
+                    height: 6px;
+                    background-color: transparent;
+                    color: #fff;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6' fill='none'%3E%3Cpath d='M1 1.5L4 4.5L7 1.5' stroke='%23868FA0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+
+        &+.min-max-val {
+            margin-top: -10px;
+        }
+    }
+}
+

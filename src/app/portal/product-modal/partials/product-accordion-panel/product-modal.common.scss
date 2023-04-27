@@ -1,0 +1,76 @@
+.expandedAccordionItem {
+  width: 44% !important;
+}
+
+.collapsedAccordionItem {
+  width: 92% !important;
+}
+
+.expandedContent {
+  display: inline-flex;
+  width: 48% !important;
+}
+
+.collapsedContent {
+  display: inline-flex;
+  width: 90%;
+
+  &.table {
+      & > div {
+        justify-content: space-between;
+      }
+  }
+}
+
+.item-wrapper {
+  box-shadow: none;
+  border-radius: 0;
+
+  ui-page-content {
+    border-radius: unset !important;
+    width: 100%;
+  }
+
+  .table  {
+    box-shadow: none !important;
+    margin: 0;
+    padding: 0;
+
+    & > div {
+      display: flex;
+      margin: 0 0 10px 0;
+
+      h5 {
+        margin: 8px 5px 8px 0;
+        font-family: "Inter", serif !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: 120%;
+        font-size: 0.875rem !important;
+      }
+
+      p {
+        margin: 0
+      }
+
+      .mat-icon {
+        margin: -0.15rem -0.15rem 0 4px;
+        &.green {
+          color: #007A00;
+        }
+
+        &.grey {
+          color: #F5F5F8;
+        }
+
+        &.other {
+          color: #0D1B47;
+        }
+      }
+    }
+  }
+}
+
+h5 {
+  display: contents;
+}

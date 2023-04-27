@@ -1,0 +1,21 @@
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+<ng-template #loaded>
+  <div class="donuts">
+    <chart-donut [chart]="marketplaceChart" toolTipAligment="left" [title]="'Your Market Place'"
+      [detailsAction]="previewMarket">
+    </chart-donut>
+    <chart-donut [chart]="searchesChart" toolTipAligment="left" [title]="'Searches'" [detailsAction]="previewSearches">
+    </chart-donut>
+    <chart-donut [chart]="technologyChart" toolTipAligment="left" [title]="'Technology Performance'"
+      [detailsAction]="previewTechnologies">
+    </chart-donut>
+  </div>
+</ng-template>
+
+<!--
+
+
+   (click)="previewMarket.emit()"
+    (click)="previewSearches.emit()"
+    (click)="previewTechnologies.emit()"
+-->

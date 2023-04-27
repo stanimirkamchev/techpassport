@@ -1,0 +1,240 @@
+<h2 class="notSoStrong">Choose the <strong>membership</strong> which is best for you</h2>
+<h3 class="membership-title">
+    <p>
+        Our mission is to speed up the process of negotiating POCs with financial services company. We want to make it
+        quicker and easier for the start-up community to connect with large corporate banks.
+    </p>
+    <p>
+        To that end, we have made our Core plan <strong>free to sign up to with no ongoing subscription fees</strong>.
+    </p>
+    <p>
+        <strong>We will only charge a fee once you have successfully signed a contract with a buyer following initial
+            engagement on the platform.</strong>
+    </p>
+    <p>
+        The core subscription allows you access to the main features of the platform, and you can mark your products as
+        eligible for Rapid POCs to let buyers know you’re ready to engage.
+    </p>
+
+
+    <p>
+        We also have a <strong>Premium</strong> subscription with some extra features to help you stand out from other
+        suppliers listing their products on the marketplace.
+        <br /><span class="success-label"><strong>Premium subscription will be free until October 2021.</strong></span>
+    </p>
+
+    <p>If you have any questions about which plan suits your needs best please get in touch with <a
+            href="mailto:Teresa@techpassport.info">Teresa@techpassport.info</a>.</p>
+
+</h3>
+
+<div class="membership">
+    <div class="panels">
+
+        <div class="panel core-plus">
+            <div class="recommended"></div>
+            <div class="header">
+                <div class="panel-title">Core RAPID</div>
+                <div class="price" *ngIf="membership?.plans[0]?.perYear > 0">
+                    <span class="mainPrice">{{membership?.plans[0]?.perYear | currency:'GBP' }}</span>
+                    <span class="pricePer"> per year</span>
+                </div>
+                <div class="price" *ngIf="membership?.plans[0]?.perYear === 0">
+                    <span class="mainPrice">Free</span>
+                    <span class="pricePer">&nbsp;</span>
+                </div>
+            </div>
+            <div class="content">
+
+                <div class="try-it">
+                    <button mat-raised-button *ngIf="membership?.plans[0]?.perYear > 0"
+                        (click)="membershipTryOption = membershipTryOption === 'core-plus' ? null : 'core-plus'; paymentFormGroup.patchValue({ how: null });"
+                        [ngClass]=" { 'disabled': membershipTryOption === 'core-plus' } ">
+                        Try access for free
+                    </button>
+
+                    <button mat-raised-button *ngIf="membership?.plans[0]?.perYear === 0"
+                        (click)="membershipTryOption = membershipTryOption === 'core-plus' ? null : 'core-plus'; paymentFormGroup.patchValue({ how: 'perYear' });"
+                        [ngClass]=" { 'disabled': membershipTryOption === 'core-plus' } ">
+                        Get access
+                    </button>
+
+
+
+
+                    <div class="options" *ngIf="membershipTryOption === 'core-plus'">
+                        <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="paymentFormGroup"
+                            *ngIf="membership?.plans[0]?.perYear > 0">
+                            <mat-radio-group formControlName="how">
+                                <mat-radio-button value="perMonth">
+                                    <strong>{{membership?.plans[0]?.perMonth | currency:'GBP' }}</strong> Monthly
+                                </mat-radio-button>
+                                <mat-radio-button value="perYear">
+                                    <strong>{{membership?.plans[0]?.perYear | currency:'GBP' }}</strong> Annually
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </form>
+
+                        <div class="termsConditionsBox">
+                            <button mat-button mat-raised-button color="accent" (click)="readAndAgree($event)"
+                                *ngIf="!terms.agreed['core-plus' + paymentFormGroup.get('how').value]"
+                                class="termsAction"
+                                [disabled]="requestInProgress || !paymentFormGroup.get('how').value">
+                                <mat-icon>thumb_up_alt</mat-icon>Read and agree to our Terms&Conditions
+                            </button>
+
+                            <div class="youHaveAgreed"
+                                *ngIf="terms.agreed['core-plus' + paymentFormGroup.get('how').value]">
+                                <mat-icon>done</mat-icon>
+                                You have agreed to our Terms&Conditions
+                            </div>
+
+                            <button mat-button mat-raised-button color="primary" (click)="downloadAsPDF('core')"
+                                class="termsAction"
+                                [disabled]="requestInProgress || !paymentFormGroup.get('how').value">
+                                <mat-icon>picture_as_pdf</mat-icon>View our contract as PDF
+                            </button>
+                            <button mat-button mat-raised-button color="primary" (click)="contactUs()"
+                                class="termsAction" [disabled]="requestInProgress">
+                                <mat-icon>contact_support</mat-icon> Contact us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subscription">
+                    <div class="strong">Subscription:</div>
+                    <div>{{membership?.plans[0]?.perYear | currency:'GBP' }} per Year or
+                        {{membership?.plans[0]?.perMonth | currency:'GBP' }} per month</div>
+                    <div>(represents £300/year)</div>
+
+                    <div class="strong">Fee charged:</div>
+                    <div>5% of the first full contracted value for services provided to the buyer (minimum 1 year,
+                        dependent upon the term of the contract) for every successfully signed agreement where
+                        TechPassport has been engaged (Excludes POC Value). Fee capped at £25,000</div>
+                </div>
+
+
+                <div class="features">
+                    <div class="strong">Core Features:</div>
+                    <div>Access to the marketplace</div>
+                    <div>Access to guidance notes and training material to prepare for engaging with Banks
+                        efficiently
+                    </div>
+                    <div>Access to the compliance upload area</div>
+                    <div>Access to personalised dashboard with performance metrics</div>
+                    <div>​Hyperlink your TechPassport account to your company website</div>
+                    <div>Exclusive Invites to TechPassport member only events - Fees apply</div>
+                    <div>Access to our partner discounted Insurance with Pay on Demand options</div>
+                    <div>Access to TechPassport quarterly journal</div>
+                    <div>Receive quarterly TechPassport newsletter containing industry updates</div>
+                    <div>Discount codes for industry events and benefits</div>
+                    <!--
+                    <div class="strong">PLUS Features:</div>
+                    <div>Rapid supplier onboarding for engaing with banks at supplier level</div>
+                    <div>Rapid product onboarding for accelerated low risk POCs</div>
+                    -->
+                </div>
+            </div>
+        </div>
+
+        <div class="panel premium-plus">
+            <div class="recommended"></div>
+            <div class="header">
+                <div class="panel-title">Premium RAPID</div>
+                <div class="price">
+                    <span class="mainPrice">{{membership?.plans[1]?.perYear | currency:'GBP' }}</span>
+                    <span class="pricePer"> per year</span>
+                </div>
+            </div>
+            <div class="content">
+
+                <div class="try-it">
+                    <button mat-raised-button [ngClass]=" { 'disabled': membershipTryOption === 'premium-plus' } "
+                        (click)="membershipTryOption =  membershipTryOption === 'premium-plus' ? null : 'premium-plus'; paymentFormGroup.patchValue({ how: null });">Try
+                        access for
+                        free</button>
+
+
+                    <div class="options" *ngIf="membershipTryOption === 'premium-plus'">
+                        <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="paymentFormGroup">
+                            <mat-radio-group formControlName="how">
+
+                                <mat-radio-button value="perMonth">
+                                    <strong>{{membership?.plans[1]?.perMonth | currency:'GBP' }}</strong> Monthly
+                                </mat-radio-button>
+                                <mat-radio-button value="perYear">
+                                    <strong>{{membership?.plans[1]?.perYear | currency:'GBP' }}</strong> Annually
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </form>
+
+                        <div class="termsConditionsBox">
+                            <button mat-button mat-raised-button color="accent" (click)="readAndAgree($event)"
+                                *ngIf="!terms.agreed['premium-plus' + paymentFormGroup.get('how').value]"
+                                class="termsAction"
+                                [disabled]="requestInProgress || !paymentFormGroup.get('how').value">
+                                <mat-icon>thumb_up_alt</mat-icon>Read and agree to our Terms&Conditions
+                            </button>
+
+                            <div class="youHaveAgreed"
+                                *ngIf="terms.agreed['premium-plus' + paymentFormGroup.get('how').value]">
+                                <mat-icon>done</mat-icon>
+                                You have agreed to our Terms&Conditions
+                            </div>
+
+                            <button mat-button mat-raised-button color="primary" (click)="downloadAsPDF('premium')"
+                                class="termsAction"
+                                [disabled]="requestInProgress || !paymentFormGroup.get('how').value">
+                                <mat-icon>picture_as_pdf</mat-icon>View our contract as PDF
+                            </button>
+                            <button mat-button mat-raised-button color="primary" (click)="contactUs()"
+                                class="termsAction" [disabled]="requestInProgress">
+                                <mat-icon>contact_support</mat-icon> Contact us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subscription">
+                    <div class="strong">Subscription:</div>
+                    <div>{{membership?.plans[1]?.perYear | currency:'GBP' }} per Year or
+                        {{membership?.plans[1]?.perMonth | currency:'GBP' }} per month</div>
+                    <div>(represents £660/year)</div>
+
+                    <div class="strong">Fee charged:</div>
+                    <div>
+                        As per <span class="m-core-plus-label">Core Subscription</span> charges: 5% of the first full
+                        contracted value for services provided to the buyer (minimum 1 year, dependent upon the term of
+                        the contract) for every successfully signed agreement where TechPassport has been engaged
+                        (Excludes POC Value). Fee capped at £25,000
+                    </div>
+
+                    <div class="features">
+                        <div class="strong"><span class="m-core-plus-label">Core Features, </span>Plus:</div>
+                        <div>Prioritised listing on market place</div>
+                        <div>Ability to upload demo video for marketing purposes</div>
+                        <div>Option to purchase Weekly Spotlight (1 per year)</div>
+                        <div>Ability to publish an article though TechPassport for one of our quarterly journals
+                            (subject to
+                            approval)</div>
+                        <div>Invitation to post blogs or online articles (subject to approval) on TechPassports pages
+                        </div>
+                        <div>Exclusive Invites to TechPassport member only events - 2 complementary tickets per supplier
+                            membership</div>
+
+                        <div>Premium members will be the first to try new features as they are added to the platform
+                        </div>
+                        <!--
+                    <div class="strong">PLUS Features:</div>
+                    <div>Rapid supplier onboarding for engaing with banks at supplier level</div>
+                    <div>Rapid product onboarding for accelerated low risk POCs</div>
+-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>&nbsp;</div>
+
+    </div>

@@ -1,0 +1,161 @@
+<mat-spinner *ngIf="!payload || !payload.supplier" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="payload && payload.supplier">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Founders self-identify as:</h5>
+
+      <ul
+        class="flex-list-row"
+        *ngIf="
+          payload.supplier.founderIdentify &&
+          payload.supplier.founderIdentify.length > 0
+        "
+      >
+        <li *ngFor="let f of payload.supplier.founderIdentify">
+          {{ toReadableText(f) }}
+        </li>
+      </ul>
+      <ul
+        *ngIf="
+          !payload.supplier.founderIdentify ||
+          payload.supplier.founderIdentify.length === 0
+        "
+      >
+        <li>N/A</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Board members self-identify as:</h5>
+      <ul
+        class="flex-list-column"
+        *ngIf="
+          payload.supplier.boardMembersIdentify &&
+          payload.supplier.boardMembersIdentify.length > 0
+        "
+      >
+        <li *ngFor="let f of payload.supplier.boardMembersIdentify">
+          {{ toReadableText(f) }}
+        </li>
+      </ul>
+      <ul
+        *ngIf="
+          !payload.supplier.boardMembersIdentify ||
+          payload.supplier.boardMembersIdentify.length == 0
+        "
+      >
+        <li>N/A</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Company is carbon neutral</h5>
+      <mat-icon *ngIf="payload.supplier.isCarbonNeutral" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.supplier.isCarbonNeutral" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Company is carbon zero</h5>
+      <mat-icon *ngIf="payload.supplier.isCarbonZero" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.supplier.isCarbonZero" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Company’s board has an ESG expert</h5>
+      <mat-icon *ngIf="payload.supplier.haveEsgExpert" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.supplier.haveEsgExpert" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Company has an ESG committee</h5>
+      <mat-icon *ngIf="payload.supplier.haveEsgCommittee" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.supplier.haveEsgCommittee" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>SOC2 accredited</h5>
+      <mat-icon *ngIf="payload?.erq?.certification?.soc2" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload?.erq?.certification?.soc2" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Supporting documents:</h5>
+    </div>
+
+    <ng-template
+      *ngIf="
+        payload.supplier.documents && payload.supplier.documents.length > 0
+      "
+    >
+      <div
+        class="two-column file-attached"
+        *ngFor="let doc of payload.supplier.documents"
+      >
+        <h5>
+          <mat-icon *ngIf="doc" class="green">{{ setIcon("yes") }}</mat-icon>
+          <mat-icon *ngIf="!doc" class="grey">{{ setIcon("no") }}</mat-icon>
+          {{ doc ? doc.fileName : "N/A" }}
+        </h5>
+        <button *ngIf="doc">View</button>
+      </div>
+    </ng-template>
+    <div
+      *ngIf="
+        !payload.supplier.documents || payload.supplier.documents.length === 0
+      "
+      class="two-column file-attached"
+    >
+      <mat-icon class="grey">{{ setIcon("no") }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <div class="gender-diversity-table">
+        <div class="title mt-10">Gender diversity:</div>
+        <table>
+          <thead>
+            <tr>
+              <th *ngFor="let column of genderDiversityColumns">
+                {{ column.value != "sector" ? column.label : "" }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of getGenderDiversityRows(payload.supplier)">
+              <td
+                *ngFor="let column of genderDiversityColumns"
+                class="mx-auto data"
+              >
+                <ng-container>
+                  {{ row[column.value] }}
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ui-page-content>
+</div>

@@ -1,0 +1,173 @@
+<div class="product-video">
+  <form [formGroup]="productVideoForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Product Video </mat-card-title>
+      <mat-card-content>
+        <div class="d-flex items-center space-x-3 mb-5">
+          <div>Upload your video below</div>
+          <div class="caption" *ngIf="isTitle">(optional)</div>
+        </div>
+        <ngx-dropzone
+          *ngIf="file || !value"
+          class="file-dropzone mb-5 d-flex justify-center"
+          [accept]="AllowedMovExt.join(',')"
+          [ngClass]="{ uploaded: !file && value }"
+          [disableClick]="file || value"
+          (change)="onSelect($event)"
+        >
+          <ngx-dropzone-label *ngIf="!file && !value">
+            <div>
+              <img
+                src="../../../../assets/img/onboarding/video_play.svg"
+                alt=""
+              />
+              <div>Upload video</div>
+            </div>
+          </ngx-dropzone-label>
+          <div *ngIf="file" class="centered">
+            <div class="file-selected mb-3">File Selected</div>
+            <div class="file-name mb-3" *ngIf="!uploadStatus">
+              <mat-spinner
+                color="white"
+                *ngIf="isSaving"
+                diameter="16"
+              ></mat-spinner>
+              <div *ngIf="!isSaving">
+                {{ file?.name }}
+              </div>
+            </div>
+
+            <div
+              class="state-m mb-3"
+              *ngIf="uploadStatus == 'processing' || uploadStatus == 'inqueue'"
+            >
+              <span class="await-s-label">
+                <mat-icon
+                  style="
+                    font-size: 13px;
+                    margin-left: 5px;
+                    padding: 2px;
+                    height: 14px;
+                    width: 12px;
+                    line-height: 8px;
+                  "
+                >
+                  hourglass_empty</mat-icon
+                >
+                <small style="font-size: 8pt">Scanning file...</small>
+              </span>
+            </div>
+            <div class="state-m mb-3" *ngIf="uploadStatus == 'allowed'">
+              <a
+                href="https://metadefender.opswat.com/results#!/file/{{
+                  hash
+                }}/hash/overview"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  style="border-radius: 4px; margin-top: 0"
+                  src="https://api.metadefender.com/v4/hash/{{
+                    hash
+                  }}/badge?size=small&type=svg"
+                />
+              </a>
+            </div>
+            <div class="d-flex justify-center">
+              <div
+                class="remove-button primary d-flex justify-center"
+                (click)="onRemoveFile($event)"
+              >
+                Remove &nbsp;
+                <mat-icon
+                  class="icon icon-sm"
+                  *ngIf="!isRemoving"
+                  svgIcon="delete-x"
+                ></mat-icon>
+                <mat-spinner
+                  color="white"
+                  *ngIf="isRemoving"
+                  diameter="16"
+                ></mat-spinner>
+              </div>
+            </div>
+          </div>
+          <!-- <div *ngIf="!file && value" class="centered uploaded">
+            <div class="file-upload mb-3">&nbsp; File Uploaded</div>
+            <div class="file-name mb-3">{{ value?.name || value }}</div>
+            <div class="d-flex justify-center">
+              <div class="remove-button d-flex justify-center" (click)="onRemove($event)">
+                Remove &nbsp; <mat-icon class="icon icon-sm" *ngIf="!isRemoving" svgIcon="delete-x"></mat-icon>
+                <mat-spinner color="white" *ngIf="isRemoving" diameter="16"></mat-spinner>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div fxFlex="35">
+            <div class="state-m">
+              <a *ngIf="hash && fileStatus!=='processing'"
+                href="https://metadefender.opswat.com/results#!/file/{{hash}}/hash/overview" target="_blank"
+                rel="noopener">
+                <img style="border-radius: 4px; margin-top:0"
+                  src="https://api.metadefender.com/v4/hash/{{hash}}/badge?size=small&type=svg" />
+              </a>
+              <span *ngIf="fileStatus==='processing'" class="await-s-label">
+                <mat-icon
+                  style="font-size: 13px; margin-left: 5px; padding:2px; height:14px; width: 12px; line-height: 8px;">
+                  hourglass_empty</mat-icon>
+                <small style="font-size: 8pt">Scanning file...</small>
+              </span>
+            </div>
+          </div> -->
+        </ngx-dropzone>
+        <div class="preview-wrapper mb-5" *ngIf="!file && value">
+          <video width="400" controls>
+            <source [src]="vidUrl" type="video/mp4" />
+            <source [src]="vidUrl" type="video/ogg" />
+          </video>
+          <div class="remove-button video-remove" (click)="onRemove($event)">
+            Remove &nbsp;
+            <mat-icon
+              class="icon icon-sm"
+              *ngIf="!isRemoving"
+              svgIcon="delete-x"
+            ></mat-icon>
+            <mat-spinner
+              color="white"
+              *ngIf="isRemoving"
+              diameter="16"
+            ></mat-spinner>
+          </div>
+        </div>
+        <div class="error mb-3 centered" *ngIf="!!errorText">
+          {{ errorText }}
+        </div>
+
+        <div class="d-flex space-x-5 mb-5">
+          <app-custom-input
+            class="flex-1"
+            [formGroup]="productVideoForm"
+            formControlName="videoName"
+            ngDefaultControl
+            [isError]="
+              submitted && !!productVideoForm.controls.videoName.errors
+            "
+            errorText="Video name is Required"
+            label="Video name"
+          ></app-custom-input>
+
+          <app-custom-input
+            class="flex-2"
+            [formGroup]="productVideoForm"
+            formControlName="videoDescription"
+            ngDefaultControl
+            [isError]="
+              submitted && !!productVideoForm.controls.videoDescription.errors
+            "
+            errorText="Video description is Required"
+            label="Video description"
+          ></app-custom-input>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

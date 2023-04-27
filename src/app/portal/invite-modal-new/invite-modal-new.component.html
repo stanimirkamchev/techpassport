@@ -1,0 +1,109 @@
+<button class="close-btn" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont invite-modal">
+  <div class="header" *ngIf="success !== true">
+    <h3>Invite supplier</h3>
+    <p>If you’d like to invite a new supplier to join the TechPassport platform, simply provide their details and we’ll
+      do the rest</p>
+  </div>
+  <div class="header" *ngIf="success === true">
+    <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M30.0078 24H58.5198C62.0968 24.0053 65.5254 25.43 68.0528 27.9611C70.5802 30.4923 71.9998 33.923 71.9998 37.5V75C75.1824 75 78.2347 73.7357 80.4851 71.4853C82.7355 69.2348 83.9998 66.1826 83.9998 63V24.432C83.9998 18.412 79.4998 13.188 73.3438 12.672C72.4469 12.5992 71.5496 12.5325 70.6518 12.472C69.6393 10.5212 68.1104 8.88586 66.232 7.74456C64.3536 6.60326 62.1978 5.99979 59.9998 6H53.9998C51.8019 5.99979 49.6461 6.60326 47.7676 7.74456C45.8892 8.88586 44.3603 10.5212 43.3478 12.472C42.4478 12.532 41.5478 12.6 40.6558 12.672C34.6478 13.18 30.2158 18.168 30.0078 24ZM53.9998 12C52.4085 12 50.8824 12.6321 49.7572 13.7574C48.632 14.8826 47.9998 16.4087 47.9998 18H65.9998C65.9998 16.4087 65.3677 14.8826 64.2424 13.7574C63.1172 12.6321 61.5911 12 59.9998 12H53.9998Z"
+            fill="#F43F9C"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12 37.5C12 33.356 15.36 30 19.5 30H58.5C62.644 30 66 33.36 66 37.5V82.5C66 86.64 62.64 90 58.5 90H19.5C17.5109 90 15.6032 89.2098 14.1967 87.8033C12.7902 86.3968 12 84.4891 12 82.5V37.5ZM50.344 55.876C50.8415 55.2543 51.0718 54.4605 50.984 53.6691C50.8962 52.8777 50.4977 52.1535 49.876 51.656C49.2543 51.1585 48.4605 50.9282 47.6691 51.016C46.8777 51.1038 46.1535 51.5023 45.656 52.124L35.752 64.508L32.12 60.88C31.5513 60.3501 30.7991 60.0616 30.0219 60.0753C29.2447 60.089 28.5032 60.4039 27.9535 60.9535C27.4039 61.5032 27.089 62.2447 27.0753 63.0219C27.0616 63.7991 27.3501 64.5513 27.88 65.12L33.88 71.12C34.1784 71.4183 34.5364 71.6503 34.9305 71.8009C35.3247 71.9514 35.7461 72.0172 36.1674 71.9938C36.5887 71.9704 37.0003 71.8583 37.3754 71.6651C37.7504 71.4718 38.0805 71.2015 38.344 70.872L50.344 55.872V55.876Z"
+            fill="#F43F9C"/>
+    </svg>
+    <h2>Supplier invited</h2>
+    <p class="subheader">You’ve successfully invited a new supplier to the TechPassport platform.</p>
+    <p class="light">Keep an eye out for them under <strong>new products</strong> in the dashboard </p>
+  </div>
+  <form [formGroup]="inviteFormGroup">
+    <div class="step" *ngIf="success !== true && step == 0">
+      <div fxLayout="column">
+        <div class="formItem">
+          <mat-form-field>
+            <input matInput formControlName="email" type="email" placeholder="Supplier email address"
+                   autocomplete="off"/>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <p class="separator">or</p>
+
+      <div fxLayout="column">
+        <div class="formItem">
+          <mat-form-field>
+            <input matInput formControlName="website" type="text" placeholder="Supplier website"
+                   autocomplete="off"/>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--            <p class="separator">or</p>-->
+
+      <!--            <div fxLayout="column">-->
+      <!--                <div class="formItem">-->
+      <!--                    <mat-form-field class="textArea">-->
+      <!--                        <textarea rows="3" placeholder="Product functionality requirements" formControlName="functionality" maxlength="3000"-->
+      <!--                            matInput type="text" noSpecial></textarea>-->
+      <!--                    </mat-form-field>-->
+      <!--                </div>-->
+      <!--            </div>-->
+    </div>
+
+    <div class="step" *ngIf="success !== true && step == 1">
+      <div fxLayout="column" style="min-height: 90px">
+        <div class="label">Add a note for TechPassport</div>
+        <div class="formItem">
+          <mat-form-field class="textArea">
+                        <textarea rows="3" formControlName="content" maxlength="3000" matInput type="text"
+                                  placeholder="Provide details about the reason for engagement (e.g. NDA, POC or to gather information)"
+                                  noSpecial niceOnly></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p class="separator" *ngIf="message">
+    {{ message }}
+  </p>
+  <p class="errorMessage" *ngIf="emailValidationMessage">
+    {{ emailValidationMessage }}
+  </p>
+  <p class="errorMessage" *ngIf="webSiteValidationMessage">
+    {{ webSiteValidationMessage }}
+  </p>
+  <p class="errorMessage" *ngIf="contentValidationMessage">
+    {{ contentValidationMessage }}
+  </p>
+
+  <div class="options" *ngIf="success !== true">
+    <button mat-button mat-raised-button class="button-base button-base--no-bg" (click)="cancel()"
+            [disabled]="requestInProgress"> {{ step === 0 ? 'Close' : 'Back' }}</button>
+
+    <button *ngIf="step == 0" mat-button mat-raised-button [disabled]="!isValid()"
+            (click)="increaseStep()" class="button-base">
+      Next
+    </button>
+
+    <button *ngIf="step == 1" mat-button mat-raised-button [disabled]="!isValid() || requestInProgress"
+            (click)="invite()" class="button-base">Send
+      <svg style="margin-top: -4px;" width="17" height="16" viewBox="0 0 17 16" fill="none"
+           xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M0.5 8C0.5 3.58154 4.08154 0 8.5 0C12.9185 0 16.5 3.58154 16.5 8C16.5 12.4185 12.9185 16 8.5 16C4.08154 16 0.5 12.4185 0.5 8ZM11.4621 6.51159C11.5113 6.44599 11.5469 6.37121 11.5668 6.29165C11.5867 6.21209 11.5906 6.12935 11.578 6.04829C11.5655 5.96723 11.5369 5.8895 11.4939 5.81965C11.4509 5.7498 11.3944 5.68925 11.3277 5.64156C11.261 5.59387 11.1854 5.55999 11.1054 5.54193C11.0254 5.52387 10.9426 5.52198 10.8618 5.53638C10.7811 5.55078 10.704 5.58117 10.6352 5.62577C10.5664 5.67038 10.5072 5.72829 10.461 5.7961L7.80585 9.51303L6.47333 8.18051C6.35668 8.07181 6.20238 8.01263 6.04296 8.01545C5.88353 8.01826 5.73142 8.08284 5.61867 8.19559C5.50592 8.30834 5.44134 8.46045 5.43852 8.61988C5.43571 8.77931 5.49489 8.9336 5.60359 9.05026L7.44974 10.8964C7.51291 10.9595 7.58907 11.0082 7.67291 11.0389C7.75676 11.0696 7.84629 11.0817 7.93529 11.0744C8.02429 11.0671 8.11063 11.0404 8.18831 10.9964C8.26599 10.9523 8.33315 10.8919 8.38513 10.8193L11.4621 6.51159Z"
+              fill="#F5F5F8"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="options align-center flex-column" *ngIf="success === true">
+    <button mat-button mat-raised-button class="button-base" (click)="cancel()"> Back to dashboard</button>
+    <span (click)="inviteSupplier()" class="invite-supplier-link"> Invite another supplier </span>
+  </div>
+
+</div>

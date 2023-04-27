@@ -1,0 +1,26 @@
+<div class="custom-select-wrapper" [formGroup]="formGroup">
+  <mat-form-field
+    class="custom-select"
+    [ngClass]="{ 'is-invalid': isError }"
+    appearance="fill"
+  >
+    <mat-label> Select </mat-label>
+    <mat-select
+      *ngIf="!group"
+      [formGroup]="formGroup"
+      [formControlName]="formControlName"
+      ngDefaultControl
+    >
+      <mat-option
+        *ngFor="let item of options"
+        [disabled]="readonly"
+        [value]="item.value"
+      >
+        {{ item.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="isError" class="error">
+    {{ errorText }}
+  </div>
+</div>

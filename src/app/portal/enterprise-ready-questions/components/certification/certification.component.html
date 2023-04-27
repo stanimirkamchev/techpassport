@@ -1,0 +1,390 @@
+<form [formGroup]="formGroup" autocomplete="off" *ngIf="formGroup">
+  <!-- QUESTION 1 -->
+  <div formGroupName="currentAccreditations">
+    <div class="row">
+      <div class="column-4">
+        <span>
+          Which <b>accreditation(s)</b> does your company currently hold or have
+          plans to obtain?
+        </span>
+      </div>
+      <div class="column-6">
+        <div class="row">
+          <custom-multi-checkbox
+            [formGroup]="formGroup.get('currentAccreditations')"
+            [options]="accreditationItems"
+            (valueChanged)="onCurrentAccreditationValueChange($event)"
+            ngDefaultControl
+          ></custom-multi-checkbox>
+        </div>
+      </div>
+      <div class="column-2"></div>
+    </div>
+
+    <!-- ======================= SOC2 ======================= -->
+    <!-- QUESTION 2 -->
+    <div class="row" *ngIf="question1Value.soc2 && qOneFilled">
+      <div class="column-4">
+        <div class="centerVertically">
+          Do you have a current and up-to-date <b>SOC2 certificate?</b>
+        </div>
+      </div>
+      <div class="column-6">
+        <custom-checkbox
+          [value]="formGroup.get(['soc2Certificate', 'socUpToDate']).value"
+          (change)="onSoc2UpToDateChange($event)"
+        ></custom-checkbox>
+      </div>
+      <div class="column-2"></div>
+    </div>
+  </div>
+
+  <!-- QUESTION 3 -->
+  <div
+    class="row resetPadding"
+    formGroupName="soc2Certificate"
+    *ngIf="
+      formGroup.get(['soc2Certificate', 'socUpToDate']).value && qOneFilled
+    "
+  >
+    <div class="column-12">
+      <span> Upload a current and up-to-date <b>SOC2 certificate</b> </span>
+    </div>
+    <div class="row resetPadding">
+      <div class="column-12 resetPadding">
+        <custom-file-dropzone
+          placeholder="Drag and drop or click to upload"
+          (change)="
+            formGroup.get(['soc2Certificate', 'socFileInfo']).setValue($event)
+          "
+          [value]="formGroup.get(['soc2Certificate', 'socFileInfo']).value"
+          (save)="onSave($event, 1, ['soc2Certificate', 'socFileInfo'])"
+          (remove)="onRemove(1, ['soc2Certificate', 'socFileInfo'])"
+          (download)="onDownload(1, ['soc2Certificate', 'socFileInfo'])"
+          [errorText]="cerfificationFileState[1].error"
+          [isRemoving]="cerfificationFileState[1].isRemoving"
+          [fid]="cerfificationFileState[1].fid"
+          [uploadStatus]="cerfificationFileState[1].uploadStatus"
+          [isSaving]="cerfificationFileState[1].isSaving"
+        ></custom-file-dropzone>
+      </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="row resetPadding">
+      <div class="column-12">
+        <custom-date-picker
+          [formGroup]="formGroup.get('soc2Certificate')"
+          formControlName="socRenewalDate"
+          [label]="'Renewal Date'"
+          ngDefaultControl
+        ></custom-date-picker>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTION 5 -->
+  <div
+    class="row"
+    *ngIf="
+      formGroup.get(['soc2Certificate', 'socUpToDate']).value === false &&
+      qOneFilled
+    "
+  >
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have plans to obtain an <b>SOC2 certificate?</b>
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [value]="formGroup.get(['soc2Certificate', 'socPlansToObtain']).value"
+        (change)="onSOCPlansToObtainChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- QUESTION 6 -->
+  <div
+    class="row resetPadding"
+    *ngIf="
+      formGroup.get(['soc2Certificate', 'socPlansToObtain']).value && qOneFilled
+    "
+  >
+    <div class="column-4">
+      <span>By when? </span>
+    </div>
+  </div>
+
+  <div
+    class="row resetPadding"
+    formGroupName="soc2Certificate"
+    *ngIf="
+      formGroup.get(['soc2Certificate', 'socPlansToObtain']).value && qOneFilled
+    "
+  >
+    <div class="column-12">
+      <custom-date-picker
+        [formGroup]="formGroup.get('soc2Certificate')"
+        formControlName="socExpectedDate"
+        label="Expected date"
+        ngDefaultControl
+      ></custom-date-picker>
+    </div>
+  </div>
+  <!-- ======================= SOC2 END ======================= -->
+
+  <!-- ======================= ISO ======================= -->
+  <!-- QUESTION 7 -->
+  <div class="row" *ngIf="question1Value.iso27001 && qOneFilled">
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have a current and up-to-date <b>ISO27001 certificate</b>?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [value]="formGroup.get(['iso27001Certificate', 'isoUpToDate']).value"
+        (change)="onIsoUpToDateChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- QUESTION 8 -->
+  <div
+    formGroupName="iso27001Certificate"
+    class="row"
+    *ngIf="
+      formGroup.get(['iso27001Certificate', 'isoUpToDate']).value && qOneFilled
+    "
+  >
+    <div class="column-12">
+      <span>Upload a current and up-to-date <b>ISO27001 certificate</b> </span>
+    </div>
+
+    <div class="column-12">
+      <custom-file-dropzone
+        placeholder="Drag and drop or click to upload"
+        (change)="
+          formGroup.get(['iso27001Certificate', 'isoFileInfo']).setValue($event)
+        "
+        [value]="formGroup.get(['iso27001Certificate', 'isoFileInfo']).value"
+        (save)="onSave($event, 2, ['iso27001Certificate', 'isoFileInfo'])"
+        (remove)="onRemove(2, ['iso27001Certificate', 'isoFileInfo'])"
+        (download)="onDownload(2, ['iso27001Certificate', 'isoFileInfo'])"
+        [errorText]="cerfificationFileState[2].error"
+        [isRemoving]="cerfificationFileState[2].isRemoving"
+        [fid]="cerfificationFileState[2].fid"
+        [uploadStatus]="cerfificationFileState[2].uploadStatus"
+        [isSaving]="cerfificationFileState[2].isSaving"
+      ></custom-file-dropzone>
+    </div>
+
+    <!-- QUESTION 9 -->
+    <div
+      class="row resetPadding"
+      *ngIf="
+        formGroup.get(['iso27001Certificate', 'isoUpToDate']).value &&
+        qOneFilled
+      "
+    >
+      <div class="column-12">
+        <custom-date-picker
+          [formGroup]="formGroup.get('iso27001Certificate')"
+          formControlName="isoRenewalDate"
+          [label]="'Renewal Date'"
+          ngDefaultControl
+        ></custom-date-picker>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTION 10 -->
+  <div
+    class="row"
+    *ngIf="
+      formGroup.get(['iso27001Certificate', 'isoUpToDate']).value === false &&
+      qOneFilled
+    "
+  >
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have plans to obtain an <b>ISO27001 certificate?</b>
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [value]="
+          formGroup.get(['iso27001Certificate', 'isoPlansToObtain']).value
+        "
+        (change)="onIsoPlansToObtainChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- QUESTION 11 -->
+  <div
+    class="row resetPadding"
+    *ngIf="
+      formGroup.get(['iso27001Certificate', 'isoPlansToObtain']).value &&
+      qOneFilled
+    "
+  >
+    <div class="column-4">
+      <span>By when? </span>
+    </div>
+  </div>
+
+  <div
+    class="row resetPadding"
+    formGroupName="iso27001Certificate"
+    *ngIf="
+      formGroup.get(['iso27001Certificate', 'isoPlansToObtain']).value &&
+      qOneFilled
+    "
+  >
+    <div class="column-12">
+      <custom-date-picker
+        [formGroup]="formGroup.get('iso27001Certificate')"
+        formControlName="isoExpectedDate"
+        label="Expected date"
+        ngDefaultControl
+      ></custom-date-picker>
+    </div>
+  </div>
+  <!-- ======================= ISO END ======================= -->
+
+  <!-- ======================= OTHER ======================= -->
+  <!-- QUESTION 12 -->
+  <div
+    class="row"
+    formGroupName="otherCertificate"
+    *ngIf="question1Value.other && qOneFilled"
+  >
+    <div class="column-4">
+      <span>What <b>other certification</b>do you have? </span>
+    </div>
+    <div class="column-12">
+      <custom-input
+        [formGroup]="formGroup.get('otherCertificate')"
+        formControlName="name"
+        label="Other certificate"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+  </div>
+
+  <!-- QUESTION 13 -->
+  <div
+    class="row"
+    formGroupName="otherCertificate"
+    *ngIf="formGroup.get(['otherCertificate', 'name']).value && qOneFilled"
+  >
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have a current and up-to-date <b>Other certificate</b>?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [value]="formGroup.get(['otherCertificate', 'otherUpToDate']).value"
+        (change)="onOtherUpToDateChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- QUESTION 14 -->
+  <div
+    formGroupName="otherCertificate"
+    class="row"
+    *ngIf="
+      formGroup.get(['otherCertificate', 'otherUpToDate']).value && qOneFilled
+    "
+  >
+    <div class="column-12">
+      <span>Upload a current and up-to-date <b>other certificate</b> </span>
+    </div>
+
+    <div class="column-12">
+      <custom-file-dropzone
+        placeholder="Drag and drop or click to upload"
+        (change)="
+          formGroup.get(['otherCertificate', 'otherFileInfo']).setValue($event)
+        "
+        [value]="formGroup.get(['otherCertificate', 'otherFileInfo']).value"
+        (save)="onSave($event, 3, ['otherCertificate', 'otherFileInfo'])"
+        (remove)="onRemove(3, ['otherCertificate', 'otherFileInfo'])"
+        (download)="onDownload(3, ['otherCertificate', 'otherFileInfo'])"
+        [errorText]="cerfificationFileState[3].error"
+        [isRemoving]="cerfificationFileState[3].isRemoving"
+        [fid]="cerfificationFileState[3].fid"
+        [uploadStatus]="cerfificationFileState[3].uploadStatus"
+        [isSaving]="cerfificationFileState[3].isSaving"
+      ></custom-file-dropzone>
+    </div>
+
+    <!-- QUESTION 15 -->
+    <div class="column-12">
+      <custom-date-picker
+        [formGroup]="formGroup.get('otherCertificate')"
+        formControlName="otherRenewalDate"
+        [label]="'Renewal Date'"
+        ngDefaultControl
+      ></custom-date-picker>
+    </div>
+  </div>
+
+  <!-- QUESTION 16 -->
+  <div
+    class="row"
+    *ngIf="
+      formGroup.get(['otherCertificate', 'otherUpToDate']).value === false &&
+      qOneFilled
+    "
+  >
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have plans to obtain an <b>Other certificate?</b>
+      </div>
+    </div>
+    <div class="column-8" formGroupName="otherCertificate">
+      <custom-checkbox
+        [value]="
+          formGroup.get(['otherCertificate', 'otherPlansToObtain']).value
+        "
+        (change)="onOtherPlansToObtainChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- QUESTION 17 -->
+  <div
+    class="row resetPadding"
+    *ngIf="
+      formGroup.get(['otherCertificate', 'otherPlansToObtain']).value &&
+      qOneFilled
+    "
+  >
+    <div class="column-4">
+      <span>By when? </span>
+    </div>
+  </div>
+
+  <div
+    class="row resetPadding"
+    formGroupName="otherCertificate"
+    *ngIf="
+      formGroup.get(['otherCertificate', 'otherPlansToObtain']).value &&
+      qOneFilled
+    "
+  >
+    <div class="column-12">
+      <custom-date-picker
+        [formGroup]="formGroup.get('otherCertificate')"
+        formControlName="otherExpectedDate"
+        label="Expected date"
+        ngDefaultControl
+      ></custom-date-picker>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,196 @@
+<div class="assesment-item-group group-header">
+  <div class="title">Company details</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">E-mail:</div>
+  <div class="level">{{ supplierReview.owner?.email }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Phone:</div>
+  <div class="level">{{ supplierReview.owner?.phone }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Full name:</div>
+  <div class="level">{{ supplierReview.name }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Country of incorporation:</div>
+  <div class="level">{{ supplierReview.country }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Date company incorporated:</div>
+  <div class="level">{{ supplierReview.incorporated }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Company registration number:</div>
+  <div class="level">{{ supplierReview.companyNumber }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Registred address:</div>
+  <div class="level">
+    {{ supplierReview.address1 }}&nbsp; {{ supplierReview.address2 }}<br />
+    {{ supplierReview.postcode }}&nbsp;
+    {{ supplierReview.city }}
+  </div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group spacer-medium"></div>
+
+<div class="assesment-item-group">
+  <div class="title">Company website:</div>
+  <div class="level">{{ supplierReview.companyWebsite }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Stage of company:</div>
+  <div class="level">{{ supplierReview.companyStage }}</div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group spacer-medium"></div>
+
+<div class="assesment-item-group group-header">
+  <div class="title">Membership</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Type:</div>
+  <div class="level">{{ supplierReview.members }}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Since:</div>
+  <div class="level">{{ supplierReview.createdAt | date : "MM/dd/yyyy" }}</div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group spacer-medium"></div>
+
+<ng-container *ngIf="supplierReview.insurance.length">
+  <div class="assesment-item-group group-header">
+    <div class="title">Insurance</div>
+  </div>
+  <div
+    class="assesment-item-group insurance-group"
+    *ngIf="supplierReview.insurance[0] as employee"
+  >
+    <div class="title">Employee liability:</div>
+    <div class="level">
+      <span class="normal">Value: </span>£{{ employee.value | number : "2."
+      }}<br />
+      <span class="normal">Vaild date: </span>
+      {{ employee.createdAt | date : "MM/dd/yyyy" }}<br />
+      <span class="download">
+        <span class="normal">Download certificate: </span>
+        <a
+          mat-icon-button
+          [href]="'/api/v1/admin/supplier-certificate/' + employee._id"
+          download
+        >
+          <mat-icon>attachment</mat-icon>
+        </a>
+      </span>
+    </div>
+    <div class="components-required"></div>
+  </div>
+  <div
+    class="assesment-item-group insurance-group"
+    *ngIf="supplierReview.insurance[1] as public"
+  >
+    <div class="title">Public liability:</div>
+    <div class="level">
+      <span class="normal">Value: </span> £{{ public.value | number : "2."
+      }}<br />
+      <span class="normal">Vaild date: </span>
+      {{ public.createdAt | date : "MM/dd/yyyy" }}<br />
+      <span class="download">
+        <span class="normal">Download certificate: </span>
+        <a
+          mat-icon-button
+          [href]="'/api/v1/admin/supplier-certificate/' + public._id"
+          download
+        >
+          <mat-icon>attachment</mat-icon>
+        </a>
+      </span>
+    </div>
+    <div class="components-required"></div>
+  </div>
+  <div
+    class="assesment-item-group insurance-group"
+    *ngIf="supplierReview.insurance[2] as cyber"
+  >
+    <div class="title">Cyber liability:</div>
+    <div class="level">
+      <span class="normal">Value:</span> £{{ cyber.value | number : "2."
+      }}<br />
+      <span class="normal">Vaild date:</span>
+      {{ cyber.createdAt | date : "MM/dd/yyyy" }}<br />
+      <span class="download">
+        <span class="normal">Download certificate: </span>
+        <a
+          mat-icon-button
+          [href]="'/api/v1/admin/supplier-certificate/' + cyber._id"
+          download
+        >
+          <mat-icon>attachment</mat-icon>
+        </a>
+      </span>
+    </div>
+    <div class="components-required"></div>
+  </div>
+</ng-container>
+
+<div class="assesment-item-group spacer-medium"></div>
+
+<div class="assesment-item-group group-header">
+  <div class="title">Auditing rights</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Banks:</div>
+  <div class="level">
+    <span
+      *ngIf="
+        supplierReview.auditing?.auditRights !== 'yes' &&
+        supplierReview.auditing?.auditRights !== 'no'
+      "
+      >{{ supplierReview.auditing?.auditRights }}</span
+    >
+    <span *ngIf="supplierReview.auditing?.auditRights === 'yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="supplierReview.auditing?.auditRights === 'no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <!-- TO DO -->
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Third parties:</div>
+  <div class="level">
+    <span
+      *ngIf="
+        supplierReview.auditing?.auditRights !== 'yes' &&
+        supplierReview.auditing?.thirdPartyAuditRights !== 'no'
+      "
+      >{{ supplierReview.auditing?.thirdPartyAuditRights }}</span
+    >
+    <span *ngIf="supplierReview.auditing?.thirdPartyAuditRights === 'yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="supplierReview.auditing?.thirdPartyAuditRights === 'no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <!-- TO DO -->
+
+  <div class="components-required"></div>
+</div>
+<review-log [log]="supplierReview?.review"> </review-log>

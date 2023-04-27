@@ -1,0 +1,64 @@
+.list-item__contet {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    &-name {
+        font-family: 'Helvetica';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        opacity: 0.5;
+        animation-duration: 5s;
+        animation-name: stepped-pulse;
+    }
+
+    &-actions {
+
+        .delete {
+           &:hover {
+            cursor: pointer;
+                .mat-icon {
+                    color: red
+                }
+            }
+        }
+
+        .update {
+            &:hover {
+             cursor: pointer;
+                 .mat-icon {
+                     color: orange
+                 }
+             }
+         }
+
+        .create {
+            &:hover {
+             cursor: pointer;
+                 .mat-icon {
+                     color: chartreuse
+                 }
+             }
+         }
+
+        .mat-icon {
+            font-size: 15px;
+            fill: #3F9CF4;
+            color: #3F9CF4;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+@keyframes stepped-pulse {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}

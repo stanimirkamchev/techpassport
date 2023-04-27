@@ -1,0 +1,21 @@
+<!-- <div
+  class="sort-control"
+  [matMenuTriggerFor]="sortMenu"> -->
+<div
+  class="sort-control">
+  <span class="mat-caption label">Sort By&nbsp; </span>
+  <span class="mat-caption value" *ngIf="sort?.active as active">
+    {{(options || {})[active] || '-'}}
+  </span>
+  <span class="mat-caption value" *ngIf="!sort?.active">-</span>
+  <mat-icon *ngIf="sort?.direction === 'asc'">arrow_drop_up</mat-icon>
+  <mat-icon *ngIf="sort?.direction === 'desc'">arrow_drop_down</mat-icon>
+</div>
+<mat-menu #sortMenu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let option of options || {} | keyvalue"
+    (click)="onChange()">
+    <span>{{option.value}}</span>
+  </button>
+</mat-menu>

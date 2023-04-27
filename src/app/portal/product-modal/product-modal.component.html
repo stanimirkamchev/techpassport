@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <button mat-button (click)="toggleExpansion()">
+    <svg
+      [ngStyle]="{ rotate: isExpanded ? '180deg' : '0deg' }"
+      width="15"
+      height="14"
+      viewBox="0 0 15 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.32797 7.07163L14.278 12.0216C14.3735 12.1139 14.4497 12.2242 14.5021 12.3462C14.5545 12.4682 14.5821 12.5995 14.5832 12.7322C14.5844 12.865 14.5591 12.9967 14.5088 13.1196C14.4585 13.2425 14.3843 13.3541 14.2904 13.448C14.1965 13.5419 14.0848 13.6162 13.9619 13.6665C13.839 13.7167 13.7073 13.742 13.5746 13.7409C13.4418 13.7397 13.3106 13.7121 13.1886 13.6597C13.0666 13.6073 12.9562 13.5311 12.864 13.4356L7.20697 7.77863C7.0195 7.5911 6.91418 7.3368 6.91418 7.07163C6.91418 6.80647 7.0195 6.55216 7.20697 6.36463L12.864 0.707632C13.0526 0.525474 13.3052 0.424679 13.5674 0.426958C13.8296 0.429236 14.0804 0.534405 14.2658 0.719813C14.4512 0.905221 14.5564 1.15603 14.5586 1.41823C14.5609 1.68043 14.4601 1.93303 14.278 2.12163L9.32797 7.07163ZM3.32797 7.07163L8.27797 12.0216C8.37348 12.1139 8.44966 12.2242 8.50207 12.3462C8.55448 12.4682 8.58207 12.5995 8.58322 12.7322C8.58437 12.865 8.55907 12.9967 8.50879 13.1196C8.45851 13.2425 8.38426 13.3541 8.29037 13.448C8.19647 13.5419 8.08482 13.6162 7.96193 13.6665C7.83903 13.7167 7.70735 13.742 7.57457 13.7409C7.44179 13.7397 7.31057 13.7121 7.18857 13.6597C7.06656 13.6073 6.95622 13.5311 6.86397 13.4356L1.20697 7.77863C1.0195 7.5911 0.914185 7.3368 0.914185 7.07163C0.914185 6.80647 1.0195 6.55216 1.20697 6.36463L6.86397 0.707632C6.95622 0.612122 7.06656 0.53594 7.18857 0.483531C7.31057 0.431122 7.44179 0.403535 7.57457 0.402382C7.70735 0.401228 7.83903 0.426529 7.96193 0.47681C8.08482 0.527091 8.19647 0.601344 8.29037 0.695237C8.38426 0.78913 8.45851 0.900782 8.50879 1.02368C8.55907 1.14657 8.58437 1.27825 8.58322 1.41103C8.58207 1.54381 8.55448 1.67503 8.50207 1.79704C8.44966 1.91904 8.37348 2.02939 8.27797 2.12163L3.32797 7.07163Z"
+        fill="black"
+      />
+    </svg>
+    {{ isExpanded ? "Collapse" : "Expand" }}
+  </button>
+
+  <button class="close" (click)="exit()">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>
+<div class="modal-body">
+  <product-basic-details
+    *ngIf="loaded"
+    [productId]="productId"
+    [details]="productDetails"
+    [collateral]="productCollateral"
+    [projectDetail]="projectDetail"
+    [supplier]="productSupplier"
+    [compliant]="progressBar.total.compliant"
+  ></product-basic-details>
+  <mat-spinner *ngIf="!loaded" class="spinner" diameter="32"></mat-spinner>
+  <product-accordion-panel
+    *ngIf="loaded"
+    [payload]="payload"
+    [progressBar]="progressBar"
+    class="product-panel"
+  ></product-accordion-panel>
+</div>
+<div class="modal-footer">
+  <product-action-buttons
+    *ngIf="loaded"
+    [compliant]="progressBar.total.compliant"
+    [product]="product"
+    [supplier]="productSupplier"
+    [payload]="payload"
+    class="actions"
+  ></product-action-buttons>
+</div>

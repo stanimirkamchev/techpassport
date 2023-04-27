@@ -1,0 +1,8 @@
+<div [class]="position === 'right' ? 'alignRight' : 'alignLeft' ">
+	<button mat-button mat-raised-button color="primary" (click)="onPrimaryButtonClicked()" class="primaryBlueButton">
+		{{ primaryButtonText }}
+	</button>
+	<button mat-button mat-raised-button class="outlinedWhiteButton" (click)="onSecondaryButtonClicked()">
+		{{ secondaryButtonText }}
+	</button>
+</div>

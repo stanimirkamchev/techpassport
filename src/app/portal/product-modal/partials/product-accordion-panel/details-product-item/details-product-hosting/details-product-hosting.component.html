@@ -1,0 +1,111 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content
+    class="table"
+    fxFlex="50"
+    [ngClass]="expansionStyling() | async"
+  >
+    <div>
+      <h5>Product is hosted in the cloud</h5>
+      <mat-icon *ngIf="payload.details.access.isCloud" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.access.isCloud" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+    hostLocation
+    <div class="two-column">
+      <h5>Hosting providers:</h5>
+      <ul class="flex-list-row">
+        <li *ngIf="payload.details.access.hostLocation === 'IBM'">
+          <img src="assets/img/company-logos/ibm.svg" alt="IBM" />
+        </li>
+        <li *ngIf="payload.details.access.hostLocation === 'AWS'">
+          <img src="assets/img/company-logos/aws.svg" alt="AWS" />
+        </li>
+        <li *ngIf="payload.details.access.hostLocation === 'Google'">
+          <img src="assets/img/company-logos/google.svg" alt="Google" />
+        </li>
+        <li *ngIf="payload.details.access.hostLocation === 'Azure'">
+          <img src="assets/img/company-logos/azure.png" alt="Azure" />
+        </li>
+        <li *ngIf="payload.details.access.hostLocation === 'Other'">Other</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Infrastructure managed by 3rd party</h5>
+      <mat-icon
+        *ngIf="payload.details.access.thirdPartyInfrastructure"
+        class="green"
+        >{{ setIcon("yes") }}</mat-icon
+      >
+      <mat-icon
+        *ngIf="!payload.details.access.thirdPartyInfrastructure"
+        class="grey"
+        >{{ setIcon("no") }}</mat-icon
+      >
+    </div>
+
+    <div>
+      <h5>On-prem solution</h5>
+      <mat-icon *ngIf="payload.details.access.hasPremSolution" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.access.hasPremSolution" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content
+    class="table"
+    fxFlex="50"
+    [ngClass]="expansionStyling() | async"
+  >
+    <div>
+      <h5>Multiple hosting providers / locations</h5>
+      <mat-icon
+        *ngIf="payload.details.access.haveMultipleHosting"
+        class="green"
+        >{{ setIcon("yes") }}</mat-icon
+      >
+      <mat-icon
+        *ngIf="!payload.details.access.haveMultipleHosting"
+        class="grey"
+        >{{ setIcon("no") }}</mat-icon
+      >
+    </div>
+
+    <div class="two-column">
+      <h5>Hosting locations:</h5>
+      <ul
+        *ngIf="
+          payload.details.access && payload.details.access.multipleHostLocation
+        "
+        class="flex-list-column"
+      >
+        <li
+          *ngFor="
+            let multipleHostLocation of payload.details.access
+              .multipleHostLocation
+          "
+        >
+          {{ multipleHostLocation }}
+        </li>
+      </ul>
+
+      <ul
+        *ngIf="
+          !payload.details.access ||
+          !payload.details.access.multipleHostLocation
+        "
+        class="flex-list-column"
+      >
+        <li>n/a</li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

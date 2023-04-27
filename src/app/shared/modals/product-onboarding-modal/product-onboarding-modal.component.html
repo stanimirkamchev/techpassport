@@ -1,0 +1,1595 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div
+  class="modal-cont modal-onboarding congratulations"
+  *ngIf="onboarding === false"
+>
+  <div class="modal-icon">
+    <mat-icon>done</mat-icon>
+  </div>
+  <h1 class="notSoStrong">Congratulations!</h1>
+  <h3 class="notSoStrong">
+    You have answered <strong>all</strong> our questions.
+    <!--<br/>Would you like to register <strong>another prodcut</strong> for a customer to trial?-->
+  </h3>
+  <div class="spacer3"></div>
+  <h3 *ngIf="sentToReview === true">
+    Thank you for your submission, The TechPassport team will respond within 24
+    hours!
+  </h3>
+  <div *ngIf="sentToReview === true" class="spacer2"></div>
+  <div *ngIf="sentToReview === true">
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="fin(true)"
+      class="mat-elevation-z0 large-button"
+    >
+      Close
+    </button>
+  </div>
+  <div *ngIf="sentToReview !== true">
+    <button
+      mat-button
+      mat-raised-button
+      [disabled]="requestInProgress == true"
+      color="accent"
+      (click)="save(false)"
+      class="mat-elevation-z0 large-button"
+    >
+      <strong>Send</strong> completed product registration to
+      <strong>HQ</strong> for <strong>Review</strong>
+    </button>
+  </div>
+  <div *ngIf="sentToReview !== true">
+    <button
+      mat-button
+      mat-raised-button
+      [disabled]="requestInProgress == true"
+      color="primary"
+      (click)="save(true)"
+      class="mat-elevation-z0 large-button"
+    >
+      Save as <strong>draft</strong>
+    </button>
+  </div>
+  <div class="spacer8" *ngIf="sentToReview !== true"></div>
+  <div class="bottomMenu" *ngIf="sentToReview !== true">
+    <button
+      mat-button
+      class="goIn goBack bottomOne"
+      (click)="onboarding = true"
+      [disabled]="requestInProgress == true"
+    >
+      <mat-icon class="bigOne">arrow_backward</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div
+  class="modal-cont modal-onboarding modal-product-onboarding"
+  [hidden]="onboarding != true"
+>
+  <div class="topModalMenu" fxLayout="row" fxLayoutAlign="center center">
+    <div class="icon">
+      <mat-icon>work</mat-icon>
+    </div>
+    <div class="title">Product<br />Onboarding</div>
+  </div>
+  <div class="onboarding-timeout-text" *ngIf="stepper.selectedIndex === 0">
+    <p>
+      <strong>Please be aware this session will timeout in 30 minutes</strong>
+    </p>
+  </div>
+  <mat-horizontal-stepper
+    labelPosition="bottom"
+    #stepper
+    [disableRipple]="true"
+    (selectionChange)="stepChanged($event)"
+  >
+    <!-- [linear]="isLinear" -->
+    <mat-step label="Product Details">
+      <!-- [stepControl]="detailsFormGroup"-->
+      <div class="steperContent details">
+        <div class="spacer2"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="detailsFormGroup"
+          (resized)="onResized($event)"
+        >
+          <div fxLayout="row" class="form-row" *ngIf="rapid === true">
+            <div class="note"></div>
+            <div class="label withNote">
+              <strong>Rapid POC</strong><sup class="mandatory">*</sup>
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.detailsForm.rapidPOC"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="rapidPOC">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="note">
+              <!--<strong>*Note: </strong>This should be the publicy listed product name.-->
+            </div>
+            <div class="label withNote">
+              <strong
+                >What's your product called? (Make sure it matches its public
+                listing)</strong
+              ><sup class="mandatory">*</sup>
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.detailsForm.name"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <input
+                  niceOnly
+                  noSpecial
+                  matInput
+                  type="text"
+                  placeholder="Write here..."
+                  formControlName="name"
+                  autocomplete="off"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row textarea">
+            <!-- *ngIf="showThisField('detailsFormGroup','name', 'type')"-->
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              Great! Choose your product <strong>type</strong> or high level
+              functionality - multiselect
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.detailsForm.type"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select
+                  #selectedTypesSel
+                  name="selectedTypesValue"
+                  formControlName="type"
+                  [(value)]="selectedTypes"
+                  multiple
+                >
+                  <ng-container
+                    *ngFor="let group of allProductTypesNew; let i = index"
+                  >
+                    <mat-option
+                      class="level1"
+                      [value]="group.title"
+                      (click)="toggleAllSelection(i)"
+                    >
+                      {{ group.title }}
+                    </mat-option>
+                    <ng-container
+                      *ngFor="let level2 of group.items; let j = index"
+                    >
+                      <mat-option
+                        class="level2"
+                        [value]="level2.value"
+                        (click)="toggleLevel2Selection(i, j)"
+                      >
+                        {{ level2.title }}
+                      </mat-option>
+                      <mat-option
+                        class="level3"
+                        *ngFor="let level3 of level2.items"
+                        [value]="level3.value"
+                      >
+                        {{ level3.title }}
+                      </mat-option>
+                    </ng-container>
+                  </ng-container>
+                </mat-select>
+
+                <!--
+
+                    <mat-select #selectedTypesSel name="selectedTypesValue" formControlName="type" [(value)]="selectedTypes"
+                  multiple>
+                  <ng-container *ngFor="let group of allProductTypesNew; let i = index">
+                    <mat-option style="font-weight: bold;" [value]="group.title" (click)="toggleAllSelection(i)">
+                      {{group.title}}
+                    </mat-option>
+                    <mat-option style="margin-left: 8px;" *ngFor="let level2 of group.items" [value]="level2">
+                      {{level2}}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+                -->
+              </mat-form-field>
+              <!--<mat-form-field floatLabel="never" class="textArea">
+                <mat-chip-list #productTypeChipList aria-label="Product type selection">
+                  <mat-chip niceOnly noSpecial *ngFor="let tag of chips.productType.selected" [selectable]="true"
+                    [removable]="true" (removed)="removeTag(tag,'detailsFormGroup','productType')">
+                    {{tag}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input placeholder="Write here with comma..." #productTypeInput formControlName="productType"
+                    [matAutocomplete]="productTypeAutocomplete" [matChipInputFor]="productTypeChipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addTag($event,'detailsFormGroup','productType')">
+                </mat-chip-list>
+                <mat-autocomplete #productTypeAutocomplete="matAutocomplete"
+                  (optionSelected)="selected($event,'detailsFormGroup','productType')">
+                  <mat-option *ngFor="let tag of chips.productType.filtered | async" [value]="tag">
+                    {{tag}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>-->
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row textarea">
+            <!--  *ngIf="showThisField('detailsFormGroup','type', 'description')" -->
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              <!--Describe the product <strong>functionality</strong>-->
+              <strong>Could you tell us about the product functionality</strong
+              >?<sup class="mandatory">*</sup>
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.detailsForm.description"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="description"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                  required
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row textarea">
+            <!--*ngIf="showThisField('detailsFormGroup', 'documentationDescription', 'tags') ||  showThisField('detailsFormGroup', 'description', 'tags') "-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Product <strong>tags</strong> - multiselect<mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.detailsForm.tags"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help
+              </mat-icon>
+            </div>
+
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="tags" multiple>
+                  <mat-option *ngFor="let c of allTags" value="{{ c }}">{{
+                    c
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <!--*ngIf="showThisField('detailsFormGroup', 'tags', 'video')"-->
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              Would you like to upload a <strong>video</strong> of the product?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group
+                formControlName="video"
+                (change)="vidStepChanged($event)"
+              >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+              <span
+                *ngIf="videoName"
+                (click)="editVideo(true)"
+                class="videoName"
+                >{{ videoName }}</span
+              >
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!-- *ngIf="(membership !== 'premium' && showThisField('detailsFormGroup', 'description', 'documentation') ) || showThisField('detailsFormGroup', 'video', 'documentation') "-->
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              Do you provide <strong>documentation</strong> or any other
+              <strong>training</strong> material?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="documentation">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row textarea">
+            <!--*ngIf="showThisField('detailsFormGroup', 'documentation', 'documentationDescription') && detailsFormGroup.get('documentation').value === 'yes'"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please describe the <strong>documentation</strong> and other trial
+              material provided to the customer.
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.detailsForm.documentationDescription" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="documentationDescription"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  niceOnly
+                  noSpecial
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label"></div>
+            <div class="formItem">
+              <span class="errorMessage">{{ message }}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step label="Licensing">
+      <div class="steperContent licensing">
+        <div class="spacer2"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="licensingFormGroup"
+          (resized)="onResized($event)"
+        >
+          <div fxLayout="row" class="form-row">
+            <div class="note"></div>
+            <div class="label withNote">
+              Do you offer the product as a <strong>software licence</strong> on
+              which the Customer can test on their own systems?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.licensingForm.softwareLicence"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="softwareLicence">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="licensingFormGroup.get('softwareLicence').value === 'yes'"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Is there a <strong>limit</strong> on the number of
+              <strong>copies</strong> of the Software the Customer can download
+              for the Trial?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="copiesLimit">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="
+              licensingFormGroup.get('copiesLimit').value === 'yes' &&
+              licensingFormGroup.get('softwareLicence').value === 'yes'
+            "
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please insert the <strong>upper threshold</strong> of number of
+              <strong>copies</strong>.
+            </div>
+            <div class="formItem withNote">
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-right: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                Max
+              </div>
+              <mat-form-field floatLabel="never" style="width: 100px">
+                <input
+                  numbersOnly
+                  matInput
+                  type="text"
+                  placeholder=""
+                  maxlength="10"
+                  formControlName="maxCopiesLimit"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-left: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                copies
+              </div>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!-- *ngIf="showThisField('licensingFormGroup','maxCopiesLimit', 'anyTerritory', {field: 'copiesLimit', value: 'no'}) || licensingFormGroup.get('softwareLicence').value === 'no'"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Can the Customer <strong>test</strong> the Software in any
+              <strong>territory</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="anyTerritory">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="licensingFormGroup.get('anyTerritory').value === 'no'"
+          >
+            <!--showThisField('licensingFormGroup','anyTerritory', 'includedTerritories') &&-->
+            <div class="note"></div>
+            <div class="label withNote">
+              List the <strong>included</strong> territories.
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="includedTerritories" multiple>
+                  <mat-option
+                    *ngFor="let c of allCoutries"
+                    value="{{ c.code.toLowerCase() }}"
+                    ><span
+                      class="flag-icon flag-icon-{{ c.code.toLowerCase() }}"
+                    ></span>
+                    {{ c.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row textarea">
+            <!-- *ngIf="showThisField('licensingFormGroup','includedTerritories', 'additionalRestrictions', {field: 'anyTerritory', value: 'yes'})"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please insert any <strong>additional</strong> software use /
+              licensing <strong>restrictions</strong>.
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.licensingForm.additionalRestrictions"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="additionalRestrictions"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!--    *ngIf="showThisField('licensingFormGroup','additionalRestrictions', 'openSource')" -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Does your solution make use of any
+              <strong>open source</strong> software?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.licensingForm.openSource"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="openSource">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="licensingFormGroup.get('openSource').value === 'yes'"
+          >
+            <!-- showThisField('licensingFormGroup','openSource', 'openSourceList') &&  -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please <strong>list</strong> the
+              <strong>open source</strong> software.
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.licensingForm.openSourceList"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <mat-chip-list
+                  #openSourceChipList
+                  aria-label="Opensource list selection"
+                >
+                  <mat-chip
+                    *ngFor="let tag of chips.openSourceList.selected"
+                    [selectable]="true"
+                    [removable]="true"
+                    (removed)="
+                      removeTag(tag, 'licensingFormGroup', 'openSourceList')
+                    "
+                  >
+                    {{ tag }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    niceOnly
+                    noSpecial
+                    placeholder="Write here with comma..."
+                    #openSourceListInput
+                    formControlName="openSourceList"
+                    [matChipInputFor]="openSourceChipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="
+                      addTag($event, 'licensingFormGroup', 'openSourceList')
+                    "
+                  />
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--- Does your solution depend on any other 3rd party software? --->
+          <div fxLayout="row" class="form-row">
+            <!--   *ngIf="  licensingFormGroup.get('openSource').value === 'no' || chips.openSourceList.selected.length > 0  "-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Does your solution <strong>depend</strong> on any other
+              <strong>3rd party</strong> software?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="thirdParty">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="licensingFormGroup.get('thirdParty').value === 'yes'"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please <strong>list</strong> the <strong>3rd parties</strong> here
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.licensingForm.thirdPartyList"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <mat-chip-list
+                  #thirPartiesList
+                  aria-label="3rd parties list selection"
+                >
+                  <mat-chip
+                    *ngFor="let tag of chips.thirdPartyList.selected"
+                    [selectable]="true"
+                    [removable]="true"
+                    (removed)="
+                      removeTag(tag, 'licensingFormGroup', 'thirdPartyList')
+                    "
+                  >
+                    {{ tag }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    niceOnly
+                    noSpecial
+                    placeholder="Write here with comma..."
+                    #thirPartiesInput
+                    formControlName="thirdPartyList"
+                    [matChipInputFor]="thirPartiesList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="
+                      addTag($event, 'licensingFormGroup', 'thirdPartyList')
+                    "
+                  />
+                </mat-chip-list>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!-- *ngIf=" licensingFormGroup.get('thirdParty').value === 'no'
+              || chips.thirdPartyList.selected.length > 0  "-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Do you allow for and <strong>3rd party customer</strong> of your
+              customers to <strong>test</strong> this product?
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.licensingForm.thirdPartyTester" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="thirdPartyTester">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step label="Hosting, Data and Access">
+      <div class="steperContent restrictions">
+        <div class="spacer2"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="accessFormGroup"
+          (resized)="onResized($event)"
+        >
+          <div fxLayout="row" class="form-row morespace">
+            <div class="note"></div>
+            <div class="label withNote">
+              Do you offer a hosted solution for
+              <strong>testing environment</strong> which the Customer can access
+              to test your product/solution?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="testEnviroment">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="accessFormGroup.get('testEnviroment').value == 'yes'"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Is there a <strong>limit</strong> on the number of
+              <strong>Users</strong> for a POC?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.accessForm.usersLimit"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="usersLimit">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="
+              accessFormGroup.value.testEnviroment === 'yes' &&
+              accessFormGroup.get('usersLimit').value === 'yes'
+            "
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please insert the <strong>upper threshold</strong> of number of
+              <strong>Users</strong>.
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.accessForm.maxUsersLimit" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-right: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                Max
+              </div>
+              <mat-form-field floatLabel="never" style="width: 100px">
+                <input
+                  numbersOnly
+                  matInput
+                  type="text"
+                  placeholder=""
+                  maxlength="10"
+                  formControlName="maxUsersLimit"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-left: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                users
+              </div>
+            </div>
+          </div>
+
+          <!-- -->
+
+          <!-- if testEnviroment ??-->
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="accessFormGroup.value.testEnviroment === 'yes'"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please select if <strong>SAAS</strong>; <strong>PAAS</strong>;
+              <strong>IAAS</strong>; <strong>IAP</strong>
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="testingPurposes">
+                  <mat-option value="paas"
+                    ><strong>PaaS</strong
+                    ><small>&nbsp;-&nbsp;Platform as a Service</small>
+                  </mat-option>
+                  <mat-option value="iaas"
+                    ><strong>IaaS</strong
+                    ><small>&nbsp;-&nbsp;Infrastructure as a Service</small>
+                  </mat-option>
+                  <mat-option value="saas"
+                    ><strong>SaaS</strong
+                    ><small>&nbsp;-&nbsp;Software as a Service</small>
+                  </mat-option>
+                  <mat-option value="iaap"
+                    ><strong>IaaP</strong><small>&nbsp;-&nbsp;IaaP</small>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row textarea"
+            *ngIf="accessFormGroup.value.testEnviroment === 'yes'"
+          >
+            <div class="note">
+              <!--Note: Location of cloud servers - TBC if cloud server location should be a separate step if supplier's give the Customer the choice of location.-->
+            </div>
+            <div class="label withNote">
+              Please describe the <strong>test environment</strong>
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="testEnviromentDescription"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="accessFormGroup.value.testEnviroment === 'yes'"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Can the Customer access the testing environment at
+              <strong>any time</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="accessTime">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!--- TO DO TO DO -->
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="
+              accessFormGroup.get('accessTime').value === 'no' &&
+              accessFormGroup.get('testEnviroment').value === 'yes'
+            "
+            style="margin-bottom: 50px"
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please set out the <strong>timeframe</strong> for which the
+              Customer may access the hosting environment for testing the
+              solution.
+              <!--   <mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <button
+                mat-button
+                mat-raised-button
+                color="primary"
+                class="mat-elevation-z0 pickerButton"
+                id="pickDaysButton"
+                (click)="showDays = true"
+              >
+                Days
+              </button>
+              <button
+                mat-button
+                mat-raised-button
+                color="primary"
+                class="mat-elevation-z0 pickerButton"
+                id="pickTimeButton"
+                (click)="showTime = true"
+              >
+                Time
+              </button>
+              <div
+                class="pickerCard days"
+                *ngIf="showDays"
+                (clickOutside)="showDays = false"
+                [exclude]="'#pickDaysButton'"
+              >
+                <mat-chip-list [multiple]="true" selectable>
+                  <mat-chip
+                    *ngFor="let option of allDays"
+                    (click)="toggleDay(option)"
+                    [selected]="days.has(option)"
+                  >
+                    &nbsp;<strong>{{ option }}</strong></mat-chip
+                  >
+                </mat-chip-list>
+              </div>
+
+              <div
+                class="pickerCard time"
+                *ngIf="showTime"
+                (clickOutside)="showTime = false"
+                [exclude]="
+                  '#pickTimeButton, #fromDateValuePicker, #toDateValuePicker, li, .e-time-icon, .e-timepicker, .e-popup, .e-icons, .e-input-group, .e-list-parent .e-ul '
+                "
+              >
+                <div id="fromDateValuePicker">
+                  <span class="timePickerLabel">From:</span>
+                  <ejs-timepicker
+                    formControlName="accessTimeFrom"
+                    [value]="fromDateValue"
+                  ></ejs-timepicker>
+                  <!--  [min]='minValue' [max]='maxValue' -->
+                </div>
+                <div id="toDateValuePicker">
+                  <span class="timePickerLabel">To:</span>
+                  <ejs-timepicker
+                    formControlName="accessTimeTo"
+                    [value]="toDateValue"
+                  ></ejs-timepicker>
+                  <!-- [min]='minValue' [max]='maxValue' -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <!-- *ngIf="accessFormGroup.get('testEnviroment').value === 'no' || showThisField('accessFormGroup','accessTime', 'hostedLive')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              How will the solution be <strong>hosted</strong> in live if
+              successful post <strong>POC</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="hostedLive">
+                  <mat-option value="cop">Customer On Premises</mat-option>
+                  <mat-option value="sop">Supplier On Premises</mat-option>
+                  <mat-option value="cloud">Cloud</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!--      *ngIf="showThisField('accessFormGroup','hostedLive', 'hostedLiveSolution')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              And <strong>what kind of</strong> hosted
+              <strong>solution</strong> is that?
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="hostedLiveSolution">
+                  <mat-option value="paas"
+                    ><strong>PaaS</strong
+                    ><small>&nbsp;-&nbsp;Platform as a Service</small>
+                  </mat-option>
+                  <mat-option value="iaas"
+                    ><strong>IaaS</strong
+                    ><small>&nbsp;-&nbsp;Infrastructure as a Service</small>
+                  </mat-option>
+                  <mat-option value="saas"
+                    ><strong>SaaS</strong
+                    ><small>&nbsp;-&nbsp;Software as a Service</small>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!--    *ngIf="showThisField('accessFormGroup','hostedLiveSolution', 'thirdPartyInfrastructure')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Do you have a <strong>third party</strong> managing your
+              <strong>infrastructure</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="thirdPartyInfrastructure">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row morespace">
+            <!--  *ngIf="showThisField('accessFormGroup','thirdPartyInfrastructure', 'leadTime')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              If you require <strong>minimum lead time</strong> before
+              commencement date of the Trial? If so, please specify.
+            </div>
+            <div class="formItem withNote">
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-right: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                Min
+              </div>
+              <mat-form-field floatLabel="never" style="width: 60px">
+                <input
+                  numbersOnly
+                  matInput
+                  type="text"
+                  placeholder=""
+                  maxlength="3"
+                  formControlName="leadTime"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-left: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                day<span *ngIf="accessFormGroup.get('leadTime').value != 1"
+                  >s</span
+                >.
+              </div>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row textarea">
+            <!--
+            *ngIf="showThisField('accessFormGroup','leadTime', 'additionalServicesDescription')"
+          -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please describe any <strong>additional services</strong> you will
+              need to provide to <strong>assist</strong> the Customer to
+              adequately test the solution.
+              <!--  <mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="additionalServicesDescription"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!-- *ngIf="showThisField('accessFormGroup','additionalServicesDescription', 'servicesLocations')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please select the <strong>locations</strong> from which you will
+              provide the <strong>services</strong>.
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="servicesLocations" multiple>
+                  <mat-option
+                    *ngFor="let c of allCoutries"
+                    value="{{ c.code.toLowerCase() }}"
+                    ><span
+                      class="flag-icon flag-icon-{{ c.code.toLowerCase() }}"
+                    ></span>
+                    {{ c.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!--    *ngIf="showThisField('accessFormGroup', 'servicesLocations', 'personalDataPOC')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Will you be processing any <strong>personal data</strong> as part
+              of the <strong>POC</strong>?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.accessForm.personalDataPOC"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="personalDataPOC">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <!--  *ngIf="showThisField('accessFormGroup', 'personalDataPOC', 'personalDataServices')"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Will you be processing any <strong>personal data</strong> as part
+              of the <strong>solution/services</strong> provided?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.accessForm.personalData"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="personalDataServices">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <!-- --- -->
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="
+              accessFormGroup.get('personalDataPOC').value === 'yes' ||
+              accessFormGroup.get('personalDataServices').value === 'yes'
+            "
+          >
+            <!-- showThisField('accessFormGroup','personalDataServices', 'personalDataLocations') && -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please select the <strong>location(s)</strong> from which you host
+              the data provide the <strong>commodities</strong> and/or process
+              the <strong>personal data</strong>.
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.accessForm.personalDataLocations"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="personalDataLocations" multiple>
+                  <mat-option
+                    *ngFor="let c of allCoutries"
+                    value="{{ c.code.toLowerCase() }}"
+                    ><span
+                      class="flag-icon flag-icon-{{ c.code.toLowerCase() }}"
+                    ></span>
+                    {{ c.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="
+              accessFormGroup.get('personalDataPOC').value === 'yes' ||
+              accessFormGroup.get('personalDataServices').value === 'yes'
+            "
+          >
+            <!-- showThisField('accessFormGroup','personalDataLocations', 'personalDataTransfer') && -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Will you <strong>transfer</strong> personal data provided to you
+              by the Customer outside of the <strong>EEA</strong>?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.accessForm.personalDataTransfer"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="personalDataTransfer">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <!--- addc ountries -->
+
+          <div
+            fxLayout="row"
+            class="form-row textarea"
+            *ngIf="
+              accessFormGroup.get('personalDataPOC').value === 'yes' ||
+              accessFormGroup.get('personalDataServices').value === 'yes'
+            "
+          >
+            <!-- showThisField('accessFormGroup','personalDataTransfer', 'personalDataTransferMeasures') && -->
+            <!-- accessFormGroup.get('personalDataTransfer').value === 'yes'"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Please describe the <strong>operational</strong> and
+              <strong>technical measures</strong> you will take to ensure the
+              <strong>personal data</strong> is <strong>secure</strong> and not
+              accessed by unauthorised persons/third parties.
+              <mat-icon
+                class="help"
+                [matTooltip]="
+                  tooltipsInfo.accessForm.personalDataTransferMeasures
+                "
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="personalDataTransferMeasures"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  niceOnly
+                  noSpecial
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- -->
+          <div fxLayout="row" class="form-row morespace">
+            <!--   *ngIf="(accessFormGroup.get('personalDataPOC').value === 'no' && accessFormGroup.get('personalDataServices').value === 'no')  "-->
+            <!--showThisField('accessFormGroup','personalDataTransferMeasures', 'personalDataEmployeesTestingAccess') ||  -->
+            <div class="note"></div>
+            <div class="label withNote">
+              Will <strong>you</strong> or any or your
+              <strong>employees</strong> or <strong>contractors</strong> require
+              <strong>access</strong> to Bank data, Systems, infrastructure or
+              premises during <strong>testing</strong>?
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group
+                formControlName="personalDataEmployeesTestingAccess"
+              >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="
+              accessFormGroup.value.personalDataEmployeesTestingAccess === 'yes'
+            "
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              <!--Will you require <strong>access</strong> to Bank data, systems, infrastructure or premises during <strong>testing</strong>?-->
+              <!--Please select-->
+            </div>
+            <div class="formItem withNote">
+              <mat-checkbox formControlName="testingAccessToNone"
+                >None</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="testingAccessToData"
+                *ngIf="accessFormGroup.value.testingAccessToNone !== true"
+                >Data</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="testingAccessToSytems"
+                *ngIf="accessFormGroup.value.testingAccessToNone !== true"
+                >Sytems</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="testingAccessToInfrastructure"
+                *ngIf="accessFormGroup.value.testingAccessToNone !== true"
+                >Infrastructure</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="testingAccessToPremises"
+                *ngIf="accessFormGroup.value.testingAccessToNone !== true"
+                >Premises</mat-checkbox
+              >
+            </div>
+          </div>
+          <!-- -->
+          <div
+            fxLayout="row"
+            class="form-row"
+            style="margin-top: 18px !important"
+          >
+            <!--  *ngIf="
+              *ngIf="(accessFormGroup.get('personalDataPOC').value === 'no' && accessFormGroup.get('personalDataServices').value === 'no')  "
+            accessFormGroup.value.personalDataEmployeesTestingAccess === 'no' ||
+            accessFormGroup.value.testingAccessToNone === true ||
+            accessFormGroup.value.testingAccessToData === true ||
+            accessFormGroup.value.testingAccessToSytems === true ||
+            accessFormGroup.value.testingAccessToInfrastructure === true ||
+            accessFormGroup.value.testingAccessToPremises === true"-->
+            <div class="note"></div>
+            <div class="label withNote">
+              And how about in <strong>Live</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group
+                formControlName="personalDataEmployeesLiveAccess"
+              >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row morespace"
+            *ngIf="
+              accessFormGroup.value.personalDataEmployeesLiveAccess === 'yes'
+            "
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              <!--Will you require <strong>access</strong> to Bank data, systems, infrastructure or premises during <strong>testing</strong>?-->
+              <!--Please select-->
+            </div>
+            <div class="formItem withNote">
+              <mat-checkbox formControlName="liveAccessToNone"
+                >None</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="liveAccessToData"
+                *ngIf="accessFormGroup.get('liveAccessToNone').value !== true"
+                >Data</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="liveAccessToSytems"
+                *ngIf="accessFormGroup.get('liveAccessToNone').value !== true"
+                >Sytems</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="liveAccessToInfrastructure"
+                *ngIf="accessFormGroup.get('liveAccessToNone').value !== true"
+                >Infrastructure</mat-checkbox
+              >
+              <mat-checkbox
+                formControlName="liveAccessToPremises"
+                *ngIf="accessFormGroup.get('liveAccessToNone').value !== true"
+                >Premises</mat-checkbox
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step label="Charges">
+      <div class="steperContent charges">
+        <div class="spacer2"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="chargesFormGroup"
+          (resized)="onResized($event)"
+        >
+          <div fxLayout="row" class="form-row">
+            <div class="note"></div>
+            <div class="label withNote">
+              <strong>Do you charge a trial fee?</strong
+              ><sup class="mandatory">*</sup>
+              <!--<mat-icon class="help" [matTooltip]="tooltipsInfo.chargesForm.chargesTrialFee" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon>-->
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="chargesTrialFee">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <!-- && chargesFormGroup.get('chargesCaseBasis').value !== true"-->
+          <div
+            fxLayout="row"
+            class="form-row"
+            *ngIf="
+              showThisField(
+                'chargesFormGroup',
+                'chargesTrialFee',
+                'chargesAmtFee'
+              ) && chargesFormGroup.get('chargesTrialFee').value === 'yes'
+            "
+          >
+            <div class="note"></div>
+            <div class="label withNote">
+              Please insert the <strong>Trial Fee</strong
+              ><sup class="mandatory">*</sup>
+            </div>
+
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" style="width: 90px">
+                <input
+                  numbersOnly
+                  matInput
+                  type="text"
+                  placeholder=""
+                  maxlength="7"
+                  formControlName="chargesAmtFee"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+              <div
+                style="
+                  display: inline-block;
+                  font-weight: normal;
+                  font-size: 9pt;
+                  margin-left: 7px;
+                  position: relative;
+                  top: -6px;
+                "
+              >
+                <mat-form-field floatLabel="never" style="width: 45px">
+                  <mat-select formControlName="currency">
+                    <mat-option value="usd">$</mat-option>
+                    <mat-option value="gbp">£</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- *ngIf="showThisField('chargesFormGroup','chargesTrialFee', 'chargesAmtFee') && chargesFormGroup.get('chargesTrialFee').value === 'yes' "-->
+          <!--
+            <div fxLayout="row" class="form-row">
+
+                <div class="note"></div>
+                <div class="label withNote">
+                  ...<strong>Or</strong> click the box if it is subject to agreement on a case by
+                  <strong>case&nbsp;basis</strong>
+                </div>
+                <div class="formItem withNote">
+                  <mat-checkbox formControlName="chargesCaseBasis"></mat-checkbox>
+                </div>
+            </div>-->
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step label="Use Cases">
+      <div class="steperContent specialConditions">
+        <div class="spacer2"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="specialConditionsFormGroup"
+          (resized)="onResized($event)"
+        >
+          <!--
+          <div fxLayout="row" class="form-row">
+            <div class="note"></div>
+            <div class="label withNote">
+              Are there any <strong>Special Conditions</strong>?
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="specialConditions">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+-->
+          <!--
+          <div fxLayout="row" class="form-row textarea"
+            *ngIf="showThisField('specialConditionsFormGroup','specialConditions', 'specialConditionsList') && specialConditionsFormGroup.get('specialConditions').value === 'yes'">
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              Please <strong>insert</strong> any <strong>Special Conditions</strong>
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea rows="4" placeholder="Write here..." formControlName="specialConditionsList" maxlength="3000"
+                  matInput type="text" niceOnly noSpecial></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+-->
+
+          <div fxLayout="row" class="form-row">
+            <!--  *ngIf=" specialConditionsFormGroup.get('specialConditions').value === 'no' || specialConditionsFormGroup.get('specialConditionsList').value.length > 0  "-->
+            <div class="note"></div>
+            <div class="label withNote">
+              Do you have a <strong>use case(s)</strong> for your product?
+              <mat-icon
+                class="help"
+                [matTooltip]="tooltipsInfo.specialConditionsForm.useCase"
+                [matTooltipPosition]="tooltipsInfo.position"
+                >help</mat-icon
+              >
+            </div>
+            <div class="formItem withNote">
+              <mat-radio-group formControlName="useCase">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            fxLayout="row"
+            class="form-row textarea"
+            *ngIf="specialConditionsFormGroup.get('useCase').value === 'yes'"
+          >
+            <div class="note">&nbsp;</div>
+            <div class="label withNote">
+              <!--Describe the product <strong>functionality</strong>-->
+              Please <strong>describe</strong>
+              <!-- <mat-icon class="help" [matTooltip]="tooltipsInfo.placeholder" [matTooltipPosition]="tooltipsInfo.position">help</mat-icon> -->
+            </div>
+            <div class="formItem withNote">
+              <mat-form-field floatLabel="never" class="textArea">
+                <textarea
+                  rows="4"
+                  placeholder="Write here..."
+                  formControlName="useCases"
+                  maxlength="3000"
+                  matInput
+                  type="text"
+                  niceOnly
+                  noSpecial
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+  <div class="bottomMenu">
+    <button
+      mat-button
+      class="goIn goBack bottomOne"
+      (click)="goBack(stepper)"
+      [disabled]="stepper.selectedIndex === 0"
+    >
+      <mat-icon class="bigOne">arrow_backward</mat-icon>
+    </button>
+
+    <button
+      mat-button
+      class="goIn bottomOne"
+      (click)="goForward(stepper)"
+      [disabled]="!isValidated(stepper)"
+    >
+      <mat-icon class="bigOne">arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>

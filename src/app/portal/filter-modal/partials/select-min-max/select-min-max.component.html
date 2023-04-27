@@ -1,0 +1,43 @@
+<div class="min-max-wrp">
+  <div class="flex-item">
+    <span>Min</span>
+    <mat-form-field class="min-max-val" appearance="outline">
+      <mat-select
+        #selects
+        (selectionChange)="onChangeSelect()"
+        [(value)]="selectedMin"
+        placeholder="$M Add value"
+      >
+        <mat-option [value]="null">None</mat-option>
+        <mat-option
+          *ngFor="let item of sortedMin; let i = index"
+          [value]="item"
+          [disabled]="item > selectedMax && selectedMax && item"
+        >
+          {{ item }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="flex-item">
+    <span>Max</span>
+    <mat-form-field class="min-max-val" appearance="outline">
+      <mat-select
+        #selects
+        (selectionChange)="onChangeSelect()"
+        [(value)]="selectedMax"
+        placeholder="$M Add value"
+      >
+        <mat-option [value]="null">None</mat-option>
+        <mat-option
+          *ngFor="let item of sortedMax; let i = index"
+          [value]="item"
+          [disabled]="item < selectedMin && selectedMin && item"
+        >
+          {{ item }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<mat-expansion-panel
+  class="panel-item product-item"
+  [ngClass]="setExpandedClass('productDetails')"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs['productDetails'] = !expandedTabs['productDetails']"
+  >
+    <mat-panel-title class="panel-title"> Product details </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-item
+    class="product-item-expansion"
+    *ngIf="expandedTabs['productDetails']"
+    [payload]="payload"
+  ></details-product-item>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item product-item"
+  [ngClass]="setExpandedClass('erq')"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs['erq'] = !expandedTabs['erq']"
+  >
+    <mat-panel-title class="panel-title">
+      Enterprise Ready Questions
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <erq-product-item
+    class="product-item-expansion"
+    *ngIf="expandedTabs['erq']"
+    [payload]="payload"
+    [progressBar]="progressBar"
+  ></erq-product-item>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['fis'] = !expandedTabs['fis']"
+  >
+    <mat-panel-title class="panel-title"> FIs worked with </mat-panel-title>
+  </mat-expansion-panel-header>
+  <fisworked
+    class="product-item-expansion"
+    *ngIf="expandedTabs['fis']"
+    [payload]="payload"
+  ></fisworked>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['companyDetails'] = !expandedTabs['companyDetails']"
+  >
+    <mat-panel-title class="panel-title"> Company details </mat-panel-title>
+  </mat-expansion-panel-header>
+  <company-details
+    class="product-item-expansion"
+    *ngIf="expandedTabs['companyDetails']"
+    [payload]="payload"
+  ></company-details>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item">
+  <mat-expansion-panel-header
+    (click)="
+      expandedTabs['companyDiversity'] = !expandedTabs['companyDiversity']
+    "
+  >
+    <mat-panel-title class="panel-title"> Company diversity </mat-panel-title>
+  </mat-expansion-panel-header>
+  <company-diversity
+    class="product-item-expansion"
+    *ngIf="expandedTabs['companyDiversity']"
+    [payload]="payload"
+  ></company-diversity>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['insurance'] = !expandedTabs['insurance']"
+  >
+    <mat-panel-title class="panel-title"> Insurance </mat-panel-title>
+  </mat-expansion-panel-header>
+  <insurance
+    class="product-item-expansion"
+    *ngIf="expandedTabs['insurance']"
+    [payload]="payload"
+  ></insurance>
+</mat-expansion-panel>

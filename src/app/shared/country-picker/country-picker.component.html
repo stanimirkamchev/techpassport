@@ -1,0 +1,11 @@
+<mat-form-field>
+  <mat-label *ngIf='label'>{{label}}</mat-label>
+  <mat-select [formControl]="formControl" [multiple]="multi" [placeholder]="placeholder" [ngClass]="{'is-filled': valid, 'is-invalid' : inValid}">
+    <mat-option *ngIf="allEnabled === 'true'" value="">
+      All
+    </mat-option>
+    <mat-option *ngFor="let country of countryList" [value]="getCountryCode(country)">
+      {{getUnicodeFlagIcon(getCountryCode(country))}} &nbsp; {{country}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

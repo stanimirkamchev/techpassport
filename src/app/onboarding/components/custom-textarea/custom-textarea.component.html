@@ -1,0 +1,14 @@
+<div class="custom-textarea-wrapper" [formGroup]="formGroup">
+  <div class="label my-5">{{label}}</div>
+  <textarea
+    [ngClass]="{'is-invalid': isError}"
+    class="textarea"
+    rows="8"
+    [formControlName]="formControlName"
+    [name]="formControlName"
+    ngDefaultControl
+  ></textarea>
+  <div *ngIf="isError" class="error">
+    {{errorText}}
+  </div>
+</div>

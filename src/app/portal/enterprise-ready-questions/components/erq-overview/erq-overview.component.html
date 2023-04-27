@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="container" *ngIf="loaded">
+    <mat-accordion class="progress-bar-accordion">
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Certification </mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.Certification].completed"
+              [compliant]="progressBar[erqType.Certification].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Breach notification </mat-panel-title>
+          <mat-panel-description  class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.BreachNotification].completed"
+              [compliant]="progressBar[erqType.BreachNotification].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>SSDLC</mat-panel-title>
+          <mat-panel-description  class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.Ssdlc].completed"
+              [compliant]="progressBar[erqType.Ssdlc].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Application security</mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.ApplicationSecurity].completed"
+              [compliant]="progressBar[erqType.ApplicationSecurity].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data deletion & retention</mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.DeletionRetention].completed"
+              [compliant]="progressBar[erqType.DeletionRetention].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data privacy</mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.Privacy].completed"
+              [compliant]="progressBar[erqType.Privacy].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data storage & separation</mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.StorageSeparation].completed"
+              [compliant]="progressBar[erqType.StorageSeparation].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Disaster recovery</mat-panel-title>
+          <mat-panel-description  class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.Recovery].completed"
+              [compliant]="progressBar[erqType.Recovery].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="progress-bar-accordion_panel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Encryption</mat-panel-title>
+          <mat-panel-description class="progress-bar-accordion_description">
+            <app-progress-badge
+              [completed]="progressBar[erqType.Encryption].completed"
+              [compliant]="progressBar[erqType.Encryption].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

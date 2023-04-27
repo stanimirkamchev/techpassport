@@ -1,0 +1,25 @@
+@import '../../../../../styles/colors.scss';
+
+$completed-color: #3F9CF4;
+$compliant-color: #00AF00;
+$middle-color: rgb(222, 222, 32);
+
+.progressPercentage {
+  margin: 0 0 0 20px;
+}
+
+.completed {
+  color: $completed-color;
+}
+
+.compliant {
+  color: $compliant-color;
+}
+
+.middle {
+  color: $middle-color !important;
+}
+
+.incompliant, .notCompleted {
+  color: #FF0000;
+}

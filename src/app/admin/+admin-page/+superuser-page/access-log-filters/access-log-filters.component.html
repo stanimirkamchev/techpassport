@@ -1,0 +1,72 @@
+<ui-data-filters class="column">
+  <form autocomplete="off" [formGroup]="formGroup">
+    <section>
+      <span class="mat-title">
+        <span>Access Log</span>
+      </span>
+      <div class="pull--right">
+        <button mat-button color="primary" [disabled]="loading" (click)="download.emit()" class="download-btn">
+          <mat-icon>get_app</mat-icon>
+          Download
+        </button>
+        <button mat-button color="primary" [disabled]="loading" (click)="refresh.emit()" class="refresh-btn">
+          <mat-icon>refresh</mat-icon>
+          Reload
+        </button>
+      </div>
+    </section>
+    <section>
+      <label>User Name</label>
+      <mat-form-field>
+        <mat-select formControlName="displayName">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let displayName of displayNames" [value]="displayName">
+            {{displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <label>Email</label>
+      <mat-form-field>
+        <mat-select formControlName="email">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let email of emails" [value]="email">
+            {{email}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <label>Company Name</label>
+      <mat-form-field>
+        <mat-select formControlName="companyName">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let companyName of companyNames" [value]="companyName">
+            {{companyName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <label>Session Status</label>
+      <mat-form-field>
+        <mat-select formControlName="sessionStatus">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let sessionStatus of sessionStatuses" [value]="sessionStatus">
+            {{sessionStatus}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label>User Status</label>
+      <mat-form-field>
+        <mat-select formControlName="userStatus">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus">
+            {{userStatus}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="pull--right">
+        <mat-form-field>
+          <input matInput formControlName="search" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </section>
+  </form>
+</ui-data-filters>

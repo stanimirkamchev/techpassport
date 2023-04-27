@@ -1,0 +1,73 @@
+@import 'colors.scss';
+.invite-modal {
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    .header {
+      .icon {
+        margin-top: -12px;
+        height: 48px;
+        mat-icon {
+          margin-left: -30px;
+          font-size: 48px;
+        }
+      }
+      h3 {
+        font-weight: 100;
+        margin-top: 0px;
+      }
+  
+    }
+
+    .errorMessage {
+        color: $tp-orange;
+    }
+    .successMessage {
+        color: $tp-green;
+
+    }
+    form {
+      div {
+          width: 100%;
+      }
+      .label {
+          font-size: 9pt;
+          text-align: left;
+          padding-left: 4px;
+          margin-bottom: 4px;
+      }
+      .label, .formItem {
+        width: 100%;
+      }
+    }
+  
+    .options {
+      position: absolute;
+      bottom: 20px;
+      left: 0px;
+      right: 0px;
+      text-align: center;
+      button {
+        min-width: 47%;
+        width: 47%;
+        margin: 7px;
+      }
+    }
+    .info {
+      font-size: 9pt;
+      position: absolute;
+      bottom: -15px;
+      left: 0px;
+      right: 0px;
+      text-align: center;
+      button {
+        min-width: 47%;
+        width: 47%;
+        margin: 7px;
+      }
+    }
+  
+  }
+  

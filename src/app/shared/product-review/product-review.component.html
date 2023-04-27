@@ -1,0 +1,43 @@
+<ng-container *ngIf="productReview?.details as review">
+  <div class="assesment-item-group-pr group-header">
+    <div class="title">Product Details</div>
+  </div>
+  <ng-container *ngFor="let item of review.details">
+    <div class="assesment-item-group-pr" *ngIf="item.title!=='N/A'">
+      <div class="title">{{item.title}}</div>
+      <div class="level">
+        <div [innerHTML]="item.value | answerIndicator"></div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="assesment-item-group-pr group-header">
+    <div class="title">Licensing</div>
+  </div>
+  <div class="assesment-item-group-pr" *ngFor="let item of review.licensing">
+    <div class="title">{{item.title}}</div>
+    <div class="level" [innerHTML]="item.value | answerIndicator"></div>
+  </div>
+  <div class="assesment-item-group-pr group-header">
+    <div class="title">Access</div>
+  </div>
+  <div class="assesment-item-group-pr" *ngFor="let item of review.access">
+    <div class="title">{{item.title}}</div>
+    <div class="level" [innerHTML]="item.value | answerIndicator"></div>
+  </div>
+  <div class="assesment-item-group-pr group-header">
+    <div class="title">Charges</div>
+  </div>
+  <div class="assesment-item-group-pr" *ngFor="let item of review.charges">
+    <div class="title">{{item.title}}</div>
+    <div class="level" [innerHTML]="item.value | answerIndicator"></div>
+  </div>
+  <div class="assesment-item-group-pr group-header">
+    <div class="title">Special Conditions</div>
+  </div>
+  <div class="assesment-item-group-pr" *ngFor="let item of review.specialConditions">
+    <div class="title">{{item.title}}</div>
+    <div class="level" [innerHTML]="item.value | answerIndicator"></div>
+  </div>
+</ng-container>
+<review-log *ngIf="!hideLog" [log]="productReview?.review">
+</review-log>

@@ -1,0 +1,10 @@
+@import '../../styles/enterprise-ready-questions-styles.scss';
+
+.column-6 > span {
+  min-width: fit-content;
+}
+
+custom-input {
+  width: 6rem;
+  margin: 0 1rem;
+}

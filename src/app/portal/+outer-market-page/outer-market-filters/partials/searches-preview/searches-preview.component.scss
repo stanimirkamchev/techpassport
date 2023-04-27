@@ -1,0 +1,97 @@
+.searches-preview {
+    position: absolute;
+    z-index: 999;
+    width: 318px;
+    max-height: 240px;
+    left: 152px;
+    top: 60px;
+    background: #FFFFFF;
+    border: 1px solid rgba(51, 51, 51, 0.1);
+    box-shadow: 0px 8px 16px rgb(58 145 237 / 10%);
+    border-radius: 6px;
+
+    &--loading {
+        width: 318px;
+        max-height: 240px;
+        min-height: 240px;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        li {
+            width: 100%;
+            max-width: 277px;
+            padding: 10px 20px;
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            display: flex;
+            color: #171C26;
+            cursor: pointer;
+
+            &:hover,
+            &:active,
+            &:focus {
+                background: #F3F3F7;
+            }
+        }
+    }
+
+    .wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 142px;
+        height: 40px;
+        margin: -20px 0 0 -71px;
+        background: white;
+    }
+
+    .dot {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        top: 12px;
+        left: 5px;
+        background: #1f88ea;
+        border-radius: 50%;
+        transform: translateX(0);
+        animation: dot 2.8s infinite;
+    }
+
+    .dots {
+        transform: translateX(0);
+        margin-top: 12px;
+        margin-left: 31px;
+        animation: dots 2.8s infinite;
+    }
+
+    span {
+        display: block;
+        float: left;
+        width: 12px;
+        height: 12px;
+        margin-left: 14px;
+        background: #1f88ea;
+        border-radius: 50%;
+    }
+
+    @keyframes dot {
+        50% {
+            transform: translateX(96px);
+        }
+    }
+
+    @keyframes dots {
+        50% {
+            transform: translateX(-31px);
+        }
+    }
+}

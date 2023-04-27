@@ -1,0 +1,79 @@
+@import 'colors.scss';
+
+:host ::ng-deep {
+
+  h4 {
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 26px;
+    color: $tp-dark;
+    margin-top: 42px;
+  }
+
+  form {
+    padding: 0 0;
+  }
+
+  .controls {
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .mat-horizontal-content-container {
+    padding: 12px 12px 12px 12px !important;
+  }
+
+  .mat-step-label,
+  .mat-step-label-selected {
+    top: initial !important;
+    font-weight: inherit !important;
+    font-size: 10pt !important;
+    overflow: inherit !important;
+    position: inherit !important;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    padding-right: 10%;
+    padding-left: 10%;
+
+    label {
+      font: 400 12px/20px Poppins;
+      flex: 1 1 50%;
+      text-align: right;
+      line-height: 30px;
+      padding-right: 16px;
+      box-sizing: border-box;
+      color: $tp-dark;
+    }
+
+    mat-radio-group,
+    mat-form-field {
+      flex: 1 1 50%;
+
+    }
+
+    &--radio {
+      label {
+        flex: 1 1 60%;
+      }
+      mat-radio-group,
+      mat-form-field {
+        flex: 1 1 40%;
+      }
+    }
+  }
+}
+
+
+.saml-row {
+  label {
+      flex: 1 1 20% !important;
+  }
+}
+
+.controls > button {
+  position: relative;
+  top: 0.5rem;
+}

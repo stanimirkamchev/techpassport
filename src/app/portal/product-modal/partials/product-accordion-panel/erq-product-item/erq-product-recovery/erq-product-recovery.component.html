@@ -1,0 +1,21 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Criticality of service:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.criticality || "unknown" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.recoveryTime">
+      <h5>Recovery time of service:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.recoveryTime }} hour{{
+            data.recoveryTime == "1" || data.recoveryTime == 1 ? "" : "s"
+          }}
+        </li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

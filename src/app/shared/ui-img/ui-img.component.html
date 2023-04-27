@@ -1,0 +1,6 @@
+<img
+  *ngIf="src"
+  [class.hidden]="hidden"
+  [src]="src"
+  (error)="onError()"
+  (load)="onLoad()"/>

@@ -1,0 +1,118 @@
+<div class="market-container">
+  <div class="d-flex justify-between px-7 mb-6">
+    <h2 class="main-heading">Marketplace</h2>
+    <div *ngIf="tab === 'all-products'" class="actions d-flex items-center">
+      <button
+        mat-raised-button
+        class="btn-custom-outline btn-request mr-2"
+        [disabled]="selectedProducts.length === 0"
+        (click)="openInformationRequestDialog()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="searchQuestion" class="mr-3"></mat-icon>
+          <span class="label"
+            >Request information
+            <span *ngIf="selectedCount > 0 && !isAddMode"
+              >({{ selectedCount }})</span
+            ></span
+          >
+        </div>
+      </button>
+      <button
+        mat-raised-button
+        class="btn-custom-outline"
+        [disabled]="selectedProducts.length === 0 || isAddMode"
+        (click)="addWatchLists()"
+      >
+        <mat-spinner *ngIf="isAdding" diameter="32"></mat-spinner>
+        <div *ngIf="!isAdding" class="d-flex items-center">
+          <mat-icon svgIcon="eye"></mat-icon>
+          <span class="label"
+            >Add to watchlist
+            <span *ngIf="selectedProducts.length > 0 && !isAddMode"
+              >({{ selectedProducts.length }})</span
+            ></span
+          >
+        </div>
+      </button>
+      <button
+        mat-raised-button
+        class="btn-custom ml-3"
+        (click)="openProductCompareDialog()"
+        [disabled]="selectedCount === 0 || isAddMode"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="sync" class="mr-2">sync_alt</mat-icon>
+          <span class="label"
+            >Compare products
+            <span *ngIf="selectedCount > 0 && !isAddMode"
+              >({{ selectedCount }})</span
+            ></span
+          >
+        </div>
+      </button>
+    </div>
+    <div *ngIf="tab === 'new-products'" class="actions d-flex items-center">
+      <div class="d-flex items-center link">Select all</div>
+
+      <button
+        mat-raised-button
+        class="btn-custom ml-5"
+        (click)="openInformationRequestDialog()"
+      >
+        <div class="d-flex items-center">
+          <mat-icon svgIcon="searchQuestion" class="mr-3"></mat-icon>
+          <span class="label">Request information</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div class="mt-3 px-7">
+    <product-filter
+      (openFilter)="onClickOpenFilterModal()"
+      [(tab)]="tab"
+    ></product-filter>
+  </div>
+  <div
+    class="mt-5 data-container py-7"
+    [class]="tab === 'all-products' ? 'mx-0 px-7' : 'mx-7 px-0'"
+  >
+    <ng-container *ngIf="tab == 'all-products'">
+      <product-list
+        [showWatchlists]="showWatchlists"
+        [tableData]="dataSource$ | async"
+        [loading]="loading$"
+        [marked]="marked"
+        (toggleWatchList)="toggleWatchList($event)"
+        (openWatchLists)="openWatchLists()"
+      ></product-list>
+      <supplier-list></supplier-list>
+    </ng-container>
+
+    <ui-page-content
+      *ngIf="tab == 'new-products'"
+      class="new-table table table--no-padding"
+    >
+      <div class="table-headers">
+        <h3 class="header">New products</h3>
+      </div>
+      <mat-spinner *ngIf="productsLoading$ | async" diameter="32"></mat-spinner>
+      <dashboard-suppliers
+        #loaded
+        class="scroll"
+        [loading]="productsLoading$ | async"
+        [products]="products$ | async"
+        [showWatchlists]="showWatchlists"
+        [marked]="marked"
+        (openWatchLists)="openWatchLists()"
+      ></dashboard-suppliers>
+    </ui-page-content>
+  </div>
+
+  <app-watch-lists-modal
+    *ngIf="showWatchlists"
+    (close)="closeWatchlistModal()"
+    (added)="addedWatchList()"
+    [selectedProducts]="selectedProducts"
+  ></app-watch-lists-modal>
+</div>

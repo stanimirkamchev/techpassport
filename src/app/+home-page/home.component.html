@@ -1,0 +1,61 @@
+<div class="home-container">
+  <mat-toolbar color="primary" class="main-toolbar">
+    <div id="logo" class="d-flex items-end logo">
+      <a href="/portal">
+        <img src="/assets/img/new-tp-logo.svg" alt="TechPassport" />
+      </a>
+      <h5 style="color:#a1388A; font-size: 9pt; margin-left: 12px; margin-top: 4px; font-weight: 400; padding: 10px;">
+        v{{version}}
+      </h5>
+    </div>
+  </mat-toolbar>
+  <mat-grid-list cols="2" rowHeight="2:1" class="main-content">
+    <mat-grid-tile *ngIf="!loading;">
+      <h1 class="slogan">Welcome to<br /><strong>TechPassport!</strong></h1>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="!loading;">
+      <mat-list role="list" style="margin-left: -5vw">
+        <mat-list-item
+        ><button mat-button (click)="logIn()">
+          <mat-icon class="mr-2">arrow_forward</mat-icon>Login with details
+        </button></mat-list-item
+        >
+        <mat-list-item *ngIf="(auth.isAuthenticated$ | async) === false"
+          ><button mat-button (click)="auth0LogIn()">
+            <mat-icon class="mr-2">arrow_forward</mat-icon>Login with Single Sign-on
+          </button></mat-list-item
+        >
+        <mat-list-item
+          ><button mat-button routerLink="/join">
+            <mat-icon class="mr-2">arrow_forward</mat-icon>Join us
+          </button></mat-list-item
+        >
+        <mat-list-item
+          ><button mat-button (click)="howTo()">
+            <mat-icon class="mr-2">help</mat-icon>How to guide
+          </button></mat-list-item
+        >
+      </mat-list>
+    </mat-grid-tile>
+    <mat-spinner class="home-spinner" *ngIf="loading;" diameter="202"></mat-spinner>
+  </mat-grid-list>
+</div>
+
+
+<!-- <mat-grid-list cols="1" class="main-content" *ngIf="!loading;" >
+  <div id="logo" class="logo">
+    <a href="/start">
+      <img src="/assets/img/techpassport_logo.png" alt="TechPassport"
+    /></a>
+  </div>
+  <h1 class="slogan">Welcome to<br /><strong>TechPassport!</strong></h1>
+  <div class="home-btn" role="list">
+    <a mat-button class="login" (click)="logIn()">Log with details</a>
+    <a mat-button class="login" (click)="auth0LogIn()">Login with Single Sign-on</a>
+    <button mat-button class="joinus" routerLink="/join">Join us</button>
+  </div>
+  <mat-list-item><button mat-button (click)="pocModal()"><mat-icon>arrow_forward</mat-icon>POC</button></mat-list-item>
+  <mat-list-item><button mat-button><mat-icon>arrow_downward</mat-icon>Learn More</button></mat-list-item>
+  <mat-list-item><button mat-button  (click)="howTo()"><mat-icon>help</mat-icon>How to guide</button></mat-list-item>
+</mat-grid-list>
+<mat-spinner class="home-spinner" *ngIf="loading;" diameter="202"></mat-spinner> -->

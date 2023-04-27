@@ -1,0 +1,44 @@
+<ng-container *ngIf="formGroup">
+  <form [formGroup]="formGroup" autocomplete="off">
+    <ng-container *ngIf="formGroup?.value?.creatingNew">
+      <company-onboarding-stepper (create)="createBuyerCompany()" (patch)="patchBuyerCompany($event)"
+        (finish)="finishCompanyOnboarding()" (cancel)="cancelCompanyOnboarding()"
+        [formControl]="formGroup?.get('company')">
+      </company-onboarding-stepper>
+    </ng-container>
+
+    <ng-container *ngIf="!formGroup?.value?.creatingNew">
+      <h4>
+        Would you like to register <strong>another group company</strong> which may be a party to a POC?
+      </h4>
+
+      <div style="text-align: center; ">
+        <!-- <label id="new-label" class="mat-caption"></label>-->
+        <mat-radio-group *ngIf="formGroup && formGroup.get('creatingNew')" [hidden]="true" formControlName="creatingNew"
+          aria-labelledby="new-label">
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+        <button mat-raised-button color="accent" *ngIf="formGroup && formGroup.get('creatingNew')" class="actionButton"
+          (click)="formGroup.patchValue({'creatingNew':'true'})"> Add Entity</button>
+      </div>
+      <h4>
+        <strong>Group Entity</strong> means any of the Company and Subsidiaries of the Company
+      </h4>
+      <div class="row row--radio">
+        <label id="new-label" class="mat-caption">Please confirm the above definition of Group Entity is
+          acceptable</label>
+        <mat-radio-group formControlName="acceptGroupEntityDefinition" aria-labelledby="new-label">
+          <mat-radio-button [value]="true">Yes</mat-radio-button>
+          <mat-radio-button [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="row row--radio" *ngIf="formGroup?.value?.acceptGroupEntityDefinition === false">
+        <label class="mat-caption">If not please insert standard "group entity" definition</label>
+        <mat-form-field>
+          <input matInput formControlName="customGroupEntityDefinition">
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </form>
+</ng-container>

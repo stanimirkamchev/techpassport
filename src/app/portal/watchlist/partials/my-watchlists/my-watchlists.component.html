@@ -1,0 +1,57 @@
+<div class="py-4">
+  <h3 class="head mt-0">Your watchlists</h3>
+  <div *ngIf="loading" class="d-flex justify-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  <mat-accordion *ngIf="!loading">
+    <mat-expansion-panel *ngFor="let watchlist of watchLists">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="d-flex align-center mb-1">
+            <span class="title">{{ watchlist.name }}</span>
+            <button
+              class="edit-button"
+              mat-icon-button
+              (click)="openEditModal($event, watchlist)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+<!--            <mat-icon-->
+<!--              *ngIf="isFavorite(watchlist)"-->
+<!--              class="star-icon"-->
+<!--              svgIcon="star"-->
+<!--            ></mat-icon>-->
+          </div>
+          <p class="my-0 subTitle">
+            {{ watchlist.products.length }} products ·
+            {{ watchlist.collaborators.length }} collaborator{{
+              getSuffix(watchlist.collaborators.length)
+            }}
+          </p>
+        </mat-panel-title>
+        <mat-panel-description>
+          <!-- Temporary hided -->
+          <button
+            mat-button
+            class="btn-collaborate"
+            (click)="openInviteModal($event, watchlist)"
+          >
+            <div>Collaborate</div>
+            <mat-icon svgIcon="upload" class="ml-2"></mat-icon>
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <watchlist-detail
+          [watchlistId]="watchlist._id"
+          [products]="watchlist.products"
+          [selectable]="true"
+          [watchListId]="watchlist._id"
+          (select)="
+            toggleSelect({ watchlistId: watchlist._id, product: $event })
+          "
+        ></watchlist-detail>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

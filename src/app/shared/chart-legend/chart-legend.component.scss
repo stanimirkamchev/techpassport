@@ -1,0 +1,25 @@
+:host {
+  margin-top: 12px;
+  margin-left: 8px;
+  max-width: 380px;
+}
+
+.mat-caption {
+  white-space: normal;
+}
+
+.square {
+  padding: 0px 8px;
+  color: #FFF;
+  border-radius: 4px;
+  margin-right: 0px;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 8pt;
+}
+
+.item {
+  margin-right: 8px;
+  white-space: nowrap;
+}

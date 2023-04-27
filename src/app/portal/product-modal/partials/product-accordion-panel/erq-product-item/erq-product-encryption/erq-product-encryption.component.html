@@ -1,0 +1,88 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Cryptographic controls are in place to protect the confidentiality and
+        integrity of all financial institution data (in transit)
+      </h5>
+      <mat-icon *ngIf="data.yes" class="green">{{ setIcon("yes") }}</mat-icon>
+      <mat-icon *ngIf="!data.yes" class="grey">{{ setIcon("no") }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>These controls meet the following requirements:</h5>
+
+      <ul class="flex-list-column">
+        <li>TLS 1.2 or above</li>
+        <li>IPsec</li>
+        <li>SSHv2</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Digital signature is used</h5>
+      <mat-icon *ngIf="data.digitalSignature" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.digitalSignature" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Method of encryption for digital signatures:</h5>
+
+      <ul class="flex-list-row">
+        <li>{{ data.encryptionMethod || "unknown" }}</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        All encryption keys used in the encryption of financial institutions’
+        data stored in a designated vault or key management service
+      </h5>
+      <mat-icon *ngIf="data.allEncryptionKeysUsed" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.allEncryptionKeysUsed" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>These follow industry best practices, for example:</h5>
+
+      <ul class="flex-list-column">
+        <li>NIST 800-57</li>
+        <li>FIPS 140-2 level 2</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Encryption keys are rotated at least once every two years</h5>
+      <mat-icon *ngIf="data.encryptionKeyRotation" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.encryptionKeyRotation" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>
+        All encryption keys are used in conjunction with the financial
+        institutions’ confidential information dedicated to the FI (and not used
+        in conjunction with data of any other customer or supplier)?
+      </h5>
+      <mat-icon *ngIf="data.allEncryptionKeysUsedInConjunction" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.allEncryptionKeysUsedInConjunction" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+</div>

@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 100%;
+  min-height: 208px;
+  box-sizing: border-box;
+}
+
+.donuts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: -20px;
+
+  svg {
+
+    g {
+      text {
+        display: none;
+      }
+    }
+    g:last-child {
+      text {
+        display: block;
+      }
+    }
+  }
+
+  chart-donut {
+    margin: 0 8px;
+  }
+}
+

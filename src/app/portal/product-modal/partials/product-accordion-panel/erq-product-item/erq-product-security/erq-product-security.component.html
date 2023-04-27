@@ -1,0 +1,67 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>
+        Methods the product uses for authenticating a person’s access to the
+        service:
+      </h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.saml_oidc_sso">SAML / OIDC SSO</li>
+        <li *ngIf="data.password_source_ip_validation">
+          Password + source IP validation
+        </li>
+        <li *ngIf="data.password_source_ip_validation_api">
+          Password + source IP validation with API
+        </li>
+        <li *ngIf="data.authOther">Other</li>
+        <li *ngIf="data.authNone">None</li>
+        <li
+          *ngIf="
+            !data.saml_oidc_sso ||
+            !data.authNone ||
+            !data.authOther ||
+            !data.password_source_ip_validation_api
+          "
+        >
+          n/a
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.authOther">
+      <h5>Other:</h5>
+      <ul class="flex-list-row">
+        <li>Super secret magic key {{ data.authOtherName }}</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>
+        Methods the product uses to encrypt or hash passwords to prevent
+        compromisation:
+      </h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.aes_128_192_256">AES-128/192/256</li>
+        <li *ngIf="data.sha_256_384_512">SHA-256/384/512 with salt</li>
+        <li *ngIf="data.argon_pbkdf2">Argon2/PBKDF2</li>
+        <li *ngIf="data.encriptOther">Other</li>
+        <li *ngIf="data.encriptNone">None</li>
+        <li
+          *ngIf="
+            !data.aes_128_192_256 ||
+            !data.sha_256_384_512 ||
+            !data.argon_pbkdf2 ||
+            !data.encriptOther ||
+            data.encriptNone
+          "
+        >
+          n/a
+        </li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

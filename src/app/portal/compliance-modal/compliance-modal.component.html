@@ -1,0 +1,264 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-prod-info">
+
+  <!--<pre>{{data | json}}</pre>-->
+  <div class="topAssesmentBar">
+    <div class="icon">
+      <img class="logo" src="/api/v1/admin/supplier/{{data.product?.supplierID}}/companylogo" />
+    </div>
+    <div class="title">{{data.product.name}}</div>
+    <div class="info">{{data.product.details.name}}</div>
+  </div>
+  <mat-tab-group class="riskReportTabs" #horiziontalTabs>
+    <mat-tab label="Supplier Details" class="companyTab">
+      <div class="tabDetails">
+        <div class="assesment-item-group group-header">
+          <div class="title">Supplier Details</div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title">Full name:</div>
+          <div class="level">{{product?.supplier?.name}}</div>
+          <div class="components-required"></div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title">Country of incorporation:</div>
+          <div class="level">
+            <ng-container *ngIf="product?.supplier?.country as country">
+              {{getUnicodeFlagIcon(country)}}
+              &nbsp;{{getName(country)}}
+            </ng-container>
+          </div>
+          <div class="components-required"></div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title">Date company incorporated:</div>
+          <div class="level">{{product?.supplier?.incorporated | date: 'mediumDate'}}</div>
+          <div class="components-required"></div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Company website:</div>
+          <div class="level">{{product?.supplier?.companyWebsite}}</div>
+          <div class="components-required"></div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Stage of company:</div>
+          <div class="level">{{product?.supplier?.companyStage}}</div>
+          <div class="components-required"></div>
+        </div>
+
+
+        <div class="assesment-item-group spacer-medium"></div>
+
+        <div class="assesment-item-group group-header">
+          <div class="title">Auditing rights</div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title">Banks:</div>
+          <div class="level">
+            <span
+              *ngIf="product?.supplier?.auditing?.auditRights!=='yes'&& product?.supplier?.auditing?.auditRights!=='no'">{{product?.supplier?.auditing?.auditRights}}</span>
+            <span *ngIf="product?.supplier?.auditing?.auditRights==='yes'">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="product?.supplier?.auditing?.auditRights==='no'">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Third parties:</div>
+          <div class="level">
+            <span
+              *ngIf="product?.supplier?.auditing?.auditRights!=='yes'&& product?.supplier?.auditing?.thirdPartyAuditRights!=='no'">{{product?.supplier?.auditing?.thirdPartyAuditRights}}</span>
+            <span *ngIf="product?.supplier?.auditing?.thirdPartyAuditRights==='yes'">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="product?.supplier?.auditing?.thirdPartyAuditRights==='no'">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group spacer-medium"></div>
+
+        <div class="assesment-item-group group-header">
+          <div class="title">Previously onboarded with</div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Banking:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.banking">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.banking">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Insurance:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.insurance">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.insurance">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Wealth Management:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.wealthManagement">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.wealthManagement">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Life Assurance and Pensions:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.lifeAssurancePensions">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.lifeAssurancePensions">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Regulatory:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.regulatory">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.regulatory">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group">
+          <div class="title">Asset Management:</div>
+          <div class="level">
+            <span *ngIf="product?.supplier?.experience?.assetManagement">
+              <mat-icon class="icon check">check</mat-icon>
+            </span>
+            <span *ngIf="!product?.supplier?.experience?.assetManagement">
+              <mat-icon class="icon cancel">close</mat-icon>
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+
+        <div class="assesment-item-group spacer-medium">&nbsp;</div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Product Details" class="productTab">
+      <div class="tabDetails">
+        <product-review *ngIf="productReview$ | async as productReview" [productReview]="productReview"
+          [hideLog]="true">
+        </product-review>
+        <div class="assesment-item-group spacer-medium">&nbsp;</div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Compliance Checklist " class="complianceTab">
+      <div class="tabDetails">
+        <div *ngIf="assessmentList$ | async as assessmentList" style="display: flex">
+          <compliance-assessment-list [assessmentList]="assessmentList"
+            [informationSecurity]="informationSecurity$ | async" [selectedId]="selectedAssesment?.id"
+            (selectAssessment)="selectedAssesment = $event">
+          </compliance-assessment-list>
+          <compliance-assessment-item [assessmentItem]="selectedAssesment" [downloadDisabled]="true">
+          </compliance-assessment-item>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Insurance" class="insuranceTab">
+      <div class="tabDetails">
+        <div class="assesment-item-group">
+          <div class="title"><img class="icon-img" src="assets/img/search-icons/stamps/employee.svg" />Employee
+            liability:</div>
+          <div class="level">
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Employee') === -1 && data.product.stamps.insurance.indexOf('all') === -1"
+              class="redA">
+              <mat-icon>clear</mat-icon>
+            </span>
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Employee') > -1 || data.product.stamps.insurance.indexOf('all') > -1"
+              class="greenA">
+              {{ getInsuranceVal('Employee') | currency:'GBP' }}
+            </span>
+          </div>
+          <div class="components-required"> </div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title"><img class="icon-img" src="assets/img/search-icons/stamps/public.svg" />Public liability:
+          </div>
+          <div class="level">
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Public') === -1 && data.product.stamps.insurance.indexOf('all') === -1"
+              class="redA">
+              <mat-icon>clear</mat-icon>
+            </span>
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Public') > -1 || data.product.stamps.insurance.indexOf('all') > -1"
+              class="greenA">
+              {{ getInsuranceVal('Public') | currency:'GBP' }}
+            </span>
+          </div>
+          <div class="components-required"></div>
+        </div>
+        <div class="assesment-item-group">
+          <div class="title"><img class="icon-img" src="assets/img/search-icons/stamps/cyber.svg" />Cyber liability:
+          </div>
+          <div class="level">
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Cyber') === -1 && data.product.stamps.insurance.indexOf('all') === -1"
+              class="redA">
+              <mat-icon>clear</mat-icon>
+            </span>
+            <span
+              *ngIf="data.product.stamps.insurance.indexOf('Cyber') > -1 || data.product.stamps.insurance.indexOf('all') > -1"
+              class="greenA">
+              {{ getInsuranceVal('Cyber') | currency:'GBP' }}
+            </span>
+          </div>
+          <div class="components-required"></div>
+        </div>
+        <div class="assesment-item-group spacer-medium">&nbsp;</div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Product Video" class="productVideoTab" *ngIf="data.product.stamps.video===true">
+      <div class="tabDetails">
+        <div style="width: 100%; height: 100%;">
+          <iframe [src]="getVidUrl(product) | safe"
+            style="min-height: 370px;width: 100%; height: 100%; margin: 0; border: none; padding: 0;"></iframe>
+        </div>
+        <div class="assesment-item-group spacer-medium">&nbsp;</div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

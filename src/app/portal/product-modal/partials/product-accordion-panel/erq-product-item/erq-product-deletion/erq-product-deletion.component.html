@@ -1,0 +1,40 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Able to delete all copies of a customers’ data from locations it is held
+        and report this to the customer
+      </h5>
+      <mat-icon *ngIf="data.deleteAbility" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.deleteAbility" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>
+        Able to provide a copy of all bank data in a machine consumable format
+        when requested or when the contract is terminated
+      </h5>
+      <mat-icon *ngIf="data.provideACopy" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.provideACopy" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Maintains multiple copies of customer data at dispersed geographical
+        locations to mitigate events that may cause a loss of availability
+      </h5>
+      <mat-icon *ngIf="data.yes" class="green">{{ setIcon("yes") }}</mat-icon>
+      <mat-icon *ngIf="!data.yes" class="grey">{{ setIcon("no") }}</mat-icon>
+    </div>
+  </ui-page-content>
+</div>

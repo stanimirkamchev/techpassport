@@ -1,0 +1,107 @@
+<ui-data-table>
+  <table mat-table matSort [dataSource]="suppliers" (matSortChange)="sort.emit($event)">
+
+    <ng-container matColumnDef="onboardingStatus">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Onboarding Status</th>
+      <td mat-cell *matCellDef="let element"
+        [class.red]="element.onboardingStatus === 'User Onboarded'"
+        [class.orange]="element.onboardingStatus === 'Supplier Onboarded'"
+        [class.green]="element.onboardingStatus === 'Product Onboarded'"
+        [class.primary]="element.onboardingStatus === 'onboarded' || element.onboardingStatus === 'User Onboarding' || element.onboardingStatus === 'Supplier Onboarding' || element.onboardingStatus === 'Product Onboarding'">
+        {{onboardingStatus[element.onboardingStatus] || element.onboardingStatus}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Last Change</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.updatedAt | date: 'shortDate'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Name</th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier ID</th>
+      <td mat-cell *matCellDef="let element">{{element._id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="owner.displayName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Signup User</th>
+      <td mat-cell *matCellDef="let element">{{element.owner?.displayName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="owner.phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+      <td mat-cell *matCellDef="let element">{{element.owner?.phone}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Signup</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.createdAt | date: 'shortDate'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfUsers">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of Users for Supplier</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.numberOfUsers}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="members">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Membership</th>
+      <td mat-cell *matCellDef="let element" class="center">{{supplierMembership[element.members] || element.members}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="optIn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Opt-In / Opt-Out</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.optIn}} <!-- {{optInStatus[element.optIn] || element.optIn}} --></td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfProductsApproved">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of Products approved by TP</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.numberOfProductsApproved}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfProducts">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of Products pending approval</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.numberOfProducts}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell
+        class="nowrap center"
+        *matCellDef="let element"
+        [class.green]="element.status === 'Approved'"
+        [class.orange]="element.status === 'Draft' || element.status === 'Created' || element.status === 'SentForApproval' || element.status === 'started' || element.status === 'inprogress' || element.status === 'Supplier Onboarded'"
+        [class.red]="element.status === 'Rejected'">
+        {{supplierStatus[element.status] || element.status}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="review.displayName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin reviewer</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.review?.displayName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="review.date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Stamp Change</th>
+      <td mat-cell *matCellDef="let element" class="center">
+        <ng-container *ngIf="element.review?.date as reviewDate">{{reviewDate | date: 'shortDate'}}</ng-container>
+        <ng-container *ngIf="!element.review?.date">n/a</ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      class="selectable"
+      [class.disabled]="row.isSupplier === false"
+      [class.selected]="selected?._id === row._id"
+      (click)="select(row)"
+      (dblclick)="openDetails(row)"></tr>
+  </table>
+  <span *ngIf="!suppliers?.length" class="nothing-to-show">Nothing to show</span>
+
+</ui-data-table>

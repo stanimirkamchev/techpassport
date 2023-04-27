@@ -1,0 +1,56 @@
+<div class="invite-watchlists-modal">
+  <div>
+    <div class="dialog-header">
+      <h1>Invite to collaborate</h1>
+      <p class="description">
+        You can invite colleagues to view and collaborate on a watchlist if they’re already using the platform. This will give them permission to edit and share the watchlist.
+      </p>
+      <button
+        mat-mini-fab
+        class="close-button"
+        (click)="cancel()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="formGroup">
+      <div class="dialog-content">
+        <div class="form-group">
+          <label>Who would you like to invite to collaborate?</label>
+          <input
+            formControlName="email"
+            class="custom-input"
+            placeholder="Email address"
+            [ngClass]="{
+              'is-invalid': isFieldInvalid('email') || !!errorMessage,
+              'is-filled': f.email.value !== ''
+            }"
+            (input)="errorMessage = ''"
+          />
+          <span *ngIf="isFieldInvalid('email') || errorMessage" class="error" (click)="inviteToPlatform()">
+            {{isFieldInvalid('email') ? 'Invalid email' : errorMessage}}
+          </span>
+        </div>
+      </div>
+
+      <div class="d-flex dialog-actions">
+        <button
+          mat-raised-button
+          class="btn-custom-outline btn-request mr-3"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          class="btn-custom"
+          (click)="onSave()"
+          [disabled]="!formGroup.valid"
+        >
+          Invite
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

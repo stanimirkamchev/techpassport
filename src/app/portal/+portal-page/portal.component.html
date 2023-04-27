@@ -1,0 +1,63 @@
+<ui-drawer>
+  <mat-sidenav-container class="portal">
+    <mat-sidenav mode="side" opened>
+      <button
+        *ngFor="let item of pagesList"
+        mat-button
+        class="sidenav-button"
+        [class.selected]="page === item.id"
+        [class.disabled]="item.disabled"
+        [disabled]="item.disabled"
+        (click)="changePage(item.id)"
+        [matTooltip]="item.tooltip"
+        matTooltipPosition="right"
+      >
+        <mat-icon
+          svgIcon="{{ item.icon }}"
+        ></mat-icon>
+        <div>{{ item.label }}</div>
+      </button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div
+        class="content"
+        *ngIf="
+          portalReady == true && apiService.sessionObject.type === 'supplier'
+        "
+      >
+        <app-dashboard *ngIf="page == 'dashboard'"></app-dashboard>
+        <app-team *ngIf="page == 'team'"></app-team>
+        <connections-page
+          *ngIf="page == 'poc'"
+          [userType]="'supplier'"
+        ></connections-page>
+        <enterprise-ready-questions-dashboard
+          *ngIf="page == 'erq'"
+        ></enterprise-ready-questions-dashboard>
+        <marketplace *ngIf="page == 'market'"></marketplace>
+      </div>
+
+      <div
+        class="content"
+        *ngIf="
+          portalReady == true && apiService.sessionObject.type === 'customer'
+        "
+      >
+        <marketplace *ngIf="page == 'market'"></marketplace>
+        <watchlist *ngIf="page == 'watchlist'"></watchlist>
+        <outer-market-page
+          class="outer-market-page"
+          *ngIf="page == 'outer-market-page'"
+        ></outer-market-page>
+
+        <app-team *ngIf="page == 'team'"></app-team>
+        <connections-page
+          *ngIf="page == 'poc'"
+          [userType]="'customer'"
+        ></connections-page>
+        <dashboard-page *ngIf="page === 'dashboard'"></dashboard-page>
+      </div>
+      <onboarding-layout *ngIf="page == 'onboarding'"></onboarding-layout>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ui-drawer>

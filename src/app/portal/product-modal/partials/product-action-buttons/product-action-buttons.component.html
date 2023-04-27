@@ -1,0 +1,24 @@
+<button
+  mat-button
+  (click)="openInformationRequestDialog()"
+  [ngClass]="{ disabled: !checkPermissionsForButton('info') }"
+>
+  Request Info
+</button>
+
+<button
+  (click)="doAction('nda')"
+  mat-button
+  [ngClass]="{ disabled: !checkPermissionsForButton('nda') }"
+>
+  Request NDA
+</button>
+
+<button
+  (click)="doAction('POC')"
+  [ngClass]="{ disabled: !checkPermissionsForButton('poc') }"
+  mat-button
+  class="blue"
+>
+  Request POC
+</button>

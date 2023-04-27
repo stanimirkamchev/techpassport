@@ -1,0 +1,15 @@
+<div class="tabs-wrapper">
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      class="tab"
+      *ngFor="let tab of tabs" [accessKey]="tab.key"
+      [routerLink]="tab.path"
+      [active]="router.url.indexOf(tab.path) > -1"
+      (click)="router.navigate(tab.path)"
+    >
+      <mat-icon class="icon" [svgIcon]="tab.icon"></mat-icon>
+      <div>{{tab.label}}</div>
+    </a>
+  </nav>
+</div>

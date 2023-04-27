@@ -1,0 +1,52 @@
+.howto-modal {
+  overflow: hidden;
+  text-align: left;
+  margin-left: 12px;
+  margin-right: 12px;
+  .header {
+    margin-top: -2px;
+    text-align: center;
+  }
+  .container {
+    border-radius: 12px;
+    overflow: scroll;
+    width: 100%;
+    height: 80vh;
+  }
+  .contenct {
+    width: 100%;
+    height: auto;
+    max-height:none;
+    padding-bottom: 40px;
+    border-radius: 16px;
+    //display: flex;
+    //flex-direction: column;
+    .item {
+      margin-bottom: 33px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .text {
+        width: 30%;
+
+        span{
+          font-weight: bold;
+        }
+      }
+      .text.left {
+        margin-right: 20px;
+      }
+      .text.right {
+        margin-left: 20px;
+      }
+      .pic {
+        width: 70%;
+        img {
+          width: 100%;
+        }
+      }
+
+    }
+  }
+}

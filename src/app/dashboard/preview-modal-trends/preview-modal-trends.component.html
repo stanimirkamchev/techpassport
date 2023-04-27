@@ -1,0 +1,148 @@
+<ng-container *ngIf="trendsPreview$ | async as trendsPreview">
+  <ui-page-close [mat-dialog-close]></ui-page-close>
+  <h1 mat-dialog-title>Trends Preview</h1>
+  <div mat-dialog-content>
+    <ui-data-table>
+      <table mat-table matSort [dataSource]="trendsPreview" (matSortChange)="sort($event)">
+
+        <ng-container matColumnDef="businessUnit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Business unit</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.businessUnit}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="region">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.region}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Project name</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.projectName}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Internal project ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.projectId}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplier">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.supplier}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="haveNDA">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [class.orange]="element.haveNDA === 'Awaiting Supplier\'s Approval' || element.haveNDA === 'Draft' || element.haveNDA === 'With Supplier'"
+            [class.red]="element.haveNDA === 'Awaiting Your Approval' || element.haveNDA === 'Declined' || element.haveNDA === 'no'"
+            [class.blue]="element.haveNDA === 'Internal'" [class.green]="element.haveNDA === 'Completed'">
+            {{element.haveNDA}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ndaDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Connection date</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.ndaDate | date: 'shortDate'}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="havePOC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>POC</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [class.orange]="element.havePOC === 'Awaiting Supplier\'s Approval' || element.havePOC === 'Draft' || element.havePOC === 'With Supplier'"
+            [class.red]="element.havePOC === 'Awaiting Your Approval' || element.havePOC === 'Rejected' || element.havePOC === 'no'"
+            [class.blue]="element.havePOC === 'Internal'" [class.green]="element.havePOC === 'Completed'">
+            {{element.havePOC}}
+          </td>
+        </ng-container>
+
+
+
+
+        <!--
+        <ng-container matColumnDef="business1">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business1</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business1}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="business2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business2}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="procurment2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>procurment2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.procurment2}}
+          </td>
+        </ng-container>
+      -->
+        <ng-container matColumnDef="hasSoc2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Has a SOC2 report</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.hasSoc2==='no', 'success-label': element.hasSoc2==='yes' }">
+            {{element.hasSoc2}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hasISO27001">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Is ISO27001 certified</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.hasISO27001==='no', 'success-label': element.hasISO27001==='yes' }">
+            {{element.hasISO27001}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hasCyberEssentials">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Has cyber essentials</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.hasCyberEssentials==='no', 'success-label': element.hasCyberEssentials==='yes' }">
+            {{element.hasCyberEssentials}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hasCyberEssentialsPlus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Has cyber essentials plus</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.hasCyberEssentialsPlus==='no', 'success-label': element.hasCyberEssentialsPlus==='yes' }">
+            {{element.hasCyberEssentialsPlus}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="allSecurityQuestions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Has answered all security questions</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.allSecurityQuestions==='no', 'success-label': element.allSecurityQuestions==='yes' }">
+            {{element.allSecurityQuestions}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <span *ngIf="!trendsPreview.length" class="nothing-to-show">Nothing to show</span>
+    </ui-data-table>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button color="primary" (click)="download(trendsPreview)" class="download-btn">
+      <mat-icon>get_app</mat-icon>
+      Download CSV
+    </button>
+  </div>
+</ng-container>

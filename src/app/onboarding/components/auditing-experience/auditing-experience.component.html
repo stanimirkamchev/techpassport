@@ -1,0 +1,40 @@
+<mat-card class="mt-5 custom-card auditing-experience">
+  <mat-card-title class="title">
+    Auditing & Experience
+  </mat-card-title>
+  <mat-card-content>
+    <div>
+      <p>
+        We’d like to know more about your experience with specific sectors.
+      </p>
+      <p>
+        Please enter the amount of agreements your company has had with each sector in the following table.
+      </p>
+
+      <table class="mt-10 experience">
+        <thead>
+          <tr>
+            <th *ngFor="let column of columns">
+              {{column.label}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data">
+            <td *ngFor="let column of columns" class="mx-auto" [ngClass]="{ 'data': column.value !== 'sector'}">
+              <ng-container *ngIf="column.value === 'sector'">
+                <span class="columnText">
+                  {{ row[column.value] }}
+                </span>
+              </ng-container>
+              <ng-container *ngIf="column.value !== 'sector'">
+                <input type="number" (keypress)="($event.charCode !=8 && $event.charCode ==0 || ($event.charCode >= 48 && $event.charCode <= 57))" [(ngModel)]="row[column.value]" (ngModelChange)="onChange($event)">
+              </ng-container>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

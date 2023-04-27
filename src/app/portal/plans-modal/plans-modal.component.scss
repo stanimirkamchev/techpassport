@@ -1,0 +1,22 @@
+@import "src/styles/colors";
+
+.plans-modal {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 10px;
+
+    a {
+        cursor: pointer;
+    }
+}
+
+::ng-deep mat-checkbox .mat-checkbox-inner-container {
+    width: 20px;
+    height: 20px;
+    border: 0px !important;
+}
+
+::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+    font-size: 16px;
+    padding-left: 10px;
+}

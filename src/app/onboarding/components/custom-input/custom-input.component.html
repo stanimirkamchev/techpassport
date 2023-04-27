@@ -1,0 +1,18 @@
+<div class="custom-input-wrapper" [formGroup]="formGroup">
+  <mat-form-field class="custom-input" appearance="fill" [ngClass]="{ 'is-invalid': isError }">
+    <mat-label>{{label}}</mat-label>
+    <input
+      matInput
+      [placeholder]="placeholder"
+      [type]="type"
+      (keypress)="(!positiveOnly || ($event.charCode !=8 && $event.charCode ==0 || ($event.charCode >= 48 && $event.charCode <= 57)))"
+      autocomplete="off"
+      [formControlName]="formControlName"
+      [name]="formControlName"
+      ngDefaultControl
+    />
+  </mat-form-field>
+  <div *ngIf="isError" class="error">
+    {{errorText}}
+  </div>
+</div>

@@ -1,0 +1,120 @@
+<div>
+  <h2 class="createAccount">Create your Account</h2>
+  <h3 class="heading">Basic detail</h3>
+  <form [formGroup]="accountForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Name *</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        id="name"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('name'),
+          'is-filled': f.name.value !== ''
+        }"
+      />
+      <mat-error *ngIf="isFieldInvalid('name')">Name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        value="example@gmail.com"
+        formControlName="email"
+        id="email"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('email'),
+          'is-filled': f.email.value !== ''
+        }"
+      />
+      <mat-error *ngIf="isFieldInvalid('email')  && accountForm.get('email').errors?.required">Email is required</mat-error>
+      <mat-error *ngIf="isFieldInvalid('email')  && accountForm.get('email').errors?.pattern">Email is invalid</mat-error>
+
+    </mat-form-field>
+    <span class="passwordDetail" fxLayoutAlign="end center"
+      >Password Requirements&nbsp;
+      <div class="tooltip_icon tooltip">
+        <div class="tooltipContainer">
+          <p class="tooltipTitle">Password information</p>
+          <span
+            >Your password must contain at least one letter, number and special
+            character to be accepted.</span
+          >
+        </div>
+        <mat-icon>help</mat-icon>
+      </div>
+    </span>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="password ? 'password' : 'text'"
+        formControlName="password"
+        id="password"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('password'),
+          'is-filled': f.password.value !== ''
+        }"
+        (ngModelChange)="pwdMatchValidator()"
+      />
+      <mat-error *ngIf="isFieldInvalid('password')  && accountForm.get('password').errors?.required">Password is required</mat-error>
+      <mat-error *ngIf="isFieldInvalid('password')  && accountForm.get('password').errors?.pattern">Password is too simple</mat-error>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="password = !password"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="password"
+      >
+        <mat-icon class="icon">{{
+          password ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        [type]="confirmPassword ? 'password' : 'text'"
+        formControlName="confirmPassword"
+        id="confirmPassword"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('confirmPassword'),
+          'is-filled': f.confirmPassword.value !== ''
+        }"
+        (ngModelChange)="pwdMatchValidator()"
+      />
+      <mat-error
+        *ngIf="
+          isFieldInvalid('confirmPassword') &&
+          f.confirmPassword.value === f.password.value
+        "
+      >
+        Confirm Password is required
+      </mat-error
+      >
+      <mat-error *ngIf="f.confirmPassword.value !== f.password.value"
+        >Password doesn't match</mat-error
+      >
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="confirmPassword = !confirmPassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="confirmPassword"
+      >
+        <mat-icon class="icon">{{
+          confirmPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="btn-container">
+      <button mat-raised-button class="cancel-btn buttons" (click)="cancelButtonClicked()">Cancel</button>
+      <button mat-raised-button class="next-btn buttons" (click)="submit()">
+        Next
+      </button>
+    </div>
+  </form>
+</div>

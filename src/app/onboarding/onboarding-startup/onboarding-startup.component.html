@@ -1,0 +1,16 @@
+<div class="onboarding-startup">
+  <onboarding-top-bar></onboarding-top-bar>
+  <div class="content">
+    <div class="wrapper">
+      <div class="description">
+        Stats will show once you complete your profile setup
+      </div>
+      <a
+        class="btn-profile"
+        [routerLink]="['/portal']"
+        [queryParams]="{ page: 'onboarding', onboardingPage: 'profile' }"
+        >Complete profile</a
+      >
+    </div>
+  </div>
+</div>

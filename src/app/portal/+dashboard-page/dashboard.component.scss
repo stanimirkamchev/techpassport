@@ -1,0 +1,496 @@
+@import 'colors.scss';
+
+$d-prod: #5F75CF;
+$p-accent: #75ACE1;
+$d-an: #AF6E99;
+.dashboardContainer {
+  position: relative;
+  left: 20px;
+  right: 20px;
+  top: 0;
+  width: 98%;
+
+  .overallStatusBar {
+    .mat-progress-bar-fill {
+      background: #AF6E99;
+    }
+  }
+
+  .add-button {
+    background: $d-prod;
+    min-height: 40px;
+  }
+
+  .onboardingChartWrapper {
+    position: absolute;
+    top: 57px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .onboardingChartWrapper.onboarding {
+    bottom: 20px;
+  }
+
+  .onboardingChartWrapper.assessments {
+    bottom: 10px;
+
+  }
+
+  table {
+    width: 100%;
+
+    thead {
+      height: 18px;
+    }
+
+    td {
+      font-size: 9pt;
+    }
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  display: grid;
+  height: 100%;
+  bottom: 20px;
+
+  grid-template-rows: repeat(24, 1fr);
+  grid-template-columns: repeat(30, 1fr);
+
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+
+  mat-card-title {
+    margin-top: 4px;
+    font-size: 13pt;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+
+    align-items: center;
+
+    div {
+      margin-left: 12px;
+    }
+  }
+
+  mat-card-content {
+    padding-top: 7px;
+    height: 100%;
+
+    .container {
+      overflow-x: hidden;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      height: 92%;
+
+    }
+  }
+
+  mat-card-content.membership {
+    margin-top: 0;
+
+    mat-icon {
+      margin-top: -24px;
+    }
+  }
+
+
+  mat-card.onboarding {
+    grid-row: 3/13;
+    grid-column: 11/25;
+  }
+
+  mat-card.complianceChecklist {
+    grid-row: 3 / 12;
+    grid-column: 11/25;
+
+    .erq-overview {
+      flex: 1;
+      overflow-y: scroll;
+      padding-right: 10px;
+
+      &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #3F9CF4;
+        cursor: pointer;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: #e4e4ed;
+      }
+    }
+
+    ::ng-deep .progress-chart-horizontal {
+      padding: 0 10px;
+
+      .donuts {
+        display: flex;
+        flex-direction: column;
+
+        svg {
+
+          g {
+            text {
+              display: none;
+            }
+          }
+
+          g:last-child {
+            text {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .mat-card-content {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  mat-card.activity {
+    grid-row: 12/20;
+    grid-column: 1/31;
+
+    ::ng-deep tr.mat-row { height: 30px; }
+    .container { height: 85%; }
+  }
+
+  mat-card.stamps-box {
+    grid-row: 1/3;
+    grid-column: 16/25;
+    padding: 0 15px;
+    text-align: left;
+
+    .product-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      float: left;
+      width: 18%;
+    }
+
+    .company-title {
+      width: 18%;
+      float: left;
+    }
+
+    .stamps {
+      span {
+        display: block;
+        text-align: center;
+        font-size: 10px;
+      }
+    }
+  }
+
+  .mat-card.video {
+    grid-row: 1/3;
+    grid-column: 25/31;
+
+    .mat-card-content {
+      padding-top: 4px;
+    }
+  }
+
+  .dashboardContainer mat-card-content {
+    padding-top: 0;
+  }
+
+  .mat-card {
+    .title {
+      margin: -3px;
+      padding: 0;
+      font-size: 12px;
+      color: #AAA;
+      text-align: center;
+    }
+  }
+
+  .mat-card.product-box {
+    grid-row: 1/3;
+    grid-column: 11/16;
+
+    .mat-card-content {
+      padding-top: 4px;
+    }
+  }
+
+  .product-box.selected {
+    background-color: $d-prod;
+    .title {
+      color: #FFF;
+    }
+  }
+
+  mat-card.products {
+    grid-row: 1/12;
+    grid-column: 1/11;
+
+    ::ng-deep .mat-card-header-text { margin: 0 11px; }
+    .product-item { cursor: pointer; }
+
+    .product-item:hover { background-color: rgba($tp-dark, 0.1); }
+
+    .product-item.selected {
+      background-color: rgba($d-prod, 0.95);
+
+      td {
+        color: white !important;
+      }
+    }
+  }
+
+  mat-card.membership {
+    grid-row: 10/11;
+    grid-column: 21/30;
+  }
+
+  mat-card.analytics {
+    grid-row: 1/12;
+    grid-column: 25/31;
+
+
+    .analytics {
+      flex-flow: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+
+      font-weight: 400;
+      width: 90%;
+      height: 90%;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 10px;
+      margin-left: 5%;
+      margin-top: -12px;
+    }
+
+    .analytics > div {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      margin-bottom: 7px;
+      margin-top: 4px;
+      background: rgba($d-an, 0.1);
+      border-radius: 4px;
+      padding: 6px;
+      margin-left: -12px;
+    }
+
+    .type {
+      display: inline-block;
+      text-align: left;
+      font-size: 0.7em;
+      line-height: 1.2em;
+      width: 56%;
+      margin-left: 4px;
+    }
+
+    .number {
+      font-weight: 500;
+      width: 40%;
+      display: inline-block;
+      font-size: 1.7em;
+      text-align: center;
+      color: $d-an;
+    }
+
+    .number:after {
+      position: relative;
+      display: block;
+      top: -.1em;
+      margin: auto;
+      content: '';
+      background-color: #00AF00;
+      height: 5px;
+      border-radius: 10px;
+      max-width: 0;
+      transition: max-width .4s ease-out;
+    }
+
+    .analytics > div:hover .number:after {
+      display: block;
+      max-width: 100px;
+    }
+  }
+
+  span.status {
+    font-size: 8pt;
+  }
+
+  button.actionButton {
+    width: 45px !important;
+    max-width: 45px !important;
+    min-width: 35px !important;
+
+    mat-icon {
+      font-size: 17px;
+    }
+  }
+
+
+  span.membershipType {
+    text-transform: capitalize;
+    margin-left: 5px;
+  }
+
+  .membershipType.core {
+    color: $m-core;
+  }
+
+  .membershipType.premium {
+    color: $m-premium;
+  }
+
+  .membershipType.exclusive {
+    color: $m-exclusive;
+  }
+
+  button.upgreadMembership {
+    margin-top: -12px;
+    color: $m-exclusive;
+    text-align: right;
+    padding-right: 1px;
+    font-size: 9pt;
+  }
+
+  mat-card {
+    mat-card-header {
+      width: 100%;
+
+      .second-header-element {
+        margin-top: -9px;
+        width: 40%;
+        text-align: right;
+        align-content: flex-end;
+        align-items: flex-end;
+      }
+    }
+
+    mat-card-content {
+      max-height: 350px !important;
+    }
+  }
+
+  .activityItem {
+    color: $tp-dark;
+  }
+
+  .activityItem.warn {
+    color: #FF6347 !important;
+  }
+
+  .activityItem.accent {
+    color: $p-accent;
+  }
+
+  .activityItem.action {
+    color: $actionRequired;
+  }
+
+  .activityItem.completed {
+    color: $tp-green;
+  }
+
+  .activityItem.declined {
+    color: $tp-red;
+  }
+
+
+  .stamps {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    justify-content: center;
+    margin-top: 1px;
+
+    img, svg {
+      margin-left: 8px;
+      margin-right: 8px;
+      display: inline-block;
+      height: 99%;
+      margin-top: 2px;
+    }
+
+    .icon {
+      height: 26px;
+      opacity: 0.1;
+    }
+
+    .icon.enabled {
+      opacity: 1 !important;
+    }
+
+    .mat-icon {
+      position: relative;
+      top: -3px;
+      display: inline;
+      font-size: 32px;
+      margin: 0 4px;
+      color: $tp-blue;
+    }
+  }
+}
+
+.onboarding-top-bar {
+  width: 98%;
+  margin: 0px 0px 20px 20px;
+  height: 60px;
+  background-color: $tp-grey;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  color: $tp-dark;
+
+  &.active {
+    background-color: $tp-blue;
+    color: $tp-white;
+  }
+
+  .btn-detail {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+
+    .mat-icon {
+      margin-right: 10px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .btn-profile {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: $tp-white;
+    background: #0C1D4A;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+

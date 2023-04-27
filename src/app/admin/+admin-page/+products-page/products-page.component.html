@@ -1,0 +1,26 @@
+<div class="container" isRoute="/admin/products">
+  <ui-page-title>Products</ui-page-title>
+  <ui-page-content>
+    <header *ngIf="cachedProducts$ | async as cachedProducts">
+      <products-filters
+        (filter)="onFilter($event)"
+        [filters]="filters$ | async"
+        [products]="cachedProducts">
+      </products-filters>
+      <header-controls
+        [approvalHidden]="true"
+        [downloadDisabled]="!cachedProducts.length"
+        (download)="download(cachedProducts)">
+      </header-controls>
+    </header>
+    <mat-spinner *ngIf="loading$ | async; else productsTable" diameter="32"></mat-spinner>
+    <ng-template #productsTable>
+      <products-table
+        (sort)="onSort($event)"
+        (openProduct)="openProduct($event)"
+        [products]="products$ | async">
+      </products-table>
+    </ng-template>
+  </ui-page-content>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,146 @@
+<ng-container *ngIf="technologyPreview$ | async as technologyPreview">
+  <ui-page-close [mat-dialog-close]></ui-page-close>
+  <h1 mat-dialog-title>Technology Preview</h1>
+  <div mat-dialog-content>
+
+    <ui-data-table>
+      <table mat-table matSort [dataSource]="technologyPreview" (matSortChange)="sort($event)">
+        <!--
+        <ng-container matColumnDef="business1">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business1</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business1}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="business2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business2}}
+          </td>
+        </ng-container>
+
+      -->
+        <ng-container matColumnDef="functionality">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Functionality</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.functionality}}
+          </td>
+        </ng-container>
+
+        <!--
+        <ng-container matColumnDef="connected">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Connected</th>
+          <td mat-cell *matCellDef="let element"
+            [ngClass]=" { 'warning-label': element.connected==='no', 'success-label': element.connected==='yes' }">
+            {{element.connected}}
+          </td>
+        </ng-container>
+-->
+        <!--
+        <ng-container matColumnDef="compliance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Compliance</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.compliance==='no', 'success-label': element.compliance==='yes' }">
+            {{element.compliance}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="POC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">POC</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.POC==='no', 'success-label': element.POC==='yes' }">
+            {{element.POC}}
+          </td>
+        </ng-container>
+
+      -->
+
+        <ng-container matColumnDef="POC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>POC</th>
+          <td mat-cell *matCellDef="let element"
+            [class.orange]="element.POC === 'Awaiting Supplier\'s Approval' || element.POC === 'Draft' || element.POC === 'With Supplier'"
+            [class.red]="element.POC === 'Awaiting Your Approval' || element.POC === 'Rejected' || element.POC === 'no'"
+            [class.blue]="element.POC === 'Internal'" [class.green]="element.POC === 'Completed'">
+            {{element.POC}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="compliance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance</th>
+          <td mat-cell *matCellDef="let element"
+            [class.orange]="element.compliance === 'Awaiting Supplier\'s Approval' || element.compliance === 'Pending' || element.compliance === 'With Supplier'"
+            [class.red]="element.compliance === 'Awaiting Your Approval' || element.compliance === 'Declined' || element.compliance === 'no'"
+            [class.blue]="element.compliance === 'Internal'" [class.green]="element.compliance === 'Completed'">
+            {{element.compliance}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="originator">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Originator</th>
+          <td mat-cell *matCellDef="let element" class="left">{{element.originator}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Project name</th>
+          <td mat-cell *matCellDef="let element" class="left">{{element.projectName}}
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="region">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Region</th>
+          <td mat-cell *matCellDef="let element" class="center">
+            {{element.region}}
+          </td>
+        </ng-container>
+
+        <!--     <ng-container matColumnDef="businessUnit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Business Unit</th>
+          <td mat-cell *matCellDef="let element" class="center">
+            {{element.businessUnit}}
+          </td>
+        </ng-container>
+      -->
+        <ng-container matColumnDef="ndaDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">Connection date</th>
+          <td mat-cell *matCellDef="let element" class="center">
+            <span *ngIf="element.ndaDate">{{element.ndaDate | date: 'shortDate'}}</span>
+            <span *ngIf="!element.ndaDate">n/a</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pocDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">POC date</th>
+          <td mat-cell *matCellDef="let element" class="center">
+            <span *ngIf="element.pocDate">{{element.pocDate | date: 'shortDate'}}</span>
+            <span *ngIf="!element.pocDate">n/a</span>
+          </td>
+        </ng-container>
+        <!--
+        <ng-container matColumnDef="procurment2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>procurment2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.procurment2}}
+          </td>
+        </ng-container>
+        -->
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <span *ngIf="!technologyPreview.length" class="nothing-to-show">Nothing to show</span>
+    </ui-data-table>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button color="primary" (click)="download(technologyPreview)" class="download-btn">
+      <mat-icon>get_app</mat-icon>
+      Download CSV
+    </button>
+  </div>
+</ng-container>

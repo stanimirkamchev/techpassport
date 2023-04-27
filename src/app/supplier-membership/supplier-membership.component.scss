@@ -1,0 +1,281 @@
+@import 'colors.scss';
+:host {
+    h3.membership-title {
+        margin: 0;
+        margin-bottom: 3px;
+        font-size: 10pt!important;
+        font-weight: normal!important;
+        color: $tp-dark;
+    
+        .trial-title {
+          font-weight:normal;
+          margin: 0;
+          margin-bottom: 7px;
+          font-size:10pt;
+        }
+        .charge-title {
+          color: $tp-green;
+        }
+    }
+    .membership {
+        margin-left: 1vw!important;
+        margin-right: 1vw!important;
+        .panels {
+          width: 100%;
+          height: 100%;
+          min-height: 500px;
+          display: flex;
+          flex-direction: row;
+          
+          .panel {
+            margin-top: 6px;
+            margin-bottom: 22px;
+            margin-left: 6px;
+            margin-right: 6px;
+          
+            width: 50%;
+            height: 100%;
+            min-height: 990px;
+            
+            -webkit-box-shadow: 2px 7px 10px -3px rgba($tp-dark,0.40);
+            -moz-box-shadow: 2px 7px 10px -3px rgba($tp-dark,0.40);
+            box-shadow: 2px 7px 10px -3px rgba($tp-dark,0.40);
+    
+           
+    
+            .try-it {
+              width: 100%;  
+              max-width: 100%;  
+            }
+            .try-it > .options {
+              min-height: 180px;
+              max-width: 100%;  
+            }
+            .try-it > .options > .termsConditionsBox {
+              padding: 4px;
+              margin-top:6px;
+              margin-bottom: 20px;
+                 
+              button.termsAction, div.youHaveAgreed  { 
+                height: 35px;
+                width: 100%;
+                text-align: left;
+                margin: 0;
+                margin-top: 12px;             
+                border-radius: 6px!important;
+                padding-left: 4px;
+                mat-icon, mat-spinner {
+                  width: 20px;
+                  height: 20px;
+                  font-size: 18px;
+                  line-height: 18px;
+                  
+                }
+              }
+              button.termsAction  { 
+                font-size: 8pt!important;
+              }
+              div.youHaveAgreed  { 
+                color: $tp-green;
+                font-size: 8pt!important;
+                font-weight: bold;
+                mat-icon {
+                  color: $tp-green;
+                  width: 18px;
+                  height: 18px;
+                  font-size: 16px;
+                  line-height: 16px;
+    
+                }
+              }
+    
+            }
+            .try-it > button {
+              border-radius: 6px!important;
+              width: 100%;
+              color: #fff;
+              transition: none !important;
+              box-shadow: none !important;
+              margin-top: 7px;
+              margin-bottom: 7px;
+            }
+            .try-it > button:disabled {
+              background-color: #afafaf!important;
+              color: #eeeeee!important;
+            }
+            .try-it > button.disabled {
+              -webkit-box-shadow: inset 0px 0px 15px 2px rgba($tp-dark,0.35)!important; 
+              -moz-box-shadow: inset 0px 0px 15px 2px rgba($tp-dark,0.35)!important; 
+              box-shadow: inset 0px 0px 15px 2px rgba($tp-dark,0.35)!important; 
+              color:  rgba(#fff,0.80)
+            }
+    
+            
+            .recommended {
+              max-height: 14px;
+              min-height: 14px;
+              font-size: 10pt;
+              padding: 6px;
+              color: #fff;
+              font-weight: bold;
+            }
+            .content {
+              color: $tp-dark;
+              font-size: 9pt;
+              text-align: left;
+              padding: 12px;
+              margin-top: -15px;
+              .subscription {
+                //min-height: 310px;
+                margin-bottom: 22px;
+                min-height: 205px;
+                height:  205px;
+              }
+              .features  {
+                margin-top: 5px;
+              }
+              .subscription > div:not(.strong), .features > div:not(.strong) {
+                padding: 4px;
+                margin-left: 3px;
+              }
+              .strong {
+                font-weight: bold;
+                margin-top: 12px;
+                margin-bottom: 4px;
+                font-size: 10pt;
+              }
+            }
+            .content > div {
+    
+            }
+            .header {
+            //  height: 160px;
+              padding: 14px;
+              .panel-title {
+                color: $tp-dark;
+                font-size: 13pt;
+                font-weight: bold;
+                letter-spacing: 2px;
+              }
+            }
+            .price {
+              margin-top: 16px;
+              margin-bottom: 8px;
+              height: 45px;
+              .or {
+                font-size: 7pt;
+                margin-top: -2px;
+                margin-bottom: -2px;
+              }
+              .mainPrice {
+                font-size: 19pt;
+                font-weight: bold;
+              }
+              .mainPrice.price-info {
+                font-size: 11pt;
+                font-weight: bold;
+              }
+             
+              .pricePer{
+                font-size: 9pt; 
+              }
+              
+            }
+          }
+          .panel.core {
+            .title {
+            
+            }
+            .content .strong {
+              color: $m-core;
+            }
+            .recommended {
+              //background-color: $m-core;
+            }
+            .header {
+              border-top: 9px $m-core solid;
+            }
+            .price {
+              .mainPrice {
+                color: $m-core;
+              }
+            }
+            .try-it > button {
+              background: $m-core;
+            }
+          }
+          .panel.core-plus {
+            .title {
+              
+            }
+            .content .strong {
+              color: $m-core-plus;
+            }
+            .recommended {
+              background-color: $m-core-plus;
+            }
+            .header {
+              border-top: 9px $m-core-plus solid;
+            }
+            
+            .price {
+              .mainPrice {
+                color: $m-core-plus;
+              }
+            }
+    
+            .try-it > button {
+              background-color: $m-core-plus;
+            }
+            
+          }
+    
+          .panel.premium {
+            .title {
+            
+            }
+            .content .strong {
+              color: $m-premium;
+            }
+            .recommended {
+              //background-color: $m-premium;
+            }
+            .header {
+              border-top: 9px $m-premium solid;
+            }
+            .price {
+              .mainPrice {
+                color: $m-premium;
+              }
+            }
+            .try-it > button {
+              background-color: $m-premium;
+            }
+    
+          }
+          .panel.premium-plus {
+            .title {
+            
+            }
+            .content .strong {
+              color: $m-premium-plus;
+            }
+            .recommended {
+              background-color: $m-premium-plus;
+            }
+            .header {
+              border-top: 9px $m-premium-plus solid;
+            }
+            .price {
+              .mainPrice {
+                color: $m-premium-plus;
+              }
+            }
+            .try-it > button {
+              background-color: $m-premium-plus;
+            }
+            
+          }
+        }
+    }
+}

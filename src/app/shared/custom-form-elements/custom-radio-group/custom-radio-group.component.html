@@ -1,0 +1,7 @@
+<form *ngIf="formGroup" [formGroup]="formGroup">
+  <mat-radio-group [formControlName]="formControlName">
+    <mat-radio-button *ngFor="let item of items" [value]="item.value" labelPosition="before">
+      {{ item.label }}
+    </mat-radio-button>
+  </mat-radio-group>
+</form>

@@ -1,0 +1,269 @@
+<mat-horizontal-stepper [@.disabled]="true" [linear]="true" #stepper>
+  <mat-step [stepControl]="formGroup.get('entity')">
+    <ng-template matStepLabel>Entity</ng-template>
+    <buyer-entity-step
+      [formGroup]="formGroup.get('entity')"
+    ></buyer-entity-step>
+    <div class="controls">
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(0)"
+        [disabled]="pendingAction || formGroup.get('entity').invalid"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+      <button
+        color="success"
+        [disabled]="pendingAction || formGroup.get('entity').invalid"
+        (click)="next(0)"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('settings')">
+    <ng-template matStepLabel>Settings</ng-template>
+    <buyer-settings-step
+      [formGroup]="formGroup.get('settings')"
+    ></buyer-settings-step>
+    <div class="controls">
+      <button
+        color="primary"
+        (click)="previous(1)"
+        [disabled]="pendingAction"
+        mat-icon-button
+      >
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(1)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+
+      <button
+        color="success"
+        (click)="next(1)"
+        [disabled]="pendingAction || formGroup.get('settings').invalid"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('invoices')">
+    <ng-template matStepLabel>Invoices</ng-template>
+    <buyer-invoices-step
+      [formGroup]="formGroup.get('invoices')"
+    ></buyer-invoices-step>
+    <div class="controls">
+      <button
+        color="primary"
+        (click)="previous(2)"
+        [disabled]="pendingAction"
+        mat-icon-button
+      >
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(2)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+
+      <button
+        color="success"
+        (click)="next(2)"
+        [disabled]="pendingAction || formGroup.get('invoices').invalid"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('group')">
+    <ng-template matStepLabel>Group Company</ng-template>
+    <buyer-group-company-step
+      [formGroup]="formGroup.get('group')"
+    ></buyer-group-company-step>
+    <div class="controls" *ngIf="!formGroup.get('group').value?.creatingNew">
+      <button
+        color="primary"
+        [disabled]="pendingAction"
+        (click)="previous(3)"
+        mat-icon-button
+      >
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(3)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+      <button
+        color="success"
+        (click)="next(3)"
+        [disabled]="pendingAction || formGroup.get('group').invalid"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('dummy')">
+    <ng-template matStepLabel>Dummy Data</ng-template>
+    <buyer-dummy-data-step
+      [formGroup]="formGroup.get('dummy')"
+    ></buyer-dummy-data-step>
+    <div class="controls">
+      <button
+        color="primary"
+        [disabled]="pendingAction"
+        (click)="previous(4)"
+        mat-icon-button
+      >
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(4)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+      <button
+        color="success"
+        (click)="next(4)"
+        [disabled]="pendingAction || formGroup.get('dummy').invalid"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('sanctions')">
+    <ng-template matStepLabel>Sanctions</ng-template>
+    <buyer-sanctions-step
+      [formGroup]="formGroup.get('sanctions')"
+    ></buyer-sanctions-step>
+    <div class="controls">
+      <button
+        (click)="previous(5)"
+        [disabled]="pendingAction"
+        color="primary"
+        mat-icon-button
+      >
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+      <button
+        mat-buttun
+        color="success"
+        (click)="saveAndClose(5)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+      <button
+        color="success"
+        (click)="next(5)"
+        [disabled]="pendingAction || formGroup.get('sanctions').invalid"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('saml')">
+    <ng-template matStepLabel>SAML</ng-template>
+    <buyer-saml-step [formGroup]="formGroup.get('saml')"></buyer-saml-step>
+    <div class="controls">
+      <button
+        (click)="previous(6)"
+        color="primary"
+        mat-icon-button
+      >
+        <mat-icon style="width: 10px">arrow_back_ios</mat-icon>
+      </button>
+      <button
+        color="success"
+        (click)="saveAndClose(6)"
+        mat-button
+        mat-raised-button
+      >
+        Save and close
+      </button>
+      <button
+        color="success"
+        (click)="next(6, 'saml')"
+        mat-icon-button
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="formGroup.get('invite')">
+    <ng-template matStepLabel>Invite</ng-template>
+    <buyer-invite-step
+      [formGroup]="formGroup.get('invite')"
+    ></buyer-invite-step>
+    <div class="controls">
+      <button color="primary" [disabled]="pendingAction" (click)="previous(5)">
+        <mat-icon>arrow_back_ios</mat-icon>
+      </button>
+
+      <button
+        mat-buttun
+        color="success"
+        (click)="justClose(6)"
+        [disabled]="pendingAction"
+        mat-button
+        mat-raised-button
+      >
+        Close
+      </button>
+
+      <button
+        color="success"
+        [disabled]="pendingAction || formGroup.get('invite').invalid"
+        (click)="finish.emit()"
+        mat-icon-button
+        (click)="next(7)"
+      >
+        <mat-icon>arrow_forward_ios</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

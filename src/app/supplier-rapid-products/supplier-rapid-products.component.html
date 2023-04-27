@@ -1,0 +1,48 @@
+<h1 class="notSoStrong">
+    Select Your <strong>Rapid</strong> Products!
+</h1>
+<h3 class="title">
+    <p>
+        With our new <strong class="rapid-product">Rapid POC</strong> negotiation tool, you can negotiate trials with
+        buyers at lightning fast
+        <strong>speed</strong>.<br />
+        To qualify for a Rapid POC, your product must have the ability to trial using synthetic data AND must be able to
+        be hosted externally or on a standalone sandbox.
+    </p>
+
+    <p>
+        Which of your already uploaded products are Rapid?<br />
+        <small>(Note: You have the ability to change this later from the dashboard)</small>
+    </p>
+
+
+</h3>
+
+<table mat-table [dataSource]="productsDataSource" class="">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status" class="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+            <span class="status {{element.class}}-status" [matTooltip]="element.status">{{element.status}}</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rapid" class="rapid">
+        <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: right;"> Rapid </th>
+        <td mat-cell *matCellDef="let element" class="td-actions" style="width: 20%; text-align: right;">
+            <mat-radio-group [(ngModel)]="element.rapid" (change)="rapidChange($event)">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+            </mat-radio-group>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="productDisplayedColumns"></tr>
+    <tr mat-row class="table-item product-item" *matRowDef="let row; columns: productDisplayedColumns;"
+        [ngClass]="{ 'highlight' : row.rapid !== 'no' && row.rapid !== 'yes' }"></tr>
+</table>

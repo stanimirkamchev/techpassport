@@ -1,0 +1,40 @@
+@import 'mixins.scss';
+@import 'colors.scss';
+
+:host {
+  @include assesment-table();
+
+  .title {
+    width: 50%;
+    padding-right: 12px;
+    text-align: right;
+  }
+
+  .group-header {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    min-height: 38px;
+  }
+  .group-header > .title {
+    font-size: 18px;
+  }
+
+  .assesment-item-group-pr {
+    margin-top: 1px;
+    padding: 2px;
+    .level, .title {
+      display: inline-block;
+    }
+  }
+
+  
+
+  ::ng-deep {
+    .positive {
+      color: $gr-color;
+    }
+    .negative {
+      color: $tp-orange;
+    }
+  }
+}

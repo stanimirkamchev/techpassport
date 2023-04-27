@@ -1,0 +1,89 @@
+@import 'colors.scss';
+
+.home-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.main-toolbar {
+  height: 75px !important;
+  overflow: hidden;
+  padding: 0 20px !important;
+  display: flex;
+  position: relative;
+  align-items:center;
+  #logo {
+    height: inherit;
+    img {
+      height: 60px;
+      padding-top: 14px;
+      padding-left: 10px;
+    }
+  }
+}
+
+mat-grid-list.main-content {
+  color: $tp-bright;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: calc(100vh - 75px);
+
+  .logo {
+    padding-bottom: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10rem;
+
+    .login {
+      padding: 10px 40px;
+      margin: 0px 10px;
+      background-color: $tp-lightgray;
+      color: $tp-black;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .joinus {
+      background-color: $tp-blue;
+      margin: 0px 10px;
+      padding: 10px 40px;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+    }
+  }
+
+  button{
+    color: white;
+    font-size: 18pt;
+    font-weight: normal;
+
+    mat-icon {
+      padding-right: 12px;
+    }
+  }
+}
+
+::ng-deep .home-spinner {
+  z-index: 100;
+  position: absolute !important;
+  left: 45%;
+  right: 0;
+  top: 45%;
+}
+::ng-deep .home-spinner.mat-progress-spinner circle, ::ng-deep .home-spinner.mat-spinner circle {
+  stroke: #8892b3 !important;
+}

@@ -1,0 +1,33 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex-direction: row;
+  flex: 0 1 auto;
+  //margin-top: 24px;
+
+  &:before,
+  &:after {
+    display: flex;
+    content: '';
+    height: 2px;
+    background: #eee;
+    align-self: center;
+  }
+
+  &:before {
+    width: 32px;
+  }
+
+  &:after {
+    flex: 1;
+  }
+}
+
+h3 {
+  color: $tp-green;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 12px;
+}

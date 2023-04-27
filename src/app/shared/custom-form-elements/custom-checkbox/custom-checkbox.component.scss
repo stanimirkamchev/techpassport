@@ -1,0 +1,54 @@
+@import 'src/styles/colors';
+
+.custom-checkbox-wrapper {
+  .title, .label {
+    font-family: Helvetica, serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1em;
+
+    color: #0D1B47;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 60px;
+    height: 60px;
+
+    background: #F3F3F6;
+    border: 1px solid rgba(12, 29, 74, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+
+    &.yes {
+      background: rgba(0, 175, 0, 0.2);
+      border: 2px solid #00AF00;
+    }
+
+    &.no {
+      background: rgba(217, 0, 0, 0.2);
+      border: 2px solid #D90000;
+    }
+  }
+
+  .value > mat-icon {
+    color: #D90000;
+    width: 2rem !important;
+  }
+}
+
+::ng-deep .mat-checkbox-checkmark-path {
+  stroke: rgb(0, 175, 0) !important;
+}

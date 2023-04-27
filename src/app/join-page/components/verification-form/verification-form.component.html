@@ -1,0 +1,42 @@
+<div class="verification">
+  <h3 class="heading verification-title">We’ve sent you a confirmation code</h3>
+  <img src="../../../../assets/img/mail.png" alt="mail" class="mail-icon" />
+  <h4 class="heading code">Please enter the code</h4>
+  <mat-error>{{ verifyError }}</mat-error>
+  <form [formGroup]="accountForm">
+    <div class="ng-otp-input-wrapper wrapper">
+      <input
+        (paste)="handlePaste($event)"
+        [pattern]="config.allowNumbersOnly ? '\\d*' : ''"
+        [type]="inputType"
+        autocomplete="one-time-code"
+        *ngFor="let item of otpForm?.controls | keysPipe; let i=index"
+        [formControl]="otpForm.controls[item]"
+        #inp id="otp_{{i}}_{{componentKey}}"
+        (keyup)="onKeyUp($event,i)"
+        (input)="onInput($event)"
+        (keydown)="onKeyDown($event,i)"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid(item),
+          'is-filled': otpForm?.controls[item].value == '',
+          'otp-input': ' '
+        }"
+      >
+    </div>
+    <div class="btn-container">
+      <div class="d-flex justify-center">
+        <button mat-raised-button class="next-btn buttons" [style.opacity]="isFormValid() ?'1' : '0.4'" disabled="{{ !isFormValid() && verifyLoading }}" (click)="submit()">
+          <mat-spinner *ngIf="verifyLoading" [diameter]="24" class="custom-spinner"></mat-spinner>
+          <span *ngIf="!verifyLoading">Continue to account</span>
+        </button>
+      </div>
+
+      <div class="d-flex justify-center mt-2" [ngClass]="{'disabled': resending}">
+        <a class="textCondition" href="javascript:;" (click)="!resending && resendOTP()"
+        >Resend confirmation code.</a>
+        <mat-spinner *ngIf="resending" [diameter]="24" class="custom-spinner black ml-2"></mat-spinner>
+      </div>
+
+    </div>
+  </form>
+</div>

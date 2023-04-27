@@ -1,0 +1,137 @@
+<div class="assesment-item-group group-header">
+  <div class="title">Product Details</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Product name:</div>
+  <div class="level">{{productReview.name}}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Fintech category:</div>
+  <div class="level">{{productReview.type}}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Functionality:</div>
+  <div class="level">{{productReview.description}}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Use case:</div>
+  <div class="level">{{productReview.details.specialConditions.useCases}}</div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group">
+  <div class="title">Tags:</div>
+  <div class="level">{{(productReview.tags || []).join(', ')}}</div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group">
+  <div class="title">Special conditions:</div>
+  <div class="level">{{productReview.details.specialConditions.specialConditionsList}}</div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Supplier trial fee:</div>
+  <div class="level">£{{ productReview.details.charges.chargesAmtFee | number:'2.'}}</div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group spacer-medium"></div>
+<div class="assesment-item-group group-header">
+  <div class="title">Licensing:</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Limit of copies:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.licensing.copiesLimit!=='yes'&& productReview.details.licensing.copiesLimit!=='no'">{{productReview.details.licensing.copiesLimit}}</span>
+    <span *ngIf="productReview.details.licensing.copiesLimit==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.licensing.copiesLimit==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Uses open source:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.licensing.openSource!=='yes'&& productReview.details.licensing.openSource!=='no'">{{productReview.details.licensing.openSource}}</span>
+    <span *ngIf="productReview.details.licensing.openSource==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.licensing.openSource==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group">
+  <div class="title">3rd party software:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.licensing.thirdParty!=='yes'&& productReview.details.licensing.thirdParty!=='no'">{{productReview.details.licensing.thirdParty}}</span>
+    <span *ngIf="productReview.details.licensing.thirdParty==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.licensing.thirdParty==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group spacer-medium"></div>
+<div class="assesment-item-group group-header">
+  <div class="title">Hosting, Data and Access</div>
+</div>
+<div class="assesment-item-group">
+  <div class="title">Personal data for POC:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.access['personalDataPOC']!=='yes'&& productReview.details.access['personalDataPOC']!=='no'">{{productReview.details.access['personalDataPOC']}}</span>
+    <span *ngIf="productReview.details.access['personalDataPOC']==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.access['personalDataPOC']==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group">
+  <div class="title">Personal data services:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.access['personalDataServices']!=='yes'&& productReview.details.access['personalDataServices']!=='no'">{{productReview.details.access['personalDataServices']}}</span>
+    <span *ngIf="productReview.details.access['personalDataServices']==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.access['personalDataServices']==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>
+
+<div class="assesment-item-group">
+  <div class="title">Personal data transfer:</div>
+  <div class="level">
+    <span
+      *ngIf="productReview.details.access['personalDataTransfer']!=='yes'&& productReview.details.access['personalDataTransfer']!=='no'">{{productReview.details.access['personalDataTransfer']}}</span>
+    <span *ngIf="productReview.details.access['personalDataTransfer']==='yes'">
+      <mat-icon class="icon check">check</mat-icon>
+    </span>
+    <span *ngIf="productReview.details.access['personalDataTransfer']==='no'">
+      <mat-icon class="icon cancel">close</mat-icon>
+    </span>
+  </div>
+  <div class="components-required"></div>
+</div>

@@ -1,0 +1,15 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Has up-to-date penetration test covering all existing functionality
+      </h5>
+      <mat-icon *ngIf="data.penetrationTestCovering" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.penetrationTestCovering" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+</div>

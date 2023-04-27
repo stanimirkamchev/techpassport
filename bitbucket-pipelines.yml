@@ -1,0 +1,34 @@
+image: node:14.20.0
+
+pipelines:
+  branches:
+    release/*:
+      - step:
+          name: Build application
+          script:
+            - yarn global add @angular/cli
+            - yarn install
+            - yarn run build:prod
+            - yarn run package
+            - PACKAGE_VERSION=$(npm run get-version --silent)
+            - curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"dist/techpassport-client-${PACKAGE_VERSION}.tar.gz"
+          caches:
+            - nodecustom
+            - yarn
+          artifacts:
+            - dist/**
+      # - step:
+      #     name: Create docs
+      #     script:
+      #       - yarn install
+      #       - yarn run compodoc
+      #       - yarn run package:docs
+      #       - PACKAGE_VERSION=$(yarn run get-version --silent)
+      #       - curl -vvv -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"dist/techpassport-client-docs-$PACKAGE_VERSION.zip"
+      #     caches:
+      #       - nodecustom
+      #       - yarn
+definitions:
+  caches:
+    nodecustom: ./node_modules
+    yarn: /usr/local/share/.cache/yarn

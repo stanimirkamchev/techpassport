@@ -1,0 +1,162 @@
+@import "colors.scss";
+
+.is-invalid {
+  border: 1px solid $tp-red;
+}
+
+.is-filled {
+  label {
+    transform: translateY(-140%);
+    font-size: 12px;
+  }
+}
+
+.createAccount {
+  text-align: center;
+  font-size: 2rem !important;
+}
+
+.heading {
+  margin-top: 0 !important;
+  padding-left: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.termsAndConditions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+
+  .terms {
+    font-weight: 400;
+    font-size: 12pt;
+    color: $tp-black;
+
+    .textAccept {
+      padding-right: 0.35rem;
+    }
+  }
+  .textCondition {
+    font-family: 'Public Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 20px;
+
+    text-decoration-line: underline;
+
+    color: #F43F9C !important;
+  }
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.3rem;
+  padding-bottom: 2rem;
+  width: 95%;
+
+  .buttons {
+    padding: 1.125rem 2.5rem;
+    line-height: 0;
+    height: 2.563rem;
+    border-radius: 2px !important;
+    box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+  }
+
+  .cancel-btn {
+    margin-left: 0.75rem;
+    background: $tp-white;
+    color: $tp-blue;
+    border: 2px solid $tp-blue;
+  }
+  .next-btn {
+    background: $tp-blue;
+    color: $tp-white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.confirmed {
+      background-color: #0D1B47;
+    }
+  }
+}
+
+:host ::ng-deep .custom-spinner circle{
+    stroke: $tp-white;
+}
+
+.country {
+  max-width: 98.5%;
+  padding-left: 0.8rem;
+  margin-top: 0.7rem;
+}
+
+::ng-deep .mat-form-field:not(.not-shitty) .mat-form-field-infix,
+.InputContainer {
+  background-color: rgba($tp-dark, 0.07) !important;
+  font-size: 12pt !important;
+  font-family: Poppins !important;
+  font-weight: 100;
+  color: $tp-dark;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  max-width: 96.5% !important;
+  height: 70px !important;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translate(50%) !important;
+  padding-right: 10px !important;
+}
+
+::ng-deep .mat-select-value {
+  font-size: 12pt !important;
+  padding-top: 1.6rem !important;
+}
+
+::ng-deep .mat-form-field-type-mat-select .mat-form-field-label,
+.mat-select-value {
+  font-size: 12pt !important;
+  padding-left: 1rem !important;
+  margin-top: -0.2rem !important;
+}
+
+::ng-deep .mat-select-trigger {
+  height: 70px;
+  padding-right: 8px;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-label {
+  margin-top: -0.2em !important;
+}
+
+::ng-deep input:not(.not-shitty) {
+  background: none;
+  padding-left: 0.7rem !important;
+  height: 70px !important;
+  border: none;
+  border-radius: 4px;
+  transition: #dfdfdf 0.5s ease-out;
+  outline: none;
+  color: $tp-dark;
+  font-size: 12pt !important;
+  font-family: Poppins !important;
+  max-width: 100% !important;
+  font-weight: 100 !important;
+}
+
+::ng-deep .country-error {
+  font-size: 12px !important;
+  margin-top: -12px !important;
+}
+
+::ng-deep mat-checkbox .mat-checkbox-inner-container {
+  margin-right: 0;
+}
+
+.icon-confirmed {
+  color: #00AF00;
+}

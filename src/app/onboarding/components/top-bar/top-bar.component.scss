@@ -1,0 +1,53 @@
+@import 'src/styles/colors';
+
+.onboarding-top-bar {
+  height: 60px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #3F9CF4;
+  color: #FFF;
+
+  &.active {
+    background-color: $tp-blue;
+    color: $tp-white;
+  }
+
+  &.inactive {
+    background-color: $tp-grey;
+    color: $tp-white;
+  }
+
+  .btn-detail {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+
+    .mat-icon {
+      margin-right: 10px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .btn-profile {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: $tp-white;
+    background: #0C1D4A;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}

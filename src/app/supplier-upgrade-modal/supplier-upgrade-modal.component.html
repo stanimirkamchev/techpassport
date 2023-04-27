@@ -1,0 +1,58 @@
+<div class="modal-cont modal-onboarding modal-upgrade">
+    <mat-horizontal-stepper #stepper>
+        <mat-step label="Intro">
+            <div class="steperContent intro">
+                <div class="modal-icon changes">
+                    <mat-icon>published_with_changes</mat-icon>
+                </div>
+                <h1 class="space">We have changed our terms and conditions.</h1>
+                <h2 class="space notSoStrong">You need to <strong>update</strong> couple of your
+                    <strong>details</strong>!
+                </h2>
+                <button mat-button class="goIn anim space" (click)="letsGo(stepper)" (mouseover)="letGoMouseOver()"
+                    (mouseout)="letGoMouseOut()">
+                    <mat-icon id="arrow_forward" class="bigOne">arrow_forward</mat-icon>
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step label="Membership">
+            <div class="steperContent membership">
+                <supplier-membership #membershipView [hidden]="!viewReady"></supplier-membership>
+            </div>
+        </mat-step>
+
+        <mat-step label="Rapid Products">
+            <div class="steperContent rapid">
+                <supplier-rapid-products #rapidView [hidden]="!viewReady"></supplier-rapid-products>
+            </div>
+        </mat-step>
+
+
+        <mat-step label="Intro">
+            <div class="steperContent intro" [hidden]="!viewReady">
+                <div class="modal-icon changes">
+                    <mat-icon class="success-label" color="accent">thumb_up</mat-icon>
+                </div>
+                <h1 class="space">Congratulations!</h1>
+                <h2 class="space notSoStrong">You’re ready to become <strong>RAPID!</strong>
+                </h2>
+                <button mat-raised-button color="accent" class="space" (click)="fin()">
+                    Done
+                </button>
+            </div>
+        </mat-step>
+
+    </mat-horizontal-stepper>
+    <div class="bottomMenu" *ngIf="stepper.selectedIndex > 0">
+        <button mat-button class="goIn goBack bottomOne" (click)="goBack(stepper)"
+            [disabled]="requestInProgress === true">
+            <mat-icon class="bigOne">arrow_backward</mat-icon>
+        </button>
+
+        <button mat-button class="goIn bottomOne" (click)="goForward(stepper)"
+            [disabled]="requestInProgress === true || goForwardDisabled()">
+            <mat-icon class="bigOne">arrow_forward</mat-icon>
+        </button>
+    </div>
+</div>

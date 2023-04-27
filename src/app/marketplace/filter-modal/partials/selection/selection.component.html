@@ -1,0 +1,16 @@
+<div class="wrp">
+  <mat-select [multiple]="true" [placeholder]="'Select'">
+    <mat-optgroup>
+      <div class="search-container">
+        <mat-icon svgIcon="search" class="search-icon"></mat-icon>
+        <input placeholder="Search..." (keydown)="keydown($event)" [formControl]="filter" class="search-input">
+      </div>
+    </mat-optgroup>
+
+    <mat-option *ngFor="let item of filteredOptions" [value]="item">
+      {{ item }}
+    </mat-option>
+
+  </mat-select>
+
+</div>

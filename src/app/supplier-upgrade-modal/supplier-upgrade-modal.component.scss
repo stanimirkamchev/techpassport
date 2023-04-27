@@ -1,0 +1,57 @@
+@import 'colors.scss';
+
+ 
+:host ::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+}
+:host ::ng-deep {
+    //overflow: hidden!important;
+    mat-horizontal-stepper {
+     // overflow: hidden!important;
+    }
+    .modal-upgrade, .mat-horizontal-stepper, .mat-step { 
+     // overflow: hidden!important;
+      height: 100%;
+      max-height: 100%;
+    }
+    .steperContent{
+      //overflow: hidden!important;
+    }
+
+    div.intro {
+      margin-top: 10%;
+    }
+    .space {
+      margin-top: 14px;
+    }
+    .goIn.space {
+      margin-top: 48px;
+      color: $tp-green;
+
+    }
+    .changes .mat-icon {
+      color: $tp-purp;
+    }
+
+    .steperContent {
+      top: 0!important;
+      bottom: 30px!important;
+    }
+
+    div.modal-icon {
+        margin-top:20px;
+        margin-bottom: 20px;
+        mat-icon {
+          font-size: 84px;
+          width: 84px;
+          height: 84px;
+          line-height: 84px;
+          @media screen and (max-height: 650px) {
+            font-size: 70px;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+          }
+        }
+    }
+}

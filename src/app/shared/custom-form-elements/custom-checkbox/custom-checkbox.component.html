@@ -1,0 +1,27 @@
+<div class="custom-checkbox-wrapper">
+  <div class="d-flex justify-between space-x-10">
+    <div class="title">{{ label }}</div>
+    <div class="d-flex space-x-10">
+      <div class="d-flex space-x-2-5" (click)="onChange(true)">
+        <div class="label">Yes</div>
+        <div class="value icon-wrapper yes" [class.yes]="value === true">
+          <mat-icon *ngIf="value === true" svgIcon="tick"></mat-icon>
+        </div>
+      </div>
+
+      <div class="d-flex space-x-2-5" (click)="onChange(false)">
+        <div class="label">No</div>
+        <div class="value icon-wrapper no" [class.no]="value === false">
+          <mat-icon *ngIf="value === false" svgIcon="close"></mat-icon>
+        </div>
+      </div>
+
+      <div class="d-flex space-x-2-5" (click)="onChange(null)" *ngIf="allowNA">
+        <div class="label">We don’t process data</div>
+        <div class="value icon-wrapper yes" [class.yes]="value === null">
+          <mat-icon *ngIf="value === null" svgIcon="tick"></mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

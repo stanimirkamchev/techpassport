@@ -1,0 +1,48 @@
+<button mat-mini-fab class="closeModal2 closeModalUserOnb" (click)="exit()">
+   <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont">
+  <h2>Hi!</h2>
+  <h4>Welcome to TechPassport. Let's begin. Please select which type of user you are:</h4>
+  <div class="options">
+
+     <button mat-icon-button aria-label="" color="primary" [disableRipple]="false" (click)="joinAs('supplier')" class="supplier-icon">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 36.4 38" style="enable-background:new 0 0 36.4 38;" xml:space="preserve">
+       <style type="text/css">
+         .st0{fill:#051948;}
+       </style>
+       <g id="Group_113" transform="translate(0 0)">
+         <path id="Path_60" class="st0" d="M0,18.5c0.2-0.3,0.4-0.6,0.6-0.8c1.1-1.2,2.3-2.4,3.5-3.5c1.1-1,2.5-1.7,3.9-1.9
+           c0.6-0.1,1.1-0.1,1.7,0.2l-4.4,7c-1.2-0.2-2.5,0.1-3.8,0.4C0.8,20,0.4,19.8,0,19L0,18.5z"/>
+         <path id="Path_61" class="st0" d="M18.3,38c-0.7-0.4-0.9-0.7-0.8-1.6c0.2-1.1,0.3-2.2,0.3-3.3c0-0.4,0.2-0.8,0.5-0.9
+           c2-1.3,4-2.7,5.9-4c0.1-0.1,0.2-0.1,0.3-0.2c0.2,0.5,0.2,1,0.2,1.5c-0.2,1.8-0.9,3.5-2.1,4.8c-1.1,1.2-2.2,2.3-3.3,3.4
+           c-0.2,0.1-0.3,0.3-0.5,0.4L18.3,38z"/>
+         <path id="Path_62" class="st0" d="M34.8,11.4c-0.6,1.6-1.3,3-2.2,4.5c-2.3,3.8-5.3,7.1-8.8,9.7c-1.7,1.3-3.5,2.5-5.3,3.8
+           c-0.1,0.1-0.3,0.1-0.4,0c0,0,0,0,0-0.1c-0.7-0.7-1.4-1.5-2.1-2.2c-0.1-0.1-0.2-0.3-0.1-0.5c0.4-0.9,0.5-1.9,0.4-2.9
+           c-0.3-1.8-1.7-3-3.5-2.9c-0.7,0.1-1.4,0.2-2,0.4c-0.2,0.1-0.3,0-0.5-0.1c-0.7-0.7-1.3-1.4-2-2.1c-0.1-0.1-0.2-0.3-0.1-0.4
+           c0,0,0,0,0,0c2.9-4.9,6.3-9.3,10.6-12.8c2-1.6,4.1-2.9,6.4-4c0.1,0,0.1-0.1,0.2-0.1C26.8,7,29.9,10.2,34.8,11.4z M18.1,13.5
+           c0,3.1,2.4,5.6,5.4,5.5c2.9,0,5.3-2.5,5.3-5.6c0-3.1-2.4-5.6-5.4-5.5C20.5,8,18.1,10.4,18.1,13.5C18.1,13.5,18.1,13.5,18.1,13.5
+           L18.1,13.5z"/>
+         <path id="Path_63" class="st0" d="M27.6,1c2.5-0.8,5.2-1.1,7.8-0.9c0.5,0,0.9,0.4,0.9,0.9c0.2,2.8,0,5.5-0.8,8.2
+           C31.9,9,28,5,27.6,1z"/>
+         <path id="Path_64" class="st0" d="M12.8,23.1c1,0,1.5,0.6,1.4,1.5c-0.1,1-0.5,2-1.2,2.8c-2,2.1-4.1,4.1-6.6,5.6
+           c-0.2,0.1-0.5,0.3-0.7,0.4c-0.5,0.3-1.2,0.1-1.5-0.4c-0.2-0.3-0.2-0.8,0-1.1c0.7-1.4,1.6-2.8,2.6-4c1-1.2,1.9-2.3,3-3.4
+           C10.7,23.7,11.7,23.2,12.8,23.1z"/>
+         <path id="Path_65" class="st0" d="M14.7,29l1.7,1.8c-0.4,0.2-0.7,0.4-1.1,0.6c-0.6,0.3-1.2,0.7-1.8,1c-0.8,0.4-1.2,0.3-1.8-0.4
+           L14.7,29z"/>
+         <path id="Path_66" class="st0" d="M5.8,25.9c-0.6-0.5-0.7-1-0.4-1.7C5.9,23.1,6.5,22,7,21l1.6,1.7L5.8,25.9z"/>
+         <path id="Path_68" class="st0" d="M23.4,16.9c-1.8,0-3.2-1.5-3.2-3.4c0-1.8,1.4-3.3,3.2-3.3c1.8,0,3.2,1.5,3.2,3.3
+           C26.7,15.4,25.3,16.9,23.4,16.9C23.5,16.9,23.5,16.9,23.4,16.9z"/>
+       </g>
+       </svg><br/>Supplier
+      </button>
+     <button class="buyer-icon" mat-icon-button aria-label="" color="primary" [disableRipple]="false" (click)="joinAs('purchaser')">
+        <img src="/assets/img/pound.png" />
+        <br/>Buyer<!--monetization_on-->
+      </button>
+
+    <!--<button mat-button mat-raised-button color="primary" (click)="accept()" class="mat-elevation-z0">Accept</button>
+    <button mat-button mat-raised-button color="warn" (click)="noThanks()" class="mat-elevation-z0">No thanks</button>-->
+  </div>
+</div>

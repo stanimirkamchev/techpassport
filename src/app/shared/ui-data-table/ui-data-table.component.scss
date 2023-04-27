@@ -1,0 +1,176 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex: 0 1 100%;
+  overflow: auto;
+  position: relative;
+  flex-direction: column;
+
+  &.paginated {
+    overflow: hidden;
+  }
+}
+
+:host ::ng-deep {
+
+  mat-paginator {
+    border-top: 1px solid #E6E6E6;
+  }
+
+  .mat-paginator-page-size {
+    height: 30px;
+  }
+
+  .container {
+    min-height: 244px;
+    max-height: 535px;
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  tbody td {
+    border-bottom: 1px solid #fafafa;
+    font-size: 8pt;
+  }
+
+  thead th {
+    border-bottom: 1px solid #E6E6E6;
+    font-size: 8pt;
+  }
+
+  thead tr {
+    height:35px;
+  }
+
+  tbody tr {
+    &.disabled {
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    &:last-child td {
+      border-bottom: 1px solid transparent;
+    }
+  }
+
+  thead th {
+    color: $tp-dark;
+    font-weight: bold;
+  }
+
+  tbody td {
+    padding-right: 12px;
+    //background-color: #f6f6f6;
+    background: rgba($tp-bg, $alpha: 0.9);
+    transition: all .2s ease;
+  }
+
+  .selectable {
+    cursor: pointer;
+  }
+
+  .selected td {
+    background-color: $tp-dark;
+    color: white;
+  }
+
+  .center {
+    text-align: center;
+
+    .mat-sort-header-container {
+      justify-content: center;
+    }
+
+    .mat-sort-header-button {
+      text-align: center;
+    }
+  }
+
+  .right {
+    text-align: right;
+
+    > * {
+      margin-left: auto;
+    }
+
+    .mat-sort-header-container {
+      justify-content: flex-end;
+    }
+
+    .mat-sort-header-button {
+      text-align: right;
+    }
+  }
+
+  .break-word {
+    word-break: break-all;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .primary {
+    color: $tp-blue;
+    font-weight: bold;
+  }
+
+  .green {
+    color: $tp-green;
+    font-weight: bold;
+
+    svg {
+      fill: $tp-green;
+    }
+  }
+
+  .red {
+    color: $actionRequired;
+    font-weight: bold;
+
+    svg {
+      fill: $actionRequired;
+    }
+  }
+
+  .orange {
+    color: $tp-amber;
+    font-weight: bold;
+    svg {
+      fill: $tp-amber;
+    }
+  }
+
+  .blue {
+    color: $tp-blue;
+    font-weight: bold;
+    svg {
+      fill: $tp-blue;
+    }
+  }
+
+  .nothing-to-show {
+    display: flex;
+    margin: 16px 4px;
+  }
+
+  .light {
+    font-weight: inherit;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 57px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .6);;
+  }
+}

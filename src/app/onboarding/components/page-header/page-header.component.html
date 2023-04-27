@@ -1,0 +1,35 @@
+<div class="page-header mt-5">
+  <div class="d-flex">
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        class="product-settings mr-5"
+        [routerLink]="['/portal']"
+        [queryParams]="{ page: 'onboarding', onboardingPage: 'profile' }"
+        [active]="router.url.indexOf('profile') > -1"
+      >
+        <mat-icon svgIcon="personal_settings"></mat-icon>
+        <div class="text">Profile</div>
+      </a>
+
+      <a
+        mat-tab-link
+        [disabled]="isSupplierStarted$ | async"
+        class="product-settings mr-5"
+        [routerLink]="['/portal']"
+        [queryParams]="{ page: 'onboarding', onboardingPage: 'product-list' }"
+        [active]="router.url.indexOf('product-list') > -1"
+      >
+        <mat-icon svgIcon="product_settings"></mat-icon>
+        <div class="text">Product Settings</div>
+      </a>
+    </nav>
+    <ui-tooltip *ngIf="isSupplierStarted$ | async">
+      <mat-icon
+        tooltipIcon
+        svgIcon="questionnaire"
+      ></mat-icon>
+      <div tooltipContent> {{ productSettingsMessage }} </div>
+    </ui-tooltip>
+  </div>
+</div>

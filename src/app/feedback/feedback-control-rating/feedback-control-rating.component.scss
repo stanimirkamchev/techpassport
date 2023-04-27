@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px
+}
+
+label {
+  display: flex;
+  flex: 1 0;
+  padding-right: 16px;
+  align-items: center;
+}
+
+star-rating {
+  display: flex;
+}

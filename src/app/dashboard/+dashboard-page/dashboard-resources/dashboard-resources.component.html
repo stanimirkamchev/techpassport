@@ -1,0 +1,53 @@
+<ui-data-filters>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Users</mat-label>
+      <mat-select formControlName="user" multiple>
+        <!--<mat-option value="">All</mat-option>-->
+        <mat-option *ngFor="let user of resources?.users" [value]="user._id">
+          {{user.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</ui-data-filters>
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+
+<ng-template #loaded>
+  <ng-container *ngIf="formGroup.get('user').value.length === 0 && resources?.overall as overall">
+    <div class="boxes">
+      <alert-box class="grey overall-box total">
+        <div>
+          <h4>{{overall.total}}</h4>
+          <label class="mat-caption">Total POC's</label>
+        </div>
+      </alert-box>
+      <alert-box class="grey overall-box round canceled">
+        <div>
+          <h4>{{overall.canceled}}</h4>
+          <label class="mat-caption">Canceled POC's</label>
+        </div>
+      </alert-box>
+      <alert-box class="grey overall-boxy round pending">
+        <div>
+          <h4>{{overall.pending}}</h4>
+          <label class="mat-caption">Pending POC's</label>
+        </div>
+      </alert-box>
+      <alert-box class="grey overall-box round completed">
+        <div>
+          <h4>{{overall.completed}}</h4>
+          <label class="mat-caption">Completed POC's</label>
+        </div>
+      </alert-box>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="formGroup.get('user').value.length > 0 && resources?.users as users">
+    <chart-line
+      *ngIf="usersChartData$ | async as usersChartData"
+      [chart]="usersChartData"
+      [title]="'Resources'">
+    </chart-line>
+  </ng-container>
+</ng-template>

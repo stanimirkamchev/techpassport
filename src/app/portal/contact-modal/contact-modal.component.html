@@ -1,0 +1,73 @@
+<button mat-mini-fab class="closeModal2" (click)="cancel()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont contact-modal">
+  <div class="header">
+    <div class="icon">
+      <mat-icon>contact_support</mat-icon>
+    </div>
+    <h3>How can we <strong>help</strong> you?</h3>
+  </div>
+  <form [formGroup]="contactFormGroup">
+    <ng-container *ngIf="!messageSent; else submitted">
+      <div fxLayout="column">
+        <div class="label">{{ selectTheSubject }}</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never">
+            <mat-select formControlName="subject">
+              <mat-option value="company">Company Onboarding</mat-option>
+              <mat-option value="product">Product Onboarding</mat-option>
+              <mat-option value="membership">Membership</mat-option>
+              <mat-option value="payment">Payment</mat-option>
+              <mat-option value="compliance">Compliance Checklist</mat-option>
+              <mat-option value="other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="label">{{ describeTheProblem }}</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never" class="textArea">
+          <textarea rows="8" placeholder="Write here..." formControlName="content" maxlength="3000" matInput type="text"
+                    noSpecial niceOnly></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="column">
+        <div class="label"></div>
+        <div class="formItem">
+          <span class="errorMessage">{{ message }}</span>
+        </div>
+      </div>
+
+      <div class="options">
+        <button mat-button mat-raised-button (click)="send()" [disabled]="contactFormGroup.invalid || requestInProgress"
+                color="accent" class="mat-elevation-z0"> {{ sendButtonText }}
+        </button>
+        <button mat-button mat-raised-button (click)="cancel()" color="primary" [disabled]="requestInProgress"
+                class="mat-elevation-z0">{{ cancelButtonText }}
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #submitted>
+      <h2>{{ message }}</h2>
+    </ng-template>
+  </form>
+  <div class="info">
+    For more information about Tech Passport and our terms and policies please open
+    <a href="https://app.termly.io/document/terms-and-conditions/c11d0773-e4ae-4ae0-9ad3-fe40e73bbf0f" target="_blank">
+      this link
+    </a>.
+    <br/>
+    <a href="https://techpassport.zendesk.com/hc/en-gb" target="_blank">
+      FAQ
+    </a>
+  </div>
+
+  <div class="options" *ngIf="messageSent">
+    <button mat-button mat-raised-button (click)="cancel()" style="width:100%" color="primary"
+            class="mat-elevation-z0"> {{ closeButtonText }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div>
+  <h2 class="createAccount">Create your Account</h2>
+  <h3 class="heading">Company Details</h3>
+  <mat-error class="pl-3">{{ errorMessage }}</mat-error>
+  <form [formGroup]="accountForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Company name *</mat-label>
+      <input
+        matInput
+        class="inputField"
+        type="text"
+        id="companyName"
+        formControlName="companyName"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('companyName'),
+          'is-filled': f.companyName.value !== ''
+        }"
+      />
+      <mat-error *ngIf="isFieldInvalid('companyName')"
+        >Company name is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Role in company *</mat-label>
+      <input
+        matInput
+        type="text"
+        id="companyRole"
+        formControlName="companyRole"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('companyRole'),
+          'is-filled': f.companyRole.value !== ''
+        }"
+      />
+      <mat-error *ngIf="isFieldInvalid('companyRole')"
+        >Role in company is required</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Company Number *</mat-label>
+      <input
+        matInput
+        type="text"
+        id="companyNumber"
+        formControlName="companyNumber"
+        [ngClass]="{
+          'is-invalid': isFieldInvalid('companyNumber'),
+          'is-filled': f.companyNumber.value !== ''
+        }"
+      />
+      <mat-error *ngIf="isFieldInvalid('companyNumber')"
+        >Company Number is required</mat-error
+      >
+    </mat-form-field>
+    <div class="country">
+      <country-picker
+        label="Country *"
+        formControlName="country"
+        [inValid]="isFieldInvalid('country')"
+        [valid]="f.country.value !== ''"
+      ></country-picker>
+      <mat-error class="country-error" *ngIf="isFieldInvalid('country')"
+        >Country name is required</mat-error
+      >
+    </div>
+    <div class="termsAndConditions heading">
+      <div class="btn-container d-flex flex-column items-center">
+        <div>
+            <button
+            mat-raised-button
+            class="next-btn buttons"
+            [ngClass]="confirmed ? 'confirmed' : ''"
+            (click)="openDocuSign()"
+            [disabled]="confirmed"
+            >
+            <mat-icon *ngIf="!confirmed" class="mr-3" svgIcon="error_round"></mat-icon>
+            <mat-icon *ngIf="confirmed" class="icon-confirmed mr-3" svgIcon="check_circle"></mat-icon>
+            <span>Read & agree to our term of service</span>
+          </button>
+        </div>
+        <div class="mt-5">
+          <a class="textCondition" href="javascript:;" (click)="downloadAsPDF()"
+          >Download a PDF copy</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="btn-container">
+      <button mat-raised-button class="cancel-btn buttons" (click)="back()">
+        Back
+      </button>
+      <button
+        mat-raised-button
+        class="next-btn buttons"
+        disabled="{{ registerLoading || !confirmed }}"
+        (click)="submit()"
+      >
+        <mat-spinner
+          *ngIf="registerLoading"
+          [diameter]="24"
+          class="custom-spinner"
+        ></mat-spinner>
+        <span *ngIf="!registerLoading">Create Account</span>
+      </button>
+    </div>
+  </form>
+</div>

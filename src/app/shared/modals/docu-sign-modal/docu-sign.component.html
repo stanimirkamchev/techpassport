@@ -1,0 +1,61 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()" *ngIf="!loading">
+  <mat-icon>clear</mat-icon>
+</button>
+<span
+  class="additional-text"
+  *ngIf="!loading && !done && showText && isFromMemberShip"
+  >Please navigate to the end of the document with both scroll bars, before
+  clicking to sign and agree
+</span>
+<!--<div class="modal-cont contact-modal" >-->
+<div class="modal-cont termsFrame" *ngIf="data?.clickToSign == true">
+  <div id="ds-terms-of-service"></div>
+</div>
+
+<div class="docusign-progress" *ngIf="loading">
+  <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div class="docusign-progress" *ngIf="done">
+  <div class="info">You have agreed to our Terms&Conditions!</div>
+  <button mat-raised-button color="accent" (click)="exit()">Close</button>
+</div>
+
+<div
+  class="modal-cont termsFrame"
+  *ngIf="data?.clickToSign !== true && !loading"
+>
+  <iframe
+    *ngIf="data.url"
+    id="termsFrame"
+    name="termsFrame"
+    style="width: 100%"
+    [src]="data.url | safe"
+  ></iframe>
+  <div class="footer p-3" *ngIf="isFromSupplierJoin">
+    <div class="d-flex items-end">
+      <input
+        type="checkbox"
+        id="checkbox"
+        class="custom-checkbox"
+        [(ngModel)]="agreed"
+      />
+      <label for="checkbox" class="checkbox-label ml-5"
+        >By clicking the button below, I certify I have read and agree to all
+        linked documents herein. Additionally, I certify I have read and agree
+        to the
+        <a href="#">Electronic Record and Signature Disclosure</a>.</label
+      >
+    </div>
+    <div class="btn-container d-flex">
+      <button
+        mat-raised-button
+        class="next-btn buttons"
+        [disabled]="!agreed"
+        (click)="onAgree()"
+      >
+        <span>Agree</span>
+      </button>
+    </div>
+  </div>
+</div>

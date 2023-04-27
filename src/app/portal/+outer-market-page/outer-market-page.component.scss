@@ -1,0 +1,23 @@
+
+.main-heading {
+  margin: 0;
+  padding: 32px 48px 0;
+  font-family: 'Helvetica', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0.05em;
+  color: #0D1B47;
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20% auto;
+}
+
+::ng-deep .mat-icon-button {
+  width: unset !important;
+}

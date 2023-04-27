@@ -1,0 +1,73 @@
+@import 'src/styles/colors';
+
+.onboarding-startup {
+  height: 100%;
+
+  .bar {
+    height: 60px;
+    background-color: $tp-blue;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+
+    .btn-detail {
+      display: flex;
+      align-items: center;
+      color: $tp-white;
+      font-size: 18px;
+
+      .mat-icon {
+        margin-right: 10px;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .content {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+
+    .wrapper {
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .description {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 100%;
+      text-align: center;
+      color: black;
+      margin-bottom: 20px;
+    }
+  }
+
+  .btn-profile {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: $tp-white;
+    background: #0C1D4A;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}

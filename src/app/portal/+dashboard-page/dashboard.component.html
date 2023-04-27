@@ -1,0 +1,400 @@
+<div
+  class="onboarding-top-bar"
+  *ngIf="isSupplierStarted"
+  [ngClass]="{ active: true }"
+>
+  <div class="btn-detail">
+    <mat-icon>mode_edit_outline</mat-icon>
+    <div>Add details to your profile</div>
+  </div>
+  <div *ngIf="true">
+    <a
+      class="btn-profile"
+      [routerLink]="['/portal']"
+      [queryParams]="{ page: 'onboarding', onboardingPage: 'profile' }"
+      >Complete profile</a
+    >
+  </div>
+</div>
+
+<div class="dashboardContainer">
+  <mat-card class="complianceChecklist">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>pie_chart</mat-icon>
+        <div>Enterprise Ready Questions</div>
+      </mat-card-title>
+      <button
+        mat-button
+        mat-raised-button
+        class="add-button"
+        color="accent"
+        style="margin-top: -4px; margin-left: auto; background: #9dcae0"
+        (click)="assesmentBt()"
+      >
+        &nbsp;View legacy compliance
+      </button>
+      <button
+        mat-button
+        mat-raised-button
+        class="add-button"
+        color="accent"
+        style="margin-top: -4px; margin-left: 20px"
+        (click)="onERQButtonClicked()"
+      >
+        &nbsp;Complete ERQs
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <erq-overview
+        class="erq-overview"
+        (changeProgressBar)="onChangeProgressBar($event)"
+      ></erq-overview>
+      <!-- TODO styles-->
+      <progress-chart
+        class="progress-chart-horizontal mt-4"
+        [data]="progressBar.total"
+      ></progress-chart>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="product-box" [class.selected]="selectedProd === true">
+    <mat-card-header> </mat-card-header>
+    <mat-card-content>
+      <div class="title">{{ productName }}</div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="video">
+    <mat-card-header> </mat-card-header>
+    <mat-card-content>
+      <div class="title" *ngIf="selectedProd && stamp.video === 'yes'">
+        <button
+          mat-button
+          aria-label="Play"
+          color="accent"
+          style="max-width: 100%; margin-top: -6px; font-size: 8pt"
+          (click)="editVideo(true, stamp.videoName)"
+        >
+          <mat-icon>ondemand_video</mat-icon> {{ stamp.videoName }}
+        </button>
+      </div>
+      <div class="title" *ngIf="selectedProd && stamp.video !== 'yes'">
+        No video available
+      </div>
+      <div class="title" *ngIf="!selectedProd">
+        <span>No product selected</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stamps-box">
+    <mat-card-header>
+      <span class="fill-space"></span>
+      <div class="second-header-element"></div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="stamps">
+        <div
+          class="membership icon enabled"
+          *ngIf="stamp.membership === 'premium'"
+        >
+          <img
+            matTooltip="Premium membership"
+            src="assets/img/search-icons/stamps/premium.svg"
+          />
+        </div>
+
+        <div
+          class="membership icon enabled"
+          *ngIf="stamp.membership === 'core'"
+        >
+          <img
+            matTooltip="Core membeship"
+            src="assets/img/search-icons/stamps/core.svg"
+          />
+        </div>
+
+        <div
+          class="isnurance icon"
+          *ngIf="stamp.insurance"
+          [ngClass]="{ enabled: stamp.insurance.indexOf('Public') > -1 }"
+        >
+          <img
+            matTooltip="Public insurance"
+            src="assets/img/search-icons/stamps/public.svg"
+          />
+        </div>
+
+        <div
+          class="isnurance icon"
+          *ngIf="stamp.insurance"
+          [ngClass]="{ enabled: stamp.insurance.indexOf('Employee') > -1 }"
+        >
+          <img
+            matTooltip="Employee insurance"
+            src="assets/img/search-icons/stamps/employee.svg"
+          />
+        </div>
+
+        <div
+          class="isnurance icon"
+          *ngIf="stamp.insurance"
+          [ngClass]="{ enabled: stamp.insurance.indexOf('Cyber') > -1 }"
+        >
+          <img
+            matTooltip="Cyber insurance"
+            src="assets/img/search-icons/stamps/cyber.svg"
+          />
+        </div>
+
+        <div class="video icon" [ngClass]="{ enabled: stamp.video === 'yes' }">
+          <img
+            src="assets/img/search-icons/stamps/video.svg"
+            matTooltip="Demo video"
+          />
+        </div>
+
+        <div
+          class="user-case icon"
+          [ngClass]="{ enabled: stamp.useCase === 'yes' }"
+        >
+          <img
+            matTooltip="Use case - yes"
+            src="assets/img/search-icons/stamps/ucyes.svg"
+          />
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="products">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>work</mat-icon>
+        <div>Products</div>
+      </mat-card-title>
+      <span class="fill-space"></span>
+      <div class="second-header-element">
+        <button
+          mat-button
+          mat-raised-button
+          [disabled]="isSupplierStarted"
+          class="add-button"
+          color="accent"
+          [routerLink]="['/portal']"
+          [queryParams]="{ page: 'onboarding', onboardingPage: 'product-new' }"
+        >
+          <mat-icon [matTooltip]=" isSupplierStarted ? addDetailsMessage : 'Edit'">
+            add_circle_outline
+          </mat-icon>
+          &nbsp;Add Product
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input
+          matInput
+          (keyup)="applyProductFilter($event.target.value)"
+          placeholder="Search"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <div class="container">
+        <table mat-table [dataSource]="productsDataSource" class="">
+          <ng-container matColumnDef="name">
+            <td
+              mat-cell
+              (click)="selectProduct(element)"
+              *matCellDef="let element"
+            >
+              {{ element.name }}
+            </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status" class="status">
+            <td
+              mat-cell
+              (click)="selectProduct(element)"
+              *matCellDef="let element"
+              align="center"
+              style="text-align: center"
+            >
+              <span
+                class="status {{ element.class }}-status"
+                [matTooltip]="element.status"
+                >{{ element.status }}</span
+              >
+            </td>
+          </ng-container>
+
+          <ng-container
+            matColumnDef="actions"
+            class="actions"
+            style="text-align: right"
+          >
+            <td
+              mat-cell
+              align="right"
+              *matCellDef="let element"
+              class="td-actions"
+            >
+              <button
+                mat-button
+                *ngIf="element.status !== 'Complete'"
+                class="actionButton"
+                color="accent"
+                [routerLink]="['/portal']"
+                [queryParams]="{
+                  page: 'onboarding',
+                  onboardingPage: 'product-edit',
+                  productId: element.id
+                }"
+              >
+                <mat-icon matTooltip="Edit">assignment</mat-icon>
+              </button>
+
+              <button
+                mat-button
+                *ngIf="element.status !== 'Complete'"
+                class="actionButton"
+                color="warn"
+                (click)="removeProduct(element)"
+              >
+                <mat-icon matTooltip="Delete">delete</mat-icon>
+              </button>
+
+              <button
+                mat-button
+                [disabled]="element.status !== 'Draft'"
+                class="actionButton"
+                (click)="sendToReview(element)"
+              >
+                <mat-icon matTooltip="Send to Review">send</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr
+            mat-row
+            class="table-item product-item"
+            *matRowDef="let row; columns: productDisplayedColumns"
+            [ngClass]="{
+              selected: selectedProduct && selectedProduct.id === row.id
+            }"
+          ></tr>
+        </table>
+      </div>
+      <!-- -->
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="analytics">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>show_chart</mat-icon>
+        <div>Analytics</div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="analytics">
+        <div class="a1">
+          <div class="type">Appeared<br />in searches</div>
+          <div class="number">{{ analytics.searches }}</div>
+        </div>
+        <div class="a2">
+          <div class="type">Bank viewed<br />your company profile</div>
+          <div class="number">{{ analytics.viewed }}</div>
+        </div>
+        <div class="a4">
+          <div class="type">Compliance<br />Reports run</div>
+          <div class="number">{{ analytics.compliance }}</div>
+        </div>
+        <div class="a3">
+          <div class="type">POC’s run</div>
+          <div class="number">{{ analytics.poc }}</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="activity">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>notification_important</mat-icon>
+        <div>Activity</div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input
+          matInput
+          (keyup)="applyActivityFilter($event.target.value)"
+          placeholder="Search"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <div class="container">
+        <table mat-table [dataSource]="activityDataSource" class="">
+          <ng-container matColumnDef="scope">
+            <td mat-cell *matCellDef="let element">
+              <span class="status" [matTooltip]="element.scope">
+                <strong>{{ element.scope }}</strong>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="date" class="date">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              align="right"
+              (click)="activityAction(element)"
+            >
+              <span
+                class="status"
+                [matTooltip]="element.date"
+                style="white-space: nowrap; text-align: right"
+                >{{ element.date | date : "fullDate" }}</span
+              >
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="message">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="activityAction(element)"
+            >
+              <span class="status" [matTooltip]="element.message">
+                <span class="activityItem {{ element.class }}">{{
+                  element.message
+                }}</span>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="object">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="activityAction(element)"
+            >
+              <span class="status" [matTooltip]="element.object">
+                <strong>{{ element.object }}</strong>
+              </span>
+            </td>
+          </ng-container>
+
+          <tr
+            mat-row
+            class="table-item"
+            *matRowDef="let row; columns: activityDisplayedColumns"
+          ></tr>
+          <!-- <tr mat-header-row *matHeaderRowDef="activityDisplayedColumns"></tr>-->
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

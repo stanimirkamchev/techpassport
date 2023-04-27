@@ -1,0 +1,840 @@
+<button
+  appSingleClick
+  mat-mini-fab
+  class="closeModal2 closeModalFix"
+  (click)="exit()"
+>
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-collab">
+  <div class="modal-title" *ngIf="!loading">
+    <h2 class="notSoStrong" style="line-height: 16px">
+      <strong>{{ data.project.project }}</strong> with
+      {{ data.project.farEndName }},
+      <small style="font-size: 10pt"
+        >Product: {{ data.project.productName }}</small
+      ><br />
+      <small style="font-size: 8pt"
+        >Originator: <strong>{{ data.project.originator }}</strong>
+      </small>
+    </h2>
+    <span class="fill-space"></span>
+
+    <div class="top-status" *ngIf="supplierAccept.rejected !== true">
+      <div>
+        <!--        <button-->
+        <!--          *ngIf="-->
+        <!--            data.project &&-->
+        <!--            data.project.pocStatus &&-->
+        <!--            data.project.pocStatus.toLowerCase() !== 'archive' &&-->
+        <!--            data.project.pocStatus.toLowerCase() !== 'completed'-->
+        <!--          "-->
+        <!--          mat-button-->
+        <!--          mat-raised-button-->
+        <!--          class="recallPOCButton"-->
+        <!--          (click)="onRecall()"-->
+        <!--        >-->
+        <!--          {{ recallPOCToEditButtonText }}-->
+        <!--        </button>-->
+        <button
+          *ngIf="
+            userType !== 'supplier' &&
+            data.project &&
+            data.project.pocStatus &&
+            data.project.pocStatus.toLowerCase() !== 'archive' &&
+            data.project.pocStatus.toLowerCase() !== 'completed'
+          "
+          mat-button
+          mat-raised-button
+          (click)="onArchive()"
+          class="safeAsDraftButton"
+        >
+          {{ archivePOCButtonText }}
+        </button>
+      </div>
+      <div
+        class="internals-toggle"
+        appSingleClick
+        (singleClick)="toggleInternal()"
+      >
+        <mat-icon class="showInternals top-status-icon">group_work</mat-icon>
+        <span *ngIf="showInternals === false">Show</span
+        ><span *ngIf="showInternals === true">Hide</span> internals
+      </div>
+
+      <div class="completed" *ngIf="_statuses['Completed'] > 0">
+        <mat-icon class="top-status-icon">check_circle</mat-icon>
+        <span>Completed: </span><strong>{{ _statuses["Completed"] }}</strong>
+      </div>
+      <div class="approved" *ngIf="_statuses['Approved'] > 0 && userLevel <= 2">
+        <mat-icon class="top-status-icon">check_circle_outline</mat-icon>
+        <span>Approved: </span><strong>{{ _statuses["Approved"] }}</strong>
+      </div>
+      <div class="declined" *ngIf="_statuses['Declined'] > 0 && userLevel <= 2">
+        <mat-icon class="top-status-icon">cancel_outline</mat-icon>
+        <span>Declined: </span><strong>{{ _statuses["Declined"] }}</strong>
+      </div>
+      <div
+        class="awaiting-submission"
+        *ngIf="_statuses['AwaitingSubmission'] > 0"
+      >
+        <mat-icon class="top-status-icon">help</mat-icon>
+        <span>Awaiting Interal Submission: </span
+        ><strong>{{ _statuses["AwaitingSubmission"] }}</strong>
+      </div>
+
+      <div
+        class="awaiting-approval"
+        *ngIf="_statuses['AwaitingApproval'] > 0 && whoAmIsymbol === 'B'"
+      >
+        <mat-icon class="top-status-icon">hourglass_empty</mat-icon>
+        <span>Awaiting Internal Approval: </span
+        ><strong>{{ _statuses["AwaitingApproval"] }}</strong>
+      </div>
+
+      <div
+        class="awaiting-fe-approval"
+        *ngIf="_statuses['AwaitingApproval'] > 0 && whoAmIsymbol === 'S'"
+      >
+        <mat-icon class="top-status-icon">hourglass_full</mat-icon>
+        <span>With Buyer: </span
+        ><strong>{{ _statuses["AwaitingApproval"] }}</strong>
+      </div>
+      <div
+        class="awaiting-fe-approval"
+        *ngIf="_statuses['AwaitingFarEnd'] > 0 && whoAmIsymbol === 'B'"
+      >
+        <mat-icon class="top-status-icon">hourglass_full</mat-icon>
+        <span>With Supplier: </span
+        ><strong>{{ _statuses["AwaitingFarEnd"] }}</strong>
+      </div>
+
+      <div class="actionRequired" *ngIf="_statuses['ActionRequired'] > 0">
+        <mat-icon class="top-status-icon">error</mat-icon>
+        <span>Action Required: </span
+        ><strong>{{ _statuses["ActionRequired"] }}</strong>
+      </div>
+      <div class="approved" *ngIf="_statuses['Approved'] > 0 && userLevel > 2">
+        <mat-icon class="top-status-icon">check_circle_outline</mat-icon>
+        <span>Awaiting Submission to {{ this.data.project.farEndName }}: </span
+        ><strong>{{ _statuses["Approved"] }}</strong>
+      </div>
+    </div>
+
+    <button
+      appSingleClick
+      mat-button
+      mat-raised-button
+      *ngIf="
+        _statuses['AwaitingSubmission'] > 0 &&
+        whoAmIsymbol === 'B' &&
+        actionsEnabled
+      "
+      color="accent"
+      [disabled]="submitDisabled()"
+      (singleClick)="submitAll()"
+      class="submit-button awaiting-submission"
+    >
+      <mat-icon>done</mat-icon> Submit for internal review ({{
+        _statuses["AwaitingSubmission"]
+      }})
+    </button>
+
+    <button
+      *ngIf="
+        data.project &&
+        data.project.pocStatus &&
+        data.project.pocStatus.toLowerCase() !== 'draft' &&
+        data.project.pocStatus.toLowerCase() !== 'completed'
+      "
+      mat-button
+      mat-raised-button
+      (click)="onDraft()"
+      class="safeAsDraftButton"
+    >
+      {{ saveAsDraftButtonText }}
+    </button>
+
+    <button
+      appSingleClick
+      mat-button
+      mat-raised-button
+      *ngIf="submitToFarEndButtonEnabled()"
+      color="accent"
+      (singleClick)="submitAllToFarEnd()"
+      class="submit-button complete"
+      style="margin-left: 7px"
+    >
+      <mat-icon>done</mat-icon> Submit to {{ data.project.farEndName }} ({{
+        _statuses["Approved"]
+      }})
+    </button>
+
+    <button
+      appSingleClick
+      mat-button
+      mat-raised-button
+      *ngIf="
+        _statuses['ActionRequired'] > 0 &&
+        userPermissions.poc.indexOf('AP') > -1 &&
+        whoAmIsymbol === 'B' &&
+        actionsEnabled
+      "
+      style="margin-left: 7px"
+      color="accent"
+      (singleClick)="approveAll()"
+      class="submit-button approved"
+    >
+      <mat-icon>done</mat-icon> Approve all ({{ _statuses["ActionRequired"] }})
+    </button>
+  </div>
+  <div class="questions progress-bar" *ngIf="loading === true">
+    <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+  </div>
+  <mat-sidenav-container
+    class="side-nav-container"
+    *ngIf="loading === false && supplierAccept.said !== 'no'"
+  >
+    <mat-sidenav mode="side" opened class="sidenav">
+      <mat-action-list>
+        <button
+          appSingleClick
+          mat-list-item
+          *ngFor="let section of sections; let indexSection = index"
+          (singleClick)="changeIndex(indexSection)"
+          [ngClass]="{ selected: sideIndex === indexSection }"
+        >
+          <div class="title">
+            <small>{{ indexSection + 1 }}</small> {{ section.title }}
+          </div>
+          <div
+            class="description"
+            *ngIf="supplierAccept.rejected !== true"
+            [ngClass]="section.statusClass"
+            [matTooltip]="section.statusDescription"
+          >
+            <mat-icon *ngIf="section.statusClass === 'awaiting-approval'"
+              >hourglass_empty</mat-icon
+            >
+            <mat-icon *ngIf="section.statusClass === 'awaiting-fe-approval'"
+              >hourglass_full</mat-icon
+            >
+            <mat-icon *ngIf="section.statusClass === 'actionRequired'"
+              >error</mat-icon
+            >
+            <mat-icon
+              *ngIf="
+                section.statusClass !== 'actionRequired' &&
+                section.statusClass !== 'completed' &&
+                section.statusClass !== 'awaiting-approval' &&
+                section.statusClass !== 'approved' &&
+                section.statusClass !== 'awaiting-fe-approval'
+              "
+            >
+              help</mat-icon
+            >
+            <mat-icon *ngIf="section.statusClass === 'completed'"
+              >check_circle</mat-icon
+            >
+            <mat-icon *ngIf="section.statusClass === 'approved'"
+              >check_circle_outline</mat-icon
+            >
+          </div>
+        </button>
+      </mat-action-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <!--- QUESTIONS in Section -->
+      <mat-accordion class="question-accordion">
+        <mat-expansion-panel
+          *ngFor="
+            let question of getQuestionsForSection(selectedSection?.id);
+            let indexQuestion = index
+          "
+          (opened)="openQuestion($event, question)"
+        >
+          <mat-expansion-panel-header
+            [@.disabled]="true"
+            expandedHeight="45px"
+            collapsedHeight="45px"
+            class="question-header"
+          >
+            <mat-panel-title
+              >{{ question.questionScheetID }}: {{ question.title }}
+            </mat-panel-title>
+            <mat-panel-description
+              [ngClass]="question?.statusCalss"
+              *ngIf="supplierAccept.rejected !== true"
+            >
+              {{ getQuestionStatus(question) }}
+              <mat-icon
+                *ngIf="question.negotiable !== true"
+                class="notNego"
+                matTooltip="Not negotiable"
+                >block
+              </mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- Question Content HERE !!!! -->
+          <div class="conversation-container">
+            <div
+              *ngFor="let answer of question.answers; let indexQuestion = index"
+              class="conversation-site left"
+            >
+              <div
+                class="conversation"
+                [hidden]="!showAnswer(question, answer)"
+                [class.my-end]="answer.byWhom.isMySide === true"
+                [class.my-end-awaiting-submission]="
+                  answer.byWhom.isMySide === true &&
+                  answer.internalStatus === 'AwaitingSubmission' &&
+                  userLevel > 2
+                "
+                [class.my-end-action-required]="
+                  showQuestionMenu(question, answer, indexQuestion) &&
+                  (showChallenge(question, answer) ||
+                    showEdit(question, answer))
+                "
+                [class.my-end-awaiting-approval]="
+                  answer.byWhom.isMySide === true &&
+                  ((answer.internalStatus === 'AwaitingApproval' &&
+                    userLevel > 2) ||
+                    (answer.internalStatus === 'AwaitingResponse' &&
+                      answer.internalStatusLevel <= 2 &&
+                      userLevel <= 2))
+                "
+                [class.my-end-approved]="
+                  answer.byWhom.isMySide === true &&
+                  answer.internalStatus === 'Approved'
+                "
+                [class.declined-end]="
+                  answer.internalStatus === 'Declined' ||
+                  answer.status === 'Declined'
+                "
+                [class.other-end]="answer.byWhom.isMySide === false"
+                [class.my-end-public]="
+                  answer.isPublic === true && answer.byWhom.isMySide === true
+                "
+              >
+                <div
+                  *ngIf="
+                    answer.byWhom.isMySide === true &&
+                    answer.isPublic !== true &&
+                    (answer.internalStatus !== 'Approved' || userLevel <= 2)
+                  "
+                  class="internal"
+                >
+                  <mat-icon>group_work</mat-icon><br />Internal
+                </div>
+                <div
+                  *ngIf="
+                    answer.byWhom.isMySide === true &&
+                    answer.isPublic !== true &&
+                    answer.internalStatus === 'Approved' &&
+                    userLevel > 2
+                  "
+                  class="internal"
+                >
+                  <mat-icon>arrow_forward</mat-icon><br />
+                </div>
+
+                <!-- WHO -->
+                <div
+                  class="who"
+                  matTooltip="
+                    A: {{ answer.status }} I:  {{ answer.internalStatus }} Q: {{
+                    question.status
+                  }} IL:{{ answer.internalStatusLevel }}
+                    Public:{{ answer.isPublic }} ID: {{ answer._id }} QID: {{
+                    question._id
+                  }}"
+                >
+                  <!--<mat-icon *ngIf="answer.byWhom.isMySide === true"  class="person">person_pin</mat-icon>-->
+                  <img
+                    *ngIf="
+                      whoAmIsymbol === 'B' && answer.byWhom.isMySide === false
+                    "
+                    class="logo"
+                    src="/api/v1/admin/supplier/{{
+                      data.project.farEndID
+                    }}/companylogo"
+                  />
+                  <img
+                    *ngIf="
+                      whoAmIsymbol === 'B' && answer.byWhom.isMySide === true
+                    "
+                    class="logo"
+                    src="assets/img/Unknown.png"
+                  />
+
+                  <img
+                    *ngIf="whoAmIsymbol === 'S' && answer.byWhomType === 'B'"
+                    class="logo"
+                    src="assets/img/Unknown.png"
+                  />
+                  <!-- TODO: Temporarily disabled -->
+                  <!--                  <img-->
+                  <!--                    alt=""-->
+                  <!--                    *ngIf="whoAmIsymbol === 'S' && answer.byWhomType !== 'B'" class="logo"-->
+                  <!--                   [src]="apiService.getLogo(null)" />-->
+                  <img
+                    alt=""
+                    *ngIf="whoAmIsymbol === 'S' && answer.byWhomType !== 'B'"
+                    class="logo"
+                    src="assets/img/Unknown.png"
+                  />
+
+                  <div class="who-cont">
+                    <div class="name">{{ answer.byWhom.name }}</div>
+                    <div class="date">
+                      {{ answer.updatedAt | date : "MM/dd/yyyy, h:mm a" }}
+                    </div>
+                    <div
+                      class="status approved"
+                      *ngIf="
+                        answer.isPublic !== true &&
+                        answer.internalStatus === 'Approved' &&
+                        whoAmIsymbol === 'B' &&
+                        answer.approveBy
+                      "
+                    >
+                      {{ answer.internalStatus }} by {{ answer.approveBy }} at
+                      {{ answer.approveDate | date : "MM/dd/yyyy, h:mm a" }}
+                    </div>
+                    <!--
+                      a.approveBy = member._id;
+                      a.approveDate = new Date();
+                      a.approveByType = byWhomType;
+                      -->
+                  </div>
+                </div>
+                <!-- -->
+                <div
+                  class="answer-contenct"
+                  matTooltip="IS:{{ answer.internalStatus }}   S:{{
+                    answer.status
+                  }}   L:{{ answer.internalStatusLevel }}"
+                >
+                  <div
+                    class="answer-item answer"
+                    *ngIf="answer.answer || answer.answer == 0"
+                  >
+                    <!-- *ngIf="answer.answer &&  "-->
+                    <!--  && answer.answer.length > 0 -->
+                    <div class="box-title">
+                      <span *ngIf="answer.byWhomType !== 'B'">Value:</span>
+                      <span *ngIf="answer.byWhomType === 'B'"
+                        >{{ myCompany }} response:</span
+                      >
+                    </div>
+                    <span
+                      *ngIf="
+                        question.questionScheetID !== 'B09' &&
+                        question.questionScheetID !== 'B10'
+                      "
+                      >{{ answer.answer }}</span
+                    >
+                    <span
+                      *ngIf="
+                        question.questionScheetID === 'B09' ||
+                        question.questionScheetID === 'B10'
+                      "
+                      >{{ answer.answer | date : "MM/dd/yyyy" }}</span
+                    >
+                  </div>
+
+                  <div
+                    class="answer-item comment-box"
+                    *ngIf="answer.comment && answer.comment.length > 0"
+                  >
+                    <div class="box-title">
+                      <span *ngIf="answer.byWhomType !== 'B'">Comment:</span>
+                      <span *ngIf="answer.byWhomType === 'B'"
+                        >{{ myCompany }} comment:</span
+                      >
+                    </div>
+                    <span>{{ answer.comment }}</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="answer-ch-actions"
+                *ngIf="
+                  actionsEnabled &&
+                  showQuestionMenu(question, answer, indexQuestion) &&
+                  showAnswer(question, answer)
+                "
+              >
+                <mat-icon
+                  appSingleClick
+                  [matTooltip]="approveTooltip"
+                  class="update"
+                  *ngIf="showAgree(question, answer)"
+                  (singleClick)="doAgree(question, answer)"
+                  >check_circle_outline
+                </mat-icon>
+
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Update"
+                  class="update"
+                  *ngIf="showChallenge(question, answer)"
+                  (singleClick)="doChallenge(question, answer)"
+                  >cancel
+                </mat-icon>
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Undo"
+                  class="update"
+                  *ngIf="showUndo(question, answer)"
+                  (singleClick)="doUndo(question, answer)"
+                  >undo
+                </mat-icon>
+              </div>
+
+              <div
+                class="answer-ch-actions"
+                *ngIf="
+                  showProcurmentUndo(question, answer) &&
+                  showAnswer(question, answer)
+                "
+              >
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Undo"
+                  (singleClick)="doUndo(question, answer)"
+                  class="update"
+                  >undo
+                </mat-icon>
+                <!--  *ngIf="showUndo(question, answer)"       (click)="doUndo(question, answer)"-->
+              </div>
+
+              <div
+                class="answer-ch-actions"
+                *ngIf="
+                  actionsEnabled &&
+                  showQuestionMenuSupplier(question, answer, indexQuestion) &&
+                  showAnswer(question, answer)
+                "
+              >
+                <!-- " -->
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Approve"
+                  class="update"
+                  *ngIf="showAgreeSupplier(question, answer)"
+                  (singleClick)="doAgreeSupplier(question, answer)"
+                  >check_circle_outline</mat-icon
+                >
+                <!--<mat-icon matTooltip="Submit"     class="send"        (click)="doSubmit(question, answer)">send</mat-icon>-->
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Update"
+                  class="update"
+                  *ngIf="showChallengeSupplier(question, answer)"
+                  (singleClick)="doChallengeSupplier(question, answer)"
+                >
+                  cancel</mat-icon
+                >
+                <mat-icon
+                  appSingleClick
+                  matTooltip="Undo 3"
+                  class="update"
+                  *ngIf="showUndoSupplier(question, answer)"
+                  (singleClick)="doUndoSupplier(question, answer)"
+                  >undo</mat-icon
+                >
+                <!-- <mat-icon matTooltip="Update Comment"  class="update"   *ngIf="showEditSupplier(question, answer) && showAnswer(question, answer)"  (click)="doChallenge(question, answer)" >create</mat-icon> -->
+              </div>
+            </div>
+            <!-- ACTIONS -->
+            <div
+              class="conversation-site right respond-container"
+              *ngIf="showChallengeBox === true"
+            >
+              <!--<div class="box-site-title">Respond</div>-->
+              <div class="conversation respond-inputs challenge-end">
+                <!--challengeBoxData.answer.byWhom.isMySide === true &&
+                      <div *ngIf="challengeBoxData.answer && challengeBoxData.answer.byWhom.isMySide === true" class="internal chall">  <mat-icon>group_work</mat-icon><br/>Internal </div>-->
+
+                <div
+                  *ngIf="
+                    challengeBoxData.answer &&
+                    challengeBoxData.answer.isPublic !== true &&
+                    challengeBoxData.answer.internalStatus !== 'Approved'
+                  "
+                  class="internal"
+                >
+                  <mat-icon>group_work</mat-icon><br />Internal
+                </div>
+                <div
+                  *ngIf="
+                    challengeBoxData.answer &&
+                    challengeBoxData.answer.isPublic !== true &&
+                    challengeBoxData.answer.internalStatus === 'Approved'
+                  "
+                  class="internal"
+                >
+                  <mat-icon>arrow_forward</mat-icon><br />
+                </div>
+
+                <div class="who">
+                  <!--<mat-icon *ngIf="answer.byWhom.isMySide === true"  class="person">person_pin</mat-icon>-->
+                  <!--                  <img-->
+                  <!--                    *ngIf="whoAmIsymbol === 'S'"-->
+                  <!--                    class="logo"-->
+                  <!--                    [src]="apiService.getLogo(null)"-->
+                  <!--                  />-->
+                  <img class="logo" src="assets/img/Unknown.png" alt="" />
+
+                  <div class="who-cont">
+                    <div class="name">{{ myName }}</div>
+                    <div class="date">{{ nowIs() | date : "MM/dd/yyyy" }}</div>
+                  </div>
+                </div>
+                <!-- -->
+                <div class="answer-contenct">
+                  <div
+                    class="answer-item answer"
+                    *ngIf="challengeBoxData.disableValue !== true"
+                  >
+                    <!--  && answer.answer.length > 0 -->
+                    <div class="box-title">
+                      <span *ngIf="whoAmIsymbol !== 'B'">New value:</span>
+                      <span *ngIf="whoAmIsymbol === 'B'"
+                        >{{ myName }} response:</span
+                      >
+                    </div>
+                    <mat-form-field
+                      *ngIf="
+                        question.questionScheetID !== 'B09' &&
+                        question.questionScheetID !== 'B10'
+                      "
+                      floatLabel="never"
+                      class="textArea free-text"
+                    >
+                      <textarea
+                        [(ngModel)]="newValue"
+                        rows="1"
+                        placeholder=""
+                        maxlength="180"
+                        cols="40"
+                        matInput
+                        type="text"
+                        niceOnly
+                      ></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field
+                      *ngIf="
+                        question.questionScheetID === 'B09' ||
+                        question.questionScheetID === 'B10'
+                      "
+                      floatLabel="never"
+                      class="textArea free-text"
+                    >
+                      <input
+                        matInput
+                        noSpecial
+                        niceOnly
+                        [matDatepicker]="pickerStart"
+                        [(ngModel)]="newValue"
+                        placeholder="Select date"
+                        style="background: none"
+                        autocomplete="off"
+                        (dateChange)="
+                          dateChange(
+                            'change',
+                            $event,
+                            question.questionScheetID
+                          )
+                        "
+                        [min]="minInputDate"
+                        [max]="maxInputDate"
+                        (click)="pickerStart.open()"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        disableRipple
+                        [for]="pickerStart"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker
+                        #pickerStart
+                        disabled="false"
+                        class="custom-picker"
+                        (select)="monthChange($event)"
+                        (monthSelected)="monthChange($event)"
+                        [calendarHeaderComponent]="customCalendarHeader"
+                      ></mat-datepicker>
+                    </mat-form-field>
+                    <!--
+                    <mat-radio-group [(ngModel)]='newValue' floatLabel="never"
+                      *ngIf="question.questionScheetID  === 'B4'" class="" aria-label="Select an option">
+                      <mat-radio-button value="yes">Yes</mat-radio-button>
+                      <mat-radio-button value="no">No</mat-radio-button>
+                    </mat-radio-group>
+                    -->
+                  </div>
+                  <!---
+                  -->
+
+                  <div class="answer-item comment-box" *ngIf="allowComments">
+                    <!-- " *ngIf=" whoAmIsymbol=='S' " -->
+                    <div class="box-title">
+                      <!--<span>Comment:</span>-->
+                      <span *ngIf="whoAmIsymbol !== 'B'">Comment:</span>
+                      <span *ngIf="whoAmIsymbol === 'B'"
+                        >{{ myCompany }} comment:</span
+                      >
+                    </div>
+                    <mat-form-field
+                      floatLabel="never"
+                      class="textArea free-text"
+                    >
+                      <textarea
+                        [(ngModel)]="newComment"
+                        rows="3"
+                        placeholder=""
+                        maxlength="1500"
+                        cols="40"
+                        matInput
+                        type="text"
+                        niceOnly
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- -->
+              </div>
+              <div class="line-icon">
+                <button
+                  appSingleClick
+                  class="cancel"
+                  mat-button
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="challengeBoxButtonsDisable()"
+                  (singleClick)="doCancel()"
+                >
+                  <!-- challengeBoxButtonsDisable challengeBoxData.loading === true -->
+                  <mat-icon>cancel</mat-icon> Cancel
+                </button>
+                <button
+                  appSingleClick
+                  class="send"
+                  mat-button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="challengeBoxButtonsDisable()"
+                  (singleClick)="doSubmitChallange()"
+                >
+                  <mat-icon>check_circle</mat-icon> Confirm
+                </button>
+              </div>
+            </div>
+
+            <!-- ACTIONS END -->
+          </div>
+          <!-- END Question -->
+        </mat-expansion-panel>
+      </mat-accordion>
+      <!-- Q END -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <!---->
+  <div
+    class="qToSupplier"
+    *ngIf="
+      loading === false &&
+      whoAmIsymbol === 'S' &&
+      supplierAccept.accepted === false &&
+      supplierAccept.rejected === false
+    "
+  >
+    <div class="rejectionBox" *ngIf="supplierAccept.said === 'no'">
+      <div class="vfQ">Please explain why?</div>
+      <mat-form-field floatLabel="never" class="textArea free-text">
+        <textarea
+          rows="8"
+          placeholder=""
+          maxlength="3000"
+          cols="40"
+          matInput
+          [(ngModel)]="supplierAccept.message"
+          type="text"
+          niceOnly
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="buttons">
+      <div class="vfQ">
+        <span *ngIf="supplierAccept.said === ''"
+          >Please note: There are different contracts with (enter banks name
+          here) for Paid for or Free POC’s.</span
+        >
+        &nbsp;
+      </div>
+
+      <div class="vfC">
+        <div>
+          PAID POC contract is
+          <a href="{{ downloadAsPDF('paidPoC') }}" target="_blank">here</a>.
+          This contract is for POC projects that the Buyer pays for.
+        </div>
+        <div>
+          FREE POC contract is
+          <a href="{{ downloadAsPDF('freePoC') }}" target="_blank">here</a>.
+          This contract is for POC projects that the Buyer does not pay for.
+        </div>
+
+        <!--<mat-checkbox [(ngModel)]="supplierAccept.contractReaded"> Morgan Stanley’s POC contract is <a
+            href="{{downloadAsPDF()}}" target="_blank">here</a>. Please tick box to accept terms.
+        </mat-checkbox>-->
+      </div>
+
+      <button
+        appSingleClick
+        mat-button
+        mat-raised-button
+        color="accent"
+        style="margin-left: 10px; margin-right: 10px"
+        *ngIf="supplierAccept.said === ''"
+        (singleClick)="supplierConnectionResp('proceed')"
+      >
+        <mat-icon>done</mat-icon> Proceed
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="qToSupplier"
+    *ngIf="
+      loading === false &&
+      whoAmIsymbol === 'B' &&
+      allComplete === true &&
+      data.project.pocStatus !== 'Completed'
+    "
+  >
+    <div class="buttons" *ngIf="!disableYesBtn">
+      <div class="vfQ">
+        <span *ngIf="supplierAccept.said === ''"
+          >Do you want to complete POC and send to the Supplier to sign?</span
+        >
+        &nbsp;
+      </div>
+
+      <button
+        appSingleClick
+        [disabled]="disableYesBtn"
+        mat-button
+        mat-raised-button
+        color="accent"
+        style="margin-left: 10px; margin-right: 10px; min-width: 120px"
+        (singleClick)="completePOC()"
+      >
+        <mat-icon>done</mat-icon> Yes
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+@import 'colors.scss';
+:host {
+  display: flex;
+  flex: 0 1 auto;
+  max-height: 400px;
+  flex-direction: column;
+}
+.top-contenct  {
+  width: 100%;
+}
+ui-data-filters  {
+  float: left;
+  max-width: 500px;
+}
+ui-data-filters form {
+  width: 450px;
+  max-width: 500px;
+}
+
+div.legend {
+  //float: right;
+  max-width: 100px;
+  width: 100px;
+  margin-right: 12px;
+  float: right;
+  div.legendit:not(:first-child){
+    margin-left: 8px;
+  }
+  div.legendit {
+    display: inline;
+    font-size: 8pt;
+    border-left: solid 16px black;
+    height: 16px;
+    border-radius: 8px;
+
+  }
+
+  div.blue{
+    border-left-color: $tp-blue;
+    color:  $tp-blue;
+  }
+  div.green{
+    border-left-color: $tp-green;
+    color:  $tp-green;
+  }
+  div.amber{
+    border-left-color: $tp-amber;
+    color:  $tp-amber;
+  }
+  div.pink{
+    border-left-color: $tp-purp;
+    color:  $tp-purp ;
+  }
+  div.red{
+    border-left-color: $tp-red;
+    color:  $tp-red ;
+  }
+
+}
+
+ui-data-filters {
+  margin-bottom: 0;
+}

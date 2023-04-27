@@ -1,0 +1,14 @@
+<ul>
+  <li *ngIf="informationSecurity" [class.selected]="selectedId === informationSecurity.id"
+    (click)="selectAssessment.emit(informationSecurity)" class="mat-body">
+    <span class="progress">{{informationSecurity.progress | percent}}</span>
+    <mat-icon>{{informationSecurity.icon}}</mat-icon>
+    <span class="title">{{informationSecurity.title}}</span>
+  </li>
+  <li *ngFor="let item of assessmentList" [class.selected]="item.id === selectedId"
+    (click)="selectAssessment.emit(item)" class="mat-body">
+    <span class="progress">{{(item.progress || item['complete'] || 0) | percent}}</span>
+    <mat-icon>{{item.icon}}</mat-icon>
+    <span class="title">{{item.title}}</span>
+  </li>
+</ul>

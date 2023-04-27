@@ -1,0 +1,22 @@
+.cancelButton {
+  background: #0C1D4A;
+  color: #FFF;
+  border-radius: 8px;
+}
+
+.confirmButton {
+  background: red;
+  color: #FFF;
+  border-radius: 8px;
+}
+
+.h3 {
+  text-align: center;
+}
+
+.actionsRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}

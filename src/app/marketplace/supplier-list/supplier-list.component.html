@@ -1,0 +1,131 @@
+<div class="d-flex justify-between mt-20 mb-5">
+  <div class="d-flex items-center">
+    <h2 class="supplier-heading">Suggest suppliers</h2>
+  </div>
+  <div class="actions d-flex">
+    <div class="d-flex items-center link ml-2" (click)="selectAll()">
+      Select all
+    </div>
+    <button
+      mat-raised-button
+      class="btn-custom ml-5"
+      (click)="inviteSupplier()"
+    >
+      <span class="label">Invite supplier</span>
+    </button>
+  </div>
+</div>
+<div class="spinner d-flex justify-center" *ngIf="loading">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+<ng-container *ngIf="!loading">
+  <div class="supplier-list">
+    <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef style="width: 40px"></th>
+        <td
+          class="list-content"
+          mat-cell
+          *matCellDef="let row; let element"
+          style="width: 40px"
+        >
+          <div class="d-flex items-center">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- name Column -->
+      <ng-container matColumnDef="name">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Supplier</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div class="bold">
+            {{ element.name }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Funding round Column -->
+      <ng-container matColumnDef="fundingRound">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Funding Round
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.fundingRound }}
+        </td>
+      </ng-container>
+
+      <!-- location Column -->
+      <ng-container matColumnDef="location">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Location</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.location }}
+        </td>
+      </ng-container>
+
+      <!-- Date Established Column -->
+      <ng-container matColumnDef="dateEstablished">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Date Established
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.dateEstablished | date : "MMM dd yyyy" }}
+        </td>
+      </ng-container>
+
+      <!-- Products Column -->
+      <!-- <ng-container matColumnDef="products">
+        <th class="list-header" mat-header-cell *matHeaderCellDef> Products </th>
+        <td class="list-content" mat-cell *matCellDef="let element"> {{element.products}} </td>
+      </ng-container> -->
+
+      <!-- Website Column -->
+      <ng-container matColumnDef="website">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Website</th>
+        <td
+          class="list-content td-info td-info--blue-text"
+          mat-cell
+          *matCellDef="let element"
+        >
+          <a target="_blank" (click)="openLink(element.website)">{{
+            element.website
+          }}</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <!-- Row shown when there is no matching data. -->
+      <td
+        *matNoDataRow
+        class="mat-cell no-data-table"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <div *ngIf="!hasFilter" class="d-flex flex-column items-center py-3">
+          <h2 class="text-center mb-2">No filters selected</h2>
+          <div class="d-flex items-center">
+            <p class="mr-1 my-0">
+              We’ll suggest suppliers to invite to the platform based on your
+              filters
+            </p>
+            <mat-icon svgIcon="filter"></mat-icon>
+          </div>
+        </div>
+        <div *ngIf="hasFilter">
+          <h2>No results found</h2>
+          <p>
+            Sorry we didn’t find any results for your search, please try
+            searching for something else.
+          </p>
+        </div>
+      </td>
+    </table>
+  </div>
+</ng-container>

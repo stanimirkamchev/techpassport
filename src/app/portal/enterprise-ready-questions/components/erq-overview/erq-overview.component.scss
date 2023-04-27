@@ -1,0 +1,29 @@
+
+.progress-bar-accordion {
+    box-shadow: none;
+
+    .mat-expansion-indicator {
+        display: none !important;
+    }
+
+    .mat-expansion-panel {
+        box-shadow: none;
+        border-bottom: 1px solid gray;
+        pointer-events: none;
+    }
+
+    .mat-expansion-panel-header {
+        padding: 0 !important;
+    }
+
+    .mat-expansion-panel-header-title  {
+        color: black !important;
+    }
+
+    &_description {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+    }
+
+}

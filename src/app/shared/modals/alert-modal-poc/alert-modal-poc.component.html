@@ -1,0 +1,45 @@
+<div class="modal-cont modal-cont-poc">
+  <mat-icon>error_outline</mat-icon>
+  <h1 *ngIf="data.title.length > 0">{{data.title}}</h1>
+  <div class="row-container">
+      <div class="row1 row" *ngIf="data.notification1==true">
+          <div>Please note that this product is restricted and cannot be used in the following terrritories:</div>
+          <ul>
+                <li class="list" *ngFor="let position of data.messageList">
+                  {{position}}
+                </li>
+          </ul>
+          <div>Please contact the Supplier if your required territories is not listed.</div>
+      </div>
+      <div class="row2 row" *ngIf="data.notification2.length > 0">
+        <div>Please contact the Supplier if your required territories is not listed.</div>
+        <div *ngIf="data.notification2.length > 0"><strong>{{data.notification2}}</strong></div>
+      </div>
+      <div class="row3 row" *ngIf="data.notification3 == true">
+        <div>Please contact the Supplier if your required territories is not listed.</div>
+        <ul>
+          <li class="list" *ngFor="let position of data.messageList3">
+            {{position}}
+          </li>
+        </ul>
+      </div>
+      <div class="row4 row" *ngIf="data.notification3 == true">
+        <div>Please note that this product requires the following proprietary software to function:</div>
+        <div *ngIf="data.notification4.length > 0"><strong>{{data.notification4}}</strong></div>
+      </div>
+      <div class="row5 row" *ngIf="data.notification5.length > 0">
+        <div>Please note that the Supplier has indicated a trial fee of <strong>{{data.notification5}}&#163;</strong> for this POC</div>
+      </div>
+  </div>
+  <div *ngFor="let link of data.links">
+    <a href="{{link.url}}" target="_blank">{{link.label}}</a>
+  </div>
+  <div class="options">
+      <button mat-button mat-raised-button
+        *ngFor="let bt of data.actions"
+        color="{{bt.color}}"
+        (click)="understood(bt.label)"
+        class="mat-elevation-z0">{{bt.label}}</button>
+
+  </div>
+</div>

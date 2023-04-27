@@ -1,0 +1,20 @@
+<ui-data-filters>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="">All</mat-option>
+        <mat-option
+          *ngFor="let status of customerStatuses"
+          [value]="status">
+          {{CustomerStatus[status] || status}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="pull--right">
+      <mat-form-field>
+        <input formControlName="search" matInput placeholder="Search">
+      </mat-form-field>
+    </div>
+  </form>
+</ui-data-filters>

@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup" autocomplete="off">
+  <div class="row" style="display: flex; flex-wrap: wrap">
+    <div class="column-4 align-center">
+      <div class="mt-4">
+        Do you have an up-to-date <b>penetration test</b> covering all existing
+        functionality?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [value]="penetrationTestCoveringValue()"
+        (change)="onPenetrationTestCoveringValueChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+</form>

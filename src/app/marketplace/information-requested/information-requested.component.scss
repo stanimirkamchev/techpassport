@@ -1,0 +1,96 @@
+@import 'src/styles/colors';
+
+.mat-dialog-container {
+  border-radius: 6px !important;
+}
+
+.information-requested {
+  font-family: 'Public Sans';
+  padding: 30px;
+  position: relative;
+
+  .close-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+    background-color: #F5F5F8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .close-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .wrapper {
+    max-width: 532px;
+    margin: 0 auto;
+
+    .send-icon {
+      color: $tp-pink;
+
+      &.mat-icon {
+        width: 90px;
+        height: 60px;
+      }
+    }
+
+    .title {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 42px;
+      text-align: center;
+      color: #18181B;
+    }
+
+    .description1 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      color: #3F3F46;
+    }
+
+    .description2 {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      color: #3F3F46;
+    }
+
+    .btn-custom {
+      height: 56px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 22px;
+      color: white;
+      background-color: $tp-blue;
+      border: 0;
+      border-radius: 6px;
+      width: 324px;
+      margin-bottom: 14px;
+    }
+
+    .link {
+      font-family: 'Public Sans';
+      font-style: normal;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 20px;
+      text-align: right;
+      text-decoration-line: underline;
+      color: $tp-pink;
+    }
+  }
+}

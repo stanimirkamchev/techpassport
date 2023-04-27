@@ -1,0 +1,59 @@
+<header>
+  <span class="mat-heading">{{assessmentItem.title}}</span>
+  <span class="progress">
+    <strong>{{assessmentItem.progress | percent}}</strong>
+  </span>
+</header>
+<section *ngFor="let item of assessmentItem.items">
+  <span class="section-title">
+    {{item.title}}
+  </span>
+
+  <div class="question" *ngFor="let question of item.items">
+    <span class="question-content mat-caption">{{question.title}}</span>
+    <ul class="answer mat-caption" *ngIf="question.components as components">
+      <ng-container *ngFor="let component of components">
+        <li class="file success-label" *ngIf="component.data?.fileCheck as fileCheck">
+          <ng-container *ngIf="!downloadDisabled; else readonly">
+            Download file
+            <a [href]="'/api/v1/admin/compliance/get/' + fileCheck._id" mat-icon-button download>
+              <mat-icon>attachment</mat-icon>
+            </a>
+          </ng-container>
+          <ng-template #readonly>
+            File is attached
+          </ng-template>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="question" *ngFor="let question of item.questions">
+    <span class="question-id">{{question.id}} </span>
+    <span class="question-content mat-caption">{{question.question}}</span>
+    <mat-icon class="help" [matTooltip]="question.guidance">help</mat-icon>
+    <mat-icon class="compliant" *ngIf="question.data?.compliant === 'yes'; else notCompliant">check_circle</mat-icon>
+    <ng-template #notCompliant>
+      <mat-icon class="not-compliant">cancel</mat-icon>
+    </ng-template>
+    <ul class="answer mat-caption" *ngIf="question.data as answer">
+      <li>
+        Compliant: <strong>{{answer.compliant || '-'}}</strong>
+      </li>
+      <li>
+        Answer: <strong>{{answer.answer || '-'}}</strong>
+      </li>
+      <li class="file" *ngIf="answer.fileCheck" class="success-label">
+        <ng-container *ngIf="!downloadDisabled; else readonly">
+          Download file
+          <a [href]="'/api/v1/admin/compliance/get/' + answer.fileCheck._id" mat-icon-button download>
+            <mat-icon>attachment</mat-icon>
+          </a>
+        </ng-container>
+        <ng-template #readonly>
+          File is attached
+        </ng-template>
+      </li>
+    </ul>
+  </div>
+</section>

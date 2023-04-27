@@ -1,0 +1,1670 @@
+<button
+  mat-mini-fab
+  appSingleClick
+  class="closeModal2"
+  (singleClick)="exit(stepper)"
+>
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-poc">
+  <!--<div class="question">[Question {{questionsFromPocExel}}]</div>-->
+  <div class="project-name">
+    <!--  *ngIf="stepper.selectedIndex > 1"-->
+    <strong>{{ projectName }}</strong> {{ productName }}
+  </div>
+  <mat-horizontal-stepper
+    #stepper
+    [selectedIndex]="currentStep"
+    (animationDone)="stepChanged(stepper)"
+    (selectionChange)="stepChangedEvent(stepper, $event)"
+  >
+    <mat-step
+      [stepControl]="listStep.welcome.validatorID"
+      [label]="listStep.welcome.name"
+      *ngIf="listStep.welcome.show"
+    >
+      <div class="container-stepper welcome-stepper" *ngIf="!initialaizingPOC">
+        <div class="modal-icon">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <h2>So you're ready to run POC!</h2>
+        <h4 class="small center">
+          GREAT NEWS, we’ll walk you through the process. First, we’ll need to
+          ask a few questions about
+          <strong>the trial and what you’re looking for</strong>.
+        </h4>
+        <button
+          appSingleClick
+          mat-button
+          class="goIn anim"
+          (singleClick)="goForward(stepper)"
+          (mouseover)="letGoMouseOver()"
+          (mouseout)="letGoMouseOut()"
+        >
+          <mat-icon id="arrow_forward" class="bigOne poc-button"
+            >arrow_forward</mat-icon
+          >
+        </button>
+      </div>
+      <div
+        class="container-stepper welcome-stepper progress-bar"
+        *ngIf="initialaizingPOC === true"
+      >
+        <mat-progress-bar
+          color="accent"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="createProjectFormGroup"
+      [label]="listStep.createProject.name"
+      *ngIf="listStep.createProject.show"
+    >
+      <div class="container-stepper stepper-create-project">
+        <div class="modal-icon">
+          <mat-icon>create</mat-icon>
+        </div>
+        <form fxLayout="column" [formGroup]="createProjectFormGroup">
+          <mat-radio-group class="line first" formControlName="isExising">
+            <label>Is this POC part of an existing project?</label>
+            <mat-radio-button
+              (change)="
+                arryCond.createProject = true; arryCond.createProject1 = false
+              "
+              value="yes"
+              >Yes
+            </mat-radio-button>
+            <mat-radio-button
+              (change)="
+                arryCond.createProject = false; arryCond.createProject1 = true
+              "
+              value="no"
+              >No
+            </mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="arryCond.createProject">
+            <mat-form-field class="only-one" floatLabel="never">
+              <mat-icon class="autocomplete-icon">search</mat-icon>
+              <label
+                >Please select the project that you want to link it to</label
+              >
+              <input
+                matInput
+                placeholder="Search project name"
+                aria-label="project"
+                formControlName="linkedProject"
+                [matAutocomplete]="auto4"
+              />
+              <mat-autocomplete
+                #auto4="matAutocomplete"
+                class="poc-autocomplete"
+              >
+                <mat-option
+                  class="project-list"
+                  *ngFor="let project of filteredProjects | async"
+                  [value]="project"
+                >
+                  <span class="user-first">{{ project }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div *ngIf="arryCond.createProject1">
+            <mat-form-field class="groupe" floatLabel="never">
+              <label>Firstly, Whata's the name of the project title?</label>
+              <input
+                matInput
+                (change)="arryCond.createProject4 = true"
+                type="text"
+                placeholder="Type project title"
+                formControlName="projectTitle"
+              />
+            </mat-form-field>
+            <mat-radio-group
+              class="line groupe"
+              formControlName="isRefProjectID"
+              *ngIf="arryCond.createProject4"
+            >
+              <label
+                >And do you have an internal project ID that you would like to
+                reference?</label
+              >
+              <mat-radio-button
+                class="line"
+                (change)="arryCond.createProject5 = true"
+                value="yes"
+                >Yes</mat-radio-button
+              >
+              <mat-radio-button
+                (change)="
+                  arryCond.createProject5 = false;
+                  arryCond.createProject6 = true
+                "
+                value="no"
+                >No
+              </mat-radio-button>
+            </mat-radio-group>
+            <mat-form-field *ngIf="arryCond.createProject5" floatLabel="never">
+              <input
+                matInput
+                type="text"
+                (change)="arryCond.createProject6 = true"
+                placeholder="Type project ID"
+                formControlName="refProjectID"
+              />
+            </mat-form-field>
+
+            <mat-radio-group
+              class="line groupe"
+              formControlName="mainContact"
+              *ngIf="arryCond.createProject6"
+            >
+              <label>Are you the main contact for the engagement?</label>
+              <mat-radio-button
+                class="line"
+                (change)="
+                  arryCond.createProject7 = true;
+                  arryCond.createProject8 = false
+                "
+                value="yes"
+                >Yes</mat-radio-button
+              >
+              <mat-radio-button
+                (change)="
+                  arryCond.createProject7 = false;
+                  arryCond.createProject8 = true
+                "
+                value="no"
+                >No
+              </mat-radio-button>
+            </mat-radio-group>
+            <!--*ngIf="mainContatName"-->
+            <mat-form-field
+              floatLabel="never"
+              (change)="arryCond.createProject10 = true"
+            >
+              <input
+                matInput
+                type="text"
+                placeholder="Joe Smith"
+                formControlName="createProject7"
+              />
+            </mat-form-field>
+            <div class="clearfix">&nbsp;</div>
+            <mat-form-field floatLabel="never" *ngIf="arryCond.createProject8">
+              <mat-icon class="autocomplete-icon">arrow_drop_down</mat-icon>
+              <label>Please select the name from the list below</label>
+              <input
+                matInput
+                placeholder="Select the name"
+                aria-label="project"
+                formControlName="selectMainContact"
+                [matAutocomplete]="auto5"
+              />
+              <mat-autocomplete
+                (optionSelected)="arryCond.createProject10 = true"
+                #auto5="matAutocomplete"
+                class="poc-autocomplete"
+              >
+                <mat-option
+                  class="project-list"
+                  *ngFor="let name of namesCreateProject"
+                  [value]="name"
+                >
+                  <span class="user-first">{{ name }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-checkbox
+              class="chexbox-left"
+              (change)="(!arryCond.createProject9)"
+              *ngIf="arryCond.createProject8"
+            >
+              If you can't find the name, click here
+            </mat-checkbox>
+            <mat-form-field *ngIf="arryCond.createProject9" floatLabel="never">
+              <label>add their first name</label>
+              <input
+                matInput
+                type="text"
+                placeholder="Joe Smith"
+                formControlName="cantFindMainContact"
+              />
+            </mat-form-field>
+            <mat-form-field
+              class="groupe"
+              *ngIf="arryCond.createProject10"
+              floatLabel="never"
+            >
+              <label>And where will notices be sent to?</label>
+              <input
+                matInput
+                type="text"
+                placeholder="25 Bank St, Canary Wharf, London E14 5JP"
+                formControlName=" addressNotice"
+              />
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="projectRequirementsFormGroup"
+      class="poc-steps"
+      [label]="listStep.projectRequirements.name"
+      *ngIf="listStep.projectRequirements.show"
+    >
+      <div class="container-stepper stepper-special-conditions">
+        <div class="modal-icon poc-icons">
+          <mat-icon>done_ouline</mat-icon>
+        </div>
+        <h4 class="medium-font poc-question">
+          We need to understand a little about your project requirements.
+          <!-- Do you have a case
+          defined?-->
+        </h4>
+        <form
+          class="margin-25"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="projectRequirementsFormGroup"
+        >
+          <mat-form-field class="free-text poc-smaller">
+            <label>Please describe your use case here </label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              formControlName="useCase"
+            ></textarea>
+          </mat-form-field>
+          <mat-form-field class="free-text poc-smaller">
+            <label>And what is your quality assessment criteria? </label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              formControlName="assesmentCriteria"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="chooseSupplierFormGroup"
+      class="poc-steps"
+      [label]="listStep.chooseSupplier.name"
+      *ngIf="listStep.chooseSupplier.show"
+    >
+      <div class="container-stepper stepper-choose-supplier">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4>
+          Great. Now we need to know about the <strong>product</strong> that
+          you'd like to test.
+        </h4>
+        <form class="poc-supplier-form" [formGroup]="chooseSupplierFormGroup">
+          <mat-form-field floatLabel="never">
+            <label
+              ><strong
+                >Do you know the supplier that you'd like to use?</strong
+              ></label
+            >
+            <mat-icon class="autocomplete-icon">search</mat-icon>
+            <input
+              matInput
+              placeholder="Select the Supplier which offers the solution you would like to Trial?"
+              aria-label="supplierList"
+              formControlName="supplierListPoc"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete
+              (optionSelected)="
+                arryCond.chexboxFieldProduct = false;
+                arryCond.fieldProduct = true
+              "
+              #auto="matAutocomplete"
+              class="poc-autocomplete"
+            >
+              <mat-option
+                *ngFor="let supplier of filteredSuppliers | async"
+                [value]="supplier.name"
+              >
+                <img
+                  class="supplier-logo"
+                  aria-hidden
+                  [src]="supplier.logo"
+                  height="25"
+                />
+                <span class="supplier-name">{{ supplier.name }}</span>
+                <span class="supplier-desc">{{ supplier.description }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div
+            class="chexbox-left"
+            style="margin-top: -15px"
+            *ngIf="arryCond.chexboxFieldProduct"
+          >
+            <mat-checkbox class="example-margin" (change)="clearSupplierName()">
+              or type the product name below
+            </mat-checkbox>
+          </div>
+          <mat-form-field floatLabel="never" *ngIf="arryCond.fieldProduct">
+            <mat-icon class="autocomplete-icon">search</mat-icon>
+            <label *ngIf="!arryCond.chexboxFieldProduct"
+              ><strong>and type product name</strong></label
+            >
+            <input
+              matInput
+              placeholder="Please select the product"
+              aria-label="supplierList"
+              [matAutocomplete]="auto1"
+              formControlName="productListPoc"
+            />
+            <mat-autocomplete
+              (optionSelected)="noteProductListPoc($event)"
+              #auto1="matAutocomplete"
+              class="poc-autocomplete"
+            >
+              <mat-option
+                *ngFor="let product of filteredProducts | async"
+                [value]="product.name"
+              >
+                <img
+                  class="supplier-logo"
+                  aria-hidden
+                  [src]="product.logo"
+                  height="25"
+                />
+                <span class="supplier-name">{{ product.name }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="projectIDFormGroup"
+      [label]="listStep.projectID.name"
+      *ngIf="listStep.projectID.show"
+    >
+      <div class="container-stepper stepper-project-id">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4>
+          And do you have an internal <strong>project ID</strong> that you'd
+          like to be able to link it to?
+        </h4>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="projectIDFormGroup"
+        >
+          <mat-radio-group formControlName="projectID">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            floatLabel="never"
+            *ngIf="shouldBeVisible(projectIDFormGroup, 'projectID', 'yes')"
+          >
+            <label>Please enter project ID</label>
+            <input
+              matInput
+              type="text"
+              placeholder="project ID"
+              formControlName="enterProjectID"
+            />
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="bankEntityFormGroup"
+      [label]="listStep.bankEntity.name"
+      *ngIf="listStep.bankEntity.show"
+    >
+      <div class="container-stepper stepper-bank-entity">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4>Which <strong>entity</strong> within your company will need it?</h4>
+        <form [formGroup]="bankEntityFormGroup">
+          <mat-radio-group
+            class="vertical-radio"
+            formControlName="value"
+            required
+          >
+            <ng-container *ngFor="let bank of bankEntityList">
+              <mat-radio-button value="{{ bank }}"
+                >{{ bank }}
+              </mat-radio-button>
+            </ng-container>
+          </mat-radio-group>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="teamContactFormGroup"
+      [label]="listStep.teamContact.name"
+      *ngIf="listStep.teamContact.show"
+    >
+      <div class="container-stepper stepper-team-contact">
+        <div class="modal-icon">
+          <mat-icon>supervised_user_circle</mat-icon>
+        </div>
+        <h4 class="center">
+          Who will need to view or input into the POC?
+          <strong>Build your team!</strong>
+        </h4>
+        <div class="clearfix"></div>
+        <div class="clearfix"></div>
+        <form [formGroup]="teamContactFormGroup">
+          <div *ngIf="!arryCond.addNewUser">
+            <mat-form-field floatLabel="never">
+              <mat-icon class="autocomplete-icon">search</mat-icon>
+              <label>Search user below</label>
+              <input
+                matInput
+                placeholder="Search user form list"
+                aria-label="userList"
+                formControlName="userList"
+                [matAutocomplete]="auto3"
+              />
+              <mat-autocomplete
+                (optionSelected)="addUserToList($event)"
+                #auto3="matAutocomplete"
+                class="poc-autocomplete"
+              >
+                <mat-option
+                  class="users-list"
+                  *ngFor="let user of filteredUsers | async"
+                  [value]="user.id"
+                >
+                  <span class="user-first">{{ user.first }}</span>
+                  <span class="user-second">{{ user.second }}</span>
+                  <span class="user-email">{{ user.email }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="chexbox-left">
+            <mat-checkbox
+              class="example-margin"
+              (change)="arryCond.addNewUser = !arryCond.addNewUser"
+            >
+              <label> Can't you find who your are looking for? Add them</label>
+            </mat-checkbox>
+          </div>
+          <div class="clearfix"></div>
+          <div class="clearfix"></div>
+          <div class="clearfix"></div>
+          <div class="email-new-user" *ngIf="arryCond.addNewUser">
+            <label>Enter email and select access level </label>
+            <div class="clearfix">
+              <mat-form-field floatLabel="never" class="email">
+                <input
+                  type="email"
+                  matInput
+                  placeholder="Enter email"
+                  formControlName="newEMail"
+                />
+              </mat-form-field>
+              <mat-form-field floatLabel="never" class="email email-20">
+                <mat-select
+                  class="select"
+                  placeholder="User level"
+                  formControlName="newLevel"
+                >
+                  <mat-option value="Level 1">Level 1</mat-option>
+                  <mat-option value="Level 2">Level 2</mat-option>
+                  <mat-option value="Level 3">Level 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field floatLabel="never" class="email email-20">
+                <mat-select
+                  class="select"
+                  placeholder="Entity"
+                  formControlName="newEntity"
+                >
+                  <mat-option value="Entity 1">Entity 1</mat-option>
+                  <mat-option value="Entity 2">Entity 2</mat-option>
+                  <mat-option value="Entity 3">Entity 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field floatLabel="never" class="email email-20">
+                <mat-select
+                  class="select"
+                  placeholder="Region"
+                  formControlName="newRegion"
+                >
+                  <mat-option value="Region 1">Region 1</mat-option>
+                  <mat-option value="Region 2">Region</mat-option>
+                  <mat-option value="Region 3">Region 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field floatLabel="never" class="email email-20">
+                <mat-select
+                  class="select"
+                  placeholder="Business Unit"
+                  formControlName="newBusiness"
+                >
+                  <mat-option value="Businee 1">Business 1</mat-option>
+                  <mat-option value="Business 2">Business 2</mat-option>
+                  <mat-option value="Business 3">Business 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div class="email-add">
+                <mat-icon appSingleClick (singleClick)="addNewUser()"
+                  >add_circle_outline</mat-icon
+                >
+              </div>
+            </div>
+            <label>Rule same company</label>
+            <mat-radio-group
+              class="vertical-radio"
+              formControlName="ruleCompany"
+              required
+            >
+              <mat-radio-button value="hsbc.com">HSBC.com</mat-radio-button>
+              <mat-radio-button value="gettingbank.com"
+                >Gettinbank.com</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div class="choosen-user">
+            <li *ngFor="let user of choosenUserMail">
+              <mat-icon class="person">person</mat-icon>
+              <mat-icon appSingleClick (singleClick)="removeUsuerFromList(user)"
+                >remove_circle_outline</mat-icon
+              >
+              <span>{{ user }}</span>
+            </li>
+            <li *ngFor="let user of newUsersList; index as i">
+              <mat-icon class="person">person</mat-icon>
+              <mat-icon appSingleClick (singleClick)="removeNewUser(i)"
+                >remove_circle_outline</mat-icon
+              >
+              <span>{{ user }}</span>
+            </li>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="solutionSuccessfulFormGroup"
+      class="poc-steps"
+      [label]="listStep.solutionSuccessful.name"
+      *ngIf="listStep.solutionSuccessful.show"
+    >
+      <div class="container-stepper stepper-solution-successful">
+        <div class="modal-icon">
+          <mat-icon>cached</mat-icon>
+        </div>
+        <h4>
+          Do you expect that this solution will <strong>provide</strong> or
+          <strong>replace</strong> any key functionality within the bank?
+        </h4>
+        <form
+          fxLayoutAlign="center center"
+          [formGroup]="solutionSuccessfulFormGroup"
+        >
+          <mat-radio-group formControlName="value">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+        </form>
+      </div>
+    </mat-step>
+    <mat-step
+      [stepControl]="trailFeeFormGroup"
+      class="poc-steps"
+      [label]="listStep.trailFee.name"
+      *ngIf="listStep.trailFee.show"
+    >
+      <div class="container-stepper stepper-trail-fee">
+        <div class="modal-icon">
+          <mat-icon>attach_money</mat-icon>
+        </div>
+        <h4 *ngIf="trialFeeNegotiable" class="center">
+          Are you happy with the <strong>trial fees</strong> shown by the
+          supplier?
+        </h4>
+        <h4 *ngIf="!trialFeeNegotiable" class="center">
+          <strong>Fees</strong> shown by the supplier:
+        </h4>
+        <div class="price-container">
+          <span class="price-trial">&#163; {{ trailFee | number : "2." }}</span>
+        </div>
+        <div *ngIf="!trialFeeNegotiable && trailFee > 0">
+          <h5 class="center notSoStong">
+            Your company has specified that all trials engaged through
+            TechPassport must be set to £0.<br />
+            <small
+              >Please contact us using the help button if you have any
+              issues.</small
+            >
+          </h5>
+        </div>
+
+        <form
+          *ngIf="trialFeeNegotiable"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="trailFeeFormGroup"
+        >
+          <mat-radio-group formControlName="trailFee" required>
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+          </mat-radio-group>
+
+          <mat-form-field
+            floatLabel="never"
+            class="number"
+            *ngIf="
+              trailFee > 0 &&
+              trailFeeFormGroup.get('trailFee').value === 'challenge'
+            "
+            style="margin-top: 12px"
+          >
+            <input
+              type="number"
+              matInput
+              min="0"
+              step="1000"
+              formControlName="trailFeeAmt"
+              value="0"
+              autocomplete="off"
+            />
+          </mat-form-field>
+
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              allowComments &&
+              shouldBeVisible(trailFeeFormGroup, 'trailFee', 'challenge')
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="trailFeeComment"
+            ></textarea>
+            <label>Comments</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="listStep.specialConditions.validatorID"
+      class="poc-steps"
+      [label]="listStep.specialConditions.name"
+      *ngIf="listStep.specialConditions.show"
+    >
+      <div class="container-stepper stepper-special-conditions">
+        <div class="modal-icon">
+          <mat-icon>done_ouline</mat-icon>
+        </div>
+        <h4>
+          And how about the <strong>special conditions</strong> that the
+          Supplier has requested?
+        </h4>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="specialConditionsFormGroup"
+        >
+          <div class="second margin-25" style="font-weight: 100">
+            Please confirm acceptance of the following
+            <strong>special conditions</strong> required by the Supplier
+          </div>
+          <div class="text-condition" [innerHTML]="specialConditionsList"></div>
+          <mat-radio-group formControlName="specialConditions">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                specialConditionsFormGroup,
+                'specialConditions',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="sepcialConditionsEdytor"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="timeTrialFormGroup"
+      class="poc-steps"
+      [label]="listStep.timeTrial.name"
+      *ngIf="listStep.timeTrial.show"
+    >
+      <div class="container-stepper stepper-time-trial">
+        <div class="modal-icon">
+          <mat-icon>date_range</mat-icon>
+        </div>
+        <h4>
+          When would you like the <strong>trial</strong> to
+          <strong>start</strong>?
+          <!--<strong>start </strong>
+          <span>and <strong>how long</strong> would you like it to last?</span>-->
+        </h4>
+        <!-- *ngIf="shouldBeVisible(timeTrialFormGroup,'startDateTrial')" -->
+        <form
+          fxLayout="row"
+          class="timeTrialForm"
+          fxLayoutAlign="center center"
+          [formGroup]="timeTrialFormGroup"
+        >
+          <mat-form-field floatLabel="never">
+            <label>Start</label>
+            <input
+              matInput
+              [min]="minDateStart"
+              [max]="maxDateStart"
+              (dateChange)="startDateChanged()"
+              autocomplete="off"
+              [matDatepicker]="pickerStart"
+              formControlName="startDateTrial"
+              placeholder="Select date"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerStart"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              #pickerStart
+              [dateClass]="dateClass"
+              disabled="false"
+            ></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field floatLabel="never">
+            <!--  *ngIf="shouldBeVisible(timeTrialFormGroup,'startDateTrial')"-->
+            <label>End</label>
+            <input
+              matInput
+              [min]="minDateEnd"
+              [max]="maxDateStart"
+              (dateChange)="endDateChanged()"
+              autocomplete="off"
+              [matDatepicker]="pickerEnd"
+              [value]="getEndTime()"
+              formControlName="endDateTrial"
+              placeholder="Select date"
+            />
+            <!--  [matDatepicker]="pickerEnd" disabled="true"-->
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerEnd"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              [dateClass]="dateClass"
+              #pickerEnd
+              disabled="false"
+            ></mat-datepicker>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="testSystemFormGroup"
+      class="poc-steps"
+      [label]="listStep.testSystem.name"
+      *ngIf="listStep.testSystem.show"
+    >
+      <div class="container-stepper stepper-test-system">
+        <div class="modal-icon">
+          <mat-icon>cloud_queue</mat-icon>
+        </div>
+        <h4>
+          Would you prefer to <strong>test</strong> this on your
+          <strong>own system</strong> or on the
+          <strong>cloud testing environment</strong>, provided by the supplier?
+        </h4>
+        <form
+          class="stepper-test-system-form"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="testSystemFormGroup"
+        >
+          <mat-radio-group formControlName="testSystem">
+            <mat-radio-button value="own system">Own system</mat-radio-button>
+            <mat-radio-button value="cloud system"
+              >Cloud testing environment</mat-radio-button
+            >
+          </mat-radio-group>
+          <mat-select
+            class="select"
+            formControlName="testingEnv"
+            placeholder="Select an option"
+            *ngIf="
+              shouldBeVisible(testSystemFormGroup, 'testSystem', 'cloud system')
+            "
+          >
+            <mat-option value="Software only">Software only</mat-option>
+            <mat-option
+              value="Software accessed using the Supplier's hosting environment"
+              >Software accessed using the Supplier's hosting
+              environment</mat-option
+            >
+            <mat-option value="Both">Both</mat-option>
+          </mat-select>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="howManyUsersFormGroup"
+      class="poc-steps"
+      [label]="listStep.howManyUsers.name"
+      *ngIf="listStep.howManyUsers.show === true"
+    >
+      <div class="container-stepper stepper-how-many-users">
+        <div class="modal-icon">
+          <mat-icon>supervisor_account</mat-icon>
+        </div>
+        <h4>
+          Wonderful. And how many <strong>users</strong> would you like to
+          <strong>test it?</strong>
+        </h4>
+        <form fxLayoutAlign="center center" [formGroup]="howManyUsersFormGroup">
+          <mat-form-field floatLabel="never" class="number">
+            <input
+              type="number"
+              matInput
+              min="1"
+              formControlName="howManyUsers"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="howManyCopiesFormGroup"
+      class="poc-steps"
+      [label]="listStep.howManyCopies.name"
+      *ngIf="listStep.howManyCopies.show === true"
+    >
+      <div class="container-stepper stepper-how-many-users">
+        <div class="modal-icon">
+          <mat-icon>copyright</mat-icon>
+        </div>
+        <h4>
+          <div>We're nearly done stick with us!</div>
+          How many <strong>copies of the software</strong> will you need?
+        </h4>
+        <form
+          fxLayoutAlign="center center"
+          [formGroup]="howManyCopiesFormGroup"
+        >
+          <mat-form-field floatLabel="never" class="number">
+            <input
+              type="number"
+              matInput
+              min="1"
+              formControlName="howManyCopies"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="customerEntityFormGroup"
+      class="poc-steps"
+      [label]="listStep.customerEntity.name"
+      *ngIf="listStep.customerEntity.show"
+    >
+      <div class="container-stepper stepper-customer-entity">
+        <div class="modal-icon">
+          <mat-icon>computer</mat-icon>
+        </div>
+        <h4>
+          Would you like to include any <strong>customer entity</strong> of your
+          organisation to be included in the POC
+        </h4>
+        <form
+          class="margin-25"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="customerEntityFormGroup"
+        >
+          <mat-radio-group formControlName="customerEntity">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            floatLabel="never"
+            *ngIf="
+              shouldBeVisible(customerEntityFormGroup, 'customerEntity', 'yes')
+            "
+          >
+            <label>Please provide the full name of the entity</label>
+            <input
+              matInput
+              type="text"
+              placeholder="Name of the entity"
+              formControlName="name"
+            />
+          </mat-form-field>
+          <mat-form-field
+            floatLabel="never"
+            *ngIf="
+              shouldBeVisible(customerEntityFormGroup, 'customerEntity', 'yes')
+            "
+          >
+            <label>Please provide the entity registered number</label>
+            <input
+              matInput
+              type="text"
+              placeholder="Registered number"
+              formControlName="registredNumber"
+            />
+          </mat-form-field>
+          <mat-form-field
+            floatLabel="never"
+            *ngIf="
+              shouldBeVisible(customerEntityFormGroup, 'customerEntity', 'yes')
+            "
+          >
+            <label>Provide the entity registered address</label>
+            <input
+              matInput
+              type="text"
+              placeholder="Registered address"
+              formControlName="registredAddress"
+            />
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="acceptHostingFormGroup"
+      class="poc-steps"
+      [label]="listStep.acceptHosting.name"
+      *ngIf="listStep.acceptHosting.show"
+    >
+      <div class="container-stepper stepper-accept-hosting">
+        <div class="modal-icon">
+          <mat-icon>computer</mat-icon>
+        </div>
+        <h4>
+          Are you happy with the hosting <strong>service environment</strong> by
+          the supplier during POC Testing?
+        </h4>
+        <div class="second margin-25">
+          Do you accept the hosting service for testing as informed by the
+          Supplier?
+        </div>
+        <div class="text-condition" [innerHTML]="hostedLiveSolution"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="acceptHostingFormGroup"
+        >
+          <mat-radio-group formControlName="acceptHosting">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                acceptHostingFormGroup,
+                'acceptHosting',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterAcceptHosting"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="selectTerritoriesFormGroup"
+      class="poc-steps"
+      [label]="listStep.selectTerritories.name"
+      *ngIf="listStep.selectTerritories.show"
+    >
+      <div class="container-stepper stepper-select-territories">
+        <div class="modal-icon">
+          <mat-icon>language</mat-icon>
+        </div>
+        <h4>
+          Which <strong>territories</strong> will the bank use the software from
+          during testing?
+        </h4>
+        <div class="second margin-25">
+          Please select the territories in which the Bank will use the software.
+        </div>
+        <form [formGroup]="selectTerritoriesFormGroup">
+          <mat-form-field floatLabel="never">
+            <mat-select formControlName="countries" multiple>
+              <mat-option
+                *ngFor="let c of includedTerritories"
+                value="{{ c.name }}"
+              >
+                <span
+                  class="flag-icon flag-icon-{{
+                    c.code ? c.code.toLowerCase() : ''
+                  }}"
+                ></span>
+                {{ c.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>{{ selectTerritoriesFormGroup.controls.countries.value }}</div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="additionaLicenceFormGroup"
+      class="poc-steps"
+      [label]="listStep.additionaLicence.name"
+      *ngIf="listStep.additionaLicence.show"
+    >
+      <div class="container-stepper stepper-additiona-licence">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4>
+          Are you happy with the additional
+          <strong>licence restrictions</strong> listed by the supplier below?
+        </h4>
+        <div class="second margin-25">
+          Please confirm acceptance of the additional licence restrictions
+        </div>
+        <div class="text-condition">{{ additionalRestrictions }}</div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="additionaLicenceFormGroup"
+        >
+          <mat-radio-group formControlName="additionaLicence">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                additionaLicenceFormGroup,
+                'additionaLicence',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterAdditionaLicence"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="provisionSoftwareFormGroup"
+      class="poc-steps"
+      [label]="listStep.provisionSoftware.name"
+      *ngIf="listStep.provisionSoftware.show"
+    >
+      <div class="container-stepper stepper-provision-software">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4 class="medium-font">
+          In addition to the provision of the Software, documentation (and other
+          Trial Materials) and, if applicable the Hosting Environment, the
+          additional services provided by the Supplier are outlined below
+        </h4>
+        <div class="second margin-35">
+          Please confirm acceptance or amend the service description.
+        </div>
+        <div class="text-condition">{{ additionalServicesDescription }}</div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="provisionSoftwareFormGroup"
+        >
+          <mat-radio-group formControlName="provisionSoftware">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                provisionSoftwareFormGroup,
+                'provisionSoftware',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterSoftware"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="requireAccessFormGroup"
+      class="poc-steps"
+      [label]="listStep.requireAccess1.name"
+      *ngIf="listStep.requireAccess1.show"
+    >
+      <div class="container-stepper stepper-require-access1">
+        <div class="modal-icon">
+          <mat-icon>star_half</mat-icon>
+        </div>
+        <h4 class="medium-font">
+          The supplier has advised that they shall require
+          <strong>access</strong> to the following
+          <strong>during the POC phase.</strong>
+        </h4>
+        <div class="second margin-25">Please confirm your acceptance</div>
+        <div class="text-condition">{{ testingAccess }}</div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="requireAccessFormGroup"
+        >
+          <mat-radio-group formControlName="requireAccess">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                requireAccessFormGroup,
+                'requireAccess',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterRequireAccess"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="requireAccess2FormGroup"
+      class="poc-steps"
+      [label]="listStep.requireAccess2.name"
+      *ngIf="listStep.requireAccess2.show"
+    >
+      <div class="container-stepper stepper-require-access2">
+        <div class="modal-icon">
+          <mat-icon>check_circle_outline</mat-icon>
+        </div>
+        <h4 class="medium">
+          The supplier has advised that they shall require to the following as
+          <strong>part of their service.</strong>
+        </h4>
+        <div class="second margin-25">Please confirm your acceptance</div>
+        <div class="text-condition">{{ liveAccess }}</div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="requireAccessLiveFormGroup"
+        >
+          <mat-radio-group formControlName="accessLive">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                requireAccessLiveFormGroup,
+                'accessLive',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterAccessLive"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="dataTrialFormGroup"
+      class="poc-steps"
+      [label]="listStep.dataTrial.name"
+      *ngIf="listStep.dataTrial.show"
+    >
+      <div class="container-stepper stepper-data-trail">
+        <div class="modal-icon">
+          <mat-icon>folder_open</mat-icon>
+        </div>
+        <h4 class="center">
+          Will you use <strong>dummy</strong> data or <strong>real</strong> data
+          for the trial?
+        </h4>
+        <form fxLayoutAlign="center center" [formGroup]="dataTrialFormGroup">
+          <mat-radio-group formControlName="dataTrial">
+            <mat-radio-button value="real">Real</mat-radio-button>
+            <mat-radio-button value="dummy">Dummy</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="providedLocationFormGroup"
+      class="poc-steps"
+      [label]="listStep.providedLocation.name"
+      *ngIf="listStep.providedLocation.show && arryCond.systemTestReal"
+    >
+      <div class="container-stepper stepper-provided-location">
+        <div class="modal-icon">
+          <mat-icon>language</mat-icon>
+        </div>
+        <h4>
+          Are you happy with the <strong>locations</strong> that the Supplier
+          can provide the commodities (all or part) in?
+        </h4>
+        <div class="second second-not-bold margin-25">
+          Please note the location(s) from which the Supplier shall provide all
+          or part of the commodities and if relevant process the data.
+        </div>
+        <div class="text-condition">
+          <li class="location" *ngFor="let location of personalDataLocations">
+            {{ location }}&nbsp;
+          </li>
+        </div>
+        <div class="second">Please confirm acceptance or select in review</div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="providedLocationFormGroup"
+        >
+          <mat-radio-group formControlName="providedLocation">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                providedLocationFormGroup,
+                'providedLocation',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              formControlName="enterLocation"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="outsideEEAFormGroup"
+      class="poc-steps"
+      [label]="listStep.outsideEEA.name"
+      *ngIf="listStep.outsideEEA.show && arryCond.systemTestReal"
+    >
+      <div class="container-stepper stepper-data-trail">
+        <div class="modal-icon">
+          <mat-icon>folder_open</mat-icon>
+        </div>
+        <h4>
+          <strong>Personal data</strong> is being transferred
+          <strong>outside of the EEA</strong> to the following locations.
+        </h4>
+        <div class="second margin-25">
+          Please confirm you have the Data Subjects' consent for such transfer
+        </div>
+        <div class="text-condition">
+          <li *ngFor="let country of DesignatedLocations">{{ country }}</li>
+        </div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="outsideEEAFormGroup"
+        >
+          <mat-radio-group formControlName="outsideEEA">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(outsideEEAFormGroup, 'outsideEEA', 'challenge')
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="enterEEA"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="dataClassificationFormGroup"
+      class="poc-steps"
+      [label]="listStep.dataClassification.name"
+      *ngIf="listStep.dataClassification.show"
+    >
+      <div class="container-stepper stepper-data-classification">
+        <div class="modal-icon">
+          <mat-icon>system_update_alt</mat-icon>
+        </div>
+        <h4>
+          Please select the <strong>data classifications</strong> which are
+          relevant during testing.
+        </h4>
+        <form [formGroup]="dataClassificationFormGroup">
+          <div class="checkbox">
+            <mat-checkbox>DATA1</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA2</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA_ZX</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA1_13A</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA10</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA111</mat-checkbox>
+          </div>
+        </form>
+        <h4 class="medium-font">
+          And also for the live service if the product is selected post POC.
+        </h4>
+        <form [formGroup]="dataClassificationLiveFormGroup">
+          <!--- TEST IT --->
+          <div class="checkbox">
+            <mat-checkbox>DATA1</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA2</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA_ZX</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA1_13A</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA10</mat-checkbox>
+          </div>
+          <div class="checkbox">
+            <mat-checkbox>DATA111</mat-checkbox>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="technicalOperationFormGroup"
+      class="poc-steps"
+      [label]="listStep.technicalOperation.name"
+      *ngIf="listStep.technicalOperation.show"
+    >
+      <div class="container-stepper stepper-require-access2">
+        <div class="modal-icon">
+          <mat-icon>check_circle_outline</mat-icon>
+        </div>
+        <h4 class="medium-font">
+          Please confirm acceptance of the
+          <strong>technical / operational measures</strong> for or if this can
+          be an auto-fil in the Schedule which is confirmed once the Schedule is
+          produced.
+        </h4>
+        <div class="text-condition margin-25">
+          {{ personalDataTransferMeasures }}
+        </div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="technicalOperationFormGroup"
+        >
+          <mat-radio-group formControlName="technicalOperation">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="challenge">Challenge</mat-radio-button>
+            <mat-radio-button value="tbc">To be confirmed</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                technicalOperationFormGroup,
+                'technicalOperation',
+                'challenge'
+              )
+            "
+          >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="technicalOperation1"
+            ></textarea>
+            <label>Please describe</label>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [stepControl]="additionalConditionsFormGroup"
+      class="poc-steps"
+      [label]="listStep.additionalConditions.name"
+      *ngIf="listStep.additionalConditions.show"
+    >
+      <div class="container-stepper stepper-additional-conditions">
+        <div class="modal-icon">
+          <mat-icon>done_ouline</mat-icon>
+        </div>
+        <h4>
+          Are there <strong>additional special conditions</strong> specific to
+          this trial?
+        </h4>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="additionalConditionsFormGroup"
+        >
+          <mat-radio-group
+            class="margin-25"
+            formControlName="additionalConditions"
+          >
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+          <div class="clearfix">&nbsp;</div>
+          <mat-form-field
+            class="free-text"
+            *ngIf="
+              shouldBeVisible(
+                additionalConditionsFormGroup,
+                'additionalConditions',
+                'yes'
+              )
+            "
+          >
+            <label
+              >Describe any additional special conditions specific to this
+              trial</label
+            >
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="7"
+              formControlName="additionalConditions1"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step class="poc-steps" [label]="listStep.POCend.name">
+      <div class="container-stepper stepper-end">
+        <div class="modal-icon">
+          <mat-icon>check_circle_outline</mat-icon>
+        </div>
+        <h4 style="text-align: center"><strong>Congratulations! </strong></h4>
+        <div class="text-condition margin-25">
+          You have completed the entired POC questionnaire.<br />
+          Now you can find it in Your POC's subpage.
+        </div>
+        <div>
+          <button class="finish" appSingleClick (singleClick)="fin()">
+            Review POC</button
+          ><!--  Finish -->
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <div class="error">{{ messageError }}</div>
+  <div
+    class="bottomMenuPoc"
+    [hidden]="
+      stepper.selectedIndex === 0 ||
+      stepper.selectedIndex === stepper._steps.length - 1
+    "
+  >
+    <button
+      appSingleClick
+      mat-button
+      class="goIn goBack poc-button"
+      (singleClick)="goBack(stepper)"
+      [disabled]="stepper.selectedIndex == 1"
+    >
+      <mat-icon>arrow_backward</mat-icon>
+    </button>
+
+    <button
+      [hidden]="
+        !(stepper.selectedIndex === 1 && listStep.projectRequirements.show)
+      "
+      appSingleClick
+      mat-button
+      class="goIn goForward poc-button"
+      style="text-align: center"
+      (singleClick)="skip(stepper)"
+    >
+      Skip
+    </button>
+
+    <button
+      appSingleClick
+      mat-button
+      class="goIn goForward poc-button"
+      (singleClick)="goForward(stepper)"
+    >
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>

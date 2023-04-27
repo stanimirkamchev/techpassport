@@ -1,0 +1,171 @@
+@import 'src/styles/colors';
+
+ui-tooltip {
+  position: relative;
+  top: .25rem;
+
+  .tooltip-label {
+    margin-top: 1px;
+    line-height: 1;
+  }
+}
+
+::ng-deep {
+  .head {
+    font-size: 24px;
+  }
+
+  .cdk-overlay-pane {
+    &.mat-tooltip-panel {
+      .mat-tooltip {
+        border-radius:  3px;
+        font-size:  15px;
+        padding:  10px;
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .company-watchlists::ng-deep {
+    .star-icon {
+      margin-left: 8px;
+    }
+
+    .mat-expansion-panel {
+      overflow: visible !important;
+    }
+    .mat-content {
+      overflow: visible !important;
+    }
+
+    .tooltip-icon {
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+    }
+    .tooltip_icon {
+      border: none;
+      background-color: transparent;
+
+      .mat-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+
+      .tooltipContainer {
+        visibility: hidden;
+        width: 18rem;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+        color: $tp-black;
+        border-radius: 6px;
+        padding: 0 1.25rem 1.25rem 1.25rem;
+        text-align: left;
+        background-color: $tp-sidenav;
+        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.25);
+        position: absolute;
+        left: 1rem;
+        top: 1.4rem;
+        z-index: 1;
+        margin: 0 !important;
+
+        .tooltipTitle {
+          font-weight: 700;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .tooltip:hover .tooltipContainer {
+      visibility: visible;
+    }
+  }
+  .mat-expansion-panel-header {
+    height: 70px;
+
+    .mat-expansion-panel-header-title {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-family: 'Inter', serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        color: $text-primary-color;
+        margin-top: 2px;
+        line-height: 1;
+      }
+
+      .star-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .edit-button {
+        color: $primary-blue;
+        font-size: 16px;
+        margin-left: 8px;
+
+        &.mat-icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .subTitle {
+        font-family: 'Inter', serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: $text-secondary-color;
+      }
+    }
+
+    .mat-expansion-panel-header-description {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .btn-collaborate {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .btn-collaborate {
+      color: $primary-blue;
+    }
+    .toggle-button {
+      font-size: 14px;
+      &.mat-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+.align-center {
+  align-items: center;
+}
+
+ul.collaboratorsList {
+  list-style-type: none;
+
+  li {
+    float: left;
+    margin-right: 2rem;
+  }
+}

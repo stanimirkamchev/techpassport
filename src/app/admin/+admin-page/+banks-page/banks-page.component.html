@@ -1,0 +1,28 @@
+<div class="container" isRoute="/admin/banks">
+  <ui-page-title>Banks</ui-page-title>
+  <ui-page-content>
+    <header *ngIf="cachedCustomers$ | async as cachedCustomers">
+      <banks-filters
+        (filter)="onFilter($event)"
+        [filters]="filters$ | async"
+        [customers]="cachedCustomers">
+      </banks-filters>
+      <!-- <header-controls
+        [approvalHidden]="true"
+        [downloadDisabled]="!cachedCustomers.length"
+        (download)="download(cachedCustomers)">
+      </header-controls> -->
+    </header>
+    <mat-spinner *ngIf="loading$ | async; else banksTable" diameter="32"></mat-spinner>
+    <ng-template #banksTable>
+      <banks-table
+        (sort)="onSort($event)"
+        (edit)="onEdit($event)"
+        (changeSaml)="onChangeSaml($event)"
+        (openCustomer)="openCustomer($event)"
+        [customers]="customers$ | async">
+      </banks-table>
+    </ng-template>
+  </ui-page-content>
+</div>
+<router-outlet></router-outlet>

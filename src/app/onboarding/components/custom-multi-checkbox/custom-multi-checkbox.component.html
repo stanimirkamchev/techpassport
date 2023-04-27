@@ -1,0 +1,20 @@
+<div class="custom-multi-checkbox-wrapper">
+  <div class="d-flex items-center justify-between">
+    <div class="label-text mb-5">{{ label }}</div>
+    <div class="d-flex space-x-10 flex-wrap">
+      <div
+        *ngFor="let option of options"
+        class="d-flex option justify-between mb-5 space-x-3"
+        (click)="toggle(option)"
+      >
+        <div class="label">{{ option.label }}</div>
+        <div class="value icon-wrapper yes" [class.yes]="isActive(option)">
+          <mat-icon *ngIf="isActive(option)" svgIcon="heavy_check"></mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isError" class="error">
+    {{ errorText }}
+  </div>
+</div>

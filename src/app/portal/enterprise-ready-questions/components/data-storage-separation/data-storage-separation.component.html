@@ -1,0 +1,206 @@
+<form [formGroup]="formGroup">
+  <div class="row">
+    <div class="column-4">
+      <div class="centerVertically">
+        Can you guarantee the <b>location</b> of customer or user data and
+        storage at all times?
+      </div>
+    </div>
+    <div class="column-8 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="guaranteeLocationValue()"
+        (change)="onGuaranteeLocationValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="guaranteeLocationCheck">
+    <div class="column-4">
+      <span>Provide more information </span>
+    </div>
+    <div class="column-8"></div>
+  </div>
+
+  <div class="row" *ngIf="guaranteeLocationCheck">
+    <div class="column-11 resetDisplay">
+      <custom-text-area
+        [formGroup]="formGroup"
+        formControlName="moreInfo"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+    <div class="column-1"></div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="column-4">
+      <span>Select the region(s) you <b>provide services</b> to</span>
+    </div>
+    <div class="column-8"></div>
+  </div>
+  <div class="row" formGroupName="serviceProvidedCountryRegions">
+    <div class="column-12">
+      <custom-multi-checkbox
+        [formGroup]="formGroup.get('serviceProvidedCountryRegions')"
+        orientation="vertical"
+        [options]="countryRegionOptions"
+        ngDefaultControl
+        (valueChanged)="onServiceProvidedCountryRegionsChanged($event)"
+      ></custom-multi-checkbox>
+    </div>
+  </div> -->
+
+  <!-- <div class="row" formGroupName="serviceProvidedCountryRegions">
+    <div class="column-4 resetDisplay">
+      <custom-input
+        *ngIf="serviceProvidedCountriesOtherInputVisible$ | async"
+        [formGroup]="formGroup.get('serviceProvidedCountryRegions')"
+        formControlName="country_other_text"
+        label="Other"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+    <div class="column-8"></div>
+  </div> -->
+
+  <div class="row">
+    <div class="column-4">
+      <span>
+        Select the region(s) your data center and processing
+        <b>location are maintained</b>
+      </span>
+    </div>
+    <div class="column-8"></div>
+  </div>
+  <div class="row" formGroupName="dataMaintenanceLocations">
+    <div class="column-12">
+      <region-multi-checkbox
+        [allowNA]="true"
+        [formGroup]="formGroup.get('dataMaintenanceLocations')"
+        orientation="vertical"
+        [options]="countryRegionOptions"
+        ngDefaultControl
+        (valueChanged)="onDataMaintenanceLocationsChanged($event)"
+      ></region-multi-checkbox>
+    </div>
+  </div>
+  <div class="row" formGroupName="dataMaintenanceLocations">
+    <div class="column-4 resetDisplay">
+      <custom-input
+        *ngIf="dataMaintenanceCountriesOtherInputVisible$ | async"
+        [formGroup]="formGroup.get('dataMaintenanceLocations')"
+        formControlName="country_other_text"
+        label="Other"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+    <div class="column-8"></div>
+  </div>
+
+  <div class="row" formGroupName="logicalSegregation">
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you utilise <b>robust logical segregation</b>?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="robustLogicalSegregationValue()"
+        (change)="onRobustLogicalSegregationValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="row" formGroupName="separateDataSetAccess">
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you separate customers’ <b>data sets and access</b>?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="separateDataSetAccessValue()"
+        (change)="onSeparateDataSetAccessValueChange($event)"
+        ngDefaultControl
+      >
+      </custom-checkbox>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="onSeparateDataSetAccessValueCheck$ | async">
+    <div class="column-4">
+      <span> Describe the method of separation </span>
+    </div>
+  </div>
+  <div
+    class="row"
+    formGroupName="separateDataSetAccess"
+    *ngIf="onSeparateDataSetAccessValueCheck$ | async"
+  >
+    <div class="column-11 resetDisplay">
+      <custom-text-area
+        [formGroup]="formGroup.get('separateDataSetAccess')"
+        formControlName="setAccessMoreInfo"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+    <div class="column-1"></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="row" formGroupName="processChangeManagement">
+    <div class="column-4">
+      <div class="centerVertically">
+        Do you have a process for change management when <br />
+        you change or add hosting providers to demonstrate where <br />
+        the storage of data is, so a bank is informed and can approve?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="processChangeManagementValue()"
+        (change)="onProcessChangeManagementValueChange($event)"
+        ngDefaultControl
+      >
+      </custom-checkbox>
+    </div>
+  </div>
+  <div class="row" *ngIf="onProcessChangeManagementValueCheck$ | async">
+    Provide more information
+    <div class="column-11 resetDisplay" formGroupName="processChangeManagement">
+      <custom-text-area
+        [formGroup]="formGroup.get('processChangeManagement')"
+        formControlName="changeManagementMoreInfo"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+    <div class="column-1"></div>
+  </div>
+
+  <!-- <div class="row" *ngIf="onRobustLogicalSegregationValueCheck">
+    <div class="column-4">
+      <span> Provide more information </span>
+    </div>
+  </div>
+  <div
+    class="row"
+    formGroupName="logicalSegregation"
+    *ngIf="onRobustLogicalSegregationValueCheck"
+  >
+    <div class="column-11 resetDisplay">
+      <custom-text-area
+        [formGroup]="formGroup.get('logicalSegregation')"
+        formControlName="moreInfo"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+    <div class="column-1"></div>
+  </div> -->
+</form>

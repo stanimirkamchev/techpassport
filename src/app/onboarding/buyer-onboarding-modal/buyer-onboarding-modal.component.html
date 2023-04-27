@@ -1,0 +1,6 @@
+<ui-page-close [mat-dialog-close]></ui-page-close>
+<form autocomplete="off" [formGroup]="formGroup">
+  <buyer-onboarding-stepper [formControl]="formGroup.get('buyer')" (patch)="patchBuyerOnboarding($event)"
+    (create)="createBuyerOnboarding()" (finish)="finishBuyerOnboarding()" (close)="closeBuyerOnboarding()">
+  </buyer-onboarding-stepper>
+</form>

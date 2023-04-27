@@ -1,0 +1,200 @@
+<mat-toolbar color="primary" class="main-toolbar">
+  <div id="logo">
+    <a href="/portal">
+      <img src="assets/img/new-tp-logo.svg" alt="Techpassport" class="logo" />
+    </a>
+  </div>
+  <span class="fill-space"></span>
+  <button
+    mat-icon-button
+    matTooltip="messsages"
+    [matMenuTriggerFor]="messageMenu"
+    *ngIf="
+      apiService.sessionObject.hasSession === true &&
+      notificationMessage.length > 0
+    "
+  >
+    <mat-icon
+      matBadge="{{ notificationMessage.length }}"
+      matBadgePosition="above before"
+      matBadgeColor="warn"
+      matBadgeSize="small"
+      >chat_bubble_outlin</mat-icon
+    >
+  </button>
+  <mat-menu
+    class="matMenu"
+    #messageMenu="matMenu"
+    xPosition="before"
+    backdropClass="message-center"
+  >
+    <div class="message-center-container" (click)="$event.stopPropagation()">
+      <div class="section messages">
+        <span class="title">Messages</span>
+        <div *ngFor="let note of notificationMessage?.reverse()" class="message">
+          <div class="person">
+            <mat-icon class="person-icon">person_pin</mat-icon>
+            <div class="who-cont">
+              <div class="name">{{ note.fromDN }}</div>
+              <div class="date">{{ note.timestamp | date : "short" }}</div>
+            </div>
+          </div>
+          <div class="text" [innerHTML]="note.message"></div>
+          <mat-icon class="remove" (click)="removeMessage(note)"
+            >cancel</mat-icon
+          >
+        </div>
+      </div>
+    </div>
+  </mat-menu>
+  <button
+    mat-icon-button
+    matTooltip="Notifications"
+    [matMenuTriggerFor]="settingsMenu"
+    *ngIf="
+      apiService.sessionObject.hasSession === true &&
+      notificationStatus.length > 0
+    "
+  >
+    <mat-icon>notifications_none</mat-icon>
+    <span class="ribbon color-red" *ngIf="importantNote">!</span>
+    <span
+      class="ribbon color-red"
+      *ngIf="notificationStatus.length > 0 && importantNote == false"
+    >
+      {{ notificationStatus.length }}
+    </span>
+  </button>
+  <mat-menu
+    class="matMenu"
+    #settingsMenu="matMenu"
+    xPosition="before"
+    backdropClass="notification-center"
+  >
+    <div class="eventsDialog notification-center-container">
+      <div class="important" *ngIf="importantNote">
+        <div class="important" *ngIf="importantNoteProgress">
+          <mat-progress-bar
+            color="accent"
+            mode="indeterminate"
+            class="upload-progress"
+          ></mat-progress-bar>
+        </div>
+        <div class="welcome" *ngIf="!importantNoteProgress">
+          Hi {{ apiService.sessionObject.details }}
+        </div>
+        <div class="text" *ngIf="!importantNoteProgress">
+          Connection request from
+          <strong>{{ importantNoteDetails.from }}</strong>
+          <p>{{ importantNoteDetails.message }}</p>
+        </div>
+
+        <div
+          style="text-align: center; font-weight: bold"
+          *ngIf="
+            !importantNoteProgress && importantNoteDetails.isResponse !== true
+          "
+        >
+          Do you agree?
+        </div>
+        <div class="buttons" *ngIf="!importantNoteProgress">
+          <button
+            mat-button
+            mat-raised-button
+            (click)="connectMeResponseBack(importantNoteDetails, true)"
+            color="accent"
+          >
+            <mat-icon class="supplier">done</mat-icon>
+            <span *ngIf="importantNoteDetails.isResponse !== true">Yes</span>
+            <span
+              *ngIf="
+                importantNoteDetails.isResponse === true &&
+                importantNoteDetails.reason !== 'POC'
+              "
+              >Sign NDA & {{ importantNoteDetails.reason }}</span
+            >
+            <span
+              *ngIf="
+                importantNoteDetails.isResponse === true &&
+                importantNoteDetails.reason === 'POC'
+              "
+              >Sign NDA & Start POC</span
+            >
+          </button>
+
+          <button
+            mat-button
+            mat-raised-button
+            (click)="connectMeResponseBack(importantNoteDetails, false)"
+            color="primary"
+          >
+            <mat-icon class="supplier">close</mat-icon>
+            <span *ngIf="importantNoteDetails.isResponse !== true">No</span>
+            <span *ngIf="importantNoteDetails.isResponse === true">Later</span>
+          </button>
+        </div>
+      </div>
+      <div
+        class="events"
+        *ngIf="notificationStatus.length > 0 && importantNote == false"
+      >
+        <div class="section status">
+          <span class="title">Status</span>
+          <div
+            *ngFor="let note of notificationStatus"
+            class="note"
+            (click)="openReview(note.projectTitle, note.question)"
+          >
+            <mat-icon class="remove">cancel</mat-icon>
+            <span class="date">{{ note.time | date : "short" }}</span>
+            <span *ngIf="note.person" class="projectTitle bold">{{
+              note.projectTitle
+            }}</span>
+            <span *ngIf="note.person"> has been update by a </span>
+            <span *ngIf="note.person" class="person bold">{{
+              note.person
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <span
+        class="noEvents"
+        *ngIf="notificationStatus.length == 0 && importantNote == false"
+        >You don't have any alerts!</span
+      >
+    </div>
+  </mat-menu>
+      <button mat-icon-button matTooltip="Help" *ngIf="apiService.sessionObject.hasSession" (click)="openContactModal()">
+        <mat-icon>contact_support</mat-icon>
+      </button>
+  <div
+    id="account"
+    matTooltip="Account"
+    [matMenuTriggerFor]="accountMenu"
+    *ngIf="apiService.sessionObject.hasSession === true"
+  >
+    <div class="cred">{{ apiService.sessionObject.details }}</div>
+    <mat-icon class="account-icon" svgIcon="account-circle"></mat-icon>
+    <mat-icon class="down-icon" svgIcon="chevron-down"></mat-icon>
+  </div>
+  <mat-menu class="matMenu" #accountMenu="matMenu">
+    <button mat-menu-item (click)="openProfileModal()">
+      <mat-icon>folder_shared</mat-icon>
+      <span>Edit Profile</span>
+    </button>
+    <button
+      mat-menu-item
+      (click)="openMembershipModal()"
+      *ngIf="apiService.sessionObject.membership != 'none'"
+    >
+      <mat-icon>payment</mat-icon>
+      <span>Payments</span>
+    </button>
+    <button mat-menu-item (click)="destroySession()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Log out</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

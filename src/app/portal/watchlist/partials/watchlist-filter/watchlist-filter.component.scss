@@ -1,0 +1,147 @@
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  transform: translateY(-50%);
+}
+
+::ng-deep .search-box {
+  background-color: #ffffff;
+  height: 48px;
+  width: 420px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+
+  .search-container {
+    position: relative;
+    height: 100%;
+    color: #71717A;
+  }
+  .search-input {
+    width: 100%;
+    height: 100%;
+    padding-left: 44px !important;
+    font-family: 'Public Sans' !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    line-height: 19px;
+  }
+}
+
+.filter-btn {
+  height: 48px;
+  border: 1px solid #E5E7EB;
+  background-color: #ffffff;
+  border-radius: 6px !important;
+
+  .mat-icon {
+    color: #71717A;
+  }
+
+  .label {
+    font-family: "Public Sans";
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+  }
+}
+
+.watchlist-filter {
+  .sort-btn {
+    height: 48px;
+    border: 1px solid #E5E7EB;
+    background-color: #ffffff;
+    border-radius: 6px !important;
+    font-size: 14px !important;
+    line-height: 1;
+    position: relative;
+    padding-right: 40px;
+
+    .mat-icon {
+      color: #71717A;
+    }
+
+    .label {
+      font-family: 'Public Sans';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 20px;
+      color: #18181B;
+    }
+    .arrow {
+      color: #18181B;
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.link {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+  text-align: right;
+  text-decoration-line: underline;
+  color: #F43F9C;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.show-label {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: right;
+}
+
+::ng-deep .mat-menu-content {
+  width: 170px;
+}
+
+
+::ng-deep {
+  .mat-badge-content {
+    background-color: #3F9CF4;
+  }
+}
+
+.filter-content {
+  ::ng-deep .mat-chip {
+    background: #0D1B47;
+    color: white;
+    border-radius: 6px !important;
+    height: 23px!important;
+    min-height: unset;
+    padding: 4px 6px !important;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px !important;
+    line-height: 15px;
+    letter-spacing: -0.25px;
+    display: flex;
+    align-items: center;
+
+    .mat-icon {
+      color: #9CA3AF;
+      width: 8px;
+      height: 8px;
+      display: flex;
+      margin-right: 4px;
+    }
+  }
+  ::ng-deep .mat-icon {
+    color: white;
+  }
+}

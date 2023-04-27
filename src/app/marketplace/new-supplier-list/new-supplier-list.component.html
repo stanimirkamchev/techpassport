@@ -1,0 +1,204 @@
+<div class="d-flex justify-between mb-5">
+  <div class="d-flex items-center">
+    <h2 class="supplier-heading px-6">New products</h2>
+  </div>
+  <!-- <div class="actions d-flex">
+    <div class="d-flex items-center link ml-2">
+      Select all
+    </div>
+    <button mat-raised-button class="btn-custom ml-3">
+      <span class="label">&nbsp;Invite supplier</span>
+    </button>
+  </div> -->
+</div>
+<div class="spinner d-flex justify-center" *ngIf="loading">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+<ng-container *ngIf="!loading">
+  <div class="supplier-list">
+    <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+      <!-- icon -->
+      <ng-container matColumnDef="icon">
+        <th class="list-header centered" mat-header-cell *matHeaderCellDef>
+          <mat-icon svgIcon="eye"></mat-icon>
+        </th>
+        <td
+          class="list-content centered"
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="selection.isSelected(element) ? 'selected' : ''"
+        >
+          <mat-icon
+            *ngIf="selection.isSelected(element)"
+            class="material-symbols-rounded blue"
+          >
+            check_circle
+          </mat-icon>
+          <mat-icon
+            *ngIf="!selection.isSelected(element)"
+            class="material-symbols-rounded gray"
+            >add_circle</mat-icon
+          >
+        </td>
+      </ng-container>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef style="width: 40px"></th>
+        <td
+          class="list-content pr-5"
+          mat-cell
+          *matCellDef="let row; let element"
+        >
+          <div class="d-flex items-center">
+            <button
+              mat-raised-button
+              class="view-btn mr-5"
+              (click)="openDetails(row)"
+            >
+              View
+            </button>
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="checkedItems(element, row)"
+              [aria-label]="checkboxLabel(row)"
+            >
+            </mat-checkbox>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- name Column -->
+      <ng-container matColumnDef="name">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Product/supplier
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div class="bold">
+            {{ element.name }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Details Column -->
+      <ng-container matColumnDef="details">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Details</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div>
+            {{ element.details }}
+          </div>
+          <div class="sm">Est: {{ element.estTime | date : "MMM yyyy" }}</div>
+        </td>
+      </ng-container>
+
+      <!-- Funding round Column -->
+      <ng-container matColumnDef="fundingRound">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Funding Round
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.fundingRound }}
+        </td>
+      </ng-container>
+
+      <!-- Website Column -->
+      <ng-container matColumnDef="website">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Website</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.website }}
+        </td>
+      </ng-container>
+
+      <!-- NDA Column -->
+      <ng-container matColumnDef="NDA">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>NDA</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div *ngIf="element.NDA" class="d-flex">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="!element.NDA" class="d-flex">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+      <!-- rapidPOC Column -->
+      <ng-container matColumnDef="rapidPOC">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Rapid POC</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div *ngIf="element.rapidPOC" class="d-flex">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="!element.rapidPOC" class="d-flex">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- trial fee Column -->
+      <ng-container matColumnDef="trialfee">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Trial fee</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div *ngIf="element.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="!element.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- PI data Column -->
+      <ng-container matColumnDef="pidata">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Processes <br />
+          PI data
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div *ngIf="element.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="false" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded orange">
+              arrow_circle_right
+            </mat-icon>
+            <div class="ml-1">Req.</div>
+          </div>
+          <div *ngIf="!element.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <!-- Row shown when there is no matching data. -->
+      <td
+        *matNoDataRow
+        class="mat-cell no-data-table"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <h2>No results found</h2>
+        <p>
+          Sorry we didn’t find any results for your search, please try searching
+          for something else.
+        </p>
+      </td>
+    </table>
+  </div>
+</ng-container>

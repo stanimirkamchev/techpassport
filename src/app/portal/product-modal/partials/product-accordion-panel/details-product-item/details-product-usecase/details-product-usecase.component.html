@@ -1,0 +1,29 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content
+    class="table"
+    fxFlex="50"
+    [ngClass]="expansionStyling() | async"
+  >
+    <div>
+      <h5>Use case available</h5>
+      <mat-icon
+        *ngIf="payload.details?.specialConditions?.useCase"
+        class="green"
+        >{{ setIcon("yes") }}</mat-icon
+      >
+      <mat-icon
+        *ngIf="!payload.details?.specialConditions?.useCase"
+        class="grey"
+        >{{ setIcon("no") }}</mat-icon
+      >
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" fxFlex="50">
+    <div class="ml-3" *ngIf="payload.details?.specialConditions?.useCase">
+      {{payload.details?.specialConditions?.useCases}}
+    </div>
+  </ui-page-content>
+</div>

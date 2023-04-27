@@ -1,0 +1,59 @@
+<div class="top-contenct">
+  <ui-data-filters>
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+        <mat-label>Projects</mat-label>
+        <mat-select formControlName="name">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let name of projectNames" [value]="name">
+            {{name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Suppliers</mat-label>
+        <mat-select formControlName="supplier">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let supplier of suppliers" [value]="supplier">
+            {{supplier}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Products</mat-label>
+        <mat-select formControlName="product">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let product of products" [value]="product">
+            {{product}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <div class="pull--right">
+      <mat-form-field>
+        <input formControlName="search" matInput placeholder="Search">
+      </mat-form-field>
+    </div> -->
+    </form>
+
+
+
+
+  </ui-data-filters>
+
+
+  <div class="legend">
+    <div class="blue legendit" matTooltip="Internal Process"></div>
+    <div class="green legendit" matTooltip="Successfully Completed"></div>
+    <div class="amber legendit" matTooltip="Supplier action required"></div>
+    <div class="pink legendit" matTooltip="Your action is required"></div>
+    <div class="red legendit" matTooltip="Unsuccessfully Completed"></div>
+  </div>
+
+</div>
+
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+
+<ng-template #loaded>
+  <projects-table (feedbackLoop)="onFeedbackLoop($event)" (sort)="sort($event)" [projects]="_projects">
+  </projects-table>
+</ng-template>

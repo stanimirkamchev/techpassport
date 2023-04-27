@@ -1,0 +1,98 @@
+@import 'colors.scss';
+.space2 {
+  height: 0.7vh
+}
+
+div.modal-user-onboarding.higher {
+  margin-top: 5vh;
+}
+div.modal-user-onboarding {
+  padding-top: 2vh;
+  height: 90%!important;
+  overflow: hidden;
+  div.page {
+    padding-left: 13vw;
+    padding-right: 13vw;
+  }
+  div.modal-icon {
+      margin-top:20px;
+      margin-bottom: 20px;
+      mat-icon {
+        font-size: 84px;
+        width: 84px;
+        height: 84px;
+        line-height: 84px;
+        @media screen and (max-height: 650px) {
+          font-size: 70px;
+          width: 70px;
+          height: 70px;
+          line-height: 70px;
+        }
+      }
+  }
+  form {
+    margin-top: 37px;
+  }
+
+  .bottomOne {
+    position: absolute;
+    bottom: 13vh;
+  }
+
+}
+
+.form-row {
+  width: 90%!important;
+}
+
+
+.goIn.anim {
+  margin-top:9vh;
+  padding: 0 52px 22px 12px;
+  @media screen and (max-height: 650px) {
+    margin-top:5vh;
+  }
+
+}
+
+.modal-user-onboarding {
+  position: relative;
+  h1 {
+    line-height: 35px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-weight:bold;
+    font-size: 42px;
+    @media screen and (max-height: 650px) {
+      font-size: 35px !important;
+      line-height: 30px !important;
+    }
+  }
+  h4 {
+    font-weight: normal;
+    margin-top:26px;
+    font-size: 20px;
+  }
+  .centerItem {
+    margin-top:0;
+    width:100%;
+    text-align:center
+  }
+  .centerItem.first {
+    margin-top:20px;
+  }
+  .resendButton {
+    margin-left: -20px;
+  }
+}
+
+div.userOnboarding {
+  bottom: -10px!important;
+}
+
+input {
+  background-color: rgba(12, 29, 74, 0.07) !important;
+  width: 15rem;
+  padding: 1rem;
+  font-size: 1rem !important;
+}

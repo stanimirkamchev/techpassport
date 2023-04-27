@@ -1,0 +1,38 @@
+<ng-container *ngIf="!approvalHidden; else onlyDownload">
+  <button
+    mat-stroked-button
+    color="primary"
+    *ngIf="!downloadHidden"
+    [disabled]="downloadDisabled"
+    (click)="download.emit()">
+    <mat-icon>get_app</mat-icon>
+    Download
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="reject.emit()"
+    [disabled]="approvalDisabled">
+    <mat-icon>close</mat-icon>
+    Reject
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="approve.emit()"
+    [disabled]="approvalDisabled">
+    <mat-icon>done</mat-icon>
+    Approve
+  </button>
+</ng-container>
+<ng-template #onlyDownload>
+  <button
+    mat-button
+    color="primary"
+    *ngIf="!downloadHidden"
+    (click)="download.emit()"
+    [disabled]="downloadDisabled">
+    Download
+  </button>
+</ng-template>
+<ng-content></ng-content>

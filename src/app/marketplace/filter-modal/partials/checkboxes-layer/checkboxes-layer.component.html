@@ -1,0 +1,43 @@
+<section class="all-checkboxes">
+  <div class="title">
+    Consensus services
+  </div>
+  <div
+    class="limitedDiv"
+    #select
+    #allCheckboxes
+    [ngClass]="{ limitTextHeight: isReadMore, removeHeight: data.length < 7 }"
+    (scroll)="onScroll()"
+  >
+    <ng-container *ngFor="let item of data; let i = index">
+      <mat-checkbox
+      class="checkbox-wrp"
+      (change)="onCheckboxChange($event.checked, item.name)"
+      [checked]="item.isChecked"
+      #checkboxes
+    >
+      {{ item.name }}
+    </mat-checkbox>
+      <ng-container *ngIf="item.children && item.children.length > 0">
+        <mat-checkbox
+        *ngFor="let child of item.children; let ci = index"
+        class="checkbox-wrp child"
+        (change)="onCheckboxChange($event.checked, child.name)"
+        [checked]="child.isChecked"
+        #checkboxes
+      >
+        {{ child.name }}
+      </mat-checkbox>
+      </ng-container>
+    </ng-container>
+  </div>
+  <a
+    *ngIf="data.length > 7"
+    class="read-more"
+    href="javascript:void(0)"
+    (click)="showText()"
+  >
+    <span *ngIf="isReadMore"> Show Less </span>
+    <span *ngIf="!isReadMore"> Show {{ dataLength - 7 }} More </span>
+  </a>
+</section>

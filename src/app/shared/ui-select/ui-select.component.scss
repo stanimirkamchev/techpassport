@@ -1,0 +1,28 @@
+@import 'mixins.scss';
+
+:host {
+  display: flex;
+  flex: 1 0 100%;
+  padding-top: 8px;
+  margin-bottom: -10px;
+
+  &.primary ::ng-deep label {
+    color: $tp-blue !important;
+    font-weight: bold;
+  }
+
+  &.green ::ng-deep label {
+    color: $tp-green !important;
+    font-weight: bold;
+  }
+
+  &.red ::ng-deep label {
+    color: $actionRequired !important;
+    font-weight: bold;
+  }
+
+  &.orange ::ng-deep label {
+    color: orange !important;
+    font-weight: bold;
+  }
+}

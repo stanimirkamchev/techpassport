@@ -1,0 +1,216 @@
+<div class="product-add-page" id="product-settings">
+  <onboarding-top-bar></onboarding-top-bar>
+  <onboarding-page-header></onboarding-page-header>
+
+  <form [formGroup]="productForm">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title">
+        {{ !!productId ? "Product details" : "Add Product" }}
+      </mat-card-title>
+      <mat-card-content>
+        <div class="d-flex">
+          <div class="container flex-1 mr-5">
+            <div class="max-w-140">
+              <div class="label mb-5">
+                <span>Can you run a rapid POC with dummy data?</span>
+                <span class="caption captionPadding"
+                  >(not touching FI systems)</span
+                >
+              </div>
+              <app-custom-checkbox
+                class="rapid-poc-checkbox"
+                [value]="productForm.controls.rapidPOC.value"
+                (change)="productForm.controls.rapidPOC.setValue($event)"
+              ></app-custom-checkbox>
+            </div>
+            <div class="subtitle mb-10">Product details</div>
+
+            <div class="mb-10">
+              <div class="label mb-5">
+                <span>What is your product called?</span>
+                <span class="caption"
+                  >(make sure it matches its public listing)</span
+                >
+              </div>
+              <app-custom-input
+                label="Product Name"
+                [formGroup]="productForm"
+                formControlName="name"
+                ngDefaultControl
+                [isError]="submitted && !!productForm.controls.name.errors"
+                errorText="Enter a product name"
+              ></app-custom-input>
+            </div>
+
+            <div class="d-flex space-x-5 mb-10">
+              <div class="flex-1">
+                <tags-input
+                  *ngIf="!onlyMandatory"
+                  label="Product tags"
+                  caption="(up to 3)"
+                  placeholder="Start typing..."
+                  formControlName="tags"
+                  [enableNewButton]="true"
+                  (onAddNew)="onNewTag($event)"
+                  [isError]="submitted && !!productForm.controls.tags.errors"
+                  errorText="Tags is Required"
+                ></tags-input>
+              </div>
+              <div class="flex-1">
+                <app-custom-select
+                  title="Select the product taxonomy"
+                  [submitted]="submitted"
+                  [useValidation]="true"
+                  label="Multi-select"
+                  [formGroup]="productForm"
+                  formControlName="type"
+                  ngDefaultControl
+                  [isError]="submitted && !!productForm.controls.type.errors"
+                  errorText="Choose at least one taxonomy"
+                  [options]="taxonomyOptions"
+                  [group]="true"
+                  [multiple]="true"
+                  [enableSearchBox]="true"
+                ></app-custom-select>
+              </div>
+            </div>
+
+            <div
+              class="d-flex space-x-4 items-center mb-10"
+              *ngIf="!onlyMandatory"
+            >
+              <div class="label flex-1">How long does onboarding take?</div>
+              <div class="d-flex space-x-4 flex-1 items-center">
+                <app-custom-input
+                  [formGroup]="productForm"
+                  formControlName="onboardingTime"
+                  ngDefaultControl
+                  type="number"
+                  [positiveOnly]="true"
+                  class="w-35"
+                ></app-custom-input>
+                <div>weeks</div>
+              </div>
+            </div>
+
+            <div class="mb-10">
+              <app-custom-textarea
+                label="Could you tell us more about the product functionality?"
+                [formGroup]="productForm"
+                formControlName="description"
+                [isError]="
+                  submitted && !!productForm.controls.description.errors
+                "
+                errorText="Describe the product funtionality"
+                ngDefaultControl
+              ></app-custom-textarea>
+            </div>
+            <div class="mb-10 flex-1 max-w-120" *ngIf="!onlyMandatory">
+              <tags-input
+                label="Please select which solutions your product integrates with"
+                placeholder="Start typing..."
+                formControlName="integratedSolutions"
+                [maxLength]="10"
+                [enableNewButton]="true"
+                (onAddNew)="onNewSolution($event)"
+                searchType="solution"
+              ></tags-input>
+            </div>
+            <div class="mb-10 flex-1" *ngIf="!onlyMandatory">
+              <app-custom-checkbox
+                label="Can you build a custom API call if required?"
+                [value]="productForm.controls.isTraining.value"
+                (change)="productForm.controls.isTraining.setValue($event)"
+              ></app-custom-checkbox>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <product-video
+      *ngIf="!onlyMandatory"
+      formControlName="productVideo"
+      formName="productSettings"
+      [submitted]="submitted"
+      [isTitle]="false"
+      [errorText]="videoState.error"
+      [isRemoving]="videoState.isRemoving"
+      [isSaving]="videoState.isSaving"
+      [fid]="videoState.fid"
+      [uploadStatus]="videoState.uploadStatus"
+      [vidUrl]="vidUrl"
+      (save)="onSaveVideo($event)"
+      (remove)="onRemoveVideo()"
+    >
+    </product-video>
+    <product-collateral
+      *ngIf="!onlyMandatory"
+      [isOptionalTitle]="false"
+      formControlName="productCollateral"
+      [(productId)]="productId"
+    ></product-collateral>
+    <product-hosting
+      [submitted]="submitted"
+      formName="productSettings"
+      formControlName="productHosting"
+    ></product-hosting>
+    <application-software
+      [onlyMandatory]="onlyMandatory"
+      [submitted]="submitted"
+      formName="productSettings"
+      formControlName="licensing"
+    ></application-software>
+    <data-access
+      formControlName="dataAccess"
+      [submitted]="submitted"
+      formName="productSettings"
+      [onlyMandatory]="onlyMandatory"
+    ></data-access>
+    <product-charges
+      [onlyMandatory]="onlyMandatory"
+      [submitted]="submitted"
+      formName="productSettings"
+      formControlName="charges"
+    ></product-charges>
+    <product-use-cases
+      *ngIf="!onlyMandatory"
+      formControlName="specialConditions"
+    ></product-use-cases>
+  </form>
+  <div class="d-flex px-4 justify-between items-center footer">
+    <mat-slide-toggle color="accent" [(ngModel)]="onlyMandatory"
+      >Show mandatory only</mat-slide-toggle
+    >
+    <div class="d-flex justify-end items-center">
+      <div class="last-save" *ngIf="this.productId && updatedAt">
+        Last saved {{ updatedAt?.toString() | timeAgo }}
+      </div>
+      <mat-icon
+        *ngIf="this.productId && updatedAt"
+        svgIcon="download_done"
+        class="save-icon"
+      ></mat-icon>
+      <app-custom-button
+        class="mr-3"
+        label="Submit"
+        [disabled]="draftSaving || loading"
+        [loading]="loading"
+        (onClick)="onSubmit()"
+      ></app-custom-button>
+      <button
+        mat-raised-button
+        [disabled]="draftSaving || loading"
+        (click)="onSubmit(true)"
+        class="btn-custom-outline"
+      >
+        <mat-spinner
+          color="white"
+          *ngIf="draftSaving"
+          diameter="16"
+        ></mat-spinner>
+        <ng-container *ngIf="!draftSaving">Save as draft</ng-container>
+      </button>
+    </div>
+  </div>
+</div>

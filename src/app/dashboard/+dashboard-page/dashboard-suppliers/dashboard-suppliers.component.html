@@ -1,0 +1,192 @@
+<ui-data-table
+  class="scroll scroll-products"
+  *ngIf="_products && _products.length > 0 && !loading"
+>
+  <div class="wrapper">
+    <table mat-table matSort [dataSource]="_products" multiTemplateDataRows>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="action">
+        <th
+          class="checkbox-action"
+          mat-header-cell
+          *matHeaderCellDef
+          style="width: 40px"
+        >
+          <mat-icon>remove_red_eye</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let row; let element" style="width: 40px">
+          <span *ngIf="favoriteProductsIds">
+            <div class="material-symbols-rounded cursor-pointer add-icon gray" *ngIf="element.watchlistsCount">
+              {{element.watchlistsCount}}
+            </div>
+            <mat-icon
+              *ngIf="!element.watchlistsCount && (!marked || !selection.isSelected(element.product))"
+              class="add-favorite"
+              [ngClass]="selection.isSelected(element.product) ? 'blue' : 'gray'"
+              (click)="openWatchListsModal(element)"
+              >add_circle</mat-icon
+            >
+            <mat-icon
+              *ngIf="marked && selection.isSelected(element.product)"
+              class="green"
+              >check_circle</mat-icon
+            >
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th
+          class="th-header name"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Product"
+        >
+          Product/supplier
+        </th>
+        <td class="td-info name" mat-cell *matCellDef="let element">
+          <p class="product-name">{{ element.product.name }}</p>
+          <p class="supplier-name">{{ element.product.supplierEntity.name }}</p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Details"
+        >
+          Details
+        </th>
+        <td class="td-info details" mat-cell *matCellDef="let element">
+          {{ setCountry(element.product.supplierEntity.country) }}
+          <span
+            >Est:
+            {{
+              element.product.supplierEntity.incorporated | date : "MMM yyyy"
+            }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fundingRound">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Funding round"
+        >
+          Funding round
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.product.supplierEntity.companyStage }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="website">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Website"
+        >
+          Website
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.product.supplierEntity.companyWebsite || "-" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nda">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Nda"
+        >
+          NDA
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{
+            element.product.supplierEntity.rapidNDA === true
+              ? "Yes"
+              : element.product.supplierEntity.rapidNDA === false
+              ? "No"
+              : "-"
+          }}
+          <mat-icon
+            [ngStyle]="{
+              color: setColor(element.product.supplierEntity.rapidNDA)
+            }"
+            >{{ setIcon(element.product.supplierEntity.rapidNDA) }}</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rapidPoc">
+        <th class="th-header" mat-header-cell *matHeaderCellDef>Rapid POC</th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          {{ element.product.rapidPOC || "-" }}
+          <mat-icon [ngStyle]="{ color: setColor(element.product.rapidPOC) }">{{
+            setIcon(element.product.rapidPOC)
+          }}</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="trialFee">
+        <th
+          class="th-header"
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Trial fee"
+        >
+          Trial fee
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <div *ngIf="element?.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="!element?.trialFee" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="piData">
+        <th class="th-header" mat-header-cell *matHeaderCellDef>
+          Processes PI data
+        </th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <div *ngIf="element.PIData" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded green">
+              check_circle
+            </mat-icon>
+            <div class="ml-1">Yes</div>
+          </div>
+          <div *ngIf="!element.PIData" class="d-flex items-center">
+            <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+            <div class="ml-1">No</div>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="view">
+        <th class="th-header" mat-header-cell *matHeaderCellDef></th>
+        <td class="td-info" mat-cell *matCellDef="let element">
+          <button mat-button (click)="openProductModal(element)">View</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        class="example-element-row"
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+    </table>
+  </div>
+</ui-data-table>

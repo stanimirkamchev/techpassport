@@ -1,0 +1,78 @@
+<mat-card class="mt-5 custom-card">
+  <mat-card-title class="title"> Invite Users </mat-card-title>
+  <mat-card-content>
+    <div class="d-flex">
+      <form [formGroup]="formGroup" class="wrapper mr-6">
+        <div class="subTitle mb-3">Add new user</div>
+        <div class="mb-3">
+          <app-custom-input
+            [formGroup]="formGroup"
+            formControlName="name"
+            label="Name"
+            ngDefaultControl
+          ></app-custom-input>
+        </div>
+        <div class="mb-3">
+          <app-custom-input
+            label="Email"
+            [formGroup]="formGroup"
+            [errorText]="emailError.errorText"
+            [isError]="emailError.isError"
+            formControlName="email"
+            ngDefaultControl
+          ></app-custom-input>
+        </div>
+        <div class="mb-3">
+          <app-custom-select
+            label="Role"
+            [formGroup]="formGroup"
+            [options]="roles"
+            formControlName="role"
+            ngDefaultControl
+          ></app-custom-select>
+        </div>
+        <div class="d-flex justify-end">
+          <app-custom-button
+            [loading]="loading"
+            label="Add"
+            (onClick)="addUser()"
+            [disabled]="formGroup.invalid"
+          ></app-custom-button>
+        </div>
+      </form>
+      <div class="">
+        <div class="subTitle mb-3">Added users</div>
+        <div class="d-flex items-stretch">
+          <div
+            class="user-item justify-between"
+            *ngFor="let user of users; let i = index"
+          >
+            <div>
+              <div class="name">{{ user.name }}</div>
+              <div class="email">{{ user.email }}</div>
+            </div>
+            <div>
+              <div class="role">{{ user.role }}</div>
+              <div
+                class="btn-danger"
+                (click)="user.role !== 'owner' && removeUser(user._id)"
+              >
+                <mat-spinner
+                  color="white"
+                  *ngIf="removingId === user._id"
+                  diameter="16"
+                ></mat-spinner>
+                <div
+                  *ngIf="removingId !== user._id"
+                  [ngClass]="{ disabled: user.role == 'owner' }"
+                >
+                  Remove
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,59 @@
+<div class="data-access">
+  <form [formGroup]="dataAccessForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Data & Access </mat-card-title>
+      <mat-card-content>
+        <div class="mb-10 max-w-200">
+          <app-custom-checkbox
+            label="Can the product be trialled using synthetic / dummy data?"
+            [value]="dataAccessForm.controls.canSynthetic.value"
+            (change)="dataAccessForm.controls.canSynthetic.setValue($event)"
+          ></app-custom-checkbox>
+        </div>
+        <div class="mb-10 max-w-200">
+          <app-custom-checkbox
+            label="Can the customer access the testing environment at any time?"
+            [value]="dataAccessForm.controls.accessTime.value"
+            (change)="dataAccessForm.controls.accessTime.setValue($event)"
+          ></app-custom-checkbox>
+        </div>
+
+        <div class="mb-10" *ngIf="!dataAccessForm.controls.accessTime.value">
+          <app-custom-textarea
+            label="Please provide more information"
+            [formGroup]="dataAccessForm"
+            formControlName="serviceDescription"
+            [isError]="
+              submitted && !!dataAccessForm.controls.serviceDescription.errors
+            "
+            errorText="This field is Required"
+            ngDefaultControl
+          ></app-custom-textarea>
+        </div>
+
+        <div class="mb-10 max-w-200">
+          <app-custom-checkbox
+            label="Do you process any personal data as part of the services provided?"
+            [value]="dataAccessForm.controls.personalDataTransfer.value"
+            (change)="
+              dataAccessForm.controls.personalDataTransfer.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div *ngIf="dataAccessForm.controls.personalDataTransfer.value">
+          <app-custom-textarea
+            label="Please describe the operational and technical measures you will take to ensure the personal data is secure and not accessed by unauthorised persons or 3rd parties"
+            [formGroup]="dataAccessForm"
+            formControlName="description"
+            [isError]="
+              submitted && !!dataAccessForm.controls.description.errors
+            "
+            errorText="This field is Required"
+            ngDefaultControl
+          ></app-custom-textarea>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

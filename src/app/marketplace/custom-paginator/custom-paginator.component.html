@@ -1,0 +1,32 @@
+<div class="d-flex justify-between mt-3 mb-3">
+  <div class="size-select">
+    <button mat-flat-button class="sort-btn" [matMenuTriggerFor]="menu">
+      <div class="d-flex">
+        <span class="label">Rows per page: {{ pageSize }}</span>
+        <mat-icon class="more-icon">expand_more</mat-icon>
+      </div>
+    </button>
+    <mat-menu #menu="matMenu" class="size-select">
+      <button mat-menu-item *ngFor="let size of [10,20,30,50]" (click)="onPageSizeChange(size)">{{size}}</button>
+    </mat-menu>
+  </div>
+  <div class="d-flex">
+    <div class="pre-page mr-1" *ngIf="pageIndex > 1" (click)="onPreviousPage()">
+      <mat-icon>navigate_before</mat-icon>
+    </div>
+    <ng-container *ngIf="pageCount <= 6">
+      <div class="page d-flex items-center justify-center" *ngFor="let page of Array(pageCount).fill(0); let index = index" [ngClass]="index + 1 == pageIndex ? 'selected': ''" (click)="onPageIndexChange(index +1)">
+        {{ index + 1}}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="pageCount > 6">
+      <div class="page d-flex items-center justify-center" *ngFor="let page of renderIndices()" [ngClass]="page == pageIndex ? 'selected': ''" (click)="onPageIndexChange(page)">
+        {{ page || '...'}}
+      </div>
+    </ng-container>
+
+    <div class="next-page ml-1" *ngIf="pageIndex < pageCount" (click)="onNextPage()">
+      <mat-icon>navigate_next</mat-icon>
+    </div>
+  </div>
+</div>

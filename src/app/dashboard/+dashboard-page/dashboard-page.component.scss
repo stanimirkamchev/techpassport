@@ -1,0 +1,220 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  overflow: hidden;
+  background-color: $tp-bg;
+
+  ::ng-deep {
+    mat-spinner {
+      margin-top: 80px;
+    }
+  }
+}
+
+ui-data-filters {
+  margin-bottom: -8px;
+
+  mat-form-field.date {
+    max-width: 230px;
+    min-width: 230px;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  flex: 1 1 auto;
+}
+
+[fxLayout="row"] {
+  margin: 20px 24px 0 24px;
+  display: flex;
+  flex: 0 1 auto;
+}
+
+[fxFlex] {
+  min-height: 330px;
+  //max-height: 330px;
+}
+
+:host .with-table {
+  min-height: 400px;
+  max-height: 686px;
+  padding: 24px;
+}
+
+.project-headers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 24px 0;
+
+  .header {
+    margin: 0 !important;
+    height: auto !important;
+  }
+}
+
+header {
+  margin: -4px 0 0 0;
+  flex: 0 1 auto !important;
+
+  font-size: 13pt;
+  color: $tp-purp;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 50px;
+
+  .refresh-btn {
+    font-family: "Public Sans", serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #18181B;
+    background: none;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    .mat-icon {
+      color: #71717A;
+      margin-right: 8px;
+
+      &.refresh {
+        animation: rotate 1.5s linear infinite;
+      }
+    }
+
+    @-webkit-keyframes rotate {
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+  }
+}
+
+.table {
+  height: 290px !important;
+  min-height: 290px !important;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  box-shadow: none;
+
+  .table-content {
+    gap: 12px
+  }
+
+  &--watchlist, &--projects {
+    padding: 0;
+  }
+
+  &--watchlist {
+
+    .table-headers {
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .table-content {
+      display: flex;
+      justify-content: center;
+      min-height: 216px;
+    }
+  }
+
+  &--projects, &--alerts {
+    height: 341px !important;
+    min-height: 341px !important;
+  }
+}
+
+::ng-deep .scroll {
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #D1D5DB;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+}
+
+::ng-deep .mat-calendar-previous-button::after,
+::ng-deep .mat-calendar-next-button::after {
+  display: none;
+  border-top: none;
+}
+
+::ng-deep .mat-datepicker-toggle, .mat-datepicker-content .mat-calendar-next-button, .mat-datepicker-content .mat-calendar-previous-button {
+  position: absolute;
+  right: -1.5rem;
+  top: -10px;
+}
+
+.resetButtonContainer {
+  padding: 1.8rem 0;
+  font-family: "Inter", serif;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  font-size: 1rem;
+  color: #F43F9C;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+::ng-deep button.mat-focus-indicator.mat-calendar-previous-button.mat-icon-button.mat-button-base {
+  width: 2rem !important;
+  position: absolute !important;
+  left: 14rem !important;
+  top: 0.5rem !important;
+  border-radius: 0 !important;
+  background-size: 1.5rem !important;
+  background: url(/assets/img/icons/prev.svg) no-repeat center;
+}
+::ng-deep button.mat-focus-indicator.mat-calendar-next-button.mat-icon-button.mat-button-base {
+  width: 2rem !important;
+  position: absolute !important;
+  left: 16rem !important;
+  top: 0.5rem !important;
+  border-radius: 0 !important;
+  background-size: 1.5rem !important;
+  background: url(/assets/img/icons/next.svg) no-repeat center;
+}
+
+.link{
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  font-size: 1rem;
+  color: #F43F9C;
+  text-decoration: underline;
+  cursor: pointer;
+}

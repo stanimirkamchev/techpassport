@@ -1,0 +1,18 @@
+<div class="text-center">
+  <div class="centered">
+    <span class="mat-heading">Product/ framework not listed? Add it now!</span>
+  </div>
+  <div class="centered mt-10" [formGroup]="form">
+    <div>
+      <app-custom-input
+      label="Product/framework name"
+      [formGroup]="form"
+      formControlName="name"
+      ngDefaultControl
+      ></app-custom-input>
+    </div>
+    <div class="mt-10">
+      <app-custom-button class="mr-3" label="Add" [disabled]="form.invalid" (onClick)="onSubmit()"></app-custom-button>
+    </div>
+  </div>
+</div>

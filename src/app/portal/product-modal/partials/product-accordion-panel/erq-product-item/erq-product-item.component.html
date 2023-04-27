@@ -1,0 +1,203 @@
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.certification = !expandedTabs.certification"
+  >
+    <mat-panel-title class="panel-title"> Certification </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.Certification].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-certification
+    *ngIf="expandedTabs.certification"
+    [payload]="payload.erq"
+  ></erq-product-certification>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.breach = !expandedTabs.breach"
+  >
+    <mat-panel-title class="panel-title"> Breach notification </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.BreachNotification].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-breach
+    *ngIf="expandedTabs.breach"
+    [payload]="payload.erq"
+  ></erq-product-breach>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.ssdlc = !expandedTabs.ssdlc"
+  >
+    <mat-panel-title class="panel-title"> SSDLC </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.Ssdlc].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-ssdlc
+    *ngIf="expandedTabs.ssdlc"
+    [payload]="payload.erq"
+  ></erq-product-ssdlc>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.security = !expandedTabs.security"
+  >
+    <mat-panel-title class="panel-title">
+      Application security
+    </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.ApplicationSecurity].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-security
+    *ngIf="expandedTabs.security"
+    [payload]="payload.erq"
+  ></erq-product-security>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.deletion = !expandedTabs.deletion"
+  >
+    <mat-panel-title class="panel-title">
+      Data deletion & retention
+    </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.DeletionRetention].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-deletion
+    *ngIf="expandedTabs.deletion"
+    [payload]="payload.erq"
+  ></erq-product-deletion>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.privacy = !expandedTabs.privacy"
+  >
+    <mat-panel-title class="panel-title"> Data privacy </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.Privacy].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-privacy
+    *ngIf="expandedTabs.privacy"
+    [payload]="payload.erq"
+  ></erq-product-privacy>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.storage = !expandedTabs.storage"
+  >
+    <mat-panel-title class="panel-title">
+      Data storage & separation
+    </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.StorageSeparation].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-storage
+    *ngIf="expandedTabs.storage"
+    [payload]="payload.erq"
+  ></erq-product-storage>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.recovery = !expandedTabs.recovery"
+  >
+    <mat-panel-title class="panel-title"> Disaster recovery </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.Recovery].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-recovery
+    *ngIf="expandedTabs.recovery"
+    [payload]="payload.erq"
+  ></erq-product-recovery>
+</mat-expansion-panel>
+
+<mat-expansion-panel
+  class="panel-item"
+  [ngClass]="modalWindowExpansion() | async"
+>
+  <mat-expansion-panel-header
+    (click)="expandedTabs.encryption = !expandedTabs.encryption"
+  >
+    <mat-panel-title class="panel-title"> Encryption </mat-panel-title>
+    <mat-panel-description
+      class="progress-bar-accordion_description erq-description-flex-end"
+    >
+      <compliant-badge
+        [compliant]="progressBar[erqType.Encryption].compliant"
+      ></compliant-badge>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <erq-product-encryption
+    *ngIf="expandedTabs.encryption"
+    [payload]="payload.erq"
+  ></erq-product-encryption>
+</mat-expansion-panel>

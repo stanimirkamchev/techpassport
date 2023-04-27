@@ -1,0 +1,34 @@
+<button
+  mat-mini-fab
+  class="closeModal2 close-on-board-modal"
+  (click)="cancel()"
+>
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-inv on-board-modal">
+  <div class="header">
+    <h3>On board invited supplier</h3>
+    <p>
+      Your are about to on board the following company
+      <strong>{{ data.item.company }}</strong>
+    </p>
+  </div>
+  <div class="options success-btns">
+    <button
+      mat-button
+      mat-raised-button
+      (click)="onSendOnBoard()"
+      class="continue-btn mat-elevation-z0"
+    >
+      Continue
+    </button>
+    <button
+      mat-button
+      mat-raised-button
+      (click)="cancel()"
+      class="admin-area-btn mat-elevation-z0"
+    >
+      Admin Area
+    </button>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="component-wrp">
+  <h2>Edit tables</h2>
+  <simple-table
+    *ngIf="tags || solutions || frameworks || taxonomies"
+    [tags]="tags"
+    [solutions]="solutions"
+    [frameworks]="frameworks"
+    [taxonomies]="taxonomies"
+    [loadings]="loadings"
+  >
+  </simple-table>
+</div>

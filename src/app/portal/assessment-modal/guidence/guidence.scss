@@ -1,0 +1,88 @@
+
+@import 'colors.scss';
+$tp-assesment-bg: #F5F5F8;
+
+::ng-deep {
+
+      section {
+        margin-bottom: 26px;
+        margin-top: 10px;
+      }
+      section.components:not(:last-child){
+        border-bottom: thin solid $tp-dark;
+      }
+      section.components:first-child{
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+
+      section.components {
+        margin-bottom: 0px;
+        margin-top: 0px;
+
+        background: white;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        border-radius: 3px;
+        h4 {
+          text-align: center;
+        }
+        .componentsTable {
+          //display: flex;
+          //flex-direction:column;
+          width: 100%;
+          margin-top:12px;
+        }
+        .componentsTableItem {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: center;
+        }
+
+        .componentsTableItem > *:first-child {
+          width: 27%;
+        }
+        .componentsTableItem > *:last-child {
+          width: 73%;
+        }
+
+        hr {
+          border-color: rgba($tp-dark, 0.3);
+        }
+
+      }
+
+      h2,h3,h4,h5 {
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+      }
+
+      h5.notSoStrong {
+        font-weight: normal;
+      }
+
+      ul, ul {
+        padding: 0;
+        margin-top: 0;
+      }
+      h4,h5 {
+        margin-top: 10px;
+      }
+      h4 {
+        color: $tp-dark;
+      }
+      h5, ul, ol,  p, div.link {
+        font-size: 10pt;
+        margin-left: 15px;
+      }
+      ul, ol {
+        margin-top: 3px;
+      }
+      ul > li,   ol > li {
+        margin-left: 15px;
+      }
+
+}

@@ -1,0 +1,58 @@
+<div>
+  <div class="label">{{label}}</div>
+  <ngx-dropzone class="file-dropzone" [ngClass]="{'uploaded': !file && value}" [disableClick]="file || !!value" (change)="onSelect($event)" [accept]="accept.join(',')">
+    <ngx-dropzone-label *ngIf="!value && !file">
+      <div>
+        <img src="../../../../assets/img/onboarding/file_upload.svg" alt="" />
+        <div class="placeholder">{{placeholder}}</div>
+      </div>
+    </ngx-dropzone-label>
+    <div *ngIf="file" class="centered">
+      <!-- <div class="file-upload mb-3">&nbsp; File Uploaded</div> -->
+      <div class="file-selected mb-3">File selected</div>
+      <div class="file-name mb-3" *ngIf="!uploadStatus">{{ file?.name }}</div>
+      <div class="state-m mb-3"  *ngIf="uploadStatus=='processing' || uploadStatus=='inqueue'">
+        <span class="await-s-label">
+          <mat-icon
+            style="font-size: 13px; margin-left: 5px; padding:2px; height:14px; width: 12px; line-height: 8px;">
+            hourglass_empty</mat-icon>
+          <small style="font-size: 8pt">Scanning file...</small>
+        </span>
+      </div>
+      <div class="d-flex justify-center">
+        <div class="edit-button mr-3 d-flex justify-center" [ngClass]="{ 'disable': isSaving}" (click)="onSave($event)">
+          Upload &nbsp; <mat-icon class="icon icon-sm" *ngIf="!isSaving" svgIcon="upload2"></mat-icon>
+          <mat-spinner color="white" *ngIf="isSaving" diameter="16"></mat-spinner>
+        </div>
+        <div class="remove-button primary d-flex justify-center" (click)="onRemoveFile($event)">
+          Remove &nbsp; <mat-icon class="icon icon-sm" *ngIf="!isRemoving" svgIcon="delete-x"></mat-icon>
+          <mat-spinner color="white" *ngIf="isRemoving" diameter="16"></mat-spinner>
+        </div>
+      </div>
+
+    </div>
+    <div *ngIf="!file && value" class="centered">
+      <div class="file-upload mb-3">&nbsp; File uploaded</div>
+      <div class="file-name mb-3 cursor" (click)="downloadFile()" *ngIf="!uploadStatus">{{ value?.name || value }}</div>
+      <div class="state-m mb-3" *ngIf="uploadStatus=='allowed'">
+        <a
+          href="https://metadefender.opswat.com/results#!/file/{{fileHash}}/hash/overview" target="_blank"
+          rel="noopener">
+          <img style="border-radius: 4px; margin-top:0"
+            src="https://api.metadefender.com/v4/hash/{{fileHash}}/badge?size=small&type=svg" />
+        </a>
+      </div>
+
+      <div class="d-flex justify-center">
+        <div class="remove-button d-flex justify-center" (click)="onRemove($event)">
+          Remove &nbsp; <mat-icon class="icon icon-sm" *ngIf="!isRemoving" svgIcon="delete-x"></mat-icon>
+          <mat-spinner color="white" *ngIf="isRemoving" diameter="16"></mat-spinner>
+        </div>
+        <div class="remove-button d-flex justify-center ml-2" (click)="downloadFile()">
+          Download &nbsp; <mat-icon class="icon icon-sm" svgIcon="save"></mat-icon>
+        </div>
+      </div>
+    </div>
+  </ngx-dropzone>
+    <div class="error mt-1 centered">{{ errorText }}</div>
+</div>

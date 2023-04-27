@@ -1,0 +1,167 @@
+<ui-data-filters class="table-headers">
+  <form [formGroup]="formGroup">
+    <!-- Status -->
+    <div class="form-field">
+      <mat-label class="label">Status</mat-label>
+      <mat-form-field>
+        <mat-select formControlName="status">
+          <mat-option [value]="InvitationStatus.ALL">All</mat-option>
+          <mat-option
+            *ngIf="isHiddenOption('status', InvitationStatus.INVITED)"
+            [value]="InvitationStatus.INVITED"
+            >Invited</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('status', InvitationStatus.ONBOARDED)"
+            [value]="InvitationStatus.ONBOARDED"
+            >Onboarded</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('status', InvitationStatus.REJECTED)"
+            [value]="InvitationStatus.REJECTED"
+            >Rejected</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Type -->
+    <div class="form-field">
+      <mat-label class="label">Type</mat-label>
+      <mat-form-field>
+        <mat-select formControlName="type">
+          <mat-option [value]="InvitationType.ALL">All</mat-option>
+          <mat-option
+            *ngIf="isHiddenOption('type', InvitationType.EMAIL)"
+            [value]="InvitationType.EMAIL"
+            >email address</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('type', InvitationType.WEBSITE)"
+            [value]="InvitationType.WEBSITE"
+            >website</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('type', InvitationType.OM)"
+            [value]="InvitationType.OM"
+            >outermarket invite</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- User Type -->
+    <div class="form-field" *ngIf="userLevel === 1">
+      <mat-label class="label">User type</mat-label>
+      <mat-form-field>
+        <mat-select formControlName="userType">
+          <mat-option [value]="InvitationUserType.ALL">All</mat-option>
+          <mat-option
+            *ngIf="isHiddenOption('userType', InvitationUserType.OWNER)"
+            [value]="InvitationUserType.OWNER"
+            >owner</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('userType', InvitationUserType.REQUESTOR)"
+            [value]="InvitationUserType.REQUESTOR"
+            >requestor</mat-option
+          >
+          <mat-option
+            *ngIf="isHiddenOption('userType', InvitationUserType.SUPER_USER)"
+            [value]="InvitationUserType.SUPER_USER"
+            >super user</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- User Email -->
+    <div class="form-field" *ngIf="userLevel === 1">
+      <mat-label class="label">User name</mat-label>
+      <mat-form-field>
+        <mat-select formControlName="emailAddress">
+          <mat-option [value]="'all'">All</mat-option>
+          <mat-option
+            *ngFor="let emailAddress of filterPreview.emailAddress"
+            [value]="emailAddress"
+          >
+            {{ emailAddress }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Company -->
+    <div class="form-field" *ngIf="type === 'portalAdmin'">
+      <mat-label class="label">Company</mat-label>
+      <mat-form-field>
+        <mat-select formControlName="company">
+          <mat-option [value]="'all'">All</mat-option>
+          <mat-option
+            *ngFor="let company of filterPreview.company"
+            [value]="company"
+          >
+            {{ company }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Date range -->
+    <div class="form-field">
+      <mat-label class="label">Date range</mat-label>
+      <mat-form-field class="date" appearance="fill">
+        <mat-date-range-input [rangePicker]="picker" #dateRangePicker>
+          <input
+            matStartDate
+            placeholder="Start Date"
+            formControlName="dateFrom"
+          />
+          <input matEndDate placeholder="End Date" formControlName="dateTo" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none">
+            <g clip-path="url(#clip0_44_24823)">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7.15385 3.5C7.33746 3.5 7.51355 3.57294 7.64338 3.70277C7.77321 3.83261 7.84615 4.0087 7.84615 4.19231V5.57692H16.1538V4.19231C16.1538 4.0087 16.2268 3.83261 16.3566 3.70277C16.4865 3.57294 16.6625 3.5 16.8462 3.5C17.0298 3.5 17.2059 3.57294 17.3357 3.70277C17.4655 3.83261 17.5385 4.0087 17.5385 4.19231V5.57692H18.2308C18.9652 5.57692 19.6696 5.86868 20.1889 6.38801C20.7082 6.90734 21 7.61171 21 8.34615V18.7308C21 19.4652 20.7082 20.1696 20.1889 20.6889C19.6696 21.2082 18.9652 21.5 18.2308 21.5H5.76923C5.03479 21.5 4.33042 21.2082 3.81109 20.6889C3.29176 20.1696 3 19.4652 3 18.7308V8.34615C3 7.61171 3.29176 6.90734 3.81109 6.38801C4.33042 5.86868 5.03479 5.57692 5.76923 5.57692H6.46154V4.19231C6.46154 4.0087 6.53448 3.83261 6.66431 3.70277C6.79414 3.57294 6.97023 3.5 7.15385 3.5ZM19.6154 11.8077C19.6154 11.4405 19.4695 11.0883 19.2098 10.8286C18.9502 10.569 18.598 10.4231 18.2308 10.4231H5.76923C5.40201 10.4231 5.04983 10.569 4.79016 10.8286C4.53049 11.0883 4.38462 11.4405 4.38462 11.8077V18.7308C4.38462 19.098 4.53049 19.4502 4.79016 19.7098C5.04983 19.9695 5.40201 20.1154 5.76923 20.1154H18.2308C18.598 20.1154 18.9502 19.9695 19.2098 19.7098C19.4695 19.4502 19.6154 19.098 19.6154 18.7308V11.8077Z"
+                fill="#3F9CF4"
+              />
+              <rect
+                x="6"
+                y="14"
+                width="12"
+                height="3"
+                rx="0.5"
+                fill="#3F9CF4"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_44_24823">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(0 0.5)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        </mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="resetButtonContainer" (click)="resetForm()">Reset Filters</div>
+
+    <!-- Search -->
+    <div class="form-field">
+      <mat-label class="label">Search</mat-label>
+      <mat-form-field>
+        <input matInput class="search-input" formControlName="search" />
+      </mat-form-field>
+    </div>
+  </form>
+</ui-data-filters>

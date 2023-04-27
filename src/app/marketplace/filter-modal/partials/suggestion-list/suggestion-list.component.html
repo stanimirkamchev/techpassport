@@ -1,0 +1,20 @@
+<div class="suggestion-list-wrapper">
+  <div class="search-input-wrapper">
+    <mat-icon svgIcon="search"></mat-icon>
+    <input
+      class="search-input"
+      [value]="searchTerm"
+      (input)="onChangeSearchTerm($event)"
+    />
+  </div>
+  <mat-list>
+    <mat-list-item *ngFor="let item of filteredData">
+      <mat-checkbox
+        [checked]="selection.isSelected(item)"
+        (change)="onChange(item)"
+      >
+        {{ item }}
+      </mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+</div>

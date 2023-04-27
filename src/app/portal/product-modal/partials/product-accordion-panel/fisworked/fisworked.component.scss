@@ -1,0 +1,107 @@
+@import 'src/styles/colors';
+
+.finance-institutions-table {
+  width: 100%;
+  p {
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  .title {
+    font-family: Public Sans, serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0;
+    text-align: center;
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  th {
+    border: 1px solid #E5E7EB;
+    padding: 14px 20px;
+    border-left: none;
+    border-top: none;
+    font-family: 'Public Sans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    &:first-child {
+      text-align: left;
+    }
+    &:last-child {
+      border-right: none;
+    }
+    &:nth-child(even) {
+      background-color: #F5F5F8;
+    }
+  }
+
+  td {
+    border: 1px solid #E5E7EB;
+    padding: 14px 20px;
+    font-family: 'Public Sans', serif;
+    font-style: normal;
+    border-bottom: none;
+    &:nth-child(even) {
+      background-color: #F5F5F8;
+    }
+    &:first-child {
+      border-left: none;
+      text-align: left !important;
+    }
+    &:last-child {
+      border-right: none;
+    }
+    &.data {
+      text-align: center;
+      font-family: 'Public Sans', serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      input {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+.btn-custom {
+  background: $tp-blue;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 2px !important;
+  color: white;
+  padding: 10px 40px;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 40px;
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+::ng-deep {
+  .experience input {
+    width: 100px !important;
+    height: 44px !important;
+    background: #F3F3F6 !important;
+    border: 1px solid rgba(12, 29, 74, 0.1) !important;
+    border-radius: 8px !important;
+  }
+    /* Chrome, Safari, Edge, Opera */
+  .experience input::-webkit-outer-spin-button,
+  .experience input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .experience input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+

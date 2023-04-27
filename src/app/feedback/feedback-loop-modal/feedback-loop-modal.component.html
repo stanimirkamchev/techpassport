@@ -1,0 +1,8 @@
+<ui-page-close (click)="dialogRef.close()"></ui-page-close>
+<div class="modal-title mat-subheading-1">
+  Techpassport POC Feedback
+</div>
+
+<feedback-loop-form [schema]="data.schema" (formSubmit)="dialogRef.close({ feedbackLoop: $event, draft: false})"
+  (formSubmitDraft)="dialogRef.close({ feedbackLoop: $event, draft: true })" (cancel)="dialogRef.close()">
+</feedback-loop-form>

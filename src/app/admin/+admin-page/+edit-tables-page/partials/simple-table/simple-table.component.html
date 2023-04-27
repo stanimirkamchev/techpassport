@@ -1,0 +1,272 @@
+<div *ngIf="showMigration">
+  <h3 class="title">Migration Process</h3>
+
+  <button mat-button class="export-btn">
+    <span (click)="exportList('suppliers')"> Export Suppliers </span>
+  </button>
+
+  <button mat-button class="export-btn">
+    <span (click)="exportList('products')"> Export Products</span>
+  </button>
+
+  <form
+    [formGroup]="formGroup"
+    autocomplete="off"
+    *ngIf="formGroup"
+    class="flex-parent"
+  >
+    <div class="row resetPadding" *ngIf="!migrationObj.suppliers">
+      <div class="column-6 resetPadding">
+        <custom-file-dropzone
+          placeholder="Import Supplier"
+          [value]="formGroup.get('supplier').value"
+          (save)="onSave($event, 1, 'supplier')"
+          (remove)="onRemove(1, 'supplier')"
+          [errorText]="cerfificationFileState[1].error"
+          [isRemoving]="cerfificationFileState[1].isRemoving"
+          [fid]="cerfificationFileState[1].fid"
+          [uploadStatus]="cerfificationFileState[1].uploadStatus"
+          [isSaving]="cerfificationFileState[1].isSaving"
+        ></custom-file-dropzone>
+      </div>
+    </div>
+
+    <div class="row resetPadding" *ngIf="!migrationObj.products">
+      <div class="column-6 resetPadding">
+        <custom-file-dropzone
+          placeholder="Import Product"
+          [value]="formGroup.get('product').value"
+          (save)="onSave($event, 2, 'product')"
+          (remove)="onRemove(2, 'product')"
+          [errorText]="cerfificationFileState[2].error"
+          [isRemoving]="cerfificationFileState[2].isRemoving"
+          [fid]="cerfificationFileState[2].fid"
+          [uploadStatus]="cerfificationFileState[2].uploadStatus"
+          [isSaving]="cerfificationFileState[2].isSaving"
+        ></custom-file-dropzone>
+      </div>
+    </div>
+  </form>
+
+  <button
+    mat-button
+    class="export-btn"
+    *ngIf="migrationObj.products || migrationObj.suppliers"
+  >
+    <span (click)="showRecords()"> Show records </span>
+  </button>
+
+  <button
+    mat-button
+    class="export-btn"
+    *ngIf="migrationObj.products || migrationObj.suppliers"
+  >
+    <span (click)="runMigrationProcess()"> Run Migrations </span>
+  </button>
+</div>
+
+<div>
+  <h3 class="title">Product tags</h3>
+  <!-- <p *ngIf="tags && tags.length > 0" class="subtitle">Product tags</p> -->
+
+  <button mat-button class="export-btn">
+    <span
+      *ngIf="tags && tags.length > 0 && !loadings.loadingTags"
+      (click)="exportList(types.Tags)"
+    >
+      Export current list
+    </span>
+    <create-button-table
+      *ngIf="tags && tags.length == 0 && !loadings.loadingTags"
+      [type]="types.Tags"
+      [types]="types"
+    ></create-button-table>
+    <mat-spinner
+      color="#fff"
+      *ngIf="loadings.loadingTags"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </button>
+
+  <div class="table">
+    <list *ngIf="tags && tags.length > 0" [entities]="tags" [type]="types.Tags">
+    </list>
+
+    <p class="no-data" *ngIf="tags.length === 0 && !loadings.loadingTags">
+      No any {{ types.Tags }}
+    </p>
+    <mat-spinner
+      *ngIf="loadings.loadingTags"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </div>
+</div>
+
+<div>
+  <h3 class="title">Solutions</h3>
+  <p class="subtitle">
+    {{
+      solutions
+        ? "Please select which solutions your product integrates with"
+        : "Use the button bellow to create new solution"
+    }}
+  </p>
+
+  <button mat-button class="export-btn">
+    <span
+      *ngIf="solutions && solutions.length > 0 && !loadings.loadingSolutions"
+      (click)="exportList(types.Solutions)"
+    >
+      Export current list
+    </span>
+    <create-button-table
+      *ngIf="solutions && solutions.length == 0 && !loadings.loadingSolutions"
+      [type]="types.Solutions"
+      [types]="types"
+    ></create-button-table>
+    <mat-spinner
+      color="#fff"
+      *ngIf="loadings.loadingSolutions"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </button>
+
+  <div class="table table--group">
+    <div *ngIf="solutions && solutions.length > 0">
+      <div *ngFor="let solution of solutions">
+        <list-item-title
+          class="type list-item"
+          [entities]="solutions"
+          [entity]="solution"
+          [type]="types.Solutions"
+        >
+        </list-item-title>
+        <list [entities]="solution.values" [type]="types.Solutions"></list>
+      </div>
+    </div>
+
+    <p
+      class="no-data"
+      *ngIf="
+        (!solutions || solutions.length === 0) && !loadings.loadingSolutions
+      "
+    >
+      No any {{ types.Solutions }}
+    </p>
+
+    <mat-spinner
+      *ngIf="loadings.loadingSolutions"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </div>
+</div>
+
+<div>
+  <h3 class="title">Taxonomy</h3>
+  <p class="subtitle">
+    {{
+      taxonomies.length > 0
+        ? "Select the product taxonomy"
+        : "Use the button bellow to create new taxonomy"
+    }}
+  </p>
+
+  <button mat-button class="export-btn">
+    <span
+      *ngIf="taxonomies && taxonomies.length > 0 && !loadings.loadingTaxonomies"
+      (click)="exportList(types.Taxonomies)"
+    >
+      Export current list
+    </span>
+    <create-button-table
+      *ngIf="
+        taxonomies && taxonomies.length == 0 && !loadings.loadingTaxonomies
+      "
+      [type]="types.Taxonomies"
+      [types]="types"
+    ></create-button-table>
+    <mat-spinner
+      color="#fff"
+      *ngIf="loadings.loadingTaxonomies"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </button>
+
+  <div class="table table--group">
+    <taxonomy-list
+      *ngIf="taxonomies && taxonomies.length > 0"
+      [taxonomies]="taxonomies"
+    ></taxonomy-list>
+
+    <p
+      class="no-data"
+      *ngIf="taxonomies.length == 0 && !loadings.loadingTaxonomies"
+    >
+      No any {{ types.Taxonomies }}
+    </p>
+    <mat-spinner
+      *ngIf="loadings.loadingTaxonomies"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </div>
+</div>
+
+<div>
+  <h3 class="title">Frameworks</h3>
+  <p class="subtitle">
+    {{
+      frameworks.length > 0
+        ? "Which products and frameworks is your product built on?"
+        : "Use the button bellow to create new framework"
+    }}
+  </p>
+
+  <button mat-button class="export-btn">
+    <span
+      *ngIf="frameworks && frameworks.length > 0 && !loadings.loadingFrameworks"
+      (click)="exportList(types.Frameworks)"
+    >
+      Export current list
+    </span>
+    <create-button-table
+      *ngIf="
+        frameworks && frameworks.length == 0 && !loadings.loadingFrameworks
+      "
+      [type]="types.Frameworks"
+      [types]="types"
+    ></create-button-table>
+    <mat-spinner
+      color="#fff"
+      *ngIf="loadings.loadingFrameworks"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </button>
+
+  <div class="table">
+    <list
+      *ngIf="frameworks && frameworks.length > 0"
+      [entities]="frameworks"
+      [type]="types.Frameworks"
+    >
+    </list>
+
+    <p
+      class="no-data"
+      *ngIf="frameworks.length === 0 && !loadings.loadingFrameworks"
+    >
+      No any {{ types.Frameworks }}
+    </p>
+    <mat-spinner
+      *ngIf="loadings.loadingFrameworks"
+      class="spinner"
+      diameter="20"
+    ></mat-spinner>
+  </div>
+</div>

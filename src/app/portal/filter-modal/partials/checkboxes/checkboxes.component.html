@@ -1,0 +1,66 @@
+<section class="select-all">
+  <mat-checkbox
+    [checked]="mainCheckbox"
+    (change)="onChangeSelectAll($event.checked)"
+  >
+    Select all
+  </mat-checkbox>
+</section>
+<section class="search">
+  <input
+    class="filter-input"
+    matInput
+    (keyup)="search($event)"
+    placeholder="Search"
+    #input
+  />
+  <button
+    class="clear-search"
+    style="margin-top: -6px"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    (click)="onClearSearch()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</section>
+<section class="all-checkboxes" *ngIf="!isLoadingData">
+  <mat-checkbox
+    #selectAll
+    class="select-all-normal-checkboxes"
+    [checked]="mainCheckbox"
+    (change)="onChangeSelectAll($event.checked)"
+  >
+    Select all
+  </mat-checkbox>
+  <div
+    class="limitedDiv"
+    #select
+    #allCheckboxes
+    [ngClass]="{ limitTextHeight: isReadMore, removeHeight: data.length < 7 }"
+    (scroll)="onScroll()"
+  >
+    <mat-checkbox
+    class="checkbox-wrp"
+    *ngFor="let item of data; let i = index"
+    (change)="onCheckboxChange($event.checked, item.name)"
+    [checked]="item.isChecked"
+    #checkboxes
+  >
+    {{ item.name }}
+  </mat-checkbox>
+    <div *ngIf="notFoundData">No results were found</div>
+  </div>
+
+  <a
+    *ngIf="data.length > 7"
+    class="read-more"
+    href="javascript:void(0)"
+    (click)="showText()"
+  >
+    <span *ngIf="isReadMore"> Show Less </span>
+    <span *ngIf="!isReadMore"> Show {{ dataLength - 7 }} More </span>
+  </a>
+</section>
+<section class="all-checkboxes" *ngIf="isLoadingData">Loading...</section>

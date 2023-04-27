@@ -1,0 +1,67 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 16px 24px;
+  flex: 1 1 auto;
+  background: #F5F5F8;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid $tp-dark;
+  padding-bottom: 12px;
+
+  .progress {
+    margin-left: auto;
+  }
+}
+
+section  {
+  margin-bottom: 12px;
+  border-bottom: 1px solid #CCC;
+  padding-top: 12px;
+
+  .help {
+    font-size: 16px;
+    height: 16px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+}
+
+.question {
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 12pt;
+  font-weight: bold;
+  padding-top: 3px;
+  padding-bottom: 12px;
+  color: #0D1B47;
+}
+
+li {
+  &.file {
+    margin-top: -10px;
+  }
+}
+
+.compliant {
+  color: $tp-green
+}
+
+.not-compliant {
+  color: $tp-orange;
+}
+
+.compliant,
+.not-compliant {
+  font-size: 16px;
+  height: 16px;
+  vertical-align: middle;
+}

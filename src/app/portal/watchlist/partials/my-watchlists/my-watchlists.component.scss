@@ -1,0 +1,86 @@
+@import 'src/styles/colors';
+
+::ng-deep {
+  .head {
+    font-size: 24px;
+  }
+
+  .mat-expansion-panel-header {
+    height: 70px;
+
+    .mat-expansion-panel-header-title {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: $text-primary-color;
+      }
+
+      .edit-button {
+        color: $primary-blue;
+        margin-left: 8px;
+        width: 40px;
+
+        .mat-icon {
+          font-size: 20px;
+        }
+      }
+      .star-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .subTitle {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: $text-secondary-color;
+      }
+    }
+
+    .mat-expansion-panel-header-description {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      .btn-collaborate {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .btn-collaborate {
+      color: $primary-blue;
+
+      .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+
+        .mat-icon {
+          font-size: 20px;
+        }
+      }
+    }
+    .toggle-button {
+      font-size: 14px;
+      &.mat-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+  }
+}
+
+.align-center {
+  align-items: center;
+}

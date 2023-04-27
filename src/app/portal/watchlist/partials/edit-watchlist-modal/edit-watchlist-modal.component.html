@@ -1,0 +1,75 @@
+<div class="edit-watchlists-modal">
+  <div>
+    <div class="d-flex justify-center align-center dialog-header">
+      <h1>Edit watchlist</h1>
+      <button
+        mat-mini-fab
+        class="close-button"
+        (click)="cancel()"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+
+    <form [formGroup]="formGroup">
+      <div class="dialog-content">
+        <div class="form-group">
+          <label>Watchlist name:</label>
+          <input
+            formControlName="name"
+            class="custom-input"
+            placeholder="Watchlist name"
+            [ngClass]="{
+              'is-invalid': isFieldInvalid('name'),
+              'is-filled': f.name.value !== ''
+            }"
+          />
+        </div>
+
+        <div class="form-group d-flex">
+          <label class="mr-20">Collaborators:</label>
+          <div class="d-flex flex-wrap align-center">
+            <div class="collaborator" *ngFor="let collaborator of collaborators">
+              <span>{{collaborator.email}}</span>
+              <mat-icon
+                *ngIf="collaborator.id === currentMember"
+                class="text-error"
+                (click)="openLeaveModal(collaborator.id)"
+              >
+                clear
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="d-flex dialog-actions">
+        <button
+          mat-raised-button
+          class="btn-custom-outline btn-request mr-3"
+          (click)="cancel()"
+        >
+          Back
+        </button>
+        <button
+          mat-raised-button
+          class="btn-custom"
+          (click)="onSave()"
+          [disabled]="!formGroup.valid || !formGroup.dirty"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+
+    <div class="d-flex justify-center mt-4">
+      <button
+        class="error-text-button"
+        (click)="openDeleteModal()"
+      >
+        Delete watchlist
+      </button>
+    </div>
+  </div>
+</div>

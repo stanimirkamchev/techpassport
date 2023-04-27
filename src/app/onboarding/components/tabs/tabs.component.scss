@@ -1,0 +1,58 @@
+@import 'src/styles/colors';
+
+::ng-deep {
+  .tabs-wrapper {
+    margin-top: 20px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+
+    .mat-tab-nav-bar {
+      border-bottom: 0;
+      width: 100%;
+
+      .mat-ink-bar {
+        display: none;
+      }
+    }
+
+    .mat-tab-link {
+      background: $tp-white;
+      color: $tp-dark;
+      margin-right: 30px;
+      flex: 1;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 700;
+      border: 1px solid rgba(11, 19, 30, 0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 1;
+
+      &.mat-tab-label-active {
+        background-color: $tp-dark;
+        color: $tp-white;
+        border-radius: 5px;
+        border: 2px solid #1B5DBC;
+      }
+
+      .mat-icon {
+        margin-right: 20px;
+        width: 25px;
+        height: 25px;
+
+        svg {
+          width: 25px;
+          height: 25px;
+        }
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

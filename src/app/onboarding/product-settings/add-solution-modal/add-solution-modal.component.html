@@ -1,0 +1,29 @@
+<div>
+  <div class="centered">
+    <span class="mat-heading">Solution not listed? Add it now!</span>
+  </div>
+  <div class="centered mt-10" [formGroup]="form">
+    <div>
+      <app-custom-select
+      label="Select solution type"
+      [formGroup]="form"
+      [options]="solutionTypes"
+      formControlName="type"
+      ngDefaultControl
+    ></app-custom-select>
+    </div>
+
+    <div class="mt-10">
+      <app-custom-input
+      label="Solution name"
+      [formGroup]="form"
+      formControlName="name"
+      ngDefaultControl
+      ></app-custom-input>
+    </div>
+
+    <div class="mt-10">
+      <app-custom-button class="mr-3" label="Add" [disabled]="form.invalid" (onClick)="onSubmit()"></app-custom-button>
+    </div>
+  </div>
+</div>

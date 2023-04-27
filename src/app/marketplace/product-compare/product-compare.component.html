@@ -1,0 +1,168 @@
+<div class="auditing-experience">
+  <div class="d-flex justify-end">
+    <div>
+      <button mat-mini-fab class="filter-modal-clear-button" (click)="cancel()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="title">
+    Compare products <b>({{ products.length }}/{{ selectedCount }})</b>
+  </div>
+  <table class="mt-10 experience">
+    <thead>
+      <tr>
+        <th class="label-col"></th>
+        <th *ngFor="let product of products" class="product centered">
+          <img
+            [src]="
+              product.supplierId.logo
+                ? getLogo(product.supplierId._id)
+                : '../../../assets/img/Unknown.png'
+            "
+            class="logo"
+          />
+          <div class="bold">
+            {{ product.name }}
+          </div>
+          <div>
+            {{ product.company }}
+            <span class="matched">{{ calculateERQS(product) }}% Compliant</span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows">
+        <td class="label-col d-flex">
+          {{ row.label }}
+        </td>
+        <td *ngFor="let product of products" class="mx-auto data product">
+          <div
+            *ngIf="row.value == 'ratings'"
+            class="ratings-row d-flex justify-between centered"
+          >
+            <!-- <div class="flex-1">
+              <span class="text-green font-bold">Product&nbsp; </span>
+              <span class="matched">{{ product.ratingProduct }}</span>
+            </div>
+            <div class="flex-1">
+              <span class="font-bold">ERQ&nbsp; </span
+              ><span class="erq-rating">{{ product.ratingERQ }}</span>
+            </div> -->
+          </div>
+          <div *ngIf="row.value == 'trialFee'" class="trial-row centered">
+            <div>
+              <span *ngIf="product.trialFee">Yes</span>
+              <span *ngIf="!product?.trialFee">
+                No
+                <!-- {{ product.details?.charges?.currency === "usd" ? "$" : "£"
+                }}{{ product.details?.charges?.chargesAmtFee }} -->
+              </span>
+              <mat-icon
+                *ngIf="!product.trialFee"
+                class="material-symbols-rounded gray"
+              >
+                cancel
+              </mat-icon>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'PIData'" class="pi-row centered">
+            <div>
+              <mat-icon
+                class="material-symbols-rounded"
+                [className]="product.trialFee ? 'green' : 'gray'"
+              >
+                {{ product.trialFee ? "check_circle" : "cancel" }}
+              </mat-icon>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'location'" class="location-row centered">
+            <div>
+              <span>{{ product.location }}</span>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'companyAge'" class="age-row centered">
+            <div>
+              <span *ngIf="product.companyAgeYear"
+                >{{ product.companyAgeYear }}y</span
+              >
+              <span *ngIf="product.companyAgeMonth">
+                {{ product.companyAgeMonth }}m</span
+              >
+            </div>
+          </div>
+          <div *ngIf="row.value == 'fundingRound'" class="age-row centered">
+            <div>
+              <span>{{ product.fundingRound }}</span>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'boardDiversity'" class="age-row centered">
+            <div>
+              <span>{{
+                product.supplier?.boardMembersIdentify?.join(", ")
+              }}</span>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'founderDiversity'" class="age-row centered">
+            <div>
+              <span>{{ product.supplier?.founderIdentify?.join(", ") }}</span>
+            </div>
+          </div>
+          <div *ngIf="row.value == 'hostingProviders'" class="age-row centered">
+            <div>
+              <img
+                [src]="getHostingProvider(product.hostLocation)"
+                alt=""
+                class="hostProvider"
+              />
+            </div>
+          </div>
+          <div *ngIf="row.value == 'actions'" class="age-row centered">
+            <div>
+              <button
+                mat-raised-button
+                class="btn-custom"
+                (click)="openProductDetailsModal(product)"
+              >
+                <div class="d-flex justify-center">
+                  <span class="label">View Full Details</span>
+                </div>
+              </button>
+            </div>
+            <div class="d-flex justify-between mt-2">
+              <button
+                mat-raised-button
+                class="btn-custom-outline"
+                (click)="openInformationRequestDialog(product)"
+                [disabled]="!checkPermissionsForButton(product, 'info')"
+              >
+                <div class="d-flex">
+                  <span class="label">Request Info</span>
+                </div>
+              </button>
+              <button
+                mat-raised-button
+                class="btn-custom-outline"
+                (click)="doAction(product, 'POC')"
+                [disabled]="!checkPermissionsForButton(product, 'poc')"
+              >
+                <div class="d-flex">
+                  <span class="label">Request POC</span>
+                </div>
+              </button>
+            </div>
+            <div class="d-flex mt-2 justify-between">
+              <div class="link" (click)="removeProduct(product)">Remove</div>
+              <div class="d-flex icon-btn"></div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="notice-footer mt-3 d-flex justify-center">
+    <mat-icon class="help ml-2">info</mat-icon> You can
+    compare up to <b>&nbsp;3 products&nbsp;</b> at a time
+  </div>
+</div>

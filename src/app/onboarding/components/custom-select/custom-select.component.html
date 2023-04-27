@@ -1,0 +1,97 @@
+<div class="custom-select-wrapper" [formGroup]="formGroup">
+  <div *ngIf="title" class="title mb-5">{{ title }}</div>
+  <mat-form-field
+    class="custom-select"
+    [ngClass]="{ 'is-invalid': isError }"
+    appearance="fill"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <mat-select
+      *ngIf="!group"
+      [formGroup]="formGroup"
+      [disabled]="disabled"
+      [formControlName]="formControlName"
+      ngDefaultControl
+      [multiple]="multiple"
+    >
+      <mat-option
+        *ngFor="let option of filteredOptions"
+        [disabled]="isDisabled(option)"
+        [value]="option.value"
+        [ngClass]="{ invisible: option.invisible }"
+      >
+        {{ option.label }}
+      </mat-option>
+      <mat-optgroup *ngIf="enableSearchBox" class="search-box">
+        <div class="search-container">
+          <mat-icon svgIcon="search" class="search-icon"></mat-icon>
+          <input
+            placeholder="Search..."
+            (keydown)="keydown($event)"
+            [formControl]="filter"
+            class="search-input"
+          />
+        </div>
+      </mat-optgroup>
+      <div
+        class="tag-create-footer d-flex justify-center items-center"
+        *ngIf="enableNewButton"
+        (click)="addNew()"
+      >
+        <mat-icon svgIcon="plus"></mat-icon>
+      </div>
+    </mat-select>
+    <mat-select
+      *ngIf="group"
+      [formGroup]="formGroup"
+      [formControlName]="formControlName"
+      ngDefaultControl
+      [multiple]="multiple"
+    >
+      <mat-optgroup
+        class="mat-group"
+        *ngFor="let group of filteredOptions"
+        [label]="group.label"
+        [ngClass]="{ invisible: group.invisible }"
+      >
+        <ng-container *ngFor="let option of group.children">
+          <mat-option
+            [value]="option.value"
+            [disabled]="isDisabled(option)"
+            [ngClass]="{
+              invisible: option.invisible,
+              parent: option.children && option.children.length
+            }"
+            (onSelectionChange)="onSelectionChange($event)"
+          >
+            {{ option.label }}
+          </mat-option>
+          <mat-option
+            class="pl-10"
+            *ngFor="let op of option.children"
+            [disabled]="isDisabled(op)"
+            [value]="op.value"
+            [ngClass]="{ invisible: op.invisible }"
+            (onSelectionChange)="onSelectionChange($event)"
+          >
+            {{ op.label }}
+          </mat-option>
+        </ng-container>
+      </mat-optgroup>
+      <mat-optgroup *ngIf="enableSearchBox" class="search-box">
+        <div class="search-container">
+          <mat-icon svgIcon="search" class="search-icon"></mat-icon>
+          <input
+            placeholder="Search..."
+            (keydown)="keydown($event)"
+            [formControl]="filter"
+            class="search-input"
+          />
+        </div>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="isError" class="error">
+    {{ errorText }}
+  </div>
+</div>

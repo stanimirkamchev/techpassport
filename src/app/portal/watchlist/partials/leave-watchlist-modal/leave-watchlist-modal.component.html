@@ -1,0 +1,62 @@
+<div class="leave-watchlists-modal">
+  <div>
+    <div class="d-flex justify-center align-center dialog-header">
+      <h1>Leave watchlist</h1>
+      <button mat-mini-fab class="close-button" (click)="cancel()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+
+    <div class="dialog-content">
+      <div
+        class="description"
+        *ngIf="
+          data &&
+          data.watchlist &&
+          data.watchlist.collaborators &&
+          data.watchlist.collaborators.length > 1
+        "
+      >
+        Are you sure you want to leave this watchlist? You won’t be able to edit
+        or collaborate on this watchlist any more
+      </div>
+
+      <div
+        class="description"
+        *ngIf="
+          data &&
+          data.watchlist &&
+          data.watchlist.collaborators &&
+          data.watchlist.collaborators.length === 1
+        "
+      >
+        You can’t leave this watchlist because you are currently the only
+        collaborator. To remove yourself, either add another collaborator before
+        leaving or choose ‘delete watchlist’ instead.
+      </div>
+    </div>
+
+    <div class="d-flex dialog-actions">
+      <button
+        mat-raised-button
+        class="btn-custom-outline btn-request mr-3"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        class="btn-custom"
+        *ngIf="
+          data &&
+          data.watchlist &&
+          data.watchlist.collaborators &&
+          data.watchlist.collaborators.length > 1
+        "
+        (click)="onSave()"
+      >
+        Yes, I want to leave
+      </button>
+    </div>
+  </div>
+</div>

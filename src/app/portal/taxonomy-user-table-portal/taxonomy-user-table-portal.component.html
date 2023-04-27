@@ -1,0 +1,53 @@
+<button mat-mini-fab class="closeModal2 close-invite-modal" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal edit-user-table-modal">
+    <div class="header">
+        <h3>{{ title }}</h3>
+    </div>
+    <div>
+        <div fxLayout="column">
+            <div class="taxonomy-create" *ngIf="mode === 'create' && subLevel === 'lvl_1'">
+                <label>Tier 1 name</label>
+                <input matInput [(ngModel)]="title1Text" (input)="onChangeText()" placeholder="Tier 1 name" />
+                <label>Tier 2 name</label>
+                <input matInput [(ngModel)]="title2Text" (input)="onChangeText()" placeholder="Tier 2 name" />
+                <label>Tier 3 name</label>
+                <input matInput [(ngModel)]="title3Text" (input)="onChangeText()" placeholder="Tier 3 name" />
+            </div>
+            <div class="taxonomy-create" *ngIf="mode === 'create' && subLevel === 'lvl_2'">
+                <label>Tier 1 name</label>
+                <input matInput [(ngModel)]="title1Text" disabled (input)="onChangeText()" placeholder="Tier 1 name" />
+                <label>Tier 2 name</label>
+                <input matInput [(ngModel)]="title2Text" (input)="onChangeText()" placeholder="Tier 2 name" />
+                <label>Tier 3 name</label>
+                <input matInput [(ngModel)]="title3Text" (input)="onChangeText()" placeholder="Tier 3 name" />
+            </div>
+            <div class="taxonomy-create" *ngIf="mode === 'create' && subLevel === 'lvl_3'">
+                <label>Tier 1 name</label>
+                <input matInput [(ngModel)]="title1Text" disabled (input)="onChangeText()" placeholder="Tier 1 name" />
+                <label>Tier 2 name</label>
+                <input matInput [(ngModel)]="title2Text" disabled (input)="onChangeText()" placeholder="Tier 2 name" />
+                <label>Tier 3 name</label>
+                <input matInput [(ngModel)]="title3Text" (input)="onChangeText()" placeholder="Tier 3 name" />
+            </div>
+            <input *ngIf="mode === 'update'" matInput [(ngModel)]="inputtedText" (input)="onChangeText()" placeholder="Add new taxonomy" />
+            <p *ngIf="error && mode == 'create'" class="error">
+                You are trying to add an existing item
+            </p>
+            <p *ngIf="error && mode == 'update'" class="error">
+                The item exist in the list above
+            </p>
+        </div>
+    </div>
+    <div class="options success-btns">
+        <button *ngIf="mode === 'update'" [disabled]="disabled()" (click)="update()"
+            [ngStyle]="{opacity: opacity() ? '1' : '0.6'}" mat-button mat-raised-button class="continue-btn">
+            Amend
+        </button>
+        <button *ngIf="mode === 'create'" [disabled]="disabled()" (click)="create()"
+            [ngStyle]="{opacity: opacity() ? '1' : '0.6'}" mat-button mat-raised-button class="continue-btn">
+            Add
+        </button>
+    </div>
+</div>

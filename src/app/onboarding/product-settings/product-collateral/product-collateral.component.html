@@ -1,0 +1,90 @@
+<div class="product-collateral">
+  <form [formGroup]="productCollateralForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Product Collateral </mat-card-title>
+      <mat-card-content>
+        <div class="d-flex items-center space-x-3 mb-5">
+          <div>Add up to three pitch decks or supplementary files below</div>
+          <div class="caption" *ngIf="isOptionalTitle">(optional)</div>
+        </div>
+        <div class="d-flex space-x-5">
+          <div class="flex-1">
+            <div class="mb-1">
+              <custom-file-dropzone
+                placeholder="Drag and drop or click to upload"
+                (change)="onChangeFile($event, '1')"
+                [value]="productCollateralForm.get('file1').value"
+                (save)="onSaveCollateral($event, 1)"
+                (remove)="onRemoveCollateral(1)"
+                (download)="onDownload(1)"
+                [errorText]="collateralState[1].error"
+                [isRemoving]="collateralState[1].isRemoving"
+                [fid]="collateralState[1].fid"
+                [uploadStatus]="collateralState[1].uploadStatus"
+                [isSaving]="collateralState[1].isSaving"
+              ></custom-file-dropzone>
+            </div>
+            <div class="mb-5">
+              <app-custom-input
+                label="Collateral name"
+                [formGroup]="productCollateralForm"
+                formControlName="name1"
+                ngDefaultControl
+              ></app-custom-input>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="mb-1">
+              <custom-file-dropzone
+                placeholder="Drag and drop or click to upload"
+                (change)="onChangeFile($event, '2')"
+                [value]="productCollateralForm.get('file2').value"
+                (save)="onSaveCollateral($event, 2)"
+                (remove)="onRemoveCollateral(2)"
+                (download)="onDownload(2)"
+                [errorText]="collateralState[2].error"
+                [isRemoving]="collateralState[2].isRemoving"
+                [fid]="collateralState[2].fid"
+                [uploadStatus]="collateralState[2].uploadStatus"
+                [isSaving]="collateralState[2].isSaving"
+              ></custom-file-dropzone>
+            </div>
+            <div class="mb-5">
+              <app-custom-input
+                label="Collateral name"
+                [formGroup]="productCollateralForm"
+                formControlName="name2"
+                ngDefaultControl
+              ></app-custom-input>
+            </div>
+          </div>
+          <div class="flex-1">
+            <div class="mb-1">
+              <custom-file-dropzone
+                placeholder="Drag and drop or click to upload"
+                (change)="onChangeFile($event, '3')"
+                [value]="productCollateralForm.get('file3').value"
+                (save)="onSaveCollateral($event, 3)"
+                (remove)="onRemoveCollateral(3)"
+                (download)="onDownload(3)"
+                [errorText]="collateralState[3].error"
+                [isRemoving]="collateralState[3].isRemoving"
+                [fid]="collateralState[3].fid"
+                [uploadStatus]="collateralState[3].uploadStatus"
+                [isSaving]="collateralState[3].isSaving"
+              ></custom-file-dropzone>
+            </div>
+            <div class="mb-5">
+              <app-custom-input
+                label="Collateral name"
+                [formGroup]="productCollateralForm"
+                formControlName="name3"
+                ngDefaultControl
+              ></app-custom-input>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

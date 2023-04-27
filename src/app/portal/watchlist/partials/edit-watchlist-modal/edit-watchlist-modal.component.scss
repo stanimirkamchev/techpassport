@@ -1,0 +1,117 @@
+@import 'src/styles/colors';
+
+::ng-deep {
+  .mat-dialog-container {
+    border-radius: 6px !important;
+    padding: 10px 24px 32px !important
+  }
+
+  .edit-watchlists-modal {
+    .dialog-header {
+      border-bottom: 1px solid #E5E7EB;
+      position: relative;
+      padding: 28px 0;
+
+      h1 {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+        color: $text-primary-color;
+        margin: 0;
+      }
+
+      .close-button {
+        width: 48px;
+        height: 48px;
+        border-radius: 100%;
+        background-color: $light-grey;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: none;
+
+        .mat-icon {
+          color: $text-primary-color;
+        }
+      }
+    }
+
+    .dialog-content {
+      padding-top: 25px;
+
+      .custom-input {
+        margin-top: 8px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .collaborator {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+        margin-bottom: 12px;
+
+        &:hover {
+          .mat-icon {
+            display: block;
+          }
+        }
+        .text-error {
+          color: $tp-pink;
+          display: none;
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-left: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .custom-input {
+      background-color: #E5E7EB;
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      height: 56px;
+      width: 100%;
+      padding: 20px !important;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.is-invalid {
+        border: 1px solid $tp-red;
+      }
+    }
+
+    .dialog-actions {
+      button {
+        flex: 1;
+        border-radius: 6px;
+        font-size: 17px !important;
+        box-shadow: none;
+
+        &:first-child {
+          border: 1px solid #E5E7EB;
+        }
+      }
+    }
+  }
+}

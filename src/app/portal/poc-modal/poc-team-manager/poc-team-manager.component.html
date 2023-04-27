@@ -1,0 +1,43 @@
+<div class="team-manager">
+    <h2><span>Team of the project</span></h2>
+    <div class="team clearfix">
+     <!--  <div class="searchField">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" autocomplete="off">
+            </mat-form-field>
+          </div> --> 
+        <div *ngFor="let person of teamList" class="person-container">
+            <mat-icon class="icon-preson">person_pin</mat-icon>
+            <div class="name-container">
+                <div class="name">{{person.name}} {{person.surname}} </div>
+                <div class="mail">{{person.email}}</div>
+                <div class="icon-line">
+                    <mat-icon matTooltip="Send message">chat_bubble_outline</mat-icon>
+                    <mat-icon >link</mat-icon>
+                    <mat-icon matTooltip="Remove" class="red" (click)="remove(person.id,'teamList')">cancel</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2><span>Team</span></h2>
+    <div class="find-team clearfix">
+        <div class="add-new" (click)="addMember()">
+        <mat-icon class="add">add_circle_outline</mat-icon>
+        <span class="text" >Add new</span>
+        </div>
+        <div *ngFor="let person of teamData" class="person-container">
+            <mat-icon class="icon-preson">person_pin</mat-icon>
+            <div class="name-container">
+                <div class="name">{{person.name}}</div>
+                <div class="mail">{{person.email}}</div>
+                <div class="icon-line">
+                    <mat-icon matTooltip="Send message">chat_bubble_outline</mat-icon>
+                    <mat-icon >link</mat-icon>
+                    <mat-icon  matTooltip="Remove" class="red" (click)="remove(person.id,'teamData')">cancel</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

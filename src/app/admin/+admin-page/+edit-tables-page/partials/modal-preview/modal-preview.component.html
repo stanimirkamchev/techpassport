@@ -1,0 +1,16 @@
+<div class="modal-cont">
+  <h1>Migration Data</h1>
+  <h4 *ngIf="data.suppliers.length > 0">Suppliers</h4>
+  <div *ngFor="let supplier of data.suppliers">
+    <span>{{ supplier | json }}</span>
+  </div>
+
+  <h4 *ngIf="data.products.length > 0">Products</h4>
+  <div *ngFor="let product of data.products">
+    <span>{{ product | json }}</span>
+  </div>
+
+  <button mat-button class="export-btn">
+    <span (click)="understood()"> Close </span>
+  </button>
+</div>

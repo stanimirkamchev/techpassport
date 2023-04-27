@@ -1,0 +1,23 @@
+<div class="finance-institutions-table">
+  <div class="title">
+    <b>{{ totalExperience }}</b> Financial institutions worked with
+  </div>
+  <table class="mt-10 experience">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">
+          {{ column.value != "sector" ? column.label : "" }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows">
+        <td *ngFor="let column of columns" class="mx-auto data">
+          <ng-container>
+            {{ row[column.value] }}
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

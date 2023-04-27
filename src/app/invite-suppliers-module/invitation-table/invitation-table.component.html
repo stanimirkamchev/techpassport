@@ -1,0 +1,184 @@
+<div class="spinner d-flex justify-center" *ngIf="loading | async">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>
+<ng-container *ngIf="!(loading | async)">
+  <div class="product-list">
+    <table mat-table matSort [dataSource]="dataSource" multiTemplateDataRows>
+      <!-- User Column-->
+      <ng-container matColumnDef="user">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>User</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div class="bold">
+            {{ element.user.firstName }} {{ element.user.lastName }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Supplier Invited Column-->
+      <ng-container matColumnDef="supplierInvited">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Supplier invited
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div>
+            {{ element.receiver }}
+          </div>
+          <!-- <div class="sm">Est: {{ element.estTime | date : "MMM yyyy" }}</div> -->
+        </td>
+      </ng-container>
+
+      <!-- Date Invited Column -->
+      <ng-container matColumnDef="dateInvited">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Date invited
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div class="sm">{{ element.createdAt | date : "MM/dd/yy" }}</div>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Status</th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <!-- Reqular user -->
+          <div *ngIf="type === 'customer'">
+            {{ element.status }}
+          </div>
+
+          <!-- Admin user -->
+          <div *ngIf="type === 'portalAdmin'">
+            <mat-select
+              [value]="element.status"
+              (selectionChange)="onSelectionChange($event, element)"
+            >
+              <mat-option [value]="InvitationStatus.INVITED"
+                >Invited</mat-option
+              >
+              <mat-option [value]="InvitationStatus.ONBOARDED"
+                >Onboarded</mat-option
+              >
+              <mat-option [value]="InvitationStatus.REJECTED"
+                >Rejected</mat-option
+              >
+            </mat-select>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Date Onboarded Column -->
+      <ng-container matColumnDef="dateOnboarded">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Date onboarded
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          <div class="sm">
+            {{
+              element.dateOnboarded
+                ? (element.dateOnboarded | date : "MM/dd/yy")
+                : "-"
+            }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Note from user Column -->
+      <ng-container matColumnDef="userNote">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Note from user
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.userNote }}
+        </td>
+      </ng-container>
+
+      <!-- Note from TechPassport Column -->
+      <ng-container matColumnDef="tppNote">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>
+          Note from TechPassport
+        </th>
+        <td class="list-content" mat-cell *matCellDef="let element">
+          {{ element.tppNote || "-" }}
+        </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="action">
+        <th class="list-header" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td
+          class="list-content pr-5"
+          mat-cell
+          *matCellDef="let row; let element"
+        >
+          <div class="d-flex items-center">
+            <!-- Admin side-->
+            <div *ngIf="type === 'portalAdmin'">
+              <button
+                *ngIf="!element.tppNote"
+                mat-raised-button
+                class="view-btn mr-5"
+                (click)="updateNote(element, 'Add')"
+              >
+                Add note
+              </button>
+
+              <button
+                *ngIf="element.tppNote"
+                mat-raised-button
+                class="view-btn mr-5"
+                (click)="updateNote(element, 'Edit')"
+              >
+                Edit note
+              </button>
+            </div>
+            <!-- Admin end -->
+
+            <!-- Buyer -->
+            <div *ngIf="type === 'customer'">
+              <div *ngIf="element.requestUpdateDate">
+                <svg
+                  width="16"
+                  height="13"
+                  viewBox="0 0 16 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.74622 0C3.47357 0 0 2.51212 0 5.60269C0 7.37109 1.12524 8.94117 2.88649 9.96585C2.54868 10.5933 2.24233 10.9778 1.69601 11.9326C1.27201 12.4284 1.77755 13.1886 2.38094 12.9573C3.65295 12.478 5.12066 11.8004 6.47421 11.1393C6.88191 11.1889 7.30591 11.2219 7.72991 11.2219C12.0026 11.2219 15.4761 8.70979 15.4761 5.61922C15.4924 2.51212 12.0189 0 7.74622 0ZM7.01557 2.51714C7.01557 2.11695 7.33154 1.77666 7.74622 1.77666C8.16091 1.77666 8.47687 2.09688 8.47687 2.51714V6.16018C8.47687 6.56038 8.16091 6.90066 7.74622 6.90066C7.33154 6.90066 7.01557 6.58045 7.01557 6.16018V2.51714ZM7.74622 9.74303C7.23282 9.74303 6.79833 9.32276 6.79833 8.78239C6.79833 8.24201 7.21301 7.82175 7.74622 7.82175C8.27943 7.82175 8.69411 8.24201 8.69411 8.78239C8.69411 9.32276 8.25963 9.74303 7.74622 9.74303Z"
+                    fill="#0D1B47"
+                  />
+                </svg>
+                <p>Update requested</p>
+              </div>
+
+              <button
+                [disabled]="isDisabledRequest(element)"
+                mat-raised-button
+                class="view-btn mr-5"
+                (click)="requestUpdate(element)"
+              >
+                Request update
+              </button>
+            </div>
+            <!-- Buyer end -->
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <!-- Row shown when there is no matching data. -->
+      <td
+        *matNoDataRow
+        class="mat-cell no-data-table"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <h2>No results found</h2>
+        <p>
+          Sorry we didn’t find any results for your search, please try searching
+          for something else.
+        </p>
+      </td>
+    </table>
+  </div>
+</ng-container>

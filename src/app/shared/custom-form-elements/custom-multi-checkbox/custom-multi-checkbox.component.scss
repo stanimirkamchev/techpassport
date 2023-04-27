@@ -1,0 +1,77 @@
+@import 'src/styles/colors';
+
+
+::ng-deep mat-checkbox .mat-checkbox-inner-container {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  border: 1px solid rgba(12, 29, 74, 0.1);
+  background-color: #F3F3F6 !important;
+
+  .mat-checkbox-frame {
+    background: none !important;
+    border: none !important;
+  }
+}
+
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background: rgba(0, 175, 0, 0.2);
+  border: 2px solid #00AF00;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+/* Target the checkbox's label */
+:host ::ng-deep .mat-checkbox-label {
+  /* Change the font size of the label */
+  font-family: Helvetica, serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 65px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.1em;
+  color: #0D1B47;
+  vertical-align: middle;
+}
+
+.horizontalListItem {
+  display: inline-block;
+  margin: 0 2.7rem 0 0;
+}
+
+.verticalListItem {
+  margin: 0 2rem 1rem 0;
+  list-style: none;
+  text-align: right;
+  min-width: 24rem;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  border: 2px solid #00AF00;
+  background: rgba(0, 175, 0, 0.2)
+    url("data:image/svg+xml,%3Csvg width='36' height='26' viewBox='0 0 36 26' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14.1952 25.5C13.8406 25.5007 13.4894 25.43 13.1616 25.2919C12.8339 25.1538 12.5361 24.9511 12.2853 24.6952L0.826048 13.0017C0.567868 12.7476 0.361865 12.4437 0.22006 12.1075C0.0782549 11.7714 0.00348705 11.4098 0.000119091 11.0439C-0.00324887 10.6779 0.0648505 10.315 0.200444 9.97619C0.336037 9.6374 0.536409 9.32955 0.789867 9.0706C1.04333 8.81165 1.3448 8.6068 1.67669 8.46799C2.00858 8.32917 2.36424 8.25919 2.72293 8.2621C3.08162 8.26502 3.43614 8.34079 3.76582 8.48498C4.0955 8.62918 4.39373 8.83891 4.64311 9.10195L14.1925 18.8443L31.3868 1.30806C31.8934 0.790926 32.5805 0.500259 33.2971 0.5C34.0137 0.499742 34.7011 0.789913 35.2079 1.30668C35.7148 1.82345 35.9997 2.52448 36 3.25556C36.0003 3.98664 35.7158 4.68787 35.2093 5.20501L16.1051 24.6952C15.8543 24.9511 15.5566 25.1538 15.2288 25.2919C14.9011 25.43 14.5498 25.5007 14.1952 25.5Z' fill='%2300AF00'/%3E%3C/svg%3E%0A")
+    no-repeat no-repeat center center;
+  background-size: 2rem 2rem;
+  border-radius: 10px;
+}
+::ng-deep .mat-checkbox-checkmark-path {
+  display: none;
+}
+
+::ng-deep .mat-checkbox-checked.cross .mat-checkbox-background {
+  border: 2px solid red;
+  border-radius: 10px;
+  background: rgba(217, 0, 0, 0.20) url("data:image/svg+xml,%3Csvg width='8' height='9' stroke='red' viewBox='0 0 8 9' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 7.5L7 1.5M1 1.5L7 7.5' stroke='%23D90000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center center;
+  background-size: 2rem 2rem;
+
+  ::ng-deep .mat-checkbox-checkmark {
+    display: none;
+  }
+}
+
+::ng-deep .mat-checkbox-frame {
+  border-color: rgb(75, 75, 75, 0.7);
+}

@@ -1,0 +1,47 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "target": "es2015",
+    "types": ["node"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@shared/*": ["src/app/shared/*"],
+      "@resources/*": ["src/app/common/resources/*"],
+      "@constants/*": ["src/app/common/constants/*"],
+      "@interceptors/*": ["src/app/common/interceptors/*"],
+      "@enums/*": ["src/app/common/enums/*"],
+      "@guards/*": ["src/app/common/guards/*"],
+      "@services/*": ["src/app/common/services/*"],
+      "@directives/*": ["src/app/common/directives/*"],
+      "@pipes/*": ["src/app/common/pipes/*"],
+      "@decorators/*": ["src/app/common/decorators/*"],
+      "@models/*": ["src/app/common/models/*"],
+      "@handlers/*": ["src/app/common/handlers/*"],
+      "@utils/*": ["src/app/common/utils/*"],
+      "@abstract/*": ["src/app/common/abstract/*"],
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "disableTypeScriptVersionCheck": false,
+    "enableIvy": false
+  }
+}

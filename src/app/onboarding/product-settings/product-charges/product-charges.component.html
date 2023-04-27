@@ -1,0 +1,106 @@
+<div class="product-charges">
+  <form [formGroup]="chargeForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Charges </mat-card-title>
+      <mat-card-content>
+        <div class="mb-10">
+          <app-custom-multi-checkbox
+            label="Do you charge a trial fee?"
+            [value]="chargeForm.controls.trial.value"
+            [multi]="false"
+            [options]="trialOptions"
+            [isError]="submitted && !!chargeForm.controls.trial.errors"
+            errorText="Select a response"
+            (change)="chargeForm.controls.trial.setValue($event)"
+          ></app-custom-multi-checkbox>
+        </div>
+        <div
+          class="mb-10"
+          *ngIf="chargeForm.controls.trial.value === 'fixedFee'"
+        >
+          <div class="d-flex space-x-4 items-center">
+            <div class="label w-36">How much?</div>
+            <div class="d-flex space-x-4">
+              <app-custom-select
+                class="w-40"
+                label="Currency"
+                [formGroup]="chargeForm"
+                [options]="currencyOptions"
+                formControlName="currency"
+                [isError]="submitted && !!chargeForm.controls.currency.errors"
+                errorText="Choose a currency"
+                ngDefaultControl
+              ></app-custom-select>
+              <app-custom-input
+                [formGroup]="chargeForm"
+                formControlName="chargesAmtFee"
+                [isError]="
+                  submitted && !!chargeForm.controls.chargesAmtFee.errors
+                "
+                errorText="Enter the amount"
+                ngDefaultControl
+                type="number"
+              ></app-custom-input>
+            </div>
+          </div>
+        </div>
+        <div class="mb-10" *ngIf="chargeForm.controls.trial.value !== 'free'">
+          <app-custom-textarea
+            label="Please provide a brief justification for the trial fee"
+            [formGroup]="chargeForm"
+            formControlName="description"
+            [isError]="submitted && !!chargeForm.controls.description.errors"
+            errorText="Describe the reasoning behind charging a trial fee"
+            ngDefaultControl
+          ></app-custom-textarea>
+        </div>
+        <div class="mb-10" *ngIf="!onlyMandatory">
+          <app-custom-multi-checkbox
+            label="What is your RRP?"
+            [value]="chargeForm.controls.rrp.value"
+            [multi]="false"
+            [options]="rrpOptions"
+            (change)="chargeForm.controls.rrp.setValue($event)"
+          >
+          </app-custom-multi-checkbox>
+        </div>
+        <div
+          *ngIf="chargeForm.controls.rrp.value === 'fixed' && !onlyMandatory"
+        >
+          <div class="d-flex space-x-4 items-center">
+            <div class="label w-36">How much?</div>
+            <div class="d-flex space-x-4">
+              <app-custom-select
+                class="w-40"
+                label="Currency"
+                [formGroup]="chargeForm"
+                [options]="currencyOptions"
+                formControlName="currency"
+                ngDefaultControl
+              ></app-custom-select>
+              <app-custom-input
+                [formGroup]="chargeForm"
+                formControlName="rrpAmount"
+                ngDefaultControl
+                type="number"
+                [isError]="submitted && !!chargeForm.controls.rrpAmount.errors"
+                errorText="Enter the amount"
+              ></app-custom-input>
+            </div>
+          </div>
+        </div>
+        <div
+          class="mb-10"
+          *ngIf="chargeForm.controls.rrp.value === 'volume' && !onlyMandatory"
+        >
+          <app-custom-textarea
+            label="Give further details"
+            [formGroup]="chargeForm"
+            formControlName="rrpFeeDetails"
+            ngDefaultControl
+          ></app-custom-textarea>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

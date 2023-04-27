@@ -1,0 +1,57 @@
+<div class="app-watch-lists">
+  <div class="top-bar d-flex items-center justify-between">
+    <div class="d-flex items-center">
+      <div class="title">
+        Watchlists
+      </div>
+    </div>
+    <div class="d-flex items-center">
+      <div
+        class="link"
+        (click)="viewAllWatchlists()"
+      >
+        View all
+      </div>
+      <mat-icon class="ml-1 cursor-pointer" (click)="closeModal()">clear</mat-icon>
+    </div>
+  </div>
+  <div class="body">
+    <div class="spinner" *ngIf="spinnerIsVisible">
+      <mat-spinner mode="indeterminate" diameter="64"></mat-spinner>
+    </div>
+    <div class="empty-watchlist" *ngIf="watchLists?.length === 0 ">
+      Oh no! It looks like you haven't created a watchlist yet.
+      To add products, first go to the watchlists page and click ‘create new’.
+      <br />
+      <br />
+      <a routerLink="/portal" [queryParams]="{ page: 'watchlist' }" class="link">
+        Take me there
+      </a>
+    </div>
+    <div *ngFor="let watchList of watchLists"
+         class="product-item d-flex justify-between items-center">
+      <div class="product-name">
+        {{watchList?.name}} ({{watchList.products.length}})
+      </div>
+      <div class="d-flex items-center">
+        <button
+          *ngIf="addedMap[watchList._id]"
+          mat-raised-button
+          class="view-btn"
+          disabled
+        >
+          Added
+        </button>
+        <button
+          *ngIf="!addedMap[watchList._id]"
+          mat-raised-button
+          class="view-btn"
+          [disabled]="spinnerIsVisible"
+          (click)="onAddProductsToWatchlist(watchList)"
+        >
+          Add {{selectedProducts.length > 1 ? '(' + selectedProducts.length + ')' : ''}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

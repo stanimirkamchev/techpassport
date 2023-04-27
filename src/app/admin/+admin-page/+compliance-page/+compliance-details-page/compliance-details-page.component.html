@@ -1,0 +1,53 @@
+<div class="container">
+  <ui-page-title>Compliance</ui-page-title>
+  <ui-page-content>
+    <ui-page-close route="/admin/compliance"></ui-page-close>
+    <mat-spinner
+      *ngIf="loading$ | async; else complianceDetails"
+      diameter="32"
+    ></mat-spinner>
+    <ng-template #complianceDetails>
+      <ng-container *ngIf="complianceDetails$ | async as complianceDetails">
+        <ui-page-header *ngIf="complianceDetails.supplier as supplier">
+          <img
+            src="/api/v1/admin/supplier/{{ supplier._id }}/companylogo"
+            class="logo"
+          />
+          <span class="mat-title">
+            <strong>{{ supplier.name }}</strong> Company Ref <br />
+          </span>
+        </ui-page-header>
+        <header-controls
+          (download)="download(complianceDetails.supplier)"
+          [downloadHidden]="true"
+          [approvalHidden]="true"
+        >
+        </header-controls>
+        <nav mat-tab-nav-bar>
+          <a
+            mat-tab-link
+            [routerLink]="['supplier']"
+            [active]="router.url.indexOf('/supplier') > -1"
+          >
+            Supplier Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['product']"
+            [active]="router.url.indexOf('/product') > -1"
+          >
+            Product Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['review']"
+            [active]="router.url.indexOf('/review') > -1"
+          >
+            Compliance
+          </a>
+        </nav>
+      </ng-container>
+      <router-outlet></router-outlet>
+    </ng-template>
+  </ui-page-content>
+</div>

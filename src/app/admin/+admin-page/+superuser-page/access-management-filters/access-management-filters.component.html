@@ -1,0 +1,67 @@
+<ui-data-filters class="column">
+  <form autocomplete="off" [formGroup]="formGroup">
+    <section>
+      <span class="mat-title"><span>Access Management</span></span>
+      <div class="pull--right">
+        <button
+          mat-button
+          color="primary"
+          [disabled]="loading"
+          (click)="download.emit()"
+          class="download-btn">
+          <mat-icon>get_app</mat-icon>
+          Download
+        </button>
+        <button
+          mat-button
+          color="primary"
+          [disabled]="loading"
+          (click)="refresh.emit()"
+          class="refresh-btn">
+          <mat-icon>refresh</mat-icon>
+          Reload
+        </button>
+      </div>
+    </section>
+    <section>
+      <label>Role</label>
+      <mat-form-field>
+        <mat-select formControlName="role">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let role of roles" [value]="role">
+            {{role}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label>Type</label>
+      <mat-form-field>
+        <mat-select formControlName="type">
+          <mat-option value="">All</mat-option>
+          <mat-option
+            *ngFor="let type of types"
+            [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label>Company</label>
+      <mat-form-field>
+        <mat-select formControlName="company">
+          <mat-option value="">All</mat-option>
+          <mat-option
+            *ngFor="let company of companies"
+            [value]="company">
+            {{company}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="pull--right">
+        <mat-form-field class="pull--right">
+          <input matInput formControlName="search" placeholder="Search">
+        </mat-form-field>
+      </div>
+    </section>
+  </form>
+</ui-data-filters>

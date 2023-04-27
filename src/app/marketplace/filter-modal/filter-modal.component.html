@@ -1,0 +1,387 @@
+<div class="header d-flex items-center justify-between">
+  <div class="title">Filters</div>
+  <div>
+    <button mat-mini-fab
+      class="filter-modal-clear-button"
+      (click)="cancel()"
+      >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="filter-list">
+  <mat-chip-list>
+    <mat-chip
+      *ngFor="let item of getFilters()"
+      [removable]="true"
+      (removed)="onRemoveFilter(item)"
+    >
+      <span>{{item.title}}</span>
+      <mat-icon matChipRemove>close</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <div *ngIf="getFilters().length" class="link" (click)="onClickClearFilters()">
+    Clear all ({{getFilters().length}})
+  </div>
+</div>
+<div class="modal-filter">
+  <div fxLayout="column">
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="expandedTabs['taxonomy']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['taxonomy'] = !expandedTabs['taxonomy']"
+        >
+          <mat-panel-title>
+            Taxonomy
+            <span *ngIf="outputFilteredData.taxonomy?.length" class="badge">
+              {{ outputFilteredData.taxonomy?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <taxonomy-filter
+          [taxonomies]="taxonomies"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'taxonomy'"
+        ></taxonomy-filter>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['productTags']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['productTags'] = !expandedTabs['productTags']"
+        >
+          <mat-panel-title>
+            Product tags
+            <span *ngIf="outputFilteredData.productTags?.length" class="badge">
+              {{ outputFilteredData.productTags?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'productTags'"
+          [data]="
+            filteredData && filteredData.productTags.length > 0
+              ? filteredData.productTags
+              : []
+          "
+          [canSelectAll]="false"
+          spaceClassName="big-space"
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['erqComplete']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['erqComplete'] = !expandedTabs['erqComplete']"
+        >
+          <mat-panel-title>ERQ % Complete</mat-panel-title>
+        </mat-expansion-panel-header>
+        <slider-range
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'erqComplete'"
+          [value]="outputFilteredData.erqComplete && outputFilteredData.erqComplete[0] ? outputFilteredData.erqComplete[0].name : 0"
+          [maxValue]="outputFilteredData.erqComplete && outputFilteredData.erqComplete[1] ? outputFilteredData.erqComplete[1].name : 100"
+          [data]="
+            filteredData && filteredData.erqComplete.length > 0
+              ? filteredData.erqComplete
+              : []
+          "
+          [manualRefresh]="slidersRefresh"
+        >
+        </slider-range>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['erqComplaint']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['erqComplaint'] = !expandedTabs['erqComplaint']"
+        >
+          <mat-panel-title>ERQ % compliant</mat-panel-title>
+        </mat-expansion-panel-header>
+        <slider-range
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'erqComplaint'"
+          [value]="outputFilteredData.erqComplaint && outputFilteredData.erqComplaint[0] ? outputFilteredData.erqComplaint[0].name : 0"
+          [maxValue]="outputFilteredData.erqComplaint && outputFilteredData.erqComplaint[1] ? outputFilteredData.erqComplaint[1].name : 100"
+          [data]="
+            filteredData && filteredData.erqComplaint.length > 0
+              ? filteredData.erqComplaint
+              : []
+          "
+          [manualRefresh]="slidersRefresh"
+        >
+        </slider-range>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['erqLastUpdated']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['erqLastUpdated'] = !expandedTabs['erqLastUpdated']
+          "
+        >
+          <mat-panel-title>ERQs last updated</mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'erqLastUpdated'"
+          [data]="
+            filteredData && filteredData.erqLastUpdated.length > 0
+              ? filteredData.erqLastUpdated
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['fisWorkedWith']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['fisWorkedWith'] = !expandedTabs['fisWorkedWith']
+          "
+        >
+          <mat-panel-title>
+            FIs worked with
+            <span
+              *ngIf="outputFilteredData.fisWorkedWith?.length"
+              class="badge"
+            >
+              {{ outputFilteredData.fisWorkedWith?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'fisWorkedWith'"
+          [data]="
+            filteredData && filteredData.fisWorkedWith.length > 0
+              ? filteredData.fisWorkedWith
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['geolocation']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['geolocation'] = !expandedTabs['geolocation']"
+        >
+          <mat-panel-title>
+            Geolocation of services
+            <span *ngIf="outputFilteredData.geolocation?.length" class="badge">
+              {{ outputFilteredData.geolocation?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <suggestion-list
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'geolocation'"
+          [data]="
+            filteredData && filteredData.geolocation.length > 0
+              ? filteredData.geolocation
+              : []
+          "
+        ></suggestion-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['countryOperatingIn']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['countryOperatingIn'] =
+              !expandedTabs['countryOperatingIn']
+          "
+        >
+          <mat-panel-title>
+            Country operating in
+            <span
+              *ngIf="outputFilteredData.countryOperatingIn?.length"
+              class="badge"
+            >
+              {{ outputFilteredData.countryOperatingIn?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'countryOperatingIn'"
+          [data]="
+            filteredData && filteredData.countryOperatingIn.length > 0
+              ? filteredData.countryOperatingIn
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['hostingProvider']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['hostingProvider'] = !expandedTabs['hostingProvider']
+          "
+        >
+          <mat-panel-title>
+            Hosting provider
+            <span
+              *ngIf="outputFilteredData.hostingProvider?.length"
+              class="badge"
+            >
+              {{ outputFilteredData.hostingProvider?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'hostingProvider'"
+          [data]="
+            filteredData && filteredData.hostingProvider.length > 0
+              ? filteredData.hostingProvider
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['accreditation']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['accreditation'] = !expandedTabs['accreditation']
+          "
+        >
+          <mat-panel-title>
+            Accreditation
+            <span
+              *ngIf="outputFilteredData.accreditation?.length"
+              class="badge"
+            >
+              {{ outputFilteredData.accreditation?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'accreditation'"
+          [data]="
+            filteredData && filteredData.accreditation.length > 0
+              ? filteredData.accreditation
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['companyAge']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['companyAge'] = !expandedTabs['companyAge']"
+        >
+          <mat-panel-title>
+            Company Age
+            <span *ngIf="outputFilteredData.companyAge?.length" class="badge">
+              {{ outputFilteredData.companyAge?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'companyAge'"
+          [data]="
+            filteredData && filteredData.companyAge.length > 0
+              ? filteredData.companyAge
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['fundingRound']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['fundingRound'] = !expandedTabs['fundingRound']"
+        >
+          <mat-panel-title>
+            Funding round
+            <span *ngIf="outputFilteredData.fundingRound?.length" class="badge">
+              {{ outputFilteredData.fundingRound?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'fundingRound'"
+          [data]="
+            filteredData && filteredData.fundingRound.length > 0
+              ? filteredData.fundingRound
+              : []
+          "
+          [canSelectAll]="false"
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="expandedTabs['useCases']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['useCases'] = !expandedTabs['useCases']"
+        >
+          <mat-panel-title>Use cases</mat-panel-title>
+        </mat-expansion-panel-header>
+        <suggestion-list
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'useCases'"
+          [data]="
+            filteredData && filteredData.useCases.length > 0
+              ? filteredData.useCases
+              : []
+          "
+        >
+        </suggestion-list>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['companyDiversity']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['companyDiversity'] = !expandedTabs['companyDiversity']
+          "
+        >
+          <mat-panel-title>
+            Company diversity
+            <span
+              *ngIf="outputFilteredData.companyDiversity?.length"
+              class="badge"
+            >
+              {{ outputFilteredData.companyDiversity?.length }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputFilteredData"
+          [searchedColumn]="'companyDiversity'"
+          [data]="
+            filteredData && filteredData.companyDiversity.length > 0
+              ? filteredData.companyDiversity
+              : []
+          "
+          [canSelectAll]="false"
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+<div class="action-buttons">
+  <button
+    (click)="onClickViewResults()"
+    mat-button
+    mat-raised-button
+    class="btn-custom"
+  >
+    Apply filters
+  </button>
+  <button class="btn-custom-outline">Run Rapid RFI (30)</button>
+</div>

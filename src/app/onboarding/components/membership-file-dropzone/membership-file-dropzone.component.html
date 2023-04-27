@@ -1,0 +1,22 @@
+<div>
+  <div class="label">{{ label }}</div>
+  <ngx-dropzone class="file-dropzone" (change)="onSelect($event)">
+    <ngx-dropzone-label>
+      <div>
+        <img
+          *ngIf="icon"
+          src="../../../../assets/img/onboarding/upload.svg"
+          alt=""
+        />
+        <div class="placeholder">{{ placeholder }}</div>
+      </div>
+    </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngFor="let f of files"
+      [removable]="true"
+      (removed)="onRemove(f)"
+    >
+      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+</div>

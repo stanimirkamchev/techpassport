@@ -1,0 +1,39 @@
+<form [formGroup]="formGroup">
+  <div class="row">
+    <div class="column-6">
+      <span> Select the <b>criticality</b> of your service </span>
+    </div>
+    <div class="column-6"></div>
+  </div>
+  <div class="row resetPadding">
+    <div class="column-6">
+      <custom-selector
+        [formGroup]="formGroup"
+        [readonly]="true"
+        formControlName="criticality"
+        [options]="criticalityOptions"
+        ngDefaultControl
+      ></custom-selector>
+    </div>
+    <div class="column-6"></div>
+  </div>
+  <div class="row" *ngIf="criticality">
+    <div class="column-6 alignCenter">
+      <span> What is the <b>recovery time</b> for your service? </span>
+      <custom-input
+        type="number"
+        [formGroup]="formGroup"
+        formControlName="recoveryTime"
+        label=""
+        ngDefaultControl
+      ></custom-input>
+      Hours
+    </div>
+    <div class="column-6">
+      <div class="row">
+        <div class="column-6"></div>
+        <div class="column-6"></div>
+      </div>
+    </div>
+  </div>
+</form>

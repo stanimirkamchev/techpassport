@@ -1,0 +1,200 @@
+<div class="filter-header">
+  <button
+    mat-mini-fab
+    class="closeModal2 filter-modal-clear-button"
+    (click)="cancel()"
+  >
+    <mat-icon>clear</mat-icon>
+  </button>
+  <h2>Filters</h2>
+</div>
+<div class="modal-filter">
+  <div fxLayout="column">
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="expandedTabs['taxonomy']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['taxonomy'] = !expandedTabs['taxonomy']"
+        >
+          <mat-panel-title> Taxonomy </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          *ngIf="!clearFilters"
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'taxonomy'"
+          [data]="
+            filteredData && filteredData.taxonomy.length > 0
+              ? filteredData.taxonomy
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['country']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['country'] = !expandedTabs['country']"
+        >
+          <mat-panel-title> Country </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          *ngIf="!clearFilters"
+          class="normal-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'country'"
+          [data]="
+            filteredData && filteredData.country.length > 0
+              ? filteredData.country
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['totalFunding']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['totalFunding'] = !expandedTabs['totalFunding']"
+        >
+          <mat-panel-title> Total Funding </mat-panel-title>
+        </mat-expansion-panel-header>
+        <autocomplete-min-max
+          *ngIf="!clearFilters"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'totalFunding'"
+          [data]="
+            filteredData && filteredData.totalFunding.length > 0
+              ? filteredData.totalFunding
+              : []
+          "
+        >
+        </autocomplete-min-max>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['latestFundingRound']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['latestFundingRound'] =
+              !expandedTabs['latestFundingRound']
+          "
+        >
+          <mat-panel-title> Funding Round </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          *ngIf="!clearFilters"
+          class="fake-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'latestFundingRound'"
+          [data]="
+            filteredData && filteredData.latestFundingRound.length > 0
+              ? filteredData.latestFundingRound
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['latestFundingDate']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['latestFundingDate'] =
+              !expandedTabs['latestFundingDate']
+          "
+        >
+          <mat-panel-title> Latest Funding Date </mat-panel-title>
+        </mat-expansion-panel-header>
+        <select-min-max-date
+          *ngIf="!clearFilters"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'latestFundingDate'"
+          [data]="
+            filteredData && filteredData.latestFundingDate.length > 0
+              ? filteredData.latestFundingDate
+              : []
+          "
+        >
+        </select-min-max-date>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['investors']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['investors'] = !expandedTabs['investors']"
+        >
+          <mat-panel-title> All Investors </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          *ngIf="!clearFilters"
+          class="normal-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'investors'"
+          [data]="
+            filteredData && filteredData.investors.length > 0
+              ? filteredData.investors
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['latestValuation']">
+        <mat-expansion-panel-header
+          (click)="
+            expandedTabs['latestValuation'] = !expandedTabs['latestValuation']
+          "
+        >
+          <mat-panel-title> Latest Valuation </mat-panel-title>
+        </mat-expansion-panel-header>
+        <autocomplete-min-max
+          *ngIf="!clearFilters"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'latestValuation'"
+          [data]="
+            filteredData && filteredData.latestValuation.length > 0
+              ? filteredData.latestValuation
+              : []
+          "
+        >
+        </autocomplete-min-max>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="expandedTabs['acquirers']">
+        <mat-expansion-panel-header
+          (click)="expandedTabs['acquirers'] = !expandedTabs['acquirers']"
+        >
+          <mat-panel-title> Acquirers </mat-panel-title>
+        </mat-expansion-panel-header>
+        <checkboxes
+          *ngIf="!clearFilters"
+          class="normal-checkboxes"
+          (outputSelectedItems)="outputSelectedItems($event)"
+          [outputFilteredData]="outputtedFilteredData"
+          [searchedColumn]="'acquirers'"
+          [data]="
+            filteredData && filteredData.acquirers.length > 0
+              ? filteredData.acquirers
+              : []
+          "
+        >
+        </checkboxes>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="action-buttons">
+    <button
+      (click)="onClickViewResults()"
+      [disabled]="resultText == 0"
+      mat-button
+      mat-raised-button
+      class="view-results mat-elevation-z0"
+    >
+      View {{ resultText }} results
+    </button>
+    <button
+      (click)="onClickClearFilters()"
+      mat-button
+      mat-raised-button
+      class="clear-filters mat-elevation-z0"
+    >
+      Clear filters
+    </button>
+  </div>
+</div>

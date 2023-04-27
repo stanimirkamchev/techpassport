@@ -1,0 +1,69 @@
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header (click)="expandedTabs['functionality'] = !expandedTabs['functionality']">
+    <mat-panel-title class="panel-title"> Functionality </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-functionality
+    *ngIf="expandedTabs['functionality']"
+    [payload]="payload"
+  ></details-product-functionality>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['dataAccess'] = !expandedTabs['dataAccess']"
+  >
+    <mat-panel-title class="panel-title"> Data & Access </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-data-access
+    *ngIf="expandedTabs['dataAccess']"
+    [payload]="payload"
+  ></details-product-data-access>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['hosting'] = !expandedTabs['hosting']"
+  >
+    <mat-panel-title class="panel-title"> Hosting </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-hosting
+    *ngIf="expandedTabs['hosting']"
+    [payload]="payload"
+  ></details-product-hosting>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['charges'] = !expandedTabs['charges']"
+  >
+    <mat-panel-title class="panel-title"> Charges </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-charges
+    *ngIf="expandedTabs['charges']"
+    [payload]="payload"
+  ></details-product-charges>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['software'] = !expandedTabs['software']"
+  >
+    <mat-panel-title class="panel-title"> Software </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-software
+    *ngIf="expandedTabs['software']"
+    [payload]="payload"
+  ></details-product-software>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="panel-item" [ngClass]="modalWindowExpansion() | async">
+  <mat-expansion-panel-header
+    (click)="expandedTabs['useCase'] = !expandedTabs['useCase']"
+  >
+    <mat-panel-title class="panel-title"> Use case </mat-panel-title>
+  </mat-expansion-panel-header>
+  <details-product-usecase
+    *ngIf="expandedTabs['useCase']"
+    [payload]="payload"
+  ></details-product-usecase>
+</mat-expansion-panel>

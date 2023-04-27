@@ -1,0 +1,19 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ProductModalService } from 'src/app/portal/product-modal/service/product-modal.service';
+import { ProductBase } from '../../../../product-base.component';
+
+@Component({
+  selector: 'details-product-charges',
+  templateUrl: './details-product-charges.component.html',
+  styleUrls: ['./details-product-charges.component.scss']
+})
+export class DetailsProductChargesComponent extends ProductBase implements OnInit {
+
+  @Input() payload: any;
+
+  constructor(public productModalService: ProductModalService) {
+    super(productModalService);
+  }
+
+  ngOnInit(): void { }
+}

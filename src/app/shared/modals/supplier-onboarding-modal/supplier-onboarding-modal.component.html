@@ -1,0 +1,1042 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div
+  class="modal-cont modal-onboarding congratulations"
+  *ngIf="onboarding == false"
+>
+  <div class="modal-icon">
+    <mat-icon>accessibility_new</mat-icon>
+  </div>
+  <h1 class="notSoStrong">Welcome onboard!</h1>
+  <div class="spacer4"></div>
+  <!--<button mat-button mat-raised-button
+    color="primary"
+    (click)="exit()"
+    class="mat-elevation-z0">Head to the portal!</button>-->
+
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    (click)="exitAndOnboard()"
+    class="mat-elevation-z0"
+  >
+    Onboard my product!
+  </button>
+</div>
+
+<div
+  class="modal-cont modal-onboarding modal-supplier-onboarding"
+  *ngIf="onboarding == true && viewReady == true"
+>
+  <div class="topModalMenu" fxLayout="row" fxLayoutAlign="center center">
+    <div class="icon">
+      <mat-icon>business</mat-icon>
+    </div>
+    <div class="title">Company<br />Onboarding</div>
+  </div>
+  <mat-horizontal-stepper
+    labelPosition="bottom"
+    [linear]="isLinear"
+    #stepper
+    [disableRipple]="true"
+    (selectionChange)="stepChanged($event)"
+  >
+    <mat-step label="Branding">
+      <div class="steperContent branding">
+        <div class="spacer7"></div>
+        <div fxLayout="row" class="form-row">
+          <div class="label">
+            <h1 class="notSoStrong">
+              Add a company<br /><strong>logo</strong>.
+            </h1>
+          </div>
+          <div class="formItem dropzoneCont">
+            <input
+              type="file"
+              accept="image/*"
+              id="logoInputFile"
+              #logoInputFile
+              [hidden]="true"
+            />
+            <div
+              *ngIf="!branding.files.length"
+              class="rmpm dropzone"
+              appDrag
+              (files)="filesDropped('branding', $event)"
+              [inputField]="logoInputFile"
+              fxLayoutAlign="center"
+            >
+              <div class="text-wrapper" fxLayoutAlign="center center">
+                <div class="centered">
+                  <!-- (click)="logoInputFile.click()"-->
+                  <mat-icon>cloud_upload</mat-icon>
+                  <br />
+                  Drop your file here or click to choose!
+                </div>
+              </div>
+            </div>
+            <div
+              *ngFor="let file of branding.files; let i = index"
+              (mouseover)="file.mOver = true"
+              (mouseleave)="file.mOver = false"
+            >
+              <div style="float: left" class="imgCont">
+                <img *ngIf="file" [src]="file.url" class="logo" />
+              </div>
+              <div style="position: relative; left: 98.5%; top: -126px">
+                <button
+                  mat-mini-fab
+                  class="removeItem"
+                  color="warn"
+                  *ngIf="file.mOver == true"
+                  (click)="removeFile('branding', i)"
+                >
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div fxLayout="row" class="form-row">
+          <div class="label">
+            <h1 class="notSoStrong">
+              Introduce your <strong>company</strong> and write<br />something
+              about your business.
+            </h1>
+          </div>
+          <div class="formItem">
+            <mat-form-field floatLabel="never" class="textArea">
+              <textarea
+                rows="11"
+                placeholder="Write here..."
+                [(ngModel)]="branding.about"
+                maxlength="380"
+                cols="40"
+                matInput
+                type="text"
+                noSpecial
+                niceOnly
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" class="form-row">
+          <div class="label"></div>
+          <div class="formItem">
+            <span class="errorMessage">{{ message }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step label="Company" [stepControl]="companyFormGroup">
+      <div class="steperContent details">
+        <div class="spacer5"></div>
+        <h2 class="notSoStrong">
+          What are your <strong>company</strong> details?
+        </h2>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="companyFormGroup"
+        >
+          <!-- [formGroup]="profileForm"  -->
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <strong>Company full name</strong><sup class="mandatory">*</sup>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  niceOnly
+                  noSpecial
+                  matInput
+                  type="text"
+                  placeholder="Write here..."
+                  formControlName="name"
+                  autocomplete="company"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <strong>Country of incorporation</strong
+              ><sup class="mandatory">*</sup>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="country">
+                  <mat-option
+                    *ngFor="let c of allCoutries"
+                    value="{{ c.code.toLowerCase() }}"
+                    ><span
+                      class="flag-icon flag-icon-{{ c.code.toLowerCase() }}"
+                    ></span>
+                    {{ c.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">Date company incorporated</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never" class="incorporatedDate">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  [matDatepicker]="pickerStart"
+                  formControlName="incorporated"
+                  placeholder="Select date"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerStart"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart disabled="false"></mat-datepicker>
+                <!-- [dateClass]="dateClass" -->
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <strong>Company registration number</strong
+              ><sup class="mandatory">*</sup>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                  placeholder="Write here..."
+                  formControlName="companyNumber"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">Stage of company</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="companyStage">
+                  <ng-container *ngFor="let option of fundingOptions">
+                    <mat-option [value]="option.value">
+                      {{ option.label }}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <strong>Company website</strong><sup class="mandatory">*</sup>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  type="text"
+                  noSpecial
+                  niceOnly
+                  placeholder="Write here..."
+                  formControlName="companyWebsite"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <strong>Registered address</strong><sup class="mandatory">*</sup>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  niceOnly
+                  noSpecial
+                  type="text"
+                  placeholder="1st Line ..."
+                  formControlName="address1"
+                  autocomplete="street-address"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">&nbsp;</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  niceOnly
+                  noSpecial
+                  type="text"
+                  placeholder="2nd Line ..."
+                  formControlName="address2"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">&nbsp;</div>
+            <div class="formItem30">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  niceOnly
+                  noSpecial
+                  type="text"
+                  placeholder="City"
+                  formControlName="city"
+                  autocomplete="locality"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <div class="formItem30">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  niceOnly
+                  noSpecialTotal
+                  type="text"
+                  placeholder="Postcode"
+                  formControlName="postcode"
+                  autocomplete="postal-code"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label"></div>
+            <div class="formItem">
+              <span class="errorMessage">{{ message }}</span>
+            </div>
+          </div>
+        </form>
+        <!-- -->
+      </div>
+    </mat-step>
+
+    <mat-step label="Membership">
+      <div class="steperContent">
+        <supplier-membership #membershipView></supplier-membership>
+      </div>
+    </mat-step>
+
+    <mat-step label="Insurance">
+      <div class="steperContent insurance">
+        <div class="spacer2"></div>
+        <h2 class="notSoStrong">
+          Do you have <strong>insurance</strong> to cover liability?
+          <sup class="mandatory">*</sup>
+        </h2>
+        <div class="spacer"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="insuranceFormGroup"
+        >
+          <mat-radio-group (change)="noInsurance()" formControlName="doYou">
+            <mat-radio-button value="yes">Yes</mat-radio-button>
+            <mat-radio-button value="no">No</mat-radio-button>
+          </mat-radio-group>
+        </form>
+        <div class="spacer2"></div>
+        <div *ngIf="insuranceFormGroup.value.doYou == 'yes'">
+          <h3 class="notSoStrong">
+            Please upload the <strong>certificates</strong>
+          </h3>
+          <div class="spacer"></div>
+
+          <div fxLayout="rows" fxLayoutGap="80px" fxLayoutAlign="center center">
+            <div class="insuranceSection">
+              <h4>Employee liability</h4>
+              <div class="formItem dropzoneCont">
+                <input
+                  type="file"
+                  accept="application/pdf,.doc,.docx,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  id="insuranceEmployeeInputFile"
+                  #insuranceEmployeeInputFile
+                  [hidden]="true"
+                />
+                <div
+                  *ngIf="!insuranceEmployee.files.length"
+                  class="rmpm dropzone"
+                  appDrag
+                  (files)="filesDropped('insuranceEmployee', $event)"
+                  [inputField]="insuranceEmployeeInputFile"
+                  fxLayoutAlign="center"
+                >
+                  <div class="text-wrapper" fxLayoutAlign="center center">
+                    <div class="centered">
+                      <mat-icon>cloud_upload</mat-icon>
+                      <br />
+                      Drop your file here or click to choose!
+                    </div>
+                  </div>
+                </div>
+                <div
+                  *ngFor="let file of insuranceEmployee.files; let i = index"
+                  (mouseover)="file.mOver = true"
+                  (mouseleave)="file.mOver = false"
+                  fxLayoutAlign="center"
+                >
+                  <div
+                    style="float: left; width: 190px; max-width: 190px"
+                    class="imgCont"
+                  >
+                    <!--<img *ngIf="file" [src]="file.url" class="logo">-->
+                    <mat-icon
+                      style="
+                        margin-top: 36px;
+                        margin-left: -6px;
+                        font-size: 30pt;
+                      "
+                      >description</mat-icon
+                    >
+                  </div>
+                  <div style="position: relative; left: -5px; top: -6px">
+                    <button
+                      mat-mini-fab
+                      class="removeItem"
+                      color="warn"
+                      (click)="removeFile('insuranceEmployee', i)"
+                    >
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="insuranceForm">
+                <mat-form-field floatLabel="never">
+                  <input
+                    matInput
+                    numbersOnly
+                    type="text"
+                    [(ngModel)]="insuranceEmployee.value"
+                    placeholder="Insurance value (£)"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+                <mat-form-field floatLabel="never" class="incorporatedDate">
+                  <input
+                    matInput
+                    [(ngModel)]="insuranceEmployee.validDate"
+                    [matDatepicker]="pickerInsuranceEmployee"
+                    placeholder="Select expiry date"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="pickerInsuranceEmployee"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker
+                    #pickerInsuranceEmployee
+                    [dateClass]="dateClass"
+                    disabled="false"
+                  ></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="insuranceSection">
+              <h4>Public liability</h4>
+              <div class="formItem dropzoneCont">
+                <input
+                  type="file"
+                  accept="application/pdf,.doc,.docx,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  id="insurancePublicInputFile"
+                  #insurancePublicInputFile
+                  [hidden]="true"
+                />
+                <div
+                  *ngIf="!insurancePublic.files.length"
+                  class="rmpm dropzone"
+                  appDrag
+                  (files)="filesDropped('insurancePublic', $event)"
+                  [inputField]="insurancePublicInputFile"
+                  fxLayoutAlign="center"
+                >
+                  <div class="text-wrapper" fxLayoutAlign="center center">
+                    <div class="centered">
+                      <mat-icon>cloud_upload</mat-icon>
+                      <br />
+                      Drop your file here or click to choose!
+                    </div>
+                  </div>
+                </div>
+                <div
+                  *ngFor="let file of insurancePublic.files; let i = index"
+                  (mouseover)="file.mOver = true"
+                  (mouseleave)="file.mOver = false"
+                  fxLayoutAlign="center"
+                >
+                  <div
+                    style="float: left; width: 190px; max-width: 190px"
+                    class="imgCont"
+                  >
+                    <!--<img *ngIf="file" [src]="file.url" class="logo">-->
+                    <mat-icon
+                      style="
+                        margin-top: 36px;
+                        margin-left: -6px;
+                        font-size: 30pt;
+                      "
+                      >description</mat-icon
+                    >
+                  </div>
+                  <div style="position: relative; left: -5px; top: -6px">
+                    <button
+                      mat-mini-fab
+                      class="removeItem"
+                      color="warn"
+                      (click)="removeFile('insurancePublic', i)"
+                    >
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="insuranceForm">
+                <mat-form-field floatLabel="never">
+                  <input
+                    matInput
+                    numbersOnly
+                    type="text"
+                    [(ngModel)]="insurancePublic.value"
+                    placeholder="Insurance value (£)"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+                <mat-form-field floatLabel="never" class="incorporatedDate">
+                  <input
+                    matInput
+                    [(ngModel)]="insurancePublic.validDate"
+                    [matDatepicker]="pickerInsurancePublic"
+                    placeholder="Select expiry date"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="pickerInsurancePublic"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker
+                    #pickerInsurancePublic
+                    [dateClass]="dateClass"
+                    disabled="false"
+                  ></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="insuranceSection">
+              <h4>Cyber liability</h4>
+              <div class="formItem dropzoneCont">
+                <input
+                  type="file"
+                  accept="application/pdf,.doc,.docx,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  id="insuranceCyberInputFile"
+                  #insuranceCyberInputFile
+                  [hidden]="true"
+                />
+                <div
+                  *ngIf="!insuranceCyber.files.length"
+                  class="rmpm dropzone"
+                  appDrag
+                  (files)="filesDropped('insuranceCyber', $event)"
+                  [inputField]="insuranceCyberInputFile"
+                  fxLayoutAlign="center"
+                >
+                  <div class="text-wrapper" fxLayoutAlign="center center">
+                    <div class="centered">
+                      <mat-icon>cloud_upload</mat-icon>
+                      <br />
+                      Drop your file here or click to choose!
+                    </div>
+                  </div>
+                </div>
+                <div
+                  *ngFor="let file of insuranceCyber.files; let i = index"
+                  (mouseover)="file.mOver = true"
+                  (mouseleave)="file.mOver = false"
+                  fxLayoutAlign="center"
+                >
+                  <div
+                    style="float: left; width: 190px; max-width: 190px"
+                    class="imgCont"
+                  >
+                    <!--<img *ngIf="file" [src]="file.url" class="logo">-->
+                    <mat-icon
+                      style="
+                        margin-top: 36px;
+                        margin-left: -6px;
+                        font-size: 30pt;
+                      "
+                      >description</mat-icon
+                    >
+                  </div>
+                  <div style="position: relative; left: -5px; top: -6px">
+                    <button
+                      mat-mini-fab
+                      class="removeItem"
+                      color="warn"
+                      (click)="removeFile('insuranceCyber', i)"
+                    >
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="insuranceForm">
+                <mat-form-field floatLabel="never">
+                  <input
+                    matInput
+                    numbersOnly
+                    type="text"
+                    [(ngModel)]="insuranceCyber.value"
+                    placeholder="Insurance value (£)"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+                <mat-form-field floatLabel="never" class="incorporatedDate">
+                  <input
+                    matInput
+                    [(ngModel)]="insuranceCyber.validDate"
+                    [matDatepicker]="pickerInsuranceCyber"
+                    placeholder="Select expiry date"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="pickerInsuranceCyber"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker
+                    #pickerInsuranceCyber
+                    [dateClass]="dateClass"
+                    disabled="false"
+                  ></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="message" style="clear: both">
+            <span class="errorMessage">{{ message }}</span>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            insuranceFormGroup.value.doYou == 'no' &&
+            insuranceFormGroup.value.understood == true
+          "
+        >
+          <div class="spacer6"></div>
+          <h2 class="notSoStrong">
+            For now, let's continue onboarding! Once you have insurance, you can
+            come back and upload the certificate.
+          </h2>
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step label="Other">
+      <div class="steperContent auditingRights">
+        <div class="spacer"></div>
+        <h2 class="notSoStrong"><strong>Auditing</strong> rights</h2>
+        <div class="spacer"></div>
+        <!-- -->
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="auditingRightsFormGroup"
+          class="auditingRightsForm"
+        >
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              Do you permit <strong>banks</strong> to carry out audits as part
+              of their purchasing process?
+            </div>
+            <div class="formItem">
+              <mat-radio-group formControlName="auditRights">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              Do you permit banks to use a <strong>third party</strong> to carry
+              out audits as part of their purchasing process?
+            </div>
+            <div class="formItem">
+              <mat-radio-group formControlName="thirdPartyAuditRights">
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </form>
+        <!-- nq -->
+        <div class="spacer3"></div>
+        <h2 class="notSoStrong">Your company's <strong>experience</strong></h2>
+        <h4>
+          Have you <strong>previously</strong> had a
+          <strong>services agreement</strong> and onboarded in any of the
+          following <strong>sectors</strong>? <br />Please list their names:
+        </h4>
+        <div class="spacer1"></div>
+        <!-- -->
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="previousAgreementFormGroup"
+          class="prevAgreeForm"
+        >
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'banking')"
+                [checked]="previousAgreementEnabled.banking"
+                name="_banking"
+                >Banking
+              </mat-checkbox>
+            </div>
+
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.banking"
+                  formControlName="banking"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'insurance')"
+                [checked]="previousAgreementEnabled.insurance"
+                name="_insurance"
+                >Insurance
+              </mat-checkbox>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.insurance"
+                  formControlName="insurance"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'wealthManagement')"
+                [checked]="previousAgreementEnabled.wealthManagement"
+                name="_wealthManagement"
+                >Wealth Management
+              </mat-checkbox>
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.wealthManagement"
+                  formControlName="wealthManagement"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'lifeAssurancePensions')"
+                [checked]="previousAgreementEnabled.lifeAssurancePensions"
+                name="_lifeAssurancePensions"
+                >Life Assurance and Pensions</mat-checkbox
+              >
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.lifeAssurancePensions"
+                  formControlName="lifeAssurancePensions"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'regulatory')"
+                [checked]="previousAgreementEnabled.regulatory"
+                name="_regulatory"
+                >Regulatory</mat-checkbox
+              >
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.regulatory"
+                  formControlName="regulatory"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">
+              <mat-checkbox
+                labelPosition="before"
+                (change)="checkboxChange($event, 'assetManagement')"
+                [checked]="previousAgreementEnabled.assetManagement"
+                name="_assetManagement"
+                >Asset Management</mat-checkbox
+              >
+            </div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  [readonly]="!previousAgreementEnabled.assetManagement"
+                  formControlName="assetManagement"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <!-- / -->
+        <!-- -->
+      </div>
+    </mat-step>
+
+    <mat-step label="My Team">
+      <div class="steperContent team">
+        <div class="spacer"></div>
+        <h4 class="notSoStong">
+          <!--  Are <strong>you</strong> the person who <strong>receives</strong> contractual <strong>notifications</strong>?-->
+          Are you the <strong>main point</strong> of contact for contractual
+          negotiations?
+        </h4>
+        <mat-radio-group [(ngModel)]="team.pocNotices">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+        <div class="spacer"></div>
+
+        <h4 class="notSoStong">
+          Please enter <strong>e-mail</strong> address of anyone you would like
+          to link to this account. You can <strong>add</strong> more later
+          through the portal
+        </h4>
+        <div class="spacer"></div>
+
+        <div class="myTeamItems" *ngIf="team.members.length > 0">
+          <div class="itemsXcontent">
+            <div
+              class="teamMemberItem inline"
+              *ngFor="let member of team.members; let i = index"
+              (mouseover)="member.mOver = true"
+              (mouseleave)="member.mOver = false"
+            >
+              <div>
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <div>
+                <h4>
+                  {{ member.name }}
+                  <sup class="superOptions"
+                    >[{{ member.role }}]
+                    <span *ngIf="member.pocNotices"
+                      >[Notices under the POC]</span
+                    >
+                  </sup>
+                </h4>
+                <h6>{{ member.email }}</h6>
+              </div>
+              <div>
+                <button
+                  mat-mini-fab
+                  class="removeItem"
+                  color="warn"
+                  *ngIf="member.mOver == true"
+                  (click)="removeMember(i)"
+                >
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <form
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          [formGroup]="teamFormGroup"
+        >
+          <!-- [formGroup]="profileForm"  -->
+          <div fxLayout="row" class="form-row">
+            <div class="label">Name</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecial
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  formControlName="name"
+                  autocomplete="name"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">E-mail</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <input
+                  matInput
+                  noSpecialTotal
+                  niceOnly
+                  type="text"
+                  placeholder="Write here..."
+                  formControlName="email"
+                  autocomplete="email"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" class="form-row">
+            <div class="label">Access Role</div>
+            <div class="formItem">
+              <mat-form-field floatLabel="never">
+                <mat-select formControlName="role">
+                  <mat-option value="admin">
+                    <!--<span class="flag-icon flag-icon-gb"></span>-->Admin
+                  </mat-option>
+                  <mat-option value="member">
+                    <!--<span class="flag-icon flag-icon-gb"></span>-->Member
+                  </mat-option>
+                  <!--<mat-option value="sg"><span class="flag-icon flag-icon-sg"></span> Singapore</mat-option>-->
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row" *ngIf="team.pocNotices == 'no'">
+            <div class="label"></div>
+            <div class="formItem">
+              <mat-checkbox formControlName="pocNotices"
+                >Receives contractual notifications?</mat-checkbox
+              >
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label">&nbsp;</div>
+            <div class="formItem">
+              <button
+                mat-button
+                class="addTeamMember"
+                [disabled]="!teamFormGroup.valid"
+                (click)="addMember()"
+              >
+                <mat-icon class="bigOne">add_circle_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="form-row">
+            <div class="label"></div>
+            <div class="formItem">
+              <span class="errorMessage">{{ message }}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+  <div class="bottomMenu">
+    <button
+      mat-button
+      class="goIn goBack bottomOne"
+      (click)="goBack(stepper)"
+      [disabled]="requestInProgress == true || stepper.selectedIndex == 0"
+    >
+      <mat-icon class="bigOne">arrow_backward</mat-icon>
+    </button>
+
+    <button
+      mat-button
+      class="goIn bottomOne"
+      (click)="goForward(stepper)"
+      [disabled]="goForwardDisabled()"
+    >
+      <mat-icon class="bigOne">arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>

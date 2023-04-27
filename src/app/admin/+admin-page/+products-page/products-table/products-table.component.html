@@ -1,0 +1,67 @@
+<ui-data-table>
+  <table mat-table matSort [dataSource]="products" (matSortChange)="sort.emit($event)">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+      <td mat-cell *matCellDef="let element" class="primary">{{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Description</th>
+      <td mat-cell *matCellDef="let element" class="break-word">{{element.description}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tags">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Tag</th>
+      <td mat-cell *matCellDef="let element">{{element.tags?.join(', ')}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Created Date</th>
+      <td mat-cell *matCellDef="let element" class="center">{{element.createdAt | date: 'shortDate'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="supplier.name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</th>
+      <td mat-cell *matCellDef="let element">{{element.supplier?.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Status</th>
+      <td mat-cell
+        *matCellDef="let element"
+        class="center"
+        [class.green]="element.status === 'Approved'"
+        [class.orange]="element.status === 'SentForApproval'"
+        [class.red]="element.status === 'Rejected'">{{ProductStatus[element.status] || element.status}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="review.comment">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments from TP</th>
+      <td mat-cell *matCellDef="let element">{{element.review?.comment || '-'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="review.reviewer.displayName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>TP Admin Owner</th>
+      <td mat-cell *matCellDef="let element">{{element.review?.reviewer?.displayName || 'n/a'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="review.date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Stamp Change</th>
+      <td mat-cell *matCellDef="let element" class="center">
+        <ng-container *ngIf="element.review?.date as reviewDate">{{reviewDate | date: 'shortDate'}}</ng-container>
+        <ng-container *ngIf="!element.review?.date">n/a</ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      class="selectable"
+      [class.selected]="selected?._id === row._id"
+      (click)="select(row)"
+      (dblclick)="openProduct.emit(row)"></tr>
+  </table>
+  <span *ngIf="!products?.length" class="nothing-to-show">Nothing to show</span>
+</ui-data-table>

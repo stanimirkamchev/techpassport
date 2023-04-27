@@ -1,0 +1,278 @@
+<div class="flex">
+  <div class="pt-7">
+    <h2 class="main-heading">
+      Enterprise Ready Questions
+      <div class="tooltip">
+        <span>
+          <button class="erq-description" mat-button matBadge="?"></button>
+        </span>
+        <span class="helpContent">
+          <help-content></help-content>
+        </span>
+      </div>
+    </h2>
+
+    <div class="row buttons">
+      <div class="column-12">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="navigateToHelp()"
+          class="helpButton"
+        >
+          Help
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <progress-chart [data]="progressBar.total"></progress-chart>
+  </div>
+</div>
+
+<div class="row">
+  <div class="container overflow-visible" [formGroup]="form" *ngIf="loaded">
+    <mat-accordion #questionsAccordion="matAccordion" multi>
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Certification </mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.Certification].completed"
+              [compliant]="progressBar[erqType.Certification].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-certification
+          formGroupName="certification"
+          *ngIf="step === 1"
+        ></app-certification>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.Certification)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Breach notification </mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.BreachNotification].completed"
+              [compliant]="progressBar[erqType.BreachNotification].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-breach-notification
+          formGroupName="breachNotification"
+          *ngIf="step === 2"
+        ></app-breach-notification>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.BreachNotification)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>SSDLC</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.Ssdlc].completed"
+              [compliant]="progressBar[erqType.Ssdlc].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-ssdlc formGroupName="ssdlc" *ngIf="step === 3"></app-ssdlc>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.Ssdlc)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Application security</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.ApplicationSecurity].completed"
+              [compliant]="progressBar[erqType.ApplicationSecurity].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-application-security
+          formGroupName="applicationSecurity"
+          *ngIf="step === 4"
+        ></app-application-security>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="
+              cancelButtonClicked(erqType.ApplicationSecurity)
+            "
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data deletion & retention</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.DeletionRetention].completed"
+              [compliant]="progressBar[erqType.DeletionRetention].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <data-deletion-retention
+          formGroupName="deletionRetention"
+          *ngIf="step === 5"
+        ></data-deletion-retention>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.DeletionRetention)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data privacy</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.Privacy].completed"
+              [compliant]="progressBar[erqType.Privacy].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-data-privacy
+          formGroupName="privacy"
+          *ngIf="step === 6"
+        ></app-data-privacy>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.Privacy)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Data storage & separation</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.StorageSeparation].completed"
+              [compliant]="progressBar[erqType.StorageSeparation].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-data-storage-separation
+          formGroupName="storageSeparation"
+          *ngIf="step === 7"
+        ></app-data-storage-separation>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.StorageSeparation)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="discovery-panel" [expanded]="step === 8" (opened)="setStep(8)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="discovery">
+            <div class="d-flex items-center relative">
+              <span>Disaster recovery</span>
+              <ui-tooltip>
+                <mat-icon tooltipIcon class="tooltip-icon" svgIcon="questionnaire"></mat-icon>
+                <ng-container tooltipTitle>
+                  <mat-icon tooltipIcon class="tooltip-icon" svgIcon="questionnaire"></mat-icon>
+                  What's this?
+                </ng-container>
+                <div tooltipContent class="tooltip-content">
+                  <p>
+                    Your product risk rating is auto populated from the product onboarding.
+                    If you process PI data, the product is classified as high risk.
+                    If you think this is incorrect, you can save this page and go to your product settings
+                    to amend your response to the question relating to PI data.
+                  </p>
+                </div>
+              </ui-tooltip>
+            </div>
+          </mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.Recovery].completed"
+              [compliant]="progressBar[erqType.Recovery].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-disaster-recovery
+          formGroupName="recovery"
+          *ngIf="step === 8"
+        ></app-disaster-recovery>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.Recovery)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="step === 9" (opened)="setStep(9)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Encryption</mat-panel-title>
+          <mat-panel-description>
+            <app-progress-badge
+              [completed]="progressBar[erqType.Encryption].completed"
+              [compliant]="progressBar[erqType.Encryption].compliant"
+            ></app-progress-badge>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-encryption
+          formGroupName="encryption"
+          *ngIf="step === 9"
+        ></app-encryption>
+        <mat-action-row>
+          <app-step-action-buttons
+            (PrimaryClicked)="continueButtonClicked()"
+            (SecondaryClicked)="cancelButtonClicked(erqType.Encryption)"
+          >
+          </app-step-action-buttons>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="row">
+      <div class="column-12">
+        <div class="actionButtons alignRight">
+          <div class="column-12">
+            <app-step-action-buttons
+              primaryButtonText="Save"
+              secondaryButtonText="Back"
+              (PrimaryClicked)="saveButtonClicked()"
+              (SecondaryClicked)="backButtonClicked()"
+            >
+            </app-step-action-buttons>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="use-cases">
+  <form [formGroup]="useCasesForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card mb-5">
+      <mat-card-title class="title">
+        Use Cases
+      </mat-card-title>
+      <mat-card-content>
+        <div class="mb-10 max-w-200">
+          <app-custom-checkbox
+            label="Do you have a use case for your product?"
+            [value]="useCasesForm.controls.useCase.value"
+            (change)="useCasesForm.controls.useCase.setValue($event)"
+          ></app-custom-checkbox>
+        </div>
+        <div *ngIf="useCasesForm.controls.useCase.value">
+          <app-custom-textarea
+            label="Please describe the use case"
+            [formGroup]="useCasesForm"
+            formControlName="useCases"
+            ngDefaultControl
+          ></app-custom-textarea>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,38 @@
+<div class="container" isRoute="/admin/suppliers">
+  <div *ngIf="!showInvitationScreen">
+    <ui-page-title>Suppliers</ui-page-title>
+    <ui-page-content>
+      <header *ngIf="cachedSuppliers$ | async as cachedSuppliers">
+        <suppliers-filters
+          (filter)="onFilter($event)"
+          [filters]="filters$ | async"
+          [suppliers]="cachedSuppliers$ | async"
+          (viewInvitations)="onViewInvitations()"
+        >
+        </suppliers-filters>
+        <header-controls
+          [approvalHidden]="true"
+          [downloadDisabled]="!cachedSuppliers.length"
+          (download)="download(cachedSuppliers)"
+        >
+        </header-controls>
+      </header>
+      <mat-spinner
+        *ngIf="loading$ | async; else suppliersTable"
+        diameter="32"
+      ></mat-spinner>
+      <ng-template #suppliersTable>
+        <suppliers-table
+          [suppliers]="suppliers$ | async"
+          (sort)="onSort($event)"
+        >
+        </suppliers-table>
+      </ng-template>
+    </ui-page-content>
+  </div>
+
+  <div *ngIf="showInvitationScreen">
+    <invite-suppliers-page></invite-suppliers-page>
+  </div>
+</div>
+<router-outlet></router-outlet>

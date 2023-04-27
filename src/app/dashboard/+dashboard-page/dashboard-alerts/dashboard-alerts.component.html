@@ -1,0 +1,31 @@
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+<ng-template #loaded>
+  <div class="col" *ngIf="alerts">
+    <alert-box class="grey" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+      <h4>{{alerts.pendingNDAs}}<sub>Connections</sub></h4>
+      <label class="mat-caption">Are waiting for internal approval</label>
+    </alert-box>
+    <alert-box class="grey" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+      <h4>{{alerts.pendingPOCs}}<sub>POC's</sub></h4>
+      <label class="mat-caption">Are waiting for internal approval</label>
+    </alert-box>
+    <alert-box class="grey" (click)="openConnections(alerts, 'Completed', true)">
+      <h4>{{alerts.pendingProjects}}<sub>Projects</sub></h4>
+      <label class="mat-caption">Are waiting for your feedback</label>
+    </alert-box>
+  </div>
+  <div class="col" *ngIf="alerts">
+    <alert-box class="pink" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+      <h4>{{alerts.urgentNDAs}}</h4>
+      <label class="mat-caption">Connections waiting for more than 7 days</label>
+    </alert-box>
+    <alert-box class="pink" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+      <h4>{{alerts.urgentPOCs}}</h4>
+      <label class="mat-caption">POC's waiting for more than 7 days</label>
+    </alert-box>
+    <alert-box class="pink" (click)="openConnections(alerts, 'Completed', true)">
+      <h4>{{alerts.urgentProjects}}</h4>
+      <label class="mat-caption">Projects waiting for more than 7 days</label>
+    </alert-box>
+  </div>
+</ng-template>

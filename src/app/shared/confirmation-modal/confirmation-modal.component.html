@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{data?.title || 'Please confirm action'}}</h1>
+<div mat-dialog-content *ngIf="data?.subtitle as subtitle">
+  <span class="mat-heading">{{subtitle}}</span>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button
+    color="primary"
+    [mat-dialog-close]>Cancel</button>
+  <button mat-raised-button
+    color="warn"
+    [mat-dialog-close]="data?.resolve || true">{{data?.confirmation || 'Confirm'}}</button>
+</div>

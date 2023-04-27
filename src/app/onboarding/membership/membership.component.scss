@@ -1,0 +1,200 @@
+@import 'src/styles/colors';
+
+.product-settings {
+  min-height: 100%;
+  padding-bottom: 20px;
+
+  .label {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+
+    letter-spacing: 0.05em;
+
+    color: $tp-dark;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+
+  .custom-card {
+    padding: 50px 30px;
+    box-shadow: none;
+
+    .title {
+      font-size: 24px;
+      color: $tp-dark;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-family: Helvetica;
+    }
+    .subTitle {
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: $tp-dark;
+    }
+
+    .textarea {
+      background: #F3F3F6;
+      border: 1px solid rgba(11, 19, 30, 0.1);
+      border-radius: 5px;
+      width: 100%;
+      padding: 1rem;
+      height: 100%;
+    }
+
+    .right-section {
+      margin-left: 70px;
+
+      .file-upload {
+        .preview {
+          width: 150px;
+          height: 150px;
+          background: #F3F3F6;
+          border: 3px solid rgba(12, 29, 74, 0.2);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 100%;
+        }
+      }
+    }
+    .membership-details-container {
+      background-color: $tp-lightgray;
+      border: 2px solid rgba(12, 29, 74, 0.3);
+      padding: 30px;
+
+      .header-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .rapid {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 21px;
+          text-transform: uppercase;
+        }
+
+        .free {
+          background-color: $tp-pink;
+          font-weight: 400;
+          border-radius: 5px;
+          color: $tp-white;
+          padding: 5px;
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+
+      .card-container {
+        padding-top: 20px;
+
+        .inner-card-text {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 22px;
+          color: $tp-secondary-black;
+        }
+
+        .fees-container {
+          display: flex;
+          justify-content: flex-start;
+          padding: 20px 0px;
+          align-items: center;
+
+          .year-fees {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 19px;
+            color: $tp-secondary-black;
+            margin-right: 20px;
+          }
+
+          .fees-text {
+            color: $tp-black;
+            padding-right: 10px;
+            cursor: pointer;
+          }
+        }
+
+        .plan-btn {
+          border-radius: 0px;
+          background-color: $tp-blue;
+          color: $tp-white;
+          width: 100%;
+          padding: 10px 0px;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 150%;
+          letter-spacing: 0.05em;
+        }
+      }
+    }
+  }
+
+  .footer {
+    background-color: $tp-white;
+    padding: 20px 50px;
+  }
+
+  .checkbox-wrapper {
+    max-width: 645px;
+  }
+
+  .btn-custom {
+    background: $tp-blue !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2px !important;
+    color: $tp-white !important;
+    padding: 10px 40px;
+    font-size: 14px !important;
+    line-height: 1;
+    height: 40px;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .btn-custom-outline {
+    border: 1px solid $tp-blue;
+    color: $tp-blue;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2px !important;
+    padding: 10px 40px;
+    font-size: 14px !important;
+    line-height: 1;
+    height: 40px;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+:host ::ng-deep .mat-raised-button {
+  border-radius: 0 !important;
+}
+
+.not-selected {
+  width: 610px;
+  height: 118px;
+
+  background: #F3F3F6;
+  border: 2px dashed rgba(12, 29, 74, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  .text {
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    text-transform: uppercase;
+
+    color: #0D1B47;
+
+    opacity: 0.5;
+  }
+}

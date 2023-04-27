@@ -1,0 +1,58 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+  color: $tp-dark;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 0 10 auto;
+  overflow: auto;
+  padding: 0 48px 48px 48px;
+}
+
+.form-header {
+  text-align: center;
+  border-bottom: 1px solid $tp-dark;
+  margin: 16px 0 16px 0;
+  padding-bottom: 16px;
+  color: $tp-dark;
+}
+
+.project-name {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: $tp-green;
+}
+
+.button-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 11px;
+
+  button {
+    border-radius: 8px!important;
+    height: 28!important;
+    font-size: 9pt!important;
+    margin: 0 8px;
+    margin-top: -9px;
+  }
+}
+
+.question {
+  padding-bottom: 8px;
+  font-weight: bold;
+  color: $tp-dark;
+}
+
+.question__title {
+  margin-bottom: 16px;
+  margin-top: 8px;
+  color: $tp-dark;
+}

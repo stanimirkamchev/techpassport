@@ -1,0 +1,41 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>Can be trialed using synthetic / dummy data</h5>
+      <mat-icon *ngIf="payload.details.access.canSynthetic" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.access.canSynthetic" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Testing environment can be accessed at any time</h5>
+      <mat-icon *ngIf="payload.details.access.accessTime" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.access.accessTime" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>Processes PI data as part of the services provided</h5>
+      <mat-icon
+        *ngIf="payload.details.access.personalDataTransfer"
+        class="green"
+        >{{ setIcon("yes") }}</mat-icon
+      >
+      <mat-icon
+        *ngIf="!payload.details.access.personalDataTransfer"
+        class="grey"
+        >{{ setIcon("no") }}</mat-icon
+      >
+    </div>
+  </ui-page-content>
+</div>

@@ -1,0 +1,313 @@
+@import 'src/styles/colors';
+
+.product-add-page {
+  min-height: 100%;
+  padding-bottom: 20px;
+
+  .page-header-title {
+    font-weight: 500;
+    font-size: 38px;
+    line-height: 46px;
+    color: $tp-dark;
+  }
+
+  .custom-card {
+    padding: 50px 30px;
+    box-shadow: none;
+
+    .title {
+      color: $tp-dark;
+      margin-bottom: 20px;
+      font-family: Helvetica, serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 38px;
+      line-height: 150%;
+    }
+    .subtitle {
+      font-family: 'Inter', serif;
+      font-weight: 700;
+      color: #0C1D4A;
+      font-size: 20px;
+    }
+
+    .label {
+      font-family: 'Inter', serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      color: $tp-dark-1;
+
+      .caption {
+        color: #9CA3AF;
+        padding-left: 12px;
+      }
+    }
+
+    .textarea {
+      background: #F3F3F6;
+      border: 1px solid rgba(11, 19, 30, 0.1);
+      border-radius: 5px;
+      width: 100%;
+      padding: 1rem;
+      height: 100%;
+    }
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999999999;
+    background: $tp-dark;
+    padding: 20px 40px;
+  }
+
+  .checkbox-wrapper {
+    max-width: 645px;
+  }
+
+  .product-upload {
+    border-radius: 5px;
+    height: 135px;
+    width: 135px;
+    background: #F3F3F6;
+    border: 2px dashed rgba($tp-dark, 0.3);
+    padding: 20px;
+
+    .label {
+      font-family: Helvetica, serif;
+      font-size: 14px;
+      color: $tp-dark;
+      opacity: 0.5;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+  }
+
+  .btn-custom {
+    background: $tp-blue !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2px !important;
+    color: $tp-white !important;
+    padding: 10px 40px;
+    font-size: 14px !important;
+    line-height: 1;
+    height: 40px;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .btn-custom-outline {
+    border: 1px solid $tp-blue;
+    color: $tp-blue;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 2px !important;
+    padding: 10px 40px;
+    font-size: 14px !important;
+    line-height: 1;
+    height: 40px;
+    &:disabled {
+      opacity: 0.5;
+      background-color: white !important;
+    }
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  .container {
+    max-width: 960px;
+  }
+
+  .product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-width: 135px;
+    background: #F3F3F6;
+    border: 2px solid rgba(12, 29, 74, 0.3);
+    border-radius: 5px;
+
+    .product-title {
+      font-family: 'Helvetica', serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 150%;
+      color: $tp-dark;
+      margin-bottom: 10px;
+    }
+    .product-category {
+      font-family: 'Helvetica', serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      display: flex;
+      align-items: center;
+      color: $tp-dark;
+      margin-bottom: 10px;
+    }
+    .action-group {
+      display: flex;
+
+      .icon-button {
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &:first-child {
+          background: $tp-blue;
+        }
+        &:last-child {
+          background: #FF8080;
+        }
+        ::ng-deep {
+          .mat-icon {
+            font-size: 14px !important;
+            color: white;
+            width: 15px;
+            height: 15px;
+          }
+        }
+      }
+    }
+  }
+
+  .tags-input-wrapper {
+    background: #F3F3F6;
+    border: 1px solid rgba(11, 19, 30, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+    overflow: auto;
+    height: 100%;
+
+    .tags-input {
+      background: transparent !important;
+
+      ::ng-deep {
+        .mat-form-field-wrapper {
+          background: transparent !important;
+
+          .mat-form-field-flex {
+            background: transparent !important;
+            padding: 0 !important;
+
+            .mat-form-field-infix {
+              background: transparent !important;
+            }
+
+            .mat-standard-chip {
+              background: $tp-blue;
+              border-radius: 5px;
+              padding: 2px 10px !important;
+              color: white !important;
+
+              font-family: 'Helvetica', serif;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 16px !important;
+              line-height: 150%;
+
+              .mat-icon {
+                color: white;
+                font-size: 13px;
+                opacity: 1;
+                width: 12px;
+                height: 12px;
+              }
+            }
+            .mat-chip-input {
+              padding: 0 !important;
+              color: $tp-black !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999999999;
+  background: $tp-dark;
+  height: 72px;
+}
+
+::ng-deep {
+  .mat-slide-toggle {
+    .mat-slide-toggle-bar {
+      background-color: #9CA3AF;
+    }
+    .mat-slide-toggle-content {
+      font-family: 'Inter', serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0.05em;
+      color: #9CA3AF;
+    }
+    &.mat-checked
+    {
+      .mat-slide-toggle-thumb {
+        background-color: #ffffff
+      }
+      .mat-slide-toggle-bar {
+        background-color: #3F9CF4;
+      }
+    }
+  }
+}
+.last-save {
+  font-family: 'Helvetica', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #FFFFFF;
+}
+
+.save-icon {
+  width: 10px;
+  height: 11px;
+  margin-bottom: 13px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.labelAlignment {
+  display: inline-block;
+  margin: 1rem 0 0 0;
+}
+
+.rightAlignedCheckbox {
+  display: inline-block;
+  float: right;
+}
+
+.captionPadding {
+  padding-left: 0 !important;
+  display: block;
+}
+
+.rapid-poc-checkbox {
+  position: relative;
+  right: 0;
+  top: -5rem;
+}

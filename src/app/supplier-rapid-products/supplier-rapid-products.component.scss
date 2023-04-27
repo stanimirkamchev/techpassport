@@ -1,0 +1,43 @@
+@import 'colors.scss';
+:host {
+    height: 80%;
+    overflow: hidden;
+    h3.title {
+        margin: 0;
+        margin-bottom: 3px;
+        font-size: 12pt;
+        font-weight: normal;
+        color: $tp-dark;
+
+    }
+    small {
+      font-size: 9pt;
+    }
+    table {
+        margin-top:32px;
+        
+
+        width: 100%;
+    
+        thead {
+          height: 32px;
+        }
+  
+        td,tr {
+          height: 39px;
+          min-height: 39px;
+          max-height: 39px;
+          color: $tp-dark;
+
+          font-size:12pt;
+          text-align: left;
+        }
+        th {
+          font-size: 13pt;
+          padding-bottom: 5px;
+        }
+        tr.highlight {
+          background: rgba($tp-amber,0.17 );
+        }
+    }
+}

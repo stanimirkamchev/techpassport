@@ -1,0 +1,42 @@
+<ui-data-filters>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="">All</mat-option>
+        <mat-option
+          *ngFor="let status of productStatuses"
+          [value]="status">
+          {{ProductStatus[status] || status}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Product Tag</mat-label>
+      <mat-select formControlName="tag">
+        <mat-option value="">All</mat-option>
+        <mat-option
+          *ngFor="let tag of tags"
+          [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>TP Admin Owner</mat-label>
+      <mat-select formControlName="reviewer">
+        <mat-option value="">All</mat-option>
+        <mat-option
+          *ngFor="let admin of admins"
+          [value]="admin._id">
+          {{admin.displayName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="pull--right">
+      <mat-form-field>
+        <input formControlName="search" matInput placeholder="Search">
+      </mat-form-field>
+    </div>
+  </form>
+</ui-data-filters>

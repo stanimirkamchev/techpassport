@@ -1,0 +1,92 @@
+<ui-data-table class="paginated" [class.loading]="loading">
+  <div class="container">
+    <table mat-table matSort [dataSource]="dataSource" (matSortChange)="sort.emit($event)">
+
+      <ng-container matColumnDef="user.displayName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.user.displayName}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="user.email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <td mat-cell *matCellDef="let element">{{element.user.email}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="user.company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Company</th>
+        <td mat-cell *matCellDef="let element">{{element.user.company}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="user.entityType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+        <td mat-cell *matCellDef="let element">{{element.user.entityType}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="user.status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User Status</th>
+        <td mat-cell *matCellDef="let element"
+          [class.green]="element.user.status === 'active'"
+          [class.orange]="element.user.status === 'inactive'"
+          [class.red]="element.user.status === 'locked'">
+          <ui-menu (selected)="userAction($event, element)"
+            *ngIf="apiService?.sessionObject?.role === 'superadmin'; else noaction"
+            [options]="{
+              'Unlock User': element.user.status === 'locked' && 'unlock',
+              'Lock User': element.user.status === 'active' && 'lock',
+              'Delete User': 'delete'}">
+            {{AccessUserStatus[element.user.status] || element.user.status}}
+          </ui-menu>
+          <ng-template #noaction>{{AccessUserStatus[element.user.status] || element.user.status}}</ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientIP">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Referer IP</th>
+        <td mat-cell *matCellDef="let element">
+          <span matTooltip="{{element.clientReferer}} {{element.clientAgent}}">
+            {{element.clientIP}}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="accessDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Access Date</th>
+        <td mat-cell *matCellDef="let element">{{element.accessDate | date: 'short'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accessDuration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Access Duration</th>
+        <td mat-cell *matCellDef="let element">{{element.accessDuration || 0 | duration}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Session Status</th>
+        <td mat-cell *matCellDef="let element" class="light"
+          [class.green]="element.status === 'Online'"
+          [class.red]="element.status === 'Offline'">
+          <ui-menu
+            *ngIf="element.status === 'Online' && apiService?.sessionObject?.role === 'superadmin'; else noaction"
+            (selected)="destroySession.emit(element)"
+            [options]="{'Destroy Session': 'destroy'}">
+            {{AccessUserStatus[element.status] || element.status}}
+          </ui-menu>
+          <ng-template #noaction>{{AccessUserStatus[element.status] || element.status}}</ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+  </div>
+  <div class="spinner" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  <mat-paginator
+    [disabled]="loading"
+    [pageSizeOptions]="[4, 10, 30]"
+    showFirstLastButtons>
+  </mat-paginator>
+</ui-data-table>

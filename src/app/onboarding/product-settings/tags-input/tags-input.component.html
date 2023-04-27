@@ -1,0 +1,84 @@
+<div class="tags-input-wrapper" [ngClass]="searchType">
+  <div class="label">
+    <span>{{ label }}</span>
+    <span class="caption">{{ caption }}</span>
+  </div>
+  <mat-form-field
+    class="tags-input scrollbar"
+    [ngClass]="{ 'is-invalid': isError }"
+    appearance="fill"
+  >
+    <mat-icon
+      *ngIf="!tags.length"
+      svgIcon="search"
+      class="search-icon"
+    ></mat-icon>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+        {{ tag }}
+        <mat-icon matChipRemove>close</mat-icon>
+      </mat-chip>
+      <input
+        *ngIf="tags.length < maxLength"
+        #input
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="addTag($event)"
+        [placeholder]="placeholder"
+        [matAutocomplete]="auto"
+        [formControl]="query"
+        (focus)="onClickInput($event)"
+      />
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-autocomplete
+    class="scrollbar auto-complete"
+    #auto
+    (optionSelected)="selected($event)"
+  >
+    <ng-container *ngIf="searchType == 'solution'">
+      <mat-optgroup
+        *ngFor="let group of tagOptions"
+        [label]="group.label"
+        [ngClass]="group.hide ? 'hide' : ''"
+        class="solution"
+      >
+        <mat-option
+          *ngFor="let option of group.children"
+          [value]="option.name"
+          [disabled]="option.disable"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-optgroup>
+    </ng-container>
+    <ng-container *ngIf="searchType != 'solution'">
+      <mat-option
+        class="text"
+        *ngFor="let option of tagOptions"
+        [value]="option.name"
+        [disabled]="option.disable"
+      >
+        {{ option.name }}
+      </mat-option>
+    </ng-container>
+    <div
+      class="tag-create-footer d-flex justify-center items-center"
+      *ngIf="enableNewButton"
+      (click)="addNew()"
+    >
+      <mat-spinner
+        class="white"
+        color="white"
+        *ngIf="isAdding"
+        diameter="16"
+      ></mat-spinner>
+      <mat-icon svgIcon="plus" *ngIf="!isAdding"></mat-icon>
+    </div>
+  </mat-autocomplete>
+  <div *ngIf="isError" class="error">
+    {{ errorText }}
+  </div>
+</div>

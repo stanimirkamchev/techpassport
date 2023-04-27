@@ -1,0 +1,38 @@
+@import 'colors.scss';
+
+.modal-cont {
+  h1,h4 {
+    margin: 0;
+  }
+  mat-icon {
+    font-size: 50pt;
+    color: $tp-orange;
+    margin-left: -35px;
+  }
+  mat-icon.question {
+    font-size: 50pt;
+    color: $tp-dark;
+    margin-left: -35px;
+  }
+  h1 {
+    font-size: 16pt;
+    line-height: 28px;
+    font-weight: normal;
+  }
+  h4 {
+    font-size: 12pt;
+    line-height: 19px;
+    font-weight: 100;
+  }
+  div {
+    margin-top: 12px;
+  }
+
+  button {
+    //position: relative;
+    margin-top: 8px;
+  }
+  button:not(:first-child) {
+    margin-left: 7px;
+  }
+}

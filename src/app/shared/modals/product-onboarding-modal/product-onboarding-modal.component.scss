@@ -1,0 +1,114 @@
+@import 'colors.scss';
+
+.level1 {
+  font-weight: bold;
+  color: $tp-green;
+
+}
+.level2 {
+  font-weight: bold;
+  color: $tp-dark;
+  margin-left: 15px;
+}
+.level3 {
+  margin-left: 30px;
+}
+
+.modal-product-onboarding {
+  position: relative;
+.pickerCard {
+  background: #EEEEEE;
+  width: 170px;
+  height: 80px;
+  position:absolute;
+  top: 30vh;
+  left: 40vw;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 100000;
+  box-shadow: 2px 5px 4px 5px #E0E0E0;
+  mat-chip {
+    width: 36px;
+    height: 36px;
+    //padding-left: 7px;
+    background-color: #ffffff;
+    color: $tp-dark;
+    text-align: center!important;
+  }
+  .mat-chip-selected {
+    background-color: $tp-green!important;
+    color: white;
+  }
+}
+.videoName {
+  font-size: 8pt;
+  color: $tp-green;
+  text-decoration: underline;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.pickerCard.time {
+  left: 45vw;
+  height: 130px;
+  .timePickerLabel {
+    font-size: 8pt;
+  }
+}
+
+
+  mat-horizontal-stepper {
+    margin-left: 2vw!important;
+    margin-right: 2vw!important;
+    .steperContent{
+      form {
+      }
+    }
+    .options {
+      .form-row {
+      //  height: 35px;
+      }
+    }
+    .form-row.morespace {
+      height: auto!important;
+    }
+    .form-row {
+      min-height: 41px;
+      height: inherit;
+      //background: red;
+
+      width: 90%!important;
+      .label {
+          line-height: 15px;
+          margin-top: -2px;
+      }
+    }
+    .form-row.textarea {
+      //height: 70px!important;
+    //  max-height: 16vh;
+    }
+    .pickerButton:not(:first-child){
+      margin-left: 12px;
+      border-radius: 8px;
+    }
+
+
+  }
+}
+
+.steperContent.detail {
+  position: relative;
+}
+
+.onboarding-timeout-text {
+  margin: 0 auto;
+  text-align: center;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding: 0;
+    font-weight: bold;
+    color: $tp-dark;
+  }
+}

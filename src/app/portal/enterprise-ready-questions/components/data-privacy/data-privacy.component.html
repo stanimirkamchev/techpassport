@@ -1,0 +1,117 @@
+<form [formGroup]="formGroup">
+  <div class="row">
+    <div class="column-8">
+      <span>Select the region(s) you <b>provide services</b> to</span>
+    </div>
+    <div class="column-4"></div>
+  </div>
+  <div class="row" formGroupName="countryRegionOptions">
+    <div class="column-6 paddingFromLeft">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('countryRegionOptions')"
+        [options]="countryRegionOptions"
+        (valueChanged)="onCountryRegionOptionsChanged($event)"
+        ngDefaultControl
+      ></custom-multi-checkbox>
+    </div>
+    <div class="column-6"></div>
+  </div>
+
+  <div class="row">
+    <div class="column-6">
+      <span
+        >Select the regional <b>data protection legislations</b> that you commit
+        to comply with</span
+      >
+    </div>
+    <div class="column-6"></div>
+  </div>
+  <div class="row" formGroupName="regionalLegislationAreas">
+    <div class="column-12 paddingFromLeft">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('regionalLegislationAreas')"
+        [options]="dataProtectionLegislationOptions"
+        ngDefaultControl
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column-4">
+      <span
+        >Select the protection acts which you have a published compliance
+        strategy for</span
+      >
+    </div>
+  </div>
+  <div class="row">
+    <div class="column-12 paddingFromLeft" formGroupName="protectionActOptions">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('protectionActOptions')"
+        [options]="protectionActOptions"
+        (valueChanged)="onProtectionActOptionsChanged($event)"
+        ngDefaultControl
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+
+  <div class="row resetPadding" formGroupName="protectionActOptions">
+    <div class="column-6">
+      <custom-input
+        *ngIf="protectionActOtherOptionSelected$ | async"
+        [formGroup]="formGroup.get('protectionActOptions')"
+        formControlName="otherText"
+        label="Other"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+    <div class="column-6"></div>
+  </div>
+
+  <div class="row">
+    <div class="column-6">
+      <span>
+        Select the region(s) you commit to access and process data only within
+        the borders of the region <br />
+        where the data is <b>consumed</b> by the client
+      </span>
+    </div>
+    <div class="column-6"></div>
+  </div>
+  <div class="row" formGroupName="protectionActOptions">
+    <div class="column-6 paddingFromLeft">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('whereDataIsConsumed')"
+        [options]="whereTheDataIsConsumed"
+        (valueChanged)="onWhereDataIsConsumedChanged($event)"
+        ngDefaultControl
+      ></custom-multi-checkbox>
+    </div>
+    <div class="column-6"></div>
+  </div>
+
+  <div class="row" formGroupName="inclusionPermissions">
+    <div class="column-4">
+      <div class="centerVertically">
+        Where processing data <b>outside</b> of the region(s) in which you
+        <br />
+        are providing the services, do you permit the inclusion of <br />
+        customer specific data protection model clauses?
+      </div>
+    </div>
+    <div class="column-8">
+      <custom-multi-checkbox
+        orientation="horizontal"
+        [allowNA]="true"
+        [formGroup]="formGroup.get('inclusionPermissions')"
+        [options]="yesNoOptions"
+        ngDefaultControl
+        (valueChanged)="inclusionPermissionsChanged($event)"
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+</form>

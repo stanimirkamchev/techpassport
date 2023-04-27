@@ -1,0 +1,75 @@
+<div class="product-settings" id="product-settings">
+  <onboarding-top-bar></onboarding-top-bar>
+  <onboarding-page-header title="Personal"></onboarding-page-header>
+
+  <mat-card class="mt-5 custom-card">
+    <mat-card-title class="title"> Your Products</mat-card-title>
+    <mat-card-content>
+      <div class="subTitle mb-3">Edit existing or add a new product</div>
+
+      <div class="d-flex mt-3 product-list">
+        <div *ngFor="let product of products" class="product-item mr-5 mt-3">
+          <div class="product-title">
+            {{ product.name }}
+          </div>
+          <div class="product-category">
+            {{ product.functionality }}
+          </div>
+          <div
+            class="status mb-5"
+            [ngClass]="getLastStatusByProduct(product.status)?.toLowerCase()"
+          >
+            {{ getLastStatusByProduct(product.status) }}
+          </div>
+          <div class="">
+            <div class="d-flex mb-3">
+              <div
+                class="edit-button mr-3"
+                [routerLink]="['/portal']"
+                [queryParams]="{page:'onboarding', onboardingPage: 'product-edit', productId: product._id}"
+              >
+                Edit &nbsp;
+                <mat-icon class="icon" svgIcon="edit-sm"></mat-icon>
+              </div>
+              <div
+                class="duplicate-button"
+                (click)="onDuplicateProduct(product)"
+              >
+                <mat-spinner
+                  *ngIf="isDuplicating && productId === product._id"
+                  diameter="16"
+                ></mat-spinner>
+                <ng-container
+                  *ngIf="!isDuplicating || productId !== product._id"
+                  class="d-flex"
+                >
+                  Duplicate &nbsp;
+                  <mat-icon class="icon" svgIcon="duplicate"></mat-icon>
+                </ng-container>
+              </div>
+            </div>
+            <div class="d-flex justify-center">
+              <mat-spinner
+                *ngIf="isRemoving && productId === product._id"
+                diameter="16"
+              ></mat-spinner>
+              <div
+                class="remove-button"
+                *ngIf="!isRemoving || productId !== product._id"
+                (click)="onRemoveProduct(product._id, product.name)"
+              >
+                Remove &nbsp;
+                <mat-icon class="icon" svgIcon="delete-x">delete</mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="add-product mt-3" [routerLink]="['/portal']"
+           [queryParams]="{page:'onboarding', onboardingPage: 'product-new'}">
+          <mat-icon class="mb-2" svgIcon="product_add"></mat-icon>
+          <div class="label">Add new</div>
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

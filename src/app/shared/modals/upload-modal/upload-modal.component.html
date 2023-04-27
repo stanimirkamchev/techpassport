@@ -1,0 +1,84 @@
+<div class="modal-cont media-modal">
+  <div>
+    <mat-icon>photo_camera</mat-icon>
+    <div style="font-size: 10pt; display: inline-block; top: -7px; position: relative; margin-left:12px">
+      <span *ngIf="!data.disableActions">Upload Video</span>
+      <span *ngIf="data.disableActions">Video - {{data.name}}</span>
+    </div>
+  </div>
+  <div *ngIf="uploading" class="upload-progress">
+    <mat-progress-bar color="accent" mode="indeterminate">
+    </mat-progress-bar>
+  </div>
+  <form fxLayout="column" [formGroup]="mediaFormGroup" *ngIf="!uploading">
+    <!--    -->
+    <div fxLayout="row" class="form-row" *ngIf="!data.disableActions">
+      <div class="label">Title</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <input [readonly]="edit===true" niceOnly matInput type="text" placeholder="Write here..."
+            formControlName="title" autocomplete="off" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row" class="form-row" *ngIf="!data.disableActions">
+      <div class="label">Description</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <input [readonly]="edit===true" niceOnly matInput type="text" placeholder="Write here..."
+            formControlName="description" autocomplete="off" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- -->
+    <div class="player" *ngIf="edit === true" [class.prev]="data.disableActions">
+      <iframe [src]="vidUrl | safe"></iframe>
+    </div>
+    <div class="dropzoneCont" *ngIf="edit !== true && !data.disableActions">
+      <input type="file" accept="video/*,.mp4" id="mediaIn putFile" #mediaInputFile [hidden]='true'>
+      <div *ngIf="!files.length" class="rmpm dropzone" appDrag (files)="filesDropped($event)"
+        [inputField]="mediaInputFile" fxLayoutAlign="center">
+        <div class="text-wrapper" fxLayoutAlign="center center">
+          <div class="centered">
+            <!-- (click)="logoInputFile.click()"-->
+            <mat-icon>cloud_upload</mat-icon>
+            <br />
+            Drop your file here or click to choose!
+          </div>
+
+        </div>
+      </div>
+      <div *ngFor="let file of files; let i = index" (mouseover)="file.mOver=true" (mouseleave)="file.mOver=false">
+        <div style="float:left;" class="imgCont">
+          <img *ngIf="file" [src]="file.url" onerror="this.src='assets/mov/placeholder.png';" class="fileImg">
+
+        </div>
+        <div style="position:relative;left:95%;top:-190px;">
+          <button mat-mini-fab class="removeItem" color="warn" *ngIf="file.mOver==true" (click)="removeFile(i)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="options" *ngIf="edit !== true && !data.disableActions">
+      <button mat-button mat-raised-button color="accent" (click)="upload()" class="mat-elevation-z0">Upload</button>
+      <button mat-button mat-raised-button color="warn" (click)="exit(null)" class="mat-elevation-z0">Cancel</button>
+    </div>
+    <div class="options" *ngIf="edit === true && !data.disableActions">
+      <button mat-button mat-raised-button color="warn" (click)="remove()" class="mat-elevation-z0">Delete</button>
+      <button mat-button mat-raised-button color="primary" (click)="exit(productMedia)"
+        class="mat-elevation-z0">Cancel</button>
+    </div>
+    <div class="options" *ngIf="data.disableActions">
+      <button mat-button mat-raised-button color="primary" (click)="exit(productMedia)"
+        class="mat-elevation-z0">Close</button>
+    </div>
+    <!--  <button mat-button mat-raised-button color="accent" (click)="understood()" class="mat-elevation-z0">Understood</button>-->
+
+    <!-- -->
+  </form>
+</div>

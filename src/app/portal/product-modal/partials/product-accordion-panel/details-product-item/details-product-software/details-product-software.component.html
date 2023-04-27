@@ -1,0 +1,74 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content
+    class="table"
+    fxFlex="50"
+    [ngClass]="expansionStyling() | async"
+  >
+    <div class="two-column">
+      <h5>Products / Frameworks used:</h5>
+      <ul
+        *ngIf="
+          payload.details.licensing &&
+          payload.details.licensing.frameworks &&
+          payload.details.licensing.frameworks.length > 0
+        "
+      >
+        <li *ngFor="let licensing of payload.details.licensing.frameworks">
+          {{ licensing }}
+        </li>
+      </ul>
+
+      <ul
+        *ngIf="
+          !payload.details.licensing ||
+          !payload.details.licensing.frameworks ||
+          payload.details.licensing.frameworks.length === 0
+        "
+      >
+        <li>n/a</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content
+    class="table"
+    fxFlex="50"
+    [ngClass]="expansionStyling() | async"
+  >
+    <div>
+      <h5>Product uses open source software</h5>
+      <mat-icon *ngIf="payload.details.licensing?.openSource" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.licensing?.openSource" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Product depends on 3rd party software</h5>
+      <mat-icon *ngIf="payload.details.licensing?.thirdParty" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.details.licensing?.thirdParty" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Allows 3rd parties of customers to test product</h5>
+      <mat-icon
+        *ngIf="payload.details.licensing?.thirdPartyTester"
+        class="green"
+        >{{ setIcon("yes") }}</mat-icon
+      >
+      <mat-icon
+        *ngIf="!payload.details.licensing?.thirdPartyTester"
+        class="grey"
+        >{{ setIcon("no") }}</mat-icon
+      >
+    </div>
+  </ui-page-content>
+</div>

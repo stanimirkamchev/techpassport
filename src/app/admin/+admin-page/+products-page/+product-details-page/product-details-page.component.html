@@ -1,0 +1,69 @@
+<div class="container">
+  <ui-page-title>Product</ui-page-title>
+  <ui-page-content>
+    <ui-page-close route="/admin/products"></ui-page-close>
+    <mat-spinner
+      *ngIf="loading$ | async; else productDetails"
+      diameter="32"
+    ></mat-spinner>
+    <ng-template #productDetails>
+      <ng-container *ngIf="productDetails$ | async as productDetails">
+        <ng-container *ngIf="productDetails.product as product">
+          <ui-page-header>
+            <ui-img
+              src="/api/v1/admin/supplier/{{
+                product.supplier._id
+              }}/companylogo"
+              class="logo"
+            ></ui-img>
+            <span class="mat-title">
+              <strong>{{ product.supplier.name }}</strong> Company Ref <br />
+              <strong>{{ product.name }}</strong>
+            </span>
+          </ui-page-header>
+          <header-controls
+            [approvalDisabled]="product.status !== 'SentForApproval'"
+            [downloadHidden]="true"
+            (download)="download(product)"
+            (approve)="approve(product)"
+            (reject)="reject(product)"
+          >
+            <button
+              [disabled]="!productDetails.review?.tpWriteAccess || true"
+              mat-stroked-button
+              color="primary"
+              (click)="edit(product)"
+            >
+              Edit
+            </button>
+            <!-- TEMPORARY DISABLED -->
+          </header-controls>
+        </ng-container>
+        <nav mat-tab-nav-bar>
+          <a
+            mat-tab-link
+            [routerLink]="['supplier']"
+            [active]="router.url.indexOf('/supplier') > -1"
+          >
+            Supplier Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['review']"
+            [active]="router.url.indexOf('/review') > -1"
+          >
+            Product Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['compliance']"
+            [active]="router.url.indexOf('/compliance') > -1"
+          >
+            Compliance
+          </a>
+        </nav>
+      </ng-container>
+      <router-outlet></router-outlet>
+    </ng-template>
+  </ui-page-content>
+</div>

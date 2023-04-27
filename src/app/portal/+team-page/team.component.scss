@@ -1,0 +1,109 @@
+@import 'colors.scss';
+.teamContainer {
+  position: relative;
+  left: 15px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin-right: 35px;
+  box-shadow:none;
+
+  .topBar {
+    display: flex;
+    height: 33px;
+    min-height: 33px;
+    max-height: 33px;
+    margin-bottom:30px;
+    .searchField {
+      width: 250px!important;
+      padding-top:8px;
+      .mat-form-field-flex {
+        height: 33px!important;
+        min-height: 33px!important;
+        max-height: 33px!important;
+        background-color:transparent !important;
+      }
+      ::ng-deep .mat-form-field-infix{
+        background-color:transparent !important;
+      }
+      ::ng-deep input{
+        background-color: #FFF !important;
+        //border-radius:8px !important;
+      }
+
+    }
+  }
+  .removeButton {
+    color: #DD0000;
+  }
+  mat-icon.avatar {
+    font-size: 30pt!important;
+  }
+
+  .add-business  {
+    background:  $tp-pink;
+  }
+  .add-team-member {
+    background:  $tp-green;
+  }
+
+  .container.entities {
+    h4, .avatar {
+      color: $tp-blue;
+    }
+    tr.accent  {
+      background: rgba($tp-blue, 0.2);
+    }
+  }
+  .container.business {
+    h4, .avatar {
+      color: $tp-pink;
+    }
+    tr.accent  {
+      background: rgba($tp-pink, 0.2);
+    }
+  }
+  .container.members {
+    h4, .avatar{
+      color: $tp-green;
+    }
+  }
+
+  .container {
+    h4 {
+      margin-bottom: 3px;
+    }
+  }
+
+  table {
+    width: 100%;
+    box-shadow: none;
+    th {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      color: #fff!important;
+    }
+    th:first-child {
+      border-top-left-radius: 5px!important;
+    }
+    th:last-child {
+      border-top-right-radius: 5px!important;
+    }
+
+    td {
+      padding: 0 5px;
+    }
+    .mat-header-row {
+      height: 38px;
+      min-height: 38px;
+      max-height: 38px;
+      background: $tp-dark;
+    }
+
+    td {
+      font-size: 10pt;
+      padding-top: 4px;
+      padding-bottom: 3px;
+    }
+  }
+}

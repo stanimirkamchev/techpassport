@@ -1,0 +1,327 @@
+<div class="container invitation-page" style="flex-direction: column">
+  <h2>Data Import / Export</h2>
+
+  <p>
+    Update invitation status on active invites by downloading the latest C.B.
+    Insights database below, make your changes then upload your updated file.
+  </p>
+
+  <div class="top-buttons">
+    <button
+      [ngClass]="fileNameStatus ? 'download-csv loading' : 'download-csv'"
+      (click)="downloadCSV()"
+      [disabled]="fileNameStatus"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M10.98 7.03333L11.6867 7.74L8 11.4267L4.31333 7.74L5.02 7.03333L7.5 9.51333V2H8.5V9.51333L10.98 7.03333ZM2 14.5V13.5H14V14.5H2Z"
+          fill="white"
+        />
+        <path
+          d="M11.6867 7.74L11.8634 7.91678C11.9103 7.86989 11.9367 7.8063 11.9367 7.74C11.9367 7.6737 11.9103 7.61011 11.8634 7.56322L11.6867 7.74ZM10.98 7.03333L11.1568 6.85656C11.0591 6.75893 10.9009 6.75893 10.8032 6.85656L10.98 7.03333ZM8 11.4267L7.82322 11.6034C7.87011 11.6503 7.9337 11.6767 8 11.6767C8.0663 11.6767 8.12989 11.6503 8.17678 11.6034L8 11.4267ZM4.31333 7.74L4.13656 7.56322C4.08967 7.61011 4.06333 7.6737 4.06333 7.74C4.06333 7.8063 4.08967 7.86989 4.13656 7.91678L4.31333 7.74ZM5.02 7.03333L5.19678 6.85656C5.09915 6.75893 4.94085 6.75893 4.84322 6.85656L5.02 7.03333ZM7.5 9.51333L7.32322 9.69011C7.39472 9.76161 7.50225 9.783 7.59567 9.7443C7.68909 9.70561 7.75 9.61445 7.75 9.51333H7.5ZM7.5 2V1.75C7.36193 1.75 7.25 1.86193 7.25 2H7.5ZM8.5 2H8.75C8.75 1.86193 8.63807 1.75 8.5 1.75V2ZM8.5 9.51333H8.25C8.25 9.61445 8.31091 9.70561 8.40433 9.7443C8.49775 9.783 8.60528 9.76161 8.67678 9.69011L8.5 9.51333ZM2 13.5V13.25C1.86193 13.25 1.75 13.3619 1.75 13.5H2ZM2 14.5H1.75C1.75 14.6381 1.86193 14.75 2 14.75V14.5ZM14 13.5H14.25C14.25 13.3619 14.1381 13.25 14 13.25V13.5ZM14 14.5V14.75C14.1381 14.75 14.25 14.6381 14.25 14.5H14ZM11.8634 7.56322L11.1568 6.85656L10.8032 7.21011L11.5099 7.91678L11.8634 7.56322ZM8.17678 11.6034L11.8634 7.91678L11.5099 7.56322L7.82322 11.2499L8.17678 11.6034ZM4.13656 7.91678L7.82322 11.6034L8.17678 11.2499L4.49011 7.56322L4.13656 7.91678ZM4.84322 6.85656L4.13656 7.56322L4.49011 7.91678L5.19678 7.21011L4.84322 6.85656ZM7.67678 9.33656L5.19678 6.85656L4.84322 7.21011L7.32322 9.69011L7.67678 9.33656ZM7.25 2V9.51333H7.75V2H7.25ZM8.5 1.75H7.5V2.25H8.5V1.75ZM8.75 9.51333V2H8.25V9.51333H8.75ZM10.8032 6.85656L8.32322 9.33656L8.67678 9.69011L11.1568 7.21011L10.8032 6.85656ZM1.75 13.5V14.5H2.25V13.5H1.75ZM14 13.25H2V13.75H14V13.25ZM14.25 14.5V13.5H13.75V14.5H14.25ZM2 14.75H14V14.25H2V14.75Z"
+          fill="white"
+        />
+      </svg>
+      {{ buttonFileName }}
+    </button>
+
+    <button
+      [disabled]="isUserLockOut"
+      *ngIf="fileId"
+      [ngClass]="fileNameStatus ? 'disabled remove' : 'remove'"
+      mat-icon-button
+      matTooltip="Important, be careful you will delete the current file"
+      (click)="onClickRemoveFile()"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <div class="top-buttons mt-10">
+    <button [ngClass]="'download-csv'" (click)="exportDatabase()">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M10.98 7.03333L11.6867 7.74L8 11.4267L4.31333 7.74L5.02 7.03333L7.5 9.51333V2H8.5V9.51333L10.98 7.03333ZM2 14.5V13.5H14V14.5H2Z"
+          fill="white"
+        />
+        <path
+          d="M11.6867 7.74L11.8634 7.91678C11.9103 7.86989 11.9367 7.8063 11.9367 7.74C11.9367 7.6737 11.9103 7.61011 11.8634 7.56322L11.6867 7.74ZM10.98 7.03333L11.1568 6.85656C11.0591 6.75893 10.9009 6.75893 10.8032 6.85656L10.98 7.03333ZM8 11.4267L7.82322 11.6034C7.87011 11.6503 7.9337 11.6767 8 11.6767C8.0663 11.6767 8.12989 11.6503 8.17678 11.6034L8 11.4267ZM4.31333 7.74L4.13656 7.56322C4.08967 7.61011 4.06333 7.6737 4.06333 7.74C4.06333 7.8063 4.08967 7.86989 4.13656 7.91678L4.31333 7.74ZM5.02 7.03333L5.19678 6.85656C5.09915 6.75893 4.94085 6.75893 4.84322 6.85656L5.02 7.03333ZM7.5 9.51333L7.32322 9.69011C7.39472 9.76161 7.50225 9.783 7.59567 9.7443C7.68909 9.70561 7.75 9.61445 7.75 9.51333H7.5ZM7.5 2V1.75C7.36193 1.75 7.25 1.86193 7.25 2H7.5ZM8.5 2H8.75C8.75 1.86193 8.63807 1.75 8.5 1.75V2ZM8.5 9.51333H8.25C8.25 9.61445 8.31091 9.70561 8.40433 9.7443C8.49775 9.783 8.60528 9.76161 8.67678 9.69011L8.5 9.51333ZM2 13.5V13.25C1.86193 13.25 1.75 13.3619 1.75 13.5H2ZM2 14.5H1.75C1.75 14.6381 1.86193 14.75 2 14.75V14.5ZM14 13.5H14.25C14.25 13.3619 14.1381 13.25 14 13.25V13.5ZM14 14.5V14.75C14.1381 14.75 14.25 14.6381 14.25 14.5H14ZM11.8634 7.56322L11.1568 6.85656L10.8032 7.21011L11.5099 7.91678L11.8634 7.56322ZM8.17678 11.6034L11.8634 7.91678L11.5099 7.56322L7.82322 11.2499L8.17678 11.6034ZM4.13656 7.91678L7.82322 11.6034L8.17678 11.2499L4.49011 7.56322L4.13656 7.91678ZM4.84322 6.85656L4.13656 7.56322L4.49011 7.91678L5.19678 7.21011L4.84322 6.85656ZM7.67678 9.33656L5.19678 6.85656L4.84322 7.21011L7.32322 9.69011L7.67678 9.33656ZM7.25 2V9.51333H7.75V2H7.25ZM8.5 1.75H7.5V2.25H8.5V1.75ZM8.75 9.51333V2H8.25V9.51333H8.75ZM10.8032 6.85656L8.32322 9.33656L8.67678 9.69011L11.1568 7.21011L10.8032 6.85656ZM1.75 13.5V14.5H2.25V13.5H1.75ZM14 13.25H2V13.75H14V13.25ZM14.25 14.5V13.5H13.75V14.5H14.25ZM2 14.75H14V14.25H2V14.75Z"
+          fill="white"
+        />
+      </svg>
+      Export current database
+    </button>
+  </div>
+
+  <h2 class="mt-30">Upload</h2>
+
+  <!-- SELECT FILE -->
+  <input
+    type="file"
+    class="file-input"
+    hidden="true"
+    onclick="this.value=null"
+    [accept]="requiredFileType"
+    (change)="onFileSelected($event)"
+    #fileUpload
+    accept=".csv"
+  />
+
+  <div class="progress" [ngStyle]="{ opacity: isUserLockOut ? '0.3' : '1' }">
+    <!-- DROP FILE -->
+    <div
+      class="progress-secttion"
+      appDrag
+      (files)="onFileDropped($event)"
+      *ngIf="
+        processManager === processEnum.INITIAL ||
+        processManager === processEnum.DROP
+      "
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="38"
+        height="39"
+        viewBox="0 0 38 39"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M10.0599 14.18L7.93994 12.06L18.9999 1L30.0599 12.06L27.9399 14.18L20.4999 6.74V29.28H17.4999V6.74L10.0599 14.18ZM1 38.28V35.28H37V38.28H1Z"
+          fill="#171C26"
+        />
+        <path
+          d="M7.93994 12.06L7.76316 11.8832C7.71628 11.9301 7.68994 11.9937 7.68994 12.06C7.68994 12.1263 7.71628 12.1899 7.76316 12.2368L7.93994 12.06ZM10.0599 14.18L9.88317 14.3568C9.9808 14.4544 10.1391 14.4544 10.2367 14.3568L10.0599 14.18ZM18.9999 1L19.1767 0.823223C19.1298 0.776339 19.0662 0.75 18.9999 0.75C18.9336 0.75 18.8701 0.776339 18.8232 0.823223L18.9999 1ZM30.0599 12.06L30.2367 12.2368C30.2836 12.1899 30.3099 12.1263 30.3099 12.06C30.3099 11.9937 30.2836 11.9301 30.2367 11.8832L30.0599 12.06ZM27.9399 14.18L27.7632 14.3568C27.8608 14.4544 28.0191 14.4544 28.1167 14.3568L27.9399 14.18ZM20.4999 6.74L20.6767 6.56322C20.6052 6.49172 20.4977 6.47034 20.4043 6.50903C20.3109 6.54773 20.2499 6.63889 20.2499 6.74H20.4999ZM20.4999 29.28V29.53C20.638 29.53 20.7499 29.4181 20.7499 29.28H20.4999ZM17.4999 29.28H17.2499C17.2499 29.4181 17.3619 29.53 17.4999 29.53V29.28ZM17.4999 6.74H17.7499C17.7499 6.63889 17.689 6.54773 17.5956 6.50903C17.5022 6.47034 17.3947 6.49172 17.3232 6.56322L17.4999 6.74ZM1 35.28V35.03C0.861929 35.03 0.75 35.142 0.75 35.28H1ZM1 38.28H0.75C0.75 38.4181 0.861929 38.53 1 38.53V38.28ZM37 35.28H37.25C37.25 35.142 37.1381 35.03 37 35.03V35.28ZM37 38.28V38.53C37.1381 38.53 37.25 38.4181 37.25 38.28H37ZM7.76316 12.2368L9.88317 14.3568L10.2367 14.0032L8.11672 11.8832L7.76316 12.2368ZM18.8232 0.823223L7.76316 11.8832L8.11672 12.2368L19.1767 1.17678L18.8232 0.823223ZM30.2367 11.8832L19.1767 0.823223L18.8232 1.17678L29.8832 12.2368L30.2367 11.8832ZM28.1167 14.3568L30.2367 12.2368L29.8832 11.8832L27.7632 14.0032L28.1167 14.3568ZM20.3232 6.91678L27.7632 14.3568L28.1167 14.0032L20.6767 6.56322L20.3232 6.91678ZM20.7499 29.28V6.74H20.2499V29.28H20.7499ZM17.4999 29.53H20.4999V29.03H17.4999V29.53ZM17.2499 6.74V29.28H17.7499V6.74H17.2499ZM10.2367 14.3568L17.6767 6.91678L17.3232 6.56322L9.88317 14.0032L10.2367 14.3568ZM0.75 35.28V38.28H1.25V35.28H0.75ZM37 35.03H1V35.53H37V35.03ZM37.25 38.28V35.28H36.75V38.28H37.25ZM1 38.53H37V38.03H1V38.53Z"
+          fill="#171C26"
+        />
+      </svg>
+      <p class="info">Select your updated .csv file to upload</p>
+      <p class="hint">Or drag & drop your file here</p>
+      <div class="file-upload">
+        <div *ngIf="fileName.length > 0" class="file-name">{{ fileName }}</div>
+
+        <button
+          mat-mini-fab
+          color="primary"
+          class="upload-btn"
+          [disabled]="isUserLockOut"
+          (click)="fileUpload.click()"
+        ></button>
+      </div>
+    </div>
+
+    <!-- SPINNER UPLOAD FILE -->
+    <!-- CANCEL -->
+    <div
+      class="progress-secttion"
+      *ngIf="processManager === processEnum.UPLOAD_SP_START"
+    >
+      <div class="progress-info">
+        <div class="spinner-wrp">
+          <mat-progress-spinner
+            class="progress-bar"
+            mode="determinate"
+            diameter="70"
+            strokeWidth="5"
+            [value]="uploadCounter"
+          >
+          </mat-progress-spinner>
+          <span class="progress-number">{{ uploadCounter }}%</span>
+        </div>
+        <p class="info">
+          {{ "Uploading file..." }}
+        </p>
+
+        <button class="cancel-btn" (click)="onClickCancel()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- CANCELLED AND RESTART -->
+    <!-- RESTART -->
+    <!-- RESET -->
+    <div
+      class="progress-secttion"
+      *ngIf="processManager === processEnum.CANCEL"
+    >
+      <svg
+        width="70"
+        height="70"
+        viewBox="0 0 70 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="35" cy="35" r="33" stroke="#D2E6F1" stroke-width="4" />
+        <path
+          d="M25.8125 34.3359L32.375 40.8984L44.1875 29.0859"
+          stroke="#1F3E4F"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="info">Cancelled</p>
+      <p class="hint">You’re file have now been added</p>
+      <div class="action-btns">
+        <button class="restart-btn" (click)="onClickRestart()">Restart</button>
+        <button class="restart-btn" (click)="onClickResetProcess()">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- UPLOAD SUCCESS -->
+    <!-- RESET -->
+    <!-- IMPORT -->
+    <div
+      class="progress-secttion"
+      *ngIf="processManager === processEnum.UPLOAD_SP_END"
+    >
+      <svg
+        width="70"
+        height="70"
+        viewBox="0 0 70 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="35" cy="35" r="33" stroke="#D2E6F1" stroke-width="4" />
+        <path
+          d="M25.8125 34.3359L32.375 40.8984L44.1875 29.0859"
+          stroke="#1F3E4F"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="info">Upload Successful</p>
+      <p class="hint">File has been added</p>
+      <div class="action-btns">
+        <button class="restart-btn" (click)="onClickResetProcess()">
+          Reset
+        </button>
+        <button
+          *ngIf="fileAllowed"
+          class="restart-btn"
+          (click)="onClickImportProcess()"
+        >
+          Import
+        </button>
+      </div>
+    </div>
+
+    <!-- SPINNER IMPORT JSON -->
+    <div
+      class="progress-secttion"
+      *ngIf="processManager === processEnum.IMPORT_SP_START"
+    >
+      <div class="progress-info">
+        <div class="spinner-wrp">
+          <mat-progress-spinner
+            class="progress-bar"
+            mode="determinate"
+            diameter="70"
+            strokeWidth="5"
+            [value]="importCounter"
+          >
+          </mat-progress-spinner>
+          <span class="progress-number">{{ importCounter }}%</span>
+        </div>
+        <p class="info">
+          {{ "Importing data..." }}
+        </p>
+      </div>
+    </div>
+
+    <!-- IMPORT SUCCESS -->
+    <div
+      class="progress-secttion"
+      *ngIf="processManager === processEnum.IMPORT_SP_END"
+    >
+      <svg
+        width="70"
+        height="70"
+        viewBox="0 0 70 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="35" cy="35" r="33" stroke="#D2E6F1" stroke-width="4" />
+        <path
+          d="M25.8125 34.3359L32.375 40.8984L44.1875 29.0859"
+          stroke="#1F3E4F"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <p class="info">Import Successful</p>
+      <p class="hint">Your updates have now been added</p>
+      <button class="restart-btn" style="width: 180px;" (click)="onClickResetProcess()">Back to upload screen</button>
+    </div>
+
+    <!-- ERROR -->
+    <!-- RESET -->
+    <div class="progress-secttion" *ngIf="processManager === processEnum.ERROR">
+      <svg
+        width="70"
+        height="70"
+        viewBox="0 0 70 70"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="35" cy="35" r="33" stroke="#D2E6F1" stroke-width="4" />
+        <g clip-path="url(#clip0_412_432)">
+          <path
+            d="M29.4311 27.5754C28.9185 27.0629 28.0875 27.0629 27.575 27.5754C27.0624 28.088 27.0624 28.919 27.575 29.4316L33.1434 35.0001L27.575 40.5685C27.0624 41.081 27.0624 41.9121 27.575 42.4246C28.0876 42.9372 28.9186 42.9372 29.4312 42.4246L34.9996 36.8562L40.568 42.4247C41.0806 42.9372 41.9116 42.9372 42.4242 42.4247C42.9368 41.9121 42.9368 41.0811 42.4242 40.5685L36.8557 35.0001L42.4243 29.4315C42.9368 28.919 42.9368 28.0879 42.4243 27.5754C41.9117 27.0628 41.0807 27.0628 40.5681 27.5754L34.9996 33.1439L29.4311 27.5754Z"
+            fill="#1F3E4F"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_412_432">
+            <rect
+              width="28"
+              height="28"
+              fill="white"
+              transform="translate(21 21)"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+      <p class="info">Sorry an Error has occurred</p>
+      <p class="hint">
+        {{ errorMsg }}
+      </p>
+      <button class="restart-btn" (click)="onClickResetProcess()">Reset</button>
+    </div>
+  </div>
+
+  <button
+    *ngIf="fileName.length && processManager === processEnum.DROP"
+    class="upload-and-import-csv-btn"
+    (click)="addFileToTheServer()"
+  >
+    Upload and import
+  </button>
+
+  <snack-bar-custom
+    *ngIf="openSnackBar"
+    [msg]="snackBarOptions.msg"
+    [color]="snackBarOptions.color"
+    (closeSnackBar)="closeSnackBar()"
+  ></snack-bar-custom>
+</div>

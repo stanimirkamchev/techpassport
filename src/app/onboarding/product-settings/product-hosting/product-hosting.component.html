@@ -1,0 +1,101 @@
+<div class="product-hosting">
+  <form [formGroup]="productHostingForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Hosting </mat-card-title>
+      <mat-card-content>
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Is your product hosted in the cloud?"
+            [value]="productHostingForm.controls.isCloud.value"
+            (change)="productHostingForm.controls.isCloud.setValue($event)"
+          ></app-custom-checkbox>
+        </div>
+
+        <div
+          class="max-w-120 mb-10"
+          *ngIf="productHostingForm.controls.isCloud.value"
+        >
+          <app-custom-select
+            title="Where is it hosted?"
+            label="Select"
+            [formGroup]="productHostingForm"
+            [options]="hostOptions"
+            formControlName="hostLocation"
+            [isError]="
+              submitted && !!productHostingForm.controls.hostLocation.errors
+            "
+            errorText="Host Location is Required"
+            ngDefaultControl
+          ></app-custom-select>
+        </div>
+
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Do you have multiple hosting providers / locations?"
+            [value]="productHostingForm.controls.haveMultipleHosting.value"
+            (change)="
+              productHostingForm.controls.haveMultipleHosting.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div class="max-w-120 mb-10 country">
+          <div class="label-text mb-5">
+            Which location(s) will you provide the hosted services from?
+          </div>
+          <country-picker
+            label="Multi-select"
+            formControlName="multipleHostLocation"
+            [multi]="true"
+            [ngClass]="{
+              'is-invalid':
+                submitted &&
+                !!productHostingForm.controls.multipleHostLocation.errors
+            }"
+          ></country-picker>
+          <mat-error
+            class="error"
+            *ngIf="
+              submitted &&
+              !!productHostingForm.controls.multipleHostLocation.errors
+            "
+            >Host Locations is Required</mat-error
+          >
+          <!-- <app-custom-select
+            title="Which location(s) will you provide the hosted services from?"
+            label="Multi-select"
+            [formGroup]="productHostingForm"
+            [options]="hostOptions"
+            formControlName="multipleHostLocation"
+            [isError]="submitted && !!productHostingForm.controls.multipleHostLocation.errors"
+            errorText="Host Location is Required"
+            ngDefaultControl
+            [multiple]="true"
+          ></app-custom-select> -->
+        </div>
+
+        <div class="mb-10 max-w-200">
+          <app-custom-checkbox
+            label="Do you have a third party managing your infrastructure?"
+            [value]="productHostingForm.controls.thirdPartyInfrastructure.value"
+            (change)="
+              productHostingForm.controls.thirdPartyInfrastructure.setValue(
+                $event
+              )
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Do you provide an on-prem solution?"
+            [value]="productHostingForm.controls.hasPremSolution.value"
+            (change)="
+              productHostingForm.controls.hasPremSolution.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

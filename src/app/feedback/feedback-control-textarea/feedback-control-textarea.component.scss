@@ -1,0 +1,20 @@
+:host {
+  margin: 8px 0;
+
+  textarea {
+    padding-left: 12px;
+    padding-right: 22px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  ::ng-deep {
+    .mat-form-field-infix {
+      height: auto !important;
+    }
+  }
+}
+
+form {
+  margin: 8px 0;
+}

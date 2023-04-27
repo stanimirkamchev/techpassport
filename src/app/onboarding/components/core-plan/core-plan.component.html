@@ -1,0 +1,74 @@
+<div>
+  <mat-card class="premium-card-container" *ngIf="membership.name != 'TechPassport Premium'">
+    <mat-card-title class="title" [ngStyle]="{ 'background-color': membership.perYear > 0 && '#F43F9C' }">
+      {{ membership.name }}
+      <!-- <span class="current" *ngIf="membership.perYear <= 0">Current</span> -->
+    </mat-card-title>
+    <mat-card-content class="content-container">
+      <div class="card-content">
+        <span *ngIf="membership.perYear <= 0" class="text-free">Free</span>
+        <span
+          *ngIf="membership.perYear > 0"
+          class="text-free"
+          [ngClass]="{ 'target': fees === 'perMonth' }" (click)="selectFees('perMonth', 'premium')"
+        >
+          £{{ membership.perMonth }}
+          <span class="month">per month</span>
+        </span>
+        <span class="plan" *ngIf="membership.perYear <= 0">£{{ membership.perYear }} / year</span>
+        <span class="plan" *ngIf="membership.perYear > 0" [ngClass]="{ 'target': fees === 'perYear' }" (click)="selectFees('perYear', 'premium')">£{{ membership.perYear }} / year</span>
+        <button *ngIf="membership.perYear <= 0" mat-raised-button class="next-btn buttons" (click)="contactUs()" [ngStyle]="{ 'background-color': membership.perYear > 0 && '#F43F9C' }">select this plan</button>
+        <button *ngIf="membership.perYear > 0" mat-raised-button class="next-btn buttons" (click)="contactUs()" [ngStyle]="{ 'background-color': membership.perYear > 0 && '#F43F9C' }">select this plan</button>
+        <div class="fees-container">
+          <span class="info-text">Fees information</span>
+          <span
+            ><img src="../../../../assets/img/right-arrow.svg" alt=""
+          /></span>
+        </div>
+      </div>
+      <div class="card-inner-content">
+        <span class="core-heading">Core Features</span>
+        <div class="mt-5">
+          <div class="inner-content-description">
+            <span><img *ngIf="membership.perYear <= 0" src="../../../../assets/img/right.svg" alt="" /></span>
+            <span><img *ngIf="membership.perYear > 0" src="../../../../assets/img/pink-right.svg" alt="" /></span>
+            <span class="inner-content-text">Example feature</span>
+          </div>
+          <div class="inner-content-description">
+            <span><img *ngIf="membership.perYear <= 0" src="../../../../assets/img/right.svg" alt="" /></span>
+            <span><img *ngIf="membership.perYear > 0" src="../../../../assets/img/pink-right.svg" alt="" /></span>
+            <span class="inner-content-text"
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Scelerisque feugiat et,
+            </span>
+          </div>
+          <div class="inner-content-description">
+            <span><img *ngIf="membership.perYear <= 0" src="../../../../assets/img/right.svg" alt="" /></span>
+            <span><img *ngIf="membership.perYear > 0" src="../../../../assets/img/pink-right.svg" alt="" /></span>
+            <span class="inner-content-text"
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Scelerisque feugiat et,
+            </span>
+          </div>
+          <div class="inner-content-description">
+            <span><img *ngIf="membership.perYear <= 0" src="../../../../assets/img/right.svg" alt="" /></span>
+            <span><img *ngIf="membership.perYear > 0" src="../../../../assets/img/pink-right.svg" alt="" /></span>
+            <span class="inner-content-text"
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Scelerisque feugiat et,
+            </span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="premium-card-container" *ngIf="membership.name == 'TechPassport Premium'">
+    <mat-card-title class="title" [ngStyle]="{ 'background-color': membership.perYear > 0 && '#0C1D4A' }">
+      {{ membership.name }}
+      <!-- <span class="current" *ngIf="membership.perYear <= 0">Current</span> -->
+    </mat-card-title>
+    <mat-card-content [ngStyle]="{ 'background-color': '#0C1D4A4D' }" class="content-container d-flex justify-center items-center">
+      <div class="coming">Coming Soon</div>
+    </mat-card-content>
+  </mat-card>
+</div>

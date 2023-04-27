@@ -1,0 +1,28 @@
+:host,
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 0 1 100%;
+}
+
+.container {
+  overflow: auto;
+}
+
+[fxLayout="row"] {
+  margin: 20px 24px 0 24px;
+  display: flex;
+  flex: 0 1 auto;
+}
+
+.with-table {
+  min-height: 400px;
+  max-height: 686px;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}

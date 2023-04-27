@@ -1,0 +1,13 @@
+<ng-container *ngIf="formGroup">
+  <h4>
+    <strong>Invite</strong>
+  </h4>
+  <form autocomplete="off" [formGroup]="formGroup">
+    <div class="row">
+      <label class="mat-caption">E-mail</label>
+      <mat-form-field>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </div>
+  </form>
+</ng-container>

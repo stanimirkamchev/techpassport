@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>{{data?.title || 'Approve'}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup" autocomplete="off">
+    <mat-form-field>
+      <mat-label>Subject</mat-label>
+      <input matInput formControlName="subject">
+    </mat-form-field>
+    <mat-form-field class="textarea">
+      <mat-label>Reason</mat-label>
+      <textarea
+        matInput
+        formControlName="reason"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="5">
+      </textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button
+    color="primary"
+    [mat-dialog-close]>Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    [disabled]="!formGroup.valid"
+    [mat-dialog-close]="formGroup.value">Send</button>
+</div>

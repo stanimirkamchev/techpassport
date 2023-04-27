@@ -1,0 +1,8 @@
+<p class="mat-body">
+  Rejected by {{adminName || 'n/a'}} on {{date ? (date | date: 'short') : 'n/a'}}
+</p>
+<button
+  mat-button
+  (click)="details.emit()">
+  See details
+</button>

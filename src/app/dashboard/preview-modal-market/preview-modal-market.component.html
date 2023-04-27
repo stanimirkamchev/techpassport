@@ -1,0 +1,138 @@
+<ng-container *ngIf="marketPreview$ | async as marketPreview">
+  <ui-page-close [mat-dialog-close]></ui-page-close>
+  <h1 mat-dialog-title>Market Place Preview</h1>
+  <div mat-dialog-content>
+
+    <ui-data-table>
+      <table mat-table matSort [dataSource]="marketPreview" (matSortChange)="sort($event)">
+
+        <ng-container matColumnDef="region">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
+          <td mat-cell *matCellDef="let element">
+            {{getUnicodeFlagIcon(element.region)}}
+            &nbsp;{{getName(element.region)}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="businessUnit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Business unit</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.businessUnit}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="originator">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Originator</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.originator}}
+          </td>
+        </ng-container>
+
+        <!---->
+        <ng-container matColumnDef="business1">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business1</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business1}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="business2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>business2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.business2}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="procurment2">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>procurment2</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.procurment2}}
+          </td>
+        </ng-container>
+        -->
+        <ng-container matColumnDef="supplier">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.supplier}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Product</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.product}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Project name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.projectName}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Internal project ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.projectId}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hasPOC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>POC</th>
+          <td mat-cell *matCellDef="let element"
+            [class.orange]="element.hasPOC === 'Awaiting Supplier\'s Approval' || element.hasPOC === 'Draft' || element.hasPOC === 'With Supplier'"
+            [class.red]="element.hasPOC === 'Awaiting Your Approval' || element.hasPOC === 'Rejected' || element.hasPOC === 'no'"
+            [class.blue]="element.hasPOC === 'Internal'" [class.green]="element.hasPOC === 'Completed'">
+            {{element.hasPOC}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hasCompliance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Compliance</th>
+          <td mat-cell *matCellDef="let element"
+            [class.orange]="element.hasCompliance === 'Awaiting Supplier\'s Approval' || element.hasCompliance === 'Pending' || element.hasCompliance === 'With Supplier'"
+            [class.red]="element.hasCompliance === 'Awaiting Your Approval' || element.hasCompliance === 'Declined' || element.hasCompliance === 'no'"
+            [class.blue]="element.hasCompliance === 'Internal'" [class.green]="element.hasCompliance === 'Completed'">
+            {{element.hasCompliance}}
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="ndaDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Connection date</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.ndaDate | date: 'shortDate'}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pocDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>POC date</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.pocDate}}
+          </td>
+        </ng-container>
+
+        <!--   <ng-container matColumnDef="postPOC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Post POC</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.postPOC}}
+          </td>
+        </ng-container>
+-->
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <span *ngIf="!marketPreview.length" class="nothing-to-show">Nothing to show</span>
+    </ui-data-table>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button color="primary" (click)="download(marketPreview)" class="download-btn">
+      <mat-icon>get_app</mat-icon>
+      Download CSV
+    </button>
+  </div>
+</ng-container>

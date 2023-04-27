@@ -1,0 +1,21 @@
+<span class="mat-subtitle">
+  <!--*ngIf="title"-->
+  {{title}}&nbsp;
+</span>
+<div #pieEl id="pie">
+  <svg></svg>
+</div>
+<button mat-button mat-raised-button color="primary" class="details" [class.pink]="chart?.color==='pink'"
+  (click)="doEmit()">
+  Show details
+</button>
+
+<!--<canvas #chartEl></canvas>
+<chart-legend [colorScheme]="BlueWarm6" [labels]="chart.data.labels" [values]="chart.data.datasets[0]?.data">
+</chart-legend>-->
+<!-- <span class="inner-title" *ngIf="chart?.data as data">
+  <span class="inner-title-wrapped">
+    <strong>{{data.datasets[0].data[0]}}</strong>N
+    <span>{{data.labels[0]}}</span>
+  </span>
+</span> -->

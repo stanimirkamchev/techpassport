@@ -1,0 +1,47 @@
+<form [formGroup]="formGroup" *ngIf="feedbackLoop" autocomplete="off">
+
+  <div class="form-header">
+    <p class="headline mat-subheading-2">
+      Congratulations on completing your POCs for your project!
+    </p>
+    <p class="project-name mat-headline">
+      {{feedbackLoop.projectName}}
+    </p>
+    <p class="project-between mat-subheading-2">
+      between {{feedbackLoop.startDate | date: 'shortDate'}} and {{feedbackLoop.endDate | date: 'shortDate'}}
+    </p>
+  </div>
+
+  <div *ngFor="let question of feedbackLoop.questions" class="question">
+    <div class="question__title">
+      {{question.title}}
+    </div>
+
+    <ng-container *ngFor="let control of question.controls;">
+      <feedback-control-select *ngIf="control.type === FeedbackControlType.Select"
+        [formDisabled]="!iAmABuyer || !feedbackLoop.draft"
+        [formControl]="formGroup.get(question.name + '.' + control.name)" [label]="control.label"
+        [options]="control?.options || []">
+      </feedback-control-select>
+
+      <feedback-control-rating *ngIf="control.type === FeedbackControlType.Rating"
+        [formDisabled]="!iAmABuyer || !feedbackLoop.draft"
+        [formControl]="formGroup.get(question.name + '.' + control.name)" [label]="control.label">
+      </feedback-control-rating>
+
+      <feedback-control-textarea *ngIf="control.type === FeedbackControlType.Textarea"
+        [formDisabled]="!iAmABuyer || !feedbackLoop.draft"
+        [formControl]="formGroup.get(question.name + '.' + control.name)" [label]="control.label"
+        [placeholder]="control.placeholder">
+      </feedback-control-textarea>
+    </ng-container>
+  </div>
+</form>
+<div class="button-controls" *ngIf="iAmABuyer && feedbackLoop.draft">
+  <button mat-button mat-raised-button color="primary" (click)="formSubmitDraft.emit(formGroup.value)">
+    Save for Later
+  </button>
+  <button mat-button mat-raised-button color="accent" (click)="formSubmit.emit(formGroup.value)">
+    &nbsp;&nbsp;Send&nbsp;&nbsp;
+  </button>
+</div>

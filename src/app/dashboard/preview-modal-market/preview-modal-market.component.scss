@@ -1,0 +1,56 @@
+@import 'colors.scss';
+
+
+ui-data-table {
+  max-height: 60vh;
+}
+
+h1 {
+  font-size: 14pt;
+  color: $tp-green;
+  font-weight: bold;
+}
+
+ui-page-close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+
+.orange {
+  color: $tp-amber;
+  svg {
+    fill: $tp-amber;
+  }
+}
+
+.red {
+  color: $tp-orange;
+  svg {
+    fill: $tp-orange;
+  }
+}
+
+.purp {
+  color: $tp-purp;
+
+  svg {
+    fill: $tp-purp;
+  }
+}
+
+.green {
+  color: $gr-color;
+
+  svg {
+    fill: $gr-color;
+  }
+}
+
+.blue {
+  color: $tp-blue;
+
+  svg {
+    fill: $tp-blue;
+  }
+}

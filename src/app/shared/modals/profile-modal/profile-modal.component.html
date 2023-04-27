@@ -1,0 +1,76 @@
+<button mat-mini-fab class="closeModal2" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont profile-modal">
+    <div class="header">
+        <div class="icon">
+            <mat-icon>account_circle</mat-icon>
+        </div>
+        <h3>Edit Profile</h3>
+    </div>
+
+    <div class="content">
+
+        <form [formGroup]="nameForm" fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="row" class="form-row">
+                <div class="label">First Name</div>
+                <div class="formItem">
+                    <mat-form-field floatLabel="never">
+                        <input matInput niceOnly noSpecialTotal type="text" placeholder="Write here..."
+                            formControlName="firstName" autocomplete="given-name" required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="form-row">
+                <div class="label">Surname</div>
+                <div class="formItem">
+                    <mat-form-field floatLabel="never">
+                        <input matInput niceOnly noSpecialTotal type="text" placeholder="Write here..."
+                            formControlName="lastName" autocomplete="family-name" required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="form-row">
+                <div class="label">Job Title</div>
+                <div class="formItem">
+                    <mat-form-field floatLabel="never">
+                        <input matInput niceOnly noSpecial type="text" placeholder="Write here..."
+                            formControlName="jobTitle" autocomplete="" required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="form-row">
+                <div class="label">Phone</div>
+                <div class="formItem">
+                    <mat-form-field floatLabel="never">
+                        <input matInput type="text" placeholder="Write here..." formControlName="phone"
+                            autocomplete="off" numbersOnly required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="form-row">
+                <div class="label">Email</div>
+                <div class="formItem">
+                    <mat-form-field floatLabel="never">
+                        <input matInput type="email" placeholder="Write here..." formControlName="email" readonly
+                            autocomplete="off" numbersOnly required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" class="form-row">
+                <div class="label"></div>
+                <div class="formItem">
+                    <span class="errorMessage">{{message}}</span>
+                </div>
+            </div>
+        </form>
+
+        <div class="options">
+            <button mat-button mat-raised-button (click)="update()" [disabled]="requestInProgress" color="accent"
+                class="mat-elevation-z0">Update </button>
+            <button mat-button mat-raised-button (click)="cancel()" color="primary" [disabled]="requestInProgress"
+                class="mat-elevation-z0">Close</button>
+            <!--  <button mat-button mat-raised-button color="accent" (click)="understood()" class="mat-elevation-z0">Understood</button>-->
+        </div>
+    </div>
+</div>

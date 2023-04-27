@@ -1,0 +1,44 @@
+<ng-container *ngIf="formGroup">
+  <h4>
+    Please provide details about <strong>invoices</strong>
+  </h4>
+  <form autocomplete="off" [formGroup]="formGroup">
+    <div class="row">
+      <label class="mat-caption">What timeframe</label>
+      <mat-form-field>
+        <input matInput type="number" min="0" placeholder="Write here..." formControlName="timeframe" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Requirements</label>
+      <mat-form-field>
+        <input matInput placeholder="Write here..." formControlName="requirements" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Insert any special conditions</label>
+      <mat-form-field>
+        <input matInput placeholder="Write here..." formControlName="specialConditions" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Title and address for sending notices</label>
+      <div fxFlex="50" fxLayout="column">
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="1st Line ..." formControlName="noticesAddress1" required>
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="2nd Line ..." formControlName="noticesAddress2" required>
+        </mat-form-field>
+        <div fxFlex fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex>
+            <input matInput placeholder="City" formControlName="noticesCountry" required>
+          </mat-form-field>
+          <mat-form-field fxFlex>
+            <input matInput placeholder="Postcode" formControlName="noticesPostcode" required>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-container>

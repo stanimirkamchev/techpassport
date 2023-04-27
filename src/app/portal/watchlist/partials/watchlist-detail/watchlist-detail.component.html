@@ -1,0 +1,168 @@
+<div class="watchlist-list">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef style="width: 40px"></th>
+      <td class="list-content pr-5" mat-cell *matCellDef="let row; let element">
+        <div class="d-flex items-center">
+          <button
+            mat-raised-button
+            class="view-btn mr-5"
+            (click)="openProductModal(element)"
+          >
+            View
+          </button>
+          <mat-checkbox
+            *ngIf="selectable"
+            (click)="$event.stopPropagation()"
+            (change)="onSelect($event, element)"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </div>
+      </td>
+    </ng-container>
+    <!-- icon -->
+    <ng-container matColumnDef="icon">
+      <th class="list-header centered" mat-header-cell *matHeaderCellDef>
+        <mat-icon svgIcon="eye"></mat-icon>
+      </th>
+      <td
+        class="list-content centered"
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="selection.isSelected(element) ? 'selected' : ''"
+      >
+        <mat-icon
+          *ngIf="!element.watchlistsCount"
+          class="material-symbols-rounded cursor-pointer"
+          [ngClass]="isSelected(element.id) ? 'blue' : 'gray'"
+          (click)="onToggle(element)"
+        >
+          add_circle
+        </mat-icon>
+        <div
+          class="material-symbols-rounded cursor-pointer add-icon gray"
+          *ngIf="element.watchlistsCount"
+        >
+          {{ element.watchlistsCount }}
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell *matHeaderCellDef>Product/supplier</th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        <div class="bold d-flex align-center mb-1">
+          <span>{{ element.name }}</span>
+<!--          <mat-icon-->
+<!--            class="star-icon ml-2"-->
+<!--            *ngIf="element.isRecentlyUpdated"-->
+<!--            svgIcon="star"-->
+<!--          ></mat-icon>-->
+        </div>
+        <div>
+          {{ element.company }}
+          <span class="matched"
+            >{{ roundNumber(element.compliant) }}% compliant</span
+          >
+        </div>
+      </td>
+    </ng-container>
+    <!-- Details Column -->
+    <ng-container matColumnDef="details">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>Details</th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        <div>
+          {{ element.details }}
+        </div>
+        <div class="sm">Est: {{ element.estTime | date : "MMM yyyy" }}</div>
+      </td>
+    </ng-container>
+    <!-- Funding round Column -->
+    <ng-container matColumnDef="fundingRound">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>
+        Funding Round
+      </th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        {{ element.fundingRound }}
+      </td>
+    </ng-container>
+
+    <!-- trial fee Column -->
+    <ng-container matColumnDef="trialfee">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>Trial fee</th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        <div *ngIf="element.trialFee" class="d-flex items-center">
+          <mat-icon class="material-symbols-rounded green">
+            check_circle
+          </mat-icon>
+          <div class="ml-1">Yes</div>
+        </div>
+        <div *ngIf="!element.trialFee" class="d-flex items-center">
+          <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+          <div class="ml-1">No</div>
+        </div>
+      </td>
+    </ng-container>
+    <!-- PI data Column -->
+    <ng-container matColumnDef="pidata">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>
+        Processes <br />
+        PI data
+      </th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        <div *ngIf="element.PIData" class="d-flex items-center">
+          <mat-icon class="material-symbols-rounded green">
+            check_circle
+          </mat-icon>
+          <div class="ml-1">Yes</div>
+        </div>
+        <div *ngIf="!element.PIData" class="d-flex items-center">
+          <mat-icon class="material-symbols-rounded gray"> cancel </mat-icon>
+          <div class="ml-1">No</div>
+        </div>
+      </td>
+    </ng-container>
+    <!-- poc Column -->
+    <ng-container matColumnDef="poc">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>POC</th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        {{ element.POCs }}
+      </td>
+    </ng-container>
+
+    <!-- fis worked with Column -->
+    <ng-container matColumnDef="fisWorkedWith">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>
+        FIs worked with
+      </th>
+      <td
+        class="list-content link"
+        mat-cell
+        *matCellDef="let element"
+        (click)="openFISDialog(element)"
+      >
+        {{ element.fisWorkedWith }}
+      </td>
+    </ng-container>
+
+    <!-- Ratings Column -->
+    <!-- <ng-container matColumnDef="ratings">
+      <th class="list-header" mat-header-cell *matHeaderCellDef>Ratings</th>
+      <td class="list-content" mat-cell *matCellDef="let element">
+        <div>
+          <span class="matched">{{ element.ratingProduct }}</span
+          ><span class="text-green font-bold">&nbsp; Product</span>
+        </div>
+        <div class="mt-1-5">
+          <span class="erq-rating">{{ element.ratingERQ }}</span
+          ><span class="font-bold">ERQ</span>
+        </div>
+      </td>
+    </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

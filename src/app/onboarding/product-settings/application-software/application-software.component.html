@@ -1,0 +1,108 @@
+<div class="application-software">
+  <form [formGroup]="applicationSoftwareForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <mat-card-title class="title"> Application Software </mat-card-title>
+      <mat-card-content>
+        <div class="max-w-120 mb-10">
+          <app-custom-select
+            title="Which products and frameworks is your product built on?"
+            label="Multi-select"
+            [formGroup]="applicationSoftwareForm"
+            [options]="hostOptions"
+            formControlName="frameworks"
+            ngDefaultControl
+            [multiple]="true"
+            [enableNewButton]="true"
+            [enableSearchBox]="true"
+            (onAddNew)="onNewFramework($event)"
+            [isError]="
+              submitted && !!applicationSoftwareForm.controls.frameworks.errors
+            "
+            errorText="Select the relevant products and frameworks"
+          ></app-custom-select>
+        </div>
+
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Does your product make use of any open source software?"
+            [value]="applicationSoftwareForm.controls.openSource.value"
+            (change)="
+              applicationSoftwareForm.controls.openSource.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div
+          class="mb-5"
+          *ngIf="applicationSoftwareForm.controls.openSource.value"
+        >
+          <app-custom-textarea
+            label="Please provide details about this software"
+            [formGroup]="applicationSoftwareForm"
+            formControlName="details"
+            [isError]="
+              submitted && !!applicationSoftwareForm.controls.details.errors
+            "
+            errorText="Describe the software used"
+            ngDefaultControl
+          >
+          </app-custom-textarea>
+        </div>
+
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Does your product depend on any other 3rd party software?"
+            [value]="applicationSoftwareForm.controls.thirdParty.value"
+            (change)="
+              applicationSoftwareForm.controls.thirdParty.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div
+          class="mb-5"
+          *ngIf="applicationSoftwareForm.controls.thirdParty.value"
+        >
+          <app-custom-textarea
+            label="Please provide details about these 3rd parties"
+            [formGroup]="applicationSoftwareForm"
+            formControlName="thirdDetails"
+            [isError]="
+              submitted &&
+              !!applicationSoftwareForm.controls.thirdDetails.errors
+            "
+            errorText="Describe the 3rd parties"
+            ngDefaultControl
+          >
+          </app-custom-textarea>
+        </div>
+        <div class="mb-5 max-w-200">
+          <app-custom-checkbox
+            label="Do you allow 3rd parties of your customers to test this product?"
+            [value]="applicationSoftwareForm.controls.thirdPartyTester.value"
+            (change)="
+              applicationSoftwareForm.controls.thirdPartyTester.setValue($event)
+            "
+          ></app-custom-checkbox>
+        </div>
+
+        <div
+          class="mb-5"
+          *ngIf="applicationSoftwareForm.controls.thirdPartyTester.value"
+        >
+          <app-custom-textarea
+            label="Please provide more information"
+            [formGroup]="applicationSoftwareForm"
+            formControlName="moreInfo"
+            [isError]="
+              submitted && !!applicationSoftwareForm.controls.moreInfo.errors
+            "
+            errorText="Details is Required"
+            ngDefaultControl
+          >
+          </app-custom-textarea>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

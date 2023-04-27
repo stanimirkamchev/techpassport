@@ -1,0 +1,24 @@
+<div class="container" isRoute="/admin/compliance">
+  <ui-page-title>Compliance</ui-page-title>
+  <ui-page-content>
+    <header *ngIf="cachedCompliances$ | async as cachedCompliances">
+      <compliance-filters
+        (filter)="onFilter($event)"
+        [compliances]="cachedCompliances">
+      </compliance-filters>
+      <header-controls
+        [approvalHidden]="true"
+        [downloadDisabled]="!cachedCompliances.length"
+        (download)="download(cachedCompliances)">
+      </header-controls>
+    </header>
+    <mat-spinner *ngIf="loading$ | async; else complianceTable" diameter="32"></mat-spinner>
+    <ng-template #complianceTable>
+      <compliance-table
+        (sort)="onSort($event)"
+        [compliances]="compliances$ | async">
+      </compliance-table>
+    </ng-template>
+  </ui-page-content>
+</div>
+<router-outlet></router-outlet>

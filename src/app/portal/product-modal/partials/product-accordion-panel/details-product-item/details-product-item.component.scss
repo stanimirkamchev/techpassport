@@ -1,0 +1,57 @@
+@import "../product-modal.common";
+
+mat-expansion-panel.mat-expanded {
+  width: 90% !important;
+}
+
+::ng-deep .flex-list-row {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+
+  li {
+    padding-top: 5px !important;
+    padding-right: 10px !important;
+    flex: auto !important;
+  }
+}
+
+::ng-deep .flex-list-column {
+  display: flex;
+  align-items: start;
+  justify-items: start;
+  flex-direction: column !important;
+
+  li {
+    padding-top: 3px !important;
+    padding-left: 0 !important;
+  }
+}
+
+::ng-deep .two-column {
+  display: flex;
+  align-items: baseline;
+  justify-items: start;
+  justify-content: start;
+  flex-direction: row !important;
+
+  h5 {
+    flex-basis: auto;
+    max-width: 28%;
+    min-width: 28%;
+    padding-right: 10px;
+  }
+
+  ul {
+
+  }
+}
+
+::ng-deep .one-column {
+  display: flex;
+  align-items: stretch;
+  justify-items: start;
+  flex-direction: column !important;
+}

@@ -1,0 +1,45 @@
+.description {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 40px;
+
+    h2 {
+        position: relative;
+        margin: 9;
+        font-family: 'Helvetica';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+        color: #171C26;
+
+        &::after{
+            content: "";
+            position: absolute;
+            left: -24px;
+            bottom: 130%;
+            width: 2px;
+            height: 500px;
+            border-left: 2px dashed #D5DBE5;
+        }
+
+        svg {
+            position: absolute;
+            left: -35px;
+            top: -3px;
+        }
+    }
+
+    p {
+        margin: 5px 0 10px;
+        font-family: 'Helvetica';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #464F60;
+    }
+}

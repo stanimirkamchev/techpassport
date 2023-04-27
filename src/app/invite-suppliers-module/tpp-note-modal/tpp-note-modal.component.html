@@ -1,0 +1,64 @@
+<button class="close-btn" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont invite-modal">
+  <div class="header" *ngIf="success !== true">
+    <h3>{{ data.mode }} note</h3>
+    <p>
+      Respond to a comment from a buyer about an invited supplier or provide
+      details about a rejection. Notes can be edited later
+    </p>
+  </div>
+
+  <form [formGroup]="inviteFormGroup">
+    <div class="step" *ngIf="success !== true">
+      <div fxLayout="column" style="min-height: 90px">
+        <div class="label">Note from TechPassport</div>
+        <div class="formItem">
+          <mat-form-field class="textArea">
+            <textarea
+              rows="3"
+              formControlName="content"
+              maxlength="3000"
+              matInput
+              type="text"
+              placeholder="Provide details"
+              noSpecial
+              niceOnly
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p class="separator" *ngIf="message">
+    {{ message }}
+  </p>
+
+  <p class="errorMessage" *ngIf="contentValidationMessage">
+    {{ contentValidationMessage }}
+  </p>
+
+  <div class="options" *ngIf="success !== true">
+    <button
+      mat-button
+      mat-raised-button
+      class="button-base button-base--no-bg"
+      (click)="exit()"
+      [disabled]="requestInProgress"
+    >
+      Close
+    </button>
+
+    <button
+      mat-button
+      mat-raised-button
+      [disabled]="!isValid() || requestInProgress"
+      (click)="invite()"
+      class="button-base"
+    >
+      Save
+    </button>
+  </div>
+</div>

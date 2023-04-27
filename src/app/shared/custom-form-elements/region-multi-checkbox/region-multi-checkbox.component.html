@@ -1,0 +1,35 @@
+<form *ngIf="options" [formGroup]="formGroup">
+  <ul>
+    <li
+      [class.horizontalListItem]="orientation === 'horizontal'"
+      [class.verticalListItem]="orientation === 'vertical'"
+      *ngFor="let item of options; let i = index"
+    >
+      <mat-checkbox
+        disableRipple
+        class="custom-multi-checkbox-wrapper"
+        labelPosition="before"
+        [class.cross]="displayCross(item)"
+        formControlName="{{ item.name }}"
+        [name]="item.name"
+        [checked]="item.selected"
+        (change)="selectionChanged($event)"
+      >
+        {{ item?.label }}
+      </mat-checkbox>
+
+      <mat-checkbox
+        *ngIf="allowNA && i == options.length - 1"
+        disableRipple
+        class="custom-multi-checkbox-wrapper"
+        labelPosition="before"
+        [disabled]="naField"
+        [name]="'NA'"
+        [checked]="naField"
+        (change)="selectionNAChanged($event)"
+      >
+        We don’t process data
+      </mat-checkbox>
+    </li>
+  </ul>
+</form>

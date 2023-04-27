@@ -1,0 +1,64 @@
+<div class="container" isRoute="/admin/superuser">
+  <ui-page-title>Super Admins</ui-page-title>
+  <div fxLayout="row" fxLayoutAlign="space-between flex-start" fxLayoutGap="20px">
+    <ui-page-content fxFlex class="with-table">
+      <access-management-filters *ngIf="accessManagementCached$ | async as accessManagementCached"
+        [filters]="accessManagementFilters$ | async" [loading]="accessManagementLoading$ | async"
+        [accessManagement]="accessManagementCached" (filter)="filterAccessManagement($event)"
+        (download)="downloadAccessManagement(accessManagementCached)" (refresh)="refreshAccessManagement()">
+      </access-management-filters>
+      <access-management-table [loading]="accessManagementLoading$ | async"
+        [accessManagement]="accessManagement$ | async" (sort)="sortAccessManagement($event)"
+        (unlockUser)="unlockUser($event)" (lockUser)="lockUser($event)" (deleteUser)="deleteUser($event)">
+      </access-management-table>
+    </ui-page-content>
+    <div fxFlex="8" fxLayout="column" fxLayoutAlign="space-between center"
+      *ngIf="apiService?.sessionObject?.role === 'superadmin'">
+      <ui-page-content class="content-button">
+        <button mat-button (click)="createUser()">
+          <mat-icon>add_circle_outline</mat-icon>
+          <span class="mat-subheading-2">
+            <span>Add TP User</span>
+          </span>
+        </button>
+      </ui-page-content>
+      <ui-page-content class="content-button">
+        <button mat-button (click)="newBuyerOnboarding()">
+          <mat-icon>add_circle_outline</mat-icon>
+          <span class="mat-subheading-2">
+            <span>Add Buyer Company</span>
+          </span>
+        </button>
+      </ui-page-content>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between flex-start" fxLayoutGap="20px">
+    <ui-page-content fxFlex class="with-table">
+      <access-log-filters *ngIf="accessLogCached$ | async as accessLogCached" [filters]="accessLogFilters$ | async"
+        [accessLog]="accessLogCached" [loading]="accessLogLoading$ | async" (filter)="filterAccessLog($event)"
+        (download)="downloadAccessLog(accessLogCached)" (refresh)="refreshAccessLog()">
+      </access-log-filters>
+      <access-log-table [loading]="accessLogLoading$ | async" [accessLog]="accessLog$ | async"
+        (sort)="sortAccessLog($event)" (unlockUser)="unlockUser($event)" (lockUser)="lockUser($event)"
+        (deleteUser)="deleteUser($event)" (destroySession)="destroySession($event)">
+      </access-log-table>
+    </ui-page-content>
+    <!-- <ui-page-content fxFlex="40" class="with-table">
+      <error-handling-filters
+        *ngIf="errorHandlingCached$ | async as errorHandlingCached"
+        [filters]="errorHandlingFilters$ | async"
+        [errorHandling]="errorHandlingCached"
+        [loading]="errorHandlingLoading$ | async"
+        (filter)="filterErrorHandling($event)"
+        (download)="downloadErrorHandling(errorHandlingCached)"
+        (refresh)="refreshErrorHandling()">
+      </error-handling-filters>
+      <error-handling-table
+        [loading]="errorHandlingLoading$ | async"
+        [errorHandling]="errorHandling$ | async"
+        (sort)="sortErrorHandling($event)">
+      </error-handling-table>
+    </ui-page-content> -->
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+<h4>Review Log</h4>
+<ul>
+  <li *ngFor="let item of log">
+    <span class="date">
+      {{item.date | date: 'short'}}
+    </span>
+    <div class="log-details">
+      <span class="status status--{{item.status}}">
+        <strong>{{item.status}}</strong>
+      </span>
+      <span class="reviewer" *ngIf="item.reviewer._id">
+        by {{item.reviewer.displayName}} &lt;{{item.reviewer.email}}&gt;
+      </span>
+      <span class="comment" *ngIf="item.subject || item.comment">
+        <strong>{{item.subject}}:</strong>
+        <i>{{item.comment}}</i>
+      </span>
+    </div>
+  </li>
+</ul>

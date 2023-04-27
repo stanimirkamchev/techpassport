@@ -1,0 +1,49 @@
+.outer-market-svg, .invitation-svg {
+    fill: red;
+
+    & * > {
+        fill: red !important;
+    }
+}
+
+.outer-market-page {
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: -92px;
+        display: block;
+        width: 572px;
+        height: 629px;
+        background: url(../../../assets/img/bg-shape.png);
+        background-repeat: no-repeat;
+        z-index: -1;
+        background-position: top right;
+    }
+}
+
+::ng-deep .mat-drawer.mat-sidenav .mat-button {
+    white-space: unset !important;
+}
+
+::ng-deep .invitation-svg svg, ::ng-deep .outer-market-svg svg {
+    & > * {
+        fill: #0D1B47;
+    }
+}
+
+::ng-deep .ng-star-inserted.selected {
+    .invitation-svg svg,  .outer-market-svg svg {
+        & > * {
+            fill: #00AF00;
+        }
+    }
+}
+
+::ng-deep {
+  .mat-drawer-content {
+    z-index: unset !important;
+  }
+}

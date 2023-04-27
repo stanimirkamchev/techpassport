@@ -1,0 +1,70 @@
+<mat-grid-list cols="2" rowHeight="100vh" class="join-container">
+  <mat-grid-tile>
+    <div class="logo">
+      <div class="slider">
+        <mat-list class="slider-container">
+          <div style="display: flex; width: 100%">
+            <slider-component
+              *ngFor="let slide of slider; let i = index"
+              [style.display]="i === activeIndex ? 'block' : 'none'"
+              [image]="slide.image"
+              [heading]="slide.heading"
+              [paragraph]="slide.paragraph"
+            ></slider-component>
+          </div>
+          <div class="slider-btn-container">
+            <div class="dot-container">
+              <div
+                *ngFor="let slide of slider; let i = index"
+                class="dot {{ i === activeIndex && 'active' }}"
+              ></div>
+            </div>
+            <div>
+              <img
+                src="/assets/img/previous.svg"
+                class="previous"
+                alt="previous"
+                (click)="previousSlide()"
+              />
+              <img
+                src="/assets/img/next.svg"
+                class="next"
+                alt="next"
+                (click)="nextSlide()"
+              />
+            </div>
+          </div>
+        </mat-list>
+      </div>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-list class="detail-container" *ngIf="basicDetails">
+      <basic-details-form
+        (goToMoreDetails)="goToMoreDetails()"
+        (cancel)="closeJoinMenu()"
+        [accountForm]="accountForm"
+      ></basic-details-form>
+    </mat-list>
+    <mat-list class="detail-container" *ngIf="moreDetails">
+      <more-details-form
+        (goToVerifyDetails)="goToVerifyDetails()"
+        (goToBasicDetails)="goToBasicDetails()"
+        (termsResult)="onTermsResult($event)"
+        [accountForm]="MoreDetailsForm"
+        [registerLoading]="registerLoading"
+        [errorMessage]="registerError"
+      ></more-details-form>
+    </mat-list>
+    <mat-list class="detail-container" *ngIf="verifyDetails">
+      <verification-form
+        [verifyLoading]="verifyLoading"
+        [verifyError]="verifyError"
+        [accountForm]="verifyForm"
+        [resending]="resending"
+        (submitForm)="submitForm($event)"
+        (resend)="resendOTP()"
+      ></verification-form>
+    </mat-list>
+  </mat-grid-tile>
+</mat-grid-list>

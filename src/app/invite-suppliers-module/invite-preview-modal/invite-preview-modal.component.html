@@ -1,0 +1,101 @@
+<button class="close-btn" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+
+<div class="modal-cont invite-modal">
+  <div class="spinner d-flex justify-center" *ngIf="loading$ | async">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <ng-container *ngIf="!(loading$ | async)">
+    <div class="header">
+      <h2>View Invitations</h2>
+      <p class="subheader">Below are the invitations you have sent</p>
+    </div>
+
+    <div class="invite-table-short">
+      <ui-data-table>
+        <table
+          mat-table
+          matSort
+          [dataSource]="dataSource"
+          multiTemplateDataRows
+        >
+          <ng-container matColumnDef="supplierInvited">
+            <th class="list-header" mat-header-cell *matHeaderCellDef>
+              Supplier invited
+            </th>
+            <td class="list-content" mat-cell *matCellDef="let element">
+              <div>
+                {{ element.receiver }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateInvited">
+            <th class="list-header" mat-header-cell *matHeaderCellDef>
+              Date invited
+            </th>
+            <td class="list-content" mat-cell *matCellDef="let element">
+              <div class="sm">
+                Invited {{ element.createdAt | date : "MM/dd/yy" }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th class="list-header" mat-header-cell *matHeaderCellDef>
+              Status
+            </th>
+            <td class="list-content" mat-cell *matCellDef="let element">
+              <div>
+                {{ element.status }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <!-- Row shown when there is no matching data. -->
+          <td
+            *matNoDataRow
+            class="mat-cell no-data-table"
+            [attr.colspan]="displayedColumns.length"
+          >
+            <h2>No results found</h2>
+            <p>
+              Sorry we didn’t find any results for your search, please try
+              searching for something else.
+            </p>
+          </td>
+        </table>
+      </ui-data-table>
+    </div>
+
+    <div class="options">
+      <button
+        mat-button
+        mat-raised-button
+        (click)="exit()"
+        class="button-base button-base--no-bg"
+      >
+        Back
+      </button>
+
+      <button
+        mat-button
+        mat-raised-button
+        (click)="fullVeiw()"
+        class="button-base"
+      >
+        Full invitation details
+      </button>
+    </div>
+
+    <div class="options align-center flex-column">
+      <span (click)="inviteSupplier()" class="invite-supplier-link">
+        Invite new supplier
+      </span>
+    </div>
+  </ng-container>
+</div>

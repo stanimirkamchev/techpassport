@@ -1,0 +1,143 @@
+@import "src/styles/colors";
+
+.premium-card-container {
+  .title {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 21px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $tp-white;
+    background-color: $tp-blue;
+
+    .current {
+      background-color: $tp-dark;
+      color: $tp-white;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 19px;
+      text-transform: none;
+      padding: 2px 8px;
+      margin-left: 20px;
+    }
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $tp-black;
+    flex: 1 0 auto;
+    height: 200px;
+
+    .text-free {
+      font-size: 45px;
+      line-height: 60px;
+      font-weight: 400;
+      color: $tp-white;
+      cursor: pointer;
+      padding: 20px 0px;
+
+      .month {
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+    .plan {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 16px;
+      color: $tp-white;
+      padding-bottom: 20px;
+      cursor: pointer;
+    }
+    .buttons {
+      padding: 1.125rem 2.5rem;
+      line-height: 0;
+      height: 2.563rem;
+      border-radius: 2px !important;
+      box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+    }
+    .next-btn {
+      background: $tp-blue;
+      color: $tp-white;
+    }
+    .fees-container {
+      display: flex;
+      padding: 20px 0;
+
+      .info-text {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 150%;
+        color: $tp-white;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .card-inner-content {
+    padding: 50px 35px;
+    color: #fff;
+    border-radius: 0px 0px 10px 10px;
+    background-color: $tp-dark-blue;
+    flex: 2 0 auto;
+
+    .core-heading {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 15px;
+      padding-bottom: 20px;
+    }
+
+    .inner-content-description {
+      padding: 10px 0px;
+      display: flex;
+
+      .inner-content-text {
+        padding-left: 20px;
+      }
+    }
+  }
+
+  .content-container {
+    min-height: 758px;
+    display: flex;
+    flex-flow: column wrap;
+  }
+}
+
+::ng-deep .mat-card {
+  padding: 0;
+  border-radius: 10px;
+}
+
+::ng-deep .mat-card-title {
+  margin-bottom: 0;
+}
+
+.target {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.coming {
+  font-family: 'Geneva' !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 45px !important;
+  line-height: 60px;
+  /* identical to box height */
+
+  text-align: center;
+
+  /* Dark Blue */
+
+  color: #0C1D4A;
+}

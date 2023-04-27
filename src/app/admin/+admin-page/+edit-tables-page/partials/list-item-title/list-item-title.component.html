@@ -1,0 +1,14 @@
+<div *ngIf="entity" class="list-item__contet">
+  <div class="list-item__contet-name">{{ entity.key }}</div>
+  <div class="list-item__contet-actions">
+    <span class="update" (click)="update(entity)"
+      ><mat-icon color="#3F9CF4">edit</mat-icon></span
+    >
+    <span class="delete" (click)="remove(entity)"
+      ><mat-icon>close</mat-icon></span
+    >
+    <span class="create" (click)="create(entity)"
+      ><mat-icon>add_circle</mat-icon></span
+    >
+  </div>
+</div>

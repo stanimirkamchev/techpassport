@@ -1,0 +1,12 @@
+<ng-container *ngIf="complianceAssesment$ | async as complianceAssesment">
+  <compliance-assessment-list
+    [assessmentList]="complianceAssesment"
+    [informationSecurity]="informationSecurity$ | async"
+    [selectedId]="selectedAssesment?.id"
+    (selectAssessment)="selectedAssesment = $event">
+  </compliance-assessment-list>
+  <compliance-assessment-item
+    [assessmentItem]="selectedAssesment">
+  </compliance-assessment-item>
+</ng-container>
+

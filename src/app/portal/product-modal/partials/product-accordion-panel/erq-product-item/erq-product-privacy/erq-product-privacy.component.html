@@ -1,0 +1,59 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Region(s) services provided to:</h5>
+      <ul class="flex-list-column">
+        <li *ngIf="data.country_uk">UK</li>
+        <li *ngIf="data.country_eu">European Union</li>
+        <li *ngIf="data.country_canada">Canada</li>
+        <li *ngIf="data.country_usa">USA</li>
+        <li *ngIf="data.country_none">None</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Regional data protection legislation committed to comply with:</h5>
+      <ul class="flex-list-column">
+        <li *ngIf="data.legislation_uk">UK</li>
+        <li *ngIf="data.legislation_eu">European Union</li>
+        <li *ngIf="data.legislation_canada">Canada</li>
+        <li *ngIf="data.legislation_usa">USA</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Published compliance strategies:</h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.gdpr">GDPR</li>
+        <li *ngIf="data.ccpa">CCPA</li>
+        <li *ngIf="data.pipeda">PIPIPEDA</li>
+        <li *ngIf="data.other">Other</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.other">
+      <h5>Other:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.otherText || "unknown" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>
+        Region(s) committed to only access and process data within the borders
+        of the region where the data is consumed by the client:
+      </h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.data_consumed_uk">UK</li>
+        <li *ngIf="data.data_consumed_eu">European Union</li>
+        <li *ngIf="data.data_consumed_canada">Canada</li>
+        <li *ngIf="data.data_consumed_usa">USA</li>
+        <li *ngIf="data.data_consumed_no">No</li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

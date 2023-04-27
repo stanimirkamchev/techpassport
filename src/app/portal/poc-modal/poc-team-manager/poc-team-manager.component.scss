@@ -1,0 +1,136 @@
+@import 'colors.scss';
+.clearfix::after,.clearfix::before{
+  display:block;
+  content:"";
+  clear:both
+}
+*{
+  box-sizing: border-box;
+}
+.team-manager{
+
+    @media only screen and (min-width: 1280px){
+        //  width: 44vw;
+      }
+      height: 59vh;
+      padding: 22px;
+     margin-top: 1vh;
+      margin-bottom: 1vh;
+      // height: 68vh;
+      overflow-x: auto;
+      padding: 22px;
+      border-radius:15px;
+      background-color:#FFF;
+      z-index:100000;
+      font-size:8pt;
+      color:$tp-dark;
+      h2{
+        margin:0 -22px;
+        border-top:1px solid #C0C0C0;
+        text-transform:uppercase;
+        color: #00AF00;
+          span{
+            display: inline-block;
+            position: relative;
+            font-weight:100;
+            top: -14px;
+            left: 30px;
+            font-size: 10pt;
+            background-color: #FFF;
+            padding: 2px 9px;
+            text-transform: uppercase;
+          }
+      }
+      .team{
+        margin-bottom:20px;
+
+        .person-container{
+          float:left;
+          width:25%;
+          padding-left:12px;
+        }
+        .searchField{
+          ::ng-deep .mat-form-field-infix{
+              border-radius:30px;
+          }
+            ::ng-deep .mat-form-field-flex{
+              width:25%;
+              float:right;
+            }
+        }
+        }
+        .icon-preson{
+          margin-right: 7px;
+          width:30px;
+          height:30px;
+          font-size:35px;
+          float:left;
+        }
+        .icon-line{
+            visibility: hidden;
+            height:30px;
+            text-align:left;
+            .mat-icon{
+              font-size:19px;
+              margin:0 7px;
+              margin-top:10px;
+              cursor:pointer;
+              &:hover{
+                color:$tp-green;
+              }
+            }
+            .red{
+              &:hover{
+                color:$tp-orange;
+              }
+            }
+        }
+        .person-container:hover .icon-line{
+          visibility:visible;
+        }
+        .name-container{
+          display:inline-block;
+        }
+        .find-team{
+          .add-new{
+            float:left;
+            width:25%;
+            padding-left:12px;
+            padding-top: 4px;
+            cursor:pointer;
+            color:#00AF00;
+            .add{
+            font-size:30px;
+            color:#00AF00;
+            vertical-align: bottom;
+            }
+            .text{
+              font-size:12pt;
+              padding-left:20px;
+              position: relative;
+              top:2px;
+              font-weight: 100;
+            }
+          }
+          .person-container{
+            float:left;
+            width:25%;
+            padding-left:12px;
+            .name{
+              min-width:160px;
+            }
+          }
+        }
+
+        .name{
+          font-size:11pt;
+          display:inline-block;
+        }
+        .surname{
+          font-size:11pt;
+        }
+        .emai{
+          font-size:11pt;
+        }
+
+}

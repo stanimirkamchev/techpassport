@@ -1,0 +1,122 @@
+@import 'src/styles/colors';
+
+.page-header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter, serif;
+
+  ::ng-deep {
+    .custom-dropdown {
+      border-radius: 5px !important;
+      border: 2px solid #E5E7EB;
+
+      &[aria-expanded=true] {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+    }
+
+    .mat-tab-nav-bar {
+      border-bottom: none;
+
+      .mat-tab-label-active {
+        background: $tp-dark;
+        border: 2px solid $tp-dark-1;
+        border-radius: 10px;
+
+        .text {
+          color: white !important;
+        }
+        .mat-icon {
+          color: white !important;
+        }
+      }
+      .mat-tab-link {
+        opacity: 1 !important;
+      }
+      .mat-ink-bar {
+        display: none !important;
+      }
+    }
+
+    .product-settings {
+      border-radius: 10px;
+      border: 1px solid rgba(11, 19, 30, 0.1);
+    }
+
+    .custom-dropdown, .product-settings {
+      width: 317px;
+      height: 64px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #FFFFFF;
+
+      .mat-icon {
+        color: #9CA3AF;
+
+        &.dark {
+          color: $tp-dark;
+        }
+      }
+
+      .mat-button-wrapper, .text {
+        font-family: Inter, serif;
+        color: $tp-dark;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1;
+        margin-left: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .profile-setting-menu {
+    max-width: initial;
+    width: 317px;
+    box-shadow: none !important;
+    border: 2px solid #E5E7EB;
+    border-top: 0;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+    overflow: visible;
+
+    &::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-left: 2px solid #E5E7EB;
+      border-top: 2px solid #E5E7EB;
+      left: 50%;
+      transform: translate(-10px, -10px) rotate(45deg);
+      background-color: white;
+    }
+
+    .mat-menu-content {
+      padding: 0 !important;
+    }
+
+    .mat-menu-item {
+      color: #3F9CF4 !important;
+      padding: 0 16px;
+      border-bottom: 1px solid #E5E7EB;
+      text-align: center;
+      font-size: 16px;
+    }
+  }
+}
+
+ui-tooltip {
+  position: relative;
+  top: 1.25rem;
+}

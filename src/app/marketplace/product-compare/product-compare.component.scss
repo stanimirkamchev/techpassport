@@ -1,0 +1,250 @@
+@import 'src/styles/colors';
+
+.auditing-experience {
+  p {
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  .filter-modal-clear-button {
+    height: 48px;
+    width: 48px !important;
+    border-radius: 50%;
+    background: #F5F5F8;
+    box-shadow: none;
+    color: #18181B;
+  }
+  .title {
+    font-family: 'Public Sans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #111827;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    th {
+      border: 1px solid #E5E7EB;
+      padding: 14px 20px;
+      border-left: none;
+      border-top: none;
+      font-family: 'Public Sans', serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      &:last-child {
+        border-right: none;
+      }
+      &.product:nth-child(odd) {
+        background-color: #F5F5F8;
+      }
+    }
+
+    td {
+      border: 1px solid #E5E7EB;
+      padding: 10px;
+      font-family: 'Public Sans', serif;
+      font-style: normal;
+      border-bottom: none;
+      &.product:nth-child(odd) {
+        background-color: #F5F5F8;
+      }
+      &:first-child {
+        border-left: none;
+      }
+      &:last-child {
+        border-right: none;
+      }
+      &.data {
+        text-align: center;
+        font-family: 'Public Sans', serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        input {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}
+
+.btn-custom {
+  background: $tp-blue;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 2px !important;
+  color: white;
+  padding: 10px 40px;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 40px;
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+::ng-deep {
+  .experience input {
+    width: 100px !important;
+    height: 44px !important;
+    background: #F3F3F6 !important;
+    border: 1px solid rgba(12, 29, 74, 0.1) !important;
+    border-radius: 8px !important;
+  }
+    /* Chrome, Safari, Edge, Opera */
+  .experience input::-webkit-outer-spin-button,
+  .experience input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .experience input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+.label-col {
+  width: 150px;
+}
+
+.notice-footer {
+  font-family: 'Public Sans', serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #0D1B47;
+  text-align: center;
+}
+
+
+.matched {
+  padding: 1px 6px;
+  height: 19px;
+  background: #D6FFD6;
+  border-radius: 6px;
+  font-weight: 500;
+  color: #007A00;
+}
+
+.ratings-row {
+  .text-green {
+    color: #007A00;
+  }
+  .erq-rating {
+    padding: 1px 4px;
+    height: 19px;
+    font-weight: 500;
+    border-radius: 6px;
+    background: rgba(13, 27, 71, 0.1);
+  }
+  .font-bold {
+    font-weight: 500;
+  }
+}
+
+.like {
+  color: #3F9CF4;
+
+  .material-icons {
+    font-size: 15px;
+  }
+}
+
+.green {
+  color: #00AF00;
+}
+
+.gray {
+  color: #9CA3AF;
+}
+
+.btn-custom {
+  background: $tp-blue !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px !important;
+  color: $tp-white !important;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 32px;
+  padding: 6px 8px;
+  width: 100%;
+  text-align: center;
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  .label {
+    font-family: 'Public Sans', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: white;
+  }
+}
+
+.blue {
+  color: #3F9CF4;
+}
+
+.bold {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #18181B;
+}
+
+
+.btn-custom-outline {
+  color: #3F9CF4;
+  box-shadow: none;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 32px;
+  width: 46%;
+  border: 1px solid #E5E7EB;
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  .label {
+    font-family: 'Public Sans', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
+
+.link {
+  font-family: 'Public Sans', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 17px;
+  text-decoration-line: underline;
+  color: #F43F9C;
+  cursor: pointer;
+}
+
+.icon-btn {
+  .mat-icon {
+    color: #9CA3AF;
+  }
+}
+
+.logo {
+  max-height: 50px;
+}
+
+.hostProvider {
+  max-width: 80px;
+}

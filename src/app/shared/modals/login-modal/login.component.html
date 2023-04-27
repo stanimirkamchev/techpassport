@@ -1,0 +1,243 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-login">
+  <div [ngSwitch]="page" class="page">
+    <div class="modal-icon">
+      <mat-icon>vpn_key</mat-icon>
+    </div>
+    <h1 class="notSoStrong">
+      <span
+        *ngIf="message.length > 0"
+        class="message errorMessage"
+        [ngClass]="{ successMessage: success == true }"
+        >{{ message }}</span
+      >
+      <span *ngIf="message.length == 0 && !forgotView">{{
+        titles[page - 1]
+      }}</span>
+      <span *ngIf="message.length == 0 && forgotView">{{ titles[2] }}</span>
+    </h1>
+
+    <form
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      [formGroup]="loginForm"
+      *ngSwitchCase="1"
+    >
+      <div fxLayout="row" class="form-row">
+        <div class="label">E-mail</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              niceOnly
+              noSpecialTotal
+              type="email"
+              placeholder="Write here..."
+              formControlName="email"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-row" *ngIf="!forgotView">
+        <div class="label">Password</div>
+        <div class="formItem">
+          <mat-form-field class="password-remove-padding" floatLabel="never">
+            <input
+              matInput
+              type="{{ passInputType }}"
+              #passInput
+              placeholder="Write here..."
+              formControlName="password"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="passVisibility" (click)="changePassInput()">
+          <mat-icon *ngIf="passInputType === 'password'">visibility</mat-icon>
+          <mat-icon *ngIf="passInputType !== 'password'"
+            >visibility_off</mat-icon
+          >
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-row forgot">
+        <div class="label"></div>
+        <div class="formItem" (click)="forgotPass()">
+          <span *ngIf="!forgotView">Forgot the password?</span>
+          <span *ngIf="forgotView">Back to log in</span>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-action">
+        <div>
+          <button
+            mat-button
+            mat-raised-button
+            color="primary"
+            [disabled]="actionDisabled()"
+            (click)="doAction()"
+            class="mat-elevation-z0"
+            type="submit"
+          >
+            <span *ngIf="!forgotView">Log in</span>
+            <span *ngIf="forgotView">Reset password</span>
+            &nbsp;<mat-icon style="font-size: 11pt; padding-top: 10px"
+              >arrow_forward</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <form
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      [formGroup]="twoFaForm"
+      *ngSwitchCase="2"
+    >
+      <h2 class="notSoStong">
+        Please check <strong>your inbox</strong> to continue.
+      </h2>
+      <div fxLayout="row" class="form-row">
+        <div class="label">Code</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              type="text"
+              placeholder="6-digit code"
+              style="letter-spacing: 6px"
+              maxlength="6"
+              formControlName="code"
+              autocomplete="off"
+              numbersOnly
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="pacer-small"></div>
+      <div fxLayout="row" class="form-row" *ngIf="!forgotView">
+        <div class="formItem">
+          <mat-checkbox formControlName="rememberMe"
+            >Trust this machine.</mat-checkbox
+          >
+        </div>
+        <div class="formItem">
+          <button
+            mat-button
+            color="primary"
+            class="resendButton"
+            (click)="resend()"
+            type="button"
+          >
+            <mat-icon>refresh</mat-icon>
+            <span style="padding-top: 1px; padding-left: 6px"
+              >Resend the code!</span
+            >
+          </button>
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row" *ngIf="false" fxLayoutAlign="center">
+        <!-- *ngIf="forgotView" -->
+        <button
+          mat-button
+          color="primary"
+          class="resendButton"
+          (click)="resend()"
+          type="button"
+        >
+          <mat-icon>refresh</mat-icon>
+          <span style="padding-top: 1px; padding-left: 6px"
+            >Resend the code!</span
+          >
+        </button>
+      </div>
+      <div fxLayout="row" class="form-action">
+        <div>
+          <button
+            mat-button
+            mat-raised-button
+            color="primary"
+            [disabled]="confirmDisabled()"
+            type="submit"
+            (click)="twoFA()"
+            class="mat-elevation-z0 inne"
+          >
+            Confirm
+            <mat-icon style="font-size: 11pt; padding-top: 10px">
+              arrow_forward</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <form
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      [formGroup]="resetForm"
+      *ngSwitchCase="3"
+    >
+      <div fxLayout="row" class="form-row">
+        <div class="label">Password</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              type="{{ passInputType }}"
+              #passInput
+              placeholder="Write here..."
+              formControlName="password"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="passVisibility" (click)="changePassInput()">
+          <mat-icon *ngIf="passInputType === 'password'">visibility</mat-icon>
+          <mat-icon *ngIf="passInputType !== 'password'"
+            >visibility_off</mat-icon
+          >
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-row">
+        <div class="label">Confirm</div>
+        <div class="formItem">
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              type="{{ passInputType }}"
+              #passInput
+              placeholder="Write here..."
+              formControlName="confirmPassword"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-action">
+        <div>
+          <button
+            mat-button
+            mat-raised-button
+            color="primary"
+            [disabled]="restDisabled()"
+            (click)="doResetPass()"
+            class="mat-elevation-z0"
+          >
+            <span>Reset password</span>
+            &nbsp;<mat-icon style="font-size: 11pt; padding-top: 10px"
+              >arrow_forward</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,208 @@
+@import 'src/styles/colors';
+
+table {
+  width: 100%;
+}
+
+.list-header {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #18181B;
+  height: 40px;
+  &.centered {
+    text-align: center !important;
+  }
+}
+
+.td-info.td-info--blue-text a:after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  right: -26px;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M8 1.75C8 1.33579 8.33579 1 8.75 1L14.2498 1.00001C14.664 1.00001 14.9998 1.3358 14.9998 1.75V7.25307C14.9998 7.66728 14.6641 8.00307 14.2498 8.00308C13.8356 8.00309 13.4998 7.6673 13.4998 7.25309L13.4998 3.56083L8.53033 8.53035C8.23744 8.82324 7.76256 8.82324 7.46967 8.53035C7.17678 8.23745 7.17678 7.76258 7.46967 7.46969L12.4393 2.50001L8.75 2.5C8.33579 2.5 8 2.16421 8 1.75Z' fill='%23868FA0'/%3E%3Cpath d='M6.25 2.50002C6.66421 2.50002 7 2.8358 7 3.25002C7 3.66423 6.66421 4.00002 6.25 4.00002H3C2.72386 4.00002 2.5 4.22387 2.5 4.50002V13C2.5 13.2762 2.72386 13.5 3 13.5H11.5C11.7761 13.5 12 13.2762 12 13V9.75002C12 9.3358 12.3358 9.00002 12.75 9.00002C13.1642 9.00002 13.5 9.3358 13.5 9.75002V13C13.5 14.1046 12.6046 15 11.5 15H3C1.89543 15 1 14.1046 1 13V4.50002C1 3.39545 1.89543 2.50002 3 2.50002H6.25Z' fill='%23868FA0'/%3E%3C/svg%3E");
+}
+
+.list-content {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #3F3F46;
+  &.centered {
+    text-align: center !important;
+  }
+
+  .bold {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #18181B;
+  }
+
+  .sm {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #3F3F46;
+  }
+
+  .matched {
+    padding: 1px 4px;
+    height: 19px;
+    background: #D6FFD6;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #007A00;
+  }
+  .text-green {
+    color: #007A00;
+  }
+  .erq-rating {
+    padding: 1px 4px;
+    height: 19px;
+    font-weight: 500;
+    border-radius: 6px;
+    background: rgba(13, 27, 71, 0.1);
+  }
+  .font-bold {
+    font-weight: 500;
+  }
+}
+
+
+.green {
+  color: #00AF00;
+}
+
+.gray {
+  color: #9CA3AF;
+}
+
+.orange {
+  color: #F58200;
+}
+
+.blue {
+  color: #3F9CF4;
+}
+
+.link {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration-line: underline;
+  color: #F43F9C;
+  cursor: pointer;
+}
+
+.like {
+  color: #3F9CF4;
+
+  .material-icons {
+    font-size: 15px;
+  }
+}
+
+
+.view-btn {
+  background: #3F9CF4 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 32px;
+  &:disabled {
+    opacity: 0.6;
+  }
+
+  .label {
+    font-family: 'Public Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
+
+.supplier-list {
+  table {
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+  }
+  .mat-header-row {
+    height: 40px;
+    background-color:#F5F5F8;
+  }
+  tr.mat-row:nth-child(even){
+    background-color:#F5F5F8;
+  }
+  th.mat-header-cell{
+    border: none;
+  }
+  td.mat-cell {
+    border: none;
+  }
+
+  ::ng-deep mat-checkbox .mat-checkbox-inner-container {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px
+  }
+
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #3F9CF4;
+  }
+}
+
+.supplier-heading {
+  margin: 0;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #181818;
+}
+
+.link {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: right;
+  text-decoration-line: underline;
+  color: #F43F9C;
+  cursor: pointer;
+}
+
+.btn-custom {
+  background: $tp-blue !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 6px !important;
+  color: $tp-white !important;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 56px;
+  padding: 0 22px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  .label {
+    font-family: 'Public Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

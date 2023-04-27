@@ -1,0 +1,35 @@
+<div class="invite-success-modal">
+  <button
+    mat-mini-fab
+    class="close-button"
+    (click)="cancel()"
+  >
+    <mat-icon>clear</mat-icon>
+  </button>
+
+  <div class="dialog-header">
+    <div class="d-flex justify-center">
+      <img src="assets/img/watchlists/email.svg" />
+    </div>
+    <h1>Invitation sent</h1>
+  </div>
+  <div class="dialog-content">
+    <p class="sub-title">
+      You’ve successfully invited a collaborator to your watchlist.
+    </p>
+    <p class="description">
+      The list will now appear in the user’s own watchlists.
+    </p>
+  </div>
+
+  <div class="dialog-actions">
+    <button
+      mat-raised-button
+      class="btn-custom"
+      (click)="cancel()"
+    >
+      Back to watchlists
+    </button>
+    <button class="error-text-button mt-4">Invite another collaborator</button>
+  </div>
+</div>

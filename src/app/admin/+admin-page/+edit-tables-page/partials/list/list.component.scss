@@ -1,0 +1,24 @@
+
+$list-item-color: #0C1D4A;
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    &-item {
+        display: flex;
+        align-items: center;
+        color: $list-item-color;
+        margin: 10px 0;
+        padding: 0 20px 0 40px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        div {
+            width: 100%;
+        }
+    }
+}

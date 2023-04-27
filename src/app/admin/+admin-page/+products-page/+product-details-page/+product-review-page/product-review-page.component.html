@@ -1,0 +1,16 @@
+<ng-container *ngIf="productDetails$ | async as productDetails">
+  <approval-status
+    *ngIf="productDetails.product?.status === 'Approved'"
+    [adminName]="productDetails.product?.review?.reviewer.displayName"
+    [date]="productDetails.product?.review?.date">
+  </approval-status>
+  <rejection-status
+    *ngIf="productDetails.product?.status === 'Rejected'"
+    [adminName]="productDetails.product?.review?.reviewer.displayName"
+    [date]="productDetails.product?.review?.date"
+    (details)="showRejectionDetails(productDetails.product)">
+  </rejection-status>
+  <product-review
+    [productReview]="productDetails.review">
+  </product-review>
+</ng-container>

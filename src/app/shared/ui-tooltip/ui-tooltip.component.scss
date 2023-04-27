@@ -1,0 +1,48 @@
+.tooltip::ng-deep {
+  position: relative;
+  display: inline-block;
+
+  .collaboratorsList {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: max-content;;
+
+    .collaborator-list-items {
+      list-style: none;
+      padding-right: 16px;
+      columns: 2;
+    }
+  }
+}
+
+.tooltip:hover {
+  z-index: 9999 !important;
+}
+
+.tooltipTitle {
+  color: #0d1b47;
+  display: flex;
+  align-items: center;
+}
+
+.tooltip .tooltipText {
+  visibility: hidden;
+  background-color: #f5f5f8;
+  color: #000;
+  border-radius: 6px;
+
+  position: absolute;
+  padding: 10px;
+  margin: 1.5rem -1rem;
+  border: 1px solid #0d1b47;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  min-width: 20rem;
+  top: 1rem;
+}
+
+span.tooltipTitle > p {
+  margin: 0;
+}

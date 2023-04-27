@@ -1,0 +1,15 @@
+<button mat-mini-fab class="closeModal2" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+</button>
+
+<div class="plans-modal">
+    <mat-checkbox color="primary" class="py-1" (click)="readAndAgree()">Read and agree to our Terms&Conditions</mat-checkbox>
+    <span class="py-1" (click)="downloadAsPDF()">
+        <img src="../../../assets/img/right-arrow-blue.svg" alt="" width="6" class="mr-2 ml-1" />
+        View our contract as PDF
+    </span>
+    <span class="py-1" (click)="contactUs()">
+        <img src="../../../assets/img/right-arrow-blue.svg" alt="" width="6" class="mr-2 ml-1" />
+        Contact us
+    </span>
+</div>

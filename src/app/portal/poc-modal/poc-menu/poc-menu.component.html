@@ -1,0 +1,112 @@
+<div class="view-poc-doc"><!--  (click)="alert($event.target)" -->
+        <div class="clearfix">
+                <h1>POC Preview</h1>
+                <div class="start">
+                    <div class="product">
+                        {{ data.chooseSupplier.productListPoc.value}}
+                    </div>
+                </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">
+                    <mat-icon>star_half</mat-icon>
+                    </div>
+                    <h2>Trial details</h2>
+                    <div class="hr">&nbsp;</div>
+                    <div class="line">
+                        <div class="left">Trial Fee's</div>
+                        <div class="right">
+                            {{ data.price | number:'2.'}} &#163;
+                            <span *ngIf="data.price==null">N/A</span>
+                        </div>
+                    </div>
+                    <div class="line">
+                            <div class="left">Commencement Date:</div>
+                            <div class="right">
+                                {{ data.timeTrial.startDateTrial.value | date:'longDate' }}
+                                <span *ngIf="data.timeTrial.startDateTrial.value==null">N/A</span>
+                            </div>
+                    </div>
+                    <div class="line">
+                            <div class="left"> End Date:</div>
+                            <div class="right">
+                                {{ data.timeTrial.endDateTrial.value | date:'longDate'  }}
+                                <span *ngIf="data.timeTrial.endDateTrial.value==null">N/A</span>
+                                
+                            </div>
+                    </div>
+        </div>
+        <div class="section">
+                    <div class="icon">
+                        <mat-icon>star_half</mat-icon>
+                    </div>
+                    <h2>License</h2>
+                    <div class="hr">&nbsp;</div>
+                    <div class="line">
+                            <div class="left">Software: </div>
+                            <div class="right"> 
+                                {{ data.software }}
+                                <span *ngIf="data.software==null">N/A</span>
+                            </div>
+                    </div>
+                    <div class="line">
+                            <div class="left">Documentation & other material:</div>
+                            <div class="right">
+                                {{ data.docOtherMateril }}
+                                <span *ngIf="data.docOtherMateril==null">N/A</span>
+                            </div>
+                    </div>
+        </div>
+        <div class="section">
+                    <div class="icon">
+                        <mat-icon>star_half</mat-icon>
+                    </div>
+                    <h2> License parameters</h2>
+                    <div class="hr">&nbsp;</div>
+                    <div class="line">
+                        <div class="left">Numver of users: </div>
+                        <div class="right">
+                            {{ data.howManyUsers.howManyUsers.value}}
+                            <span *ngIf="data.howManyUsers.howManyUsers.value==null">N/A</span>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="left">Number of software copies: </div>
+                        <div class="right">
+                            {{ data.howManyCopies.howManyCopies.value}}
+                            <span *ngIf="data.howManyCopies.howManyCopies.value==null">N/A</span>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="left">Territories: </div>
+                        <div class="right">
+                             {{  data.includedTerritories.countries.value }}
+                             <span *ngIf="data.includedTerritories.countries.value==null">N/A</span>
+                      </div>
+                    </div>
+        </div>
+        <div class="section">
+                    <div class="icon">
+                        <mat-icon>star_half</mat-icon>
+                    </div>
+                    <h2>Hosting environment</h2>
+                    <div class="hr">&nbsp;</div>
+                    <div class="line">
+                        <div class="left">Description:</div>
+                        <div class="right height-scroll">{{ data.hostingDescritpion }}</div>
+                    </div>
+
+        </div>
+        <div class="section">
+                    <div class="icon">
+                        <mat-icon>star_half</mat-icon>
+                    </div>
+                    <h2>Special conditions</h2>
+                    <div class="hr">&nbsp;</div>
+                    <div class="line">
+                        <div class="left">&nbsp;</div>
+                        <div class="right height-scroll">{{ data.specialConditions }}</div>
+                    </div>
+        </div>
+</div>

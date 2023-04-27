@@ -1,0 +1,13 @@
+<ng-container *ngIf="formGroup">
+    <h4>
+        <strong>SAML</strong> Activation 
+    </h4>
+    <form autocomplete="off" [formGroup]="formGroup" class="text-center">
+        <label id="new-label" class="mat-caption saml-label">SAML</label>
+        <mat-radio-group
+          *ngIf="formGroup && formGroup.get('isSamlAuthenticated')"
+          formControlName="isSamlAuthenticated">
+          <mat-checkbox class="saml-checkbox" formControlName="isSamlAuthenticated"> <span style="padding-left:2px">Log in using SAML</span></mat-checkbox>
+        </mat-radio-group>
+    </form>
+</ng-container>

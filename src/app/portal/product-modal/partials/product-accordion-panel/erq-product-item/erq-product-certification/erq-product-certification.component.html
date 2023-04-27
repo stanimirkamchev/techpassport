@@ -1,0 +1,191 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>SOC2 accredited</h5>
+      <mat-icon *ngIf="data.soc2" class="green">{{ setIcon("yes") }}</mat-icon>
+      <mat-icon *ngIf="!data.soc2" class="grey">{{ setIcon("no") }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Up to date certificate:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.socUpToDate ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.socUpToDate">
+      <h5>Renewal date:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.socRenewalDate ? (data.socRenewalDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column file-attached" *ngIf="data.socUpToDate">
+      <h5>
+        <mat-icon *ngIf="data.socFileInfo" class="green">{{
+          setIcon("yes")
+        }}</mat-icon>
+        <mat-icon *ngIf="!data.socFileInfo" class="grey">{{
+          setIcon("no")
+        }}</mat-icon>
+        {{ data.socFileInfo ? data.socFileInfo.fileName : "n/a" }}
+      </h5>
+      <button
+        class="button-hover"
+        *ngIf="data.socFileInfo"
+        (click)="download(data.socFileInfo)"
+      >
+        View
+      </button>
+    </div>
+
+    <div class="two-column" *ngIf="!data.socUpToDate">
+      <h5>Do you have plans to obtain SOC2 accreditation?:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.socPlansToObtain ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="!data.socUpToDate">
+      <h5>By when?:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.socExpectedDate ? (data.socExpectedDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>ISO20071 accredited</h5>
+      <mat-icon *ngIf="data.iso27001" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.iso27001" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Up to date certificate:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.isoUpToDate ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.isoUpToDate">
+      <h5>Renewal date:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.socRenewalDate ? (data.socRenewalDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column file-attached" *ngIf="data.isoUpToDate">
+      <h5>
+        <mat-icon *ngIf="data.isoFileInfo" class="green">{{
+          setIcon("yes")
+        }}</mat-icon>
+        <mat-icon *ngIf="!data.isoFileInfo" class="grey">{{
+          setIcon("no")
+        }}</mat-icon>
+        {{ data.isoFileInfo ? data.isoFileInfo.fileName : "n/a" }}
+      </h5>
+      <button
+        class="button-hover"
+        *ngIf="data.isoFileInfo"
+        (click)="download(data.isoFileInfo)"
+      >
+        View
+      </button>
+    </div>
+
+    <div class="two-column" *ngIf="!data.isoUpToDate">
+      <h5>Do you have plans to obtain ISO20071 accreditation?:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.plansToObtain ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="!data.isoUpToDate">
+      <h5>By when?:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.expectedDate ? (data.expectedDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Other certificate accredited</h5>
+
+      <mat-icon *ngIf="data.other" class="green">{{ setIcon("yes") }}</mat-icon>
+      <mat-icon *ngIf="!data.other" class="grey">{{ setIcon("no") }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Name:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.name ? data.name : "n/a" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Up to date certificate:</h5>
+      <ul class="flex-list-row">
+        <li>{{ data.otherUpToDate ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="data.otherUpToDate">
+      <h5>Renewal date:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.otherRenewalDate ? (data.otherRenewalDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column file-attached" *ngIf="data.otherUpToDate">
+      <h5>
+        <mat-icon *ngIf="data.otherFileInfo" class="green">{{
+          setIcon("yes")
+        }}</mat-icon>
+        <mat-icon *ngIf="!data.otherFileInfo" class="grey">{{
+          setIcon("no")
+        }}</mat-icon>
+        {{ data.otherFileInfo ? data.otherFileInfo.fileName : "n/a" }}
+      </h5>
+      <button
+        class="button-hover"
+        *ngIf="data.isoFileInfo"
+        (click)="download(data.otherFileInfo)"
+      >
+        View
+      </button>
+    </div>
+
+    <div class="two-column" *ngIf="!data.otherUpToDate">
+      <h5>
+        Do you have plans to obtain
+        {{ data.name ? data.name : "certificate" }} accreditation?:
+      </h5>
+      <ul class="flex-list-row">
+        <li>{{ data.otherPlansToObtain ? "Yes" : "No" }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column" *ngIf="!data.otherUpToDate">
+      <h5>By when?:</h5>
+      <ul class="flex-list-row">
+        <li>
+          {{ data.otherExpectedDate ? (data.otherExpectedDate | date) : "n/a" }}
+        </li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

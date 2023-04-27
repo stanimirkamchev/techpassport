@@ -1,0 +1,117 @@
+@import 'src/styles/colors';
+
+::ng-deep {
+  .mat-dialog-container {
+    border-radius: 6px !important;
+    padding: 10px 24px 32px !important
+  }
+
+  .create-success-modal {
+    .dialog-header {
+      position: relative;
+      padding-top: 48px;
+
+      h1 {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 42px;
+        text-align: center;
+        color: $text-primary-color;
+        margin-top: 24px;
+        margin-bottom: 24px;
+      }
+    }
+    .close-button {
+      width: 48px;
+      height: 48px;
+      border-radius: 100%;
+      background-color: $light-grey;
+      position: absolute;
+      right: 24px;
+      top: 24px;
+      box-shadow: none;
+      z-index: 10;
+
+      .mat-icon {
+        color: $text-primary-color;
+      }
+    }
+
+    .dialog-content {
+      .custom-input {
+        margin-top: 8px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .collaborator {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        margin-right: 40px;
+        margin-bottom: 12px;
+
+        &:hover {
+          .mat-icon {
+            display: block;
+          }
+        }
+        .text-error {
+          color: $tp-pink;
+          display: none;
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-left: 8px;
+          cursor: pointer;
+        }
+      }
+
+      .sub-title {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        text-align: center;
+      }
+
+      .description {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-size: 14px;
+        line-height: 16.5px;
+        text-align: center;
+        max-width: 460px;
+        margin: 0 auto 36px;
+      }
+    }
+
+    .dialog-actions {
+      button {
+        flex: 1;
+        border-radius: 6px;
+        font-size: 17px !important;
+        box-shadow: none;
+        padding: 0 54px;
+
+        &:first-child {
+          border: 1px solid #E5E7EB;
+        }
+      }
+    }
+  }
+}

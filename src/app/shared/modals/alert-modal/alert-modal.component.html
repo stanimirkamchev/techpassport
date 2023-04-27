@@ -1,0 +1,22 @@
+<div class="modal-cont">
+  <mat-icon *ngIf="!data.progress && data.isQuestion !== true">error_outline</mat-icon>
+  <mat-icon *ngIf="!data.progress && data.isQuestion === true" class="question">help</mat-icon>
+  <h1 *ngIf="data.title.length > 0">{{data.title}}</h1>
+  <h4 *ngIf="data.message.length > 0">{{data.message}}</h4>
+  <div *ngFor="let link of data.links">
+    <a href="{{link.url}}" target="_blank">{{link.label}}</a>
+  </div>
+
+  <div *ngIf="data.progress === true">
+      <mat-progress-bar color="accent" mode="indeterminate" class="upload-progress"></mat-progress-bar>
+  </div>
+
+  <div class="options">
+      <button mat-button mat-raised-button
+        *ngFor="let bt of data.actions"
+        color="{{bt.color}}"
+        (click)="understood(bt.label)"
+        class="mat-elevation-z0">{{bt.label}}</button>
+  <!--  <button mat-button mat-raised-button color="accent" (click)="understood()" class="mat-elevation-z0">Understood</button>-->
+  </div>
+</div>

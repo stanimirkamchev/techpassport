@@ -1,0 +1,78 @@
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Location of customer or user data and storage can be guaranteed at all
+        times
+      </h5>
+      <mat-icon *ngIf="data.guaranteeLocation" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.guaranteeLocation" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="two-column">
+      <h5>Region(s) services provided to:</h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.serviceCountry_uk">UK</li>
+        <li *ngIf="data.serviceCountry_usa">USA</li>
+        <li *ngIf="data.serviceCountry_canada">Canada</li>
+        <li *ngIf="data.serviceCountry_eu">European Union</li>
+        <li *ngIf="data.serviceCountry_other">Other</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Region(s) data center and processing location are maintained:</h5>
+
+      <ul class="flex-list-column">
+        <li *ngIf="data.maintenanceCountry_uk">UK</li>
+        <li *ngIf="data.maintenanceCountry_usa">USA</li>
+        <li *ngIf="data.maintenanceCountry_canada">Canada</li>
+        <li *ngIf="data.maintenanceCountry_eu">European Union</li>
+        <li *ngIf="data.maintenanceCountry_other">Other</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>Utilises robust logical segregation</h5>
+      <mat-icon *ngIf="data.utilize" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.utilize" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Separates customers’ data sets and access</h5>
+      <!-- TODO: fields didn't match -->
+      <mat-icon *ngIf="data.moreInfo" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.moreInfo" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>
+        Has a process for change management when hosting providers are changed
+        or added to demonstrate where the storage of data is, so a bank is
+        informed and can approve
+      </h5>
+      <!-- TODO: fields didn't match -->
+      <mat-icon *ngIf="data.logicalMoreInfo" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.logicalMoreInfo" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+</div>

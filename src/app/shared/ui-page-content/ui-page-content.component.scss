@@ -1,0 +1,107 @@
+@import '~@angular/material/theming';
+@import 'colors.scss';
+
+:host {
+  @include mat-elevation(1);
+  background-color: white;
+  padding: 24px;
+  border-radius: 16px;
+  margin: 20px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+
+  &[fxFlex] {
+    margin: 0;
+  }
+
+  &.with-table {
+    padding: 16px 0 0 0;
+
+    ::ng-deep ui-data-filters {
+      margin: 0 24px;
+    }
+  }
+
+  &.content-button {
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 20px 0;
+    max-height: 168px;
+    padding-left: 12px;
+    padding-right: 12px;
+
+    ::ng-deep {
+
+      button {
+        flex: 1 0 100%;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        font-weight: 500;
+      }
+
+      .mat-button-wrapper {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      mat-icon {
+        color: $tp-green;
+        margin-bottom: 12px;
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .mat-subheading-2,
+      .mat-title {
+        white-space: normal;
+        // word-break: break-word;
+        margin: 0;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  header {
+    display: flex;
+    flex: 1 1 48px;
+    min-height: 48px;
+    flex-direction: row;
+
+    header-controls {
+      margin: -2px 0 0 0;
+      max-height: 32px;
+    }
+  }
+
+
+  ui-page-close {
+    margin: -12px -12px -16px auto;
+  }
+
+  mat-spinner {
+    margin: 64px auto 64px auto;
+  }
+
+  nav {
+    margin-top: 16px;
+  }
+
+  ng-component {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  header-controls {
+    margin-left: auto;
+    margin-bottom: -52px;
+    margin-top: 16px;
+  }
+}

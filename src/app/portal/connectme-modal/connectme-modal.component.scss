@@ -1,0 +1,70 @@
+@import 'colors.scss';
+div.modal-cont.connectme-modal {
+  position: relative;
+  overflow: hidden;
+
+  .progress {
+    margin-top: 38px;
+  }
+
+  .moreQuestions {
+    text-align: left;
+    margin-top:12px;
+    padding-left: 12px;
+    padding-right: 12px;
+      .inline {
+        margin-bottom: 20px;
+      }
+      .inline > *{
+        display: inline-block;
+      }
+      .inline > .label{
+        margin-right: 20px;
+      }
+     .formItem {
+        margin-top: 8px;
+     }
+     .label {
+       margin-left: 3px;
+       font-size: 9pt;
+       margin-bottom: 3px;
+     }
+   }
+
+  .options {
+    position: absolute;
+    bottom: 12px;
+    left: 31px;
+    right: 12px;
+    text-align: center;
+    width: 90%;
+
+
+    button {
+      width:100%;
+      text-align: center;
+      border-radius: 12px !important;
+      padding-left: 2px;
+      font-weight: normal;
+      font-size: 9pt;
+
+      mat-icon.supplier {
+        font-size: 28px;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+      }
+      mat-icon.purchaser {
+        font-size: 28px;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+      }
+    }
+  }
+}
+
+span.notificationMessage {
+  line-height: 2rem !important;
+  font-size: 1.5rem !important;
+}

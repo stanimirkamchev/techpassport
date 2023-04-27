@@ -1,0 +1,27 @@
+<div class="item-wrapper">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div>
+      <h5>
+        Committed to providing notifications to the customer of a breach or a
+        security incident
+      </h5>
+      <mat-icon *ngIf="data.breachNotification" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!data.breachNotification" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column" *ngif="data.breachNotification">
+      <h5>This includes an incident that may impact any of the following:</h5>
+      <ul class="flex-list-column">
+        <li>Customer service</li>
+        <li>Customer data</li>
+        <li>Subscribers, users or customers</li>
+      </ul>
+    </div>
+  </ui-page-content>
+</div>

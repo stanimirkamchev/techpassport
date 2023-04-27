@@ -1,0 +1,27 @@
+
+
+.wrp {
+
+  padding: 0 0 0 10px;
+
+  ::ng-deep .search-box {
+    background-color: #F3F3F6;
+    .search-container {
+      position: relative;
+    }
+    .search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      width: 12px;
+      transform: translateY(-50%);
+    }
+    .mat-optgroup-label {
+      background-color: #F3F3F6 !important;
+    }
+    .search-input {
+      width: 100%;
+      margin-left: 20px;
+    }
+  }
+}

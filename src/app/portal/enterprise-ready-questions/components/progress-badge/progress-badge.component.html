@@ -1,0 +1,34 @@
+<span *ngIf="compliant !== null; else incompliant">
+  <span
+    [ngClass]="
+      completed >= 10 && completed <= 40
+        ? 'middle'
+        : completed < 10
+        ? 'notCompleted'
+        : ''
+    "
+    class="progressPercentage completed"
+    >{{ completed.toFixed(0) }}% complete</span
+  >
+</span>
+
+<span *ngIf="compliant !== null; else incompliant">
+  <span
+    [ngClass]="
+      compliant >= 10 && compliant <= 40
+        ? 'middle'
+        : compliant < 10
+        ? 'notCompleted'
+        : ''
+    "
+    class="progressPercentage compliant"
+    >{{ compliant.toFixed(0) }}% compliant</span
+  >
+</span>
+
+<ng-template #incomplete>
+  <span class="progressPercentage notCompleted">{{ "Not complete" }}</span>
+</ng-template>
+<ng-template #incompliant>
+  <span class="progressPercentage incompliant">{{ "Not compliant" }}</span>
+</ng-template>

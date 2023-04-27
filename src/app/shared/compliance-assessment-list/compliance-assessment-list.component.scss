@@ -1,0 +1,45 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex: 0 1 260px;
+  min-width: 260px;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  flex: 1 1 auto;
+}
+
+li {
+  padding-left: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  color: $tp-dark;
+  cursor: pointer;
+
+  &.selected {
+    background: #F5F5F8;
+    color: $tp-green;
+
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+mat-icon {
+  width: 18px;
+  margin: 0 8px 0 16px;
+  font-size: 18px;
+  height: 18px;
+}

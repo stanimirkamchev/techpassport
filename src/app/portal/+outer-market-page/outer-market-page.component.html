@@ -1,0 +1,29 @@
+<ng-container>
+  <h2 class="main-heading">Market</h2>
+  <div>
+    <outer-market-filters
+      [selectedRows]="selectedRows"
+      [loaded]="loaded$ | async"
+      [isFilterActive]="isFilterActive"
+      (onSubmitFilterValue)="onSubmitFilterValue($event)"
+      (searchByFilterColumn)="searchByFilterColumn($event)"
+      (onClickInviteSelected)="onClickInviteSelected()"
+      (onClickCancelInvited)="onClickCancelInvited()"
+      (onClickOpenFilterModal)="onClickOpenFilterModal()"
+    >
+    </outer-market-filters>
+
+    <outer-market-table
+      [outerMarket]="dataSource$ | async"
+      [loading]="loading$ | async"
+      [clearTable]="clearTable"
+      [filterValue]="filterValue"
+      [searchedColumn]="searchedColumn"
+      [invitedSuppliers]="invitedSuppliers"
+      (selectedRowItems)="selectedRowItems($event)"
+      (allRecords)="setAllRecords($event)"
+      (onBoardSelectedItem)="onClickOnBoardSelectedItem($event)"
+    >
+    </outer-market-table>
+  </div>
+</ng-container>

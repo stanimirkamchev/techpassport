@@ -1,0 +1,69 @@
+<ui-data-table>
+  <table mat-table matSort [dataSource]="compliances" (matSortChange)="sort.emit($event)">
+
+  <ng-container matColumnDef="supplierName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{complianceProps.supplierName}}</th>
+    <td mat-cell *matCellDef="let element">{{element.supplierName}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="overallCompliance">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.overallCompliance}}</th>
+    <td mat-cell *matCellDef="let element" class="primary center">{{element.overallCompliance | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="securityQs">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.securityQs}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.securityQs | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="cyber">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.cyber}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.cyber | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="antiBribery">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.antiBribery}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.antiBribery | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="sanctions">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.sanctions}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.sanctions | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="antiMoneyLaundering">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.antiMoneyLaundering}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.antiMoneyLaundering | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="remuneration">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.remuneration}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.remuneration | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="supplyChain">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.supplyChain}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.supplyChain | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="healthAndSafety">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.healthAndSafety}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.healthAndSafety | percent}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="whistleblowing">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="center">{{complianceProps.whistleblowing}}</th>
+    <td mat-cell *matCellDef="let element" class="center">{{element.whistleblowing | percent}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns;"
+    class="selectable"
+    [class.selected]="selected?._id === row._id"
+    (click)="select(row)"
+    (dblclick)="openDetails(row)">
+  </tr>
+</table>
+</ui-data-table>

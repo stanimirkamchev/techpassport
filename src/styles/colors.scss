@@ -1,0 +1,114 @@
+
+//KOLORY: zielony #00AF00 granatowy #0D1B47, niebieski #36A9E1, pomaranczowy #FF3C00 szary tlo #F5F5F8
+$font-stack: Helvetica, sans-serif;
+
+$tp-pink: #F43F9C;
+$tp-green:  #00AF00;
+$tp-dark: #0C1D4A;
+$tp-dark-1: #0D1B47;
+$tp-blue: #3F9CF4;// #36A9E1;
+$tp-orange: #FF3C00;
+$tp-amber:  #F58200;
+$tp-red:  #FF0000;
+$tp-white: #FFF;
+$tp-bright: rgba($tp-white,0.8);
+$tp-grey: #C3C5D2;
+$tp-lightgray: #F3F3F6;
+$tp-secondary-black: #333333;
+$tp-black: #0C1D4A;
+$tp-dark-blue: #182853;
+$tp-dark-red: #D10000;
+$text-primary-color: #18181B;
+$text-secondary-color: #3F3F46;
+$text-primary-color-dark: #0D1B47;
+$text-primary-color-pink: #F43F9C;
+$primary-blue: #3F9CF4;
+$light-grey: #F5F5F8;
+
+$tp-bg: #F5F5F8;
+$tp-sidenav: #FFF;
+$gr-color:  #2cb01f;
+$tp-purp:   #F43F9C; // #D349A2;//#a1388A;
+$tp-gradient: linear-gradient(180deg, rgba(52,63,85,1) 10%, rgba(52,63,85,0.5) 100%);
+$tp-toolbar-height:75px;
+
+/////
+$poc-question: $tp-dark;
+$poc-button:  $tp-blue;
+$poc-icons: $tp-purp;
+$poc-smaller: $tp-dark;
+//////
+
+$m-core:$tp-amber;//#5AA7DC;
+$m-core-plus: #77C445;//#5AA7DC;
+$m-premium: #00B0F0;//#4EAC31;
+$m-premium-plus: $tp-purp;//#4EAC31;
+
+$m-exclusive: $tp-purp;//#91287A;
+$c-title: $tp-dark;
+$c-title-b: $tp-purp;// $tp-purp;//$tp-bg;
+
+$actionRequired:   $tp-purp;//rgba(#D51111, 1);
+
+.m-core-label {
+  color :$m-core;
+}
+.m-core-plus-label {
+  color :$m-core-plus;
+}
+.m-premium-label {
+  color :$m-premium;
+}
+.m-premium-plus-label {
+  color :$m-premium-plus;
+}
+
+.action-required {
+  color: $actionRequired;
+}
+.success-label {
+  color: $tp-green;
+}
+.info-label {
+  color:$c-title;
+}
+.info-dark {
+  color:$tp-dark;
+}
+.warning-label {
+  color: $actionRequired;
+}
+.await-s-label {
+  color: $tp-orange;
+}
+
+.purp-s-label {
+  color: $tp-purp;
+}
+
+.poc-question {
+  color: $poc-question!important;
+}
+.poc-icons {
+  color: $poc-icons!important;
+}
+.poc-button {
+  color: $poc-button!important;
+}
+.poc-smaller {
+  color: $poc-smaller!important;
+}
+
+.rapid-product {
+  color: $tp-blue;
+}
+
+.rapid-poc-button {
+  background-color: $tp-blue;
+  color: #fff;
+}
+.rapid-nda-button {
+  background-color: $tp-purp;
+  color: #fff;
+}
+

@@ -1,0 +1,102 @@
+<ng-container *ngIf="formGroup">
+  <h4>
+    Please provide the full contracting <strong>entity details</strong>
+  </h4>
+  <form autocomplete="off" [formGroup]="formGroup">
+    <div class="row">
+      <label class="mat-caption">Please provide the full contracting entity name</label>
+      <mat-form-field>
+        <input matInput formControlName="name" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Jurisdiction in which the contracting entity is registered</label>
+      <country-picker formControlName="country"></country-picker>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Company Type</label>
+      <mat-form-field>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of CompanyType | keyvalue" [value]="type.key">
+            {{type.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Contracting entity company number</label>
+      <mat-form-field>
+        <input matInput formControlName="companyNumber" required>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <label class="mat-caption">Registered office address for the contacting entity</label>
+      <div fxFlex="50" fxLayout="column">
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="1st Line ..." formControlName="address1" required>
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+          <input matInput placeholder="2nd Line ..." formControlName="address2">
+        </mat-form-field>
+        <div fxFlex fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex>
+            <input matInput placeholder="City" formControlName="city" required>
+          </mat-form-field>
+          <mat-form-field fxFlex>
+            <input matInput placeholder="Postcode" formControlName="postcode" required>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="allowUseCases">Enable use case and quality assessment criteria</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="allowComments">Allow Comments in POC negotiation</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="zeroTrialFee">0 Trial Fee</mat-checkbox>
+      </div>
+    </div>
+
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="requireNDA">Optional NDA</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="rapidPOC">Rapid POC</mat-checkbox>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <div fxFlex="50" fxLayout="column"></div>
+      <div fxFlex="50" fxLayout="column">
+        <mat-checkbox formControlName="rapidInfo">Rapid Compliance</mat-checkbox>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </form>
+</ng-container>

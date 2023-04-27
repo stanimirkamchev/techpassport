@@ -1,0 +1,16 @@
+<ng-container *ngIf="supplierDetails$ | async as supplierDetails">
+  <approval-status
+    *ngIf="supplierDetails.supplier?.status === 'Approved'"
+    [adminName]="supplierDetails.supplier?.review?.reviewer?.displayName"
+    [date]="supplierDetails.supplier?.review?.date">
+  </approval-status>
+  <rejection-status
+    *ngIf="supplierDetails.supplier?.status === 'Rejected'"
+    [adminName]="supplierDetails.supplier?.review?.reviewer?.displayName"
+    [date]="supplierDetails.supplier?.review?.date"
+    (details)="showRejectionDetails(supplierDetails.supplier)">
+  </rejection-status>
+  <supplier-assesment-table
+    [supplierReview]="supplierDetails.review">
+  </supplier-assesment-table>
+</ng-container>

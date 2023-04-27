@@ -1,0 +1,39 @@
+
+
+.delete-user-table-modal {
+    background: #FFFFFF;
+    border-radius: 6px;
+    padding: 10px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h3 {
+        margin: 0;
+        padding: 10px 0 20px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1em;
+        line-height: 150%;
+        text-align: center;
+        color: #0C1D4A;
+    }
+
+    button {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 1.125em;
+        line-height: 22px;
+        color: #FFFFFF;
+        width: 150px;
+        height: 58px;
+        background: #3F9CF4;
+        // opacity: 0.6;
+        border-radius: 6px;
+        box-shadow: none;
+        margin: 20px 10px 0;
+    }
+}

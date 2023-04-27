@@ -1,0 +1,92 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div *ngIf="true" class="item-wrapper">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column" *ngIf="payload.tags?.tags">
+      <h5>Product tags:</h5>
+      <ul class="flex-list-row">
+        <li *ngFor="let tag of payload.tags.tags">
+          <button mat-button class="blue">{{ tag }}</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Onboarding time:</h5>
+      <ul>
+        <!-- TODO: NIKOLA Not sure about this.  -->
+        <li>{{ payload.product.onboardingTime }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Product taxonomy:</h5>
+      <ul class="flex-list-column">
+        <li *ngFor="let taxonomy of payload.details?.details?.type">
+          {{ taxonomy }}
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Can run rapid POC with dummy data (not touching FI systems)</h5>
+      <!-- TODO: Nikola: payload.product.rapidPOC must be 'yes' or 'no' -->
+      <div *ngIf="payload.product.rapidPOC === 'true'">
+        <mat-icon class="green">{{ setIcon("yes") }}</mat-icon>
+        <mat-icon *ngIf="payload.product.rapidPOC !== 'true'" class="grey">{{
+          setIcon("no")
+        }}</mat-icon>
+      </div>
+    </div>
+
+    <div>
+      <h5>Custom API call can be built if required</h5>
+      <mat-icon *ngIf="payload.product.isTraining" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!payload.product.isTraining" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Solutions integrated with:</h5>
+      <ul
+        class="flex-list-row"
+        *ngIf="
+          payload.details &&
+          payload.details.details &&
+          payload.details.details.integratedSolutions
+        "
+      >
+        <li
+          *ngFor="let solution of payload.details.details.integratedSolutions"
+        >
+          <button mat-button class="blue">{{ solution }}</button>
+        </li>
+      </ul>
+
+      <ul
+        class="flex-list-row"
+        *ngIf="
+          !payload.details ||
+          !payload.details.details ||
+          !payload.details.details.integratedSolutions
+        "
+      >
+        <li>
+          <button mat-button class="blue">n/a</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="one-column">
+      <h5>Product functionality:</h5>
+      <p>
+        {{ payload.details?.details?.description || "n/a" }}
+      </p>
+    </div>
+  </ui-page-content>
+</div>

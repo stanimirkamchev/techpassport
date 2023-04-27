@@ -1,0 +1,16 @@
+<div
+  *ngIf="active"
+  class="onboarding-top-bar"
+  [class.active]="supplierIsInProgress"
+  [class.inactive]="!supplierIsInProgress"
+>
+  <div>
+    <a
+      class="btn-profile"
+      [routerLink]="['/portal']"
+      [queryParams]="{ page: 'onboarding', onboardingPage: 'profile' }"
+    >
+      Complete profile
+    </a>
+  </div>
+</div>

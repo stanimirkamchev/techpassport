@@ -1,0 +1,46 @@
+
+.limitTextHeight {
+    height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tiles {
+    ul {
+        list-style-type: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 24px;
+
+        li {
+            padding: 17px 16px;
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            background: #F5F5F8;
+            border-radius: 6px;
+            min-width: 48%;
+        }
+    }
+}
+
+.infoBox {
+  box-sizing: border-box;
+  background: #F5FAFE;
+  border: 1px solid #3F9CF4;
+  border-radius: 6px;
+  width: 93%;
+  margin: 1.5rem;
+  padding: 1rem;
+  display: flex;
+}
+
+.infoBox > img {
+  padding: 0 1rem 0 0;
+  width: 3rem;
+}
+
+.pointer {
+  cursor: pointer;
+}

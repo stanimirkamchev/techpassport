@@ -1,0 +1,516 @@
+<div class="company-settings" id="company-settings">
+  <form [formGroup]="companyForm" autocomplete="off">
+    <mat-card class="mt-5 custom-card">
+      <div class="page-header-title mb-5">Company</div>
+      <mat-card-content>
+        <div class="subTitle my-5">Basic Details</div>
+        <div class="d-flex">
+          <div class="container flex-1 mr-5">
+            <div class="d-flex space-x-5 mb-5">
+              <app-custom-input
+                class="flex-1"
+                label="Company Name"
+                [formGroup]="companyForm"
+                formControlName="name"
+                ngDefaultControl
+                [isError]="submitted && !!companyForm.controls.name.errors"
+                errorText="Enter the company name"
+              ></app-custom-input>
+              <div class="country flex-1">
+                <country-picker
+                  label="Country *"
+                  formControlName="country"
+                  [inValid]="isFieldInvalid('country')"
+                  [valid]="f.country.value !== ''"
+                ></country-picker>
+                <mat-error
+                  class="country-error"
+                  *ngIf="isFieldInvalid('country')"
+                  >Enter the company's country</mat-error
+                >
+              </div>
+            </div>
+            <div class="d-flex space-x-5 mb-5">
+              <app-custom-input
+                class="flex-1"
+                label="Company Number"
+                [formGroup]="companyForm"
+                formControlName="companyNumber"
+                ngDefaultControl
+                [isError]="
+                  submitted && !!companyForm.controls.companyNumber.errors
+                "
+                errorText="Enter the company number"
+              ></app-custom-input>
+              <app-custom-datepicker
+                *ngIf="!onlyMandatory"
+                class="flex-1"
+                label="Incorporation Date"
+                [formGroup]="companyForm"
+                formControlName="incorporated"
+                ngDefaultControl
+              ></app-custom-datepicker>
+            </div>
+            <div class="d-flex space-x-5 mb-5">
+              <app-custom-select
+                class="flex-1"
+                label="Stage of company funding"
+                [formGroup]="companyForm"
+                formControlName="companyStage"
+                ngDefaultControl
+                [options]="fundingOptions"
+                [isError]="
+                  submitted && !!companyForm.controls.companyStage.errors
+                "
+                errorText="Select a stage of funding"
+              >
+              </app-custom-select>
+              <app-custom-input
+                class="flex-1"
+                label="Company Website"
+                [formGroup]="companyForm"
+                formControlName="companyWebsite"
+                ngDefaultControl
+                [isError]="
+                  submitted && !!companyForm.controls.companyWebsite.errors
+                "
+                errorText="Enter the company's website address"
+              ></app-custom-input>
+            </div>
+
+            <div class="subTitle mt-10 mb-5">Company Address</div>
+            <div class="d-flex space-x-5 mb-5">
+              <app-custom-input
+                class="flex-1"
+                label="Address 1"
+                [formGroup]="companyForm"
+                formControlName="address1"
+                ngDefaultControl
+                [isError]="submitted && !!companyForm.controls.address1.errors"
+                errorText="Complete the company's address"
+              ></app-custom-input>
+              <app-custom-input
+                *ngIf="!onlyMandatory"
+                class="flex-1"
+                label="Address 2"
+                [formGroup]="companyForm"
+                formControlName="address2"
+                ngDefaultControl
+              ></app-custom-input>
+            </div>
+            <div class="d-flex space-x-5 mb-5">
+              <app-custom-input
+                class="flex-1"
+                label="City"
+                [formGroup]="companyForm"
+                formControlName="city"
+                ngDefaultControl
+                [isError]="submitted && !!companyForm.controls.city.errors"
+                errorText="Complete the company's address"
+              ></app-custom-input>
+              <app-custom-input
+                *ngIf="!onlyMandatory"
+                class="flex-1"
+                label="County"
+                [formGroup]="companyForm"
+                formControlName="region"
+                [isError]="submitted && !!companyForm.controls.region.errors"
+                errorText="Complete the company's address"
+                ngDefaultControl
+              ></app-custom-input>
+            </div>
+            <div>
+              <app-custom-input
+                class="flex-1"
+                label="Postcode"
+                [formGroup]="companyForm"
+                formControlName="postcode"
+                ngDefaultControl
+                [isError]="submitted && !!companyForm.controls.postcode.errors"
+                errorText="Complete the company's address"
+              ></app-custom-input>
+            </div>
+
+            <div *ngIf="!onlyMandatory" class="mt-5">
+              <app-custom-textarea
+                label="Company Description"
+                [formGroup]="companyForm"
+                formControlName="about"
+                ngDefaultControl
+              ></app-custom-textarea>
+            </div>
+            <div class="mt-5" *ngIf="!onlyMandatory">
+              <div class="mb-3 label">
+                What is the company revenue (year to date)?
+              </div>
+              <div class="d-flex">
+                <app-custom-select
+                  class="mr-3 w-40"
+                  label="Currency"
+                  [formGroup]="companyForm"
+                  [options]="currencyOptions"
+                  formControlName="currency"
+                  ngDefaultControl
+                ></app-custom-select>
+                <app-custom-input
+                  class="w-93"
+                  [formGroup]="companyForm"
+                  formControlName="revenue"
+                  ngDefaultControl
+                ></app-custom-input>
+              </div>
+            </div>
+            <div class="mt-5" *ngIf="!onlyMandatory">
+              <div class="mb-3 label labelAlignment">
+                Has your company or product received any awards?
+              </div>
+              <app-custom-checkbox
+                class="poppin rightAlignedCheckbox"
+                [value]="companyForm.get('isAward').value"
+                (change)="companyForm.get('isAward').setValue($event)"
+                ngDefaultControl
+              ></app-custom-checkbox>
+            </div>
+            <div
+              class="mt-5"
+              *ngIf="!onlyMandatory && companyForm.get('isAward').value"
+            >
+              <app-custom-textarea
+                label="Please provide more details"
+                [formGroup]="companyForm"
+                formControlName="details"
+                ngDefaultControl
+              ></app-custom-textarea>
+            </div>
+            <div class="mt-5" *ngIf="!onlyMandatory">
+              <app-custom-textarea
+                label="What sets you apart from your competition?"
+                [formGroup]="companyForm"
+                formControlName="competition"
+                ngDefaultControl
+              ></app-custom-textarea>
+            </div>
+          </div>
+          <div class="right-section" *ngIf="!onlyMandatory">
+            <div class="mb-5 centered">Company Logo</div>
+            <ngx-dropzone
+              #drop
+              class="file-upload mb-5"
+              [accept]="AllowedImagesExt.join(',')"
+              [disableClick]="!!companyLogo || isLogoExisted"
+              (change)="onChangeFile($event)"
+            >
+              <ngx-dropzone-label *ngIf="!isLogoExisted">
+                <div class="preview">
+                  <div>
+                    <div class="block">
+                      <mat-icon class="w-5" svgIcon="file_upload"></mat-icon>
+                    </div>
+                    <div class="text">Upload</div>
+                  </div>
+                </div>
+              </ngx-dropzone-label>
+              <!-- <ngx-dropzone-preview class="preview-wrapper" *ngIf="!!companyLogo || isLogoExisted">
+                <ngx-dropzone-label>
+                  <img [src]="previewSrc" />
+                </ngx-dropzone-label>
+              </ngx-dropzone-preview> -->
+
+              <div
+                *ngIf="!!companyLogo || isLogoExisted"
+                class="centered file-actions"
+              >
+                <div class="uploaded mt-7 mb-3">&nbsp;Uploaded</div>
+                <div
+                  class="edit-button mb-2 d-flex justify-center"
+                  [ngClass]="{ disable: !companyLogo }"
+                  (click)="isFile(isLogoExisted) && onUploadLogo($event)"
+                >
+                  Save &nbsp;
+                  <mat-icon
+                    class="icon icon-sm"
+                    *ngIf="!isUploading"
+                    svgIcon="save"
+                  ></mat-icon>
+                  <mat-spinner
+                    color="white"
+                    *ngIf="isUploading"
+                    diameter="16"
+                  ></mat-spinner>
+                </div>
+                <div
+                  class="remove-button d-flex justify-center"
+                  (click)="onRemoveLogo($event)"
+                >
+                  Remove &nbsp;
+                  <mat-icon
+                    class="icon icon-sm"
+                    *ngIf="!isDeleting"
+                    svgIcon="delete-x"
+                  ></mat-icon>
+                  <mat-spinner
+                    color="white"
+                    *ngIf="isDeleting"
+                    diameter="16"
+                  ></mat-spinner>
+                </div>
+              </div>
+            </ngx-dropzone>
+            <div class="error mt-2 centered" *ngIf="!!logoError">
+              {{ logoError }}
+            </div>
+            <!-- <div class="d-flex justify-center">
+              <app-custom-button (onClick)="onUploadLogo()" label="Upload" [loading]="isUploading"></app-custom-button>
+            </div> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mt-5 custom-card" *ngIf="!onlyMandatory">
+      <mat-card-title class="title"> Diversity </mat-card-title>
+      <mat-card-content class="diversity">
+        <div class="d-flex mb-10">
+          <div class="label mt-3 mr-10 max-w-80">
+            Do any of your <b>founders</b> self-identify as any of the
+            following?
+          </div>
+          <app-custom-multi-checkbox
+            [values]="companyForm.get('founderIdentify').value"
+            [options]="selfIdentityOptions"
+            (change)="companyForm.get('founderIdentify').setValue($event)"
+          >
+          </app-custom-multi-checkbox>
+        </div>
+        <div class="d-flex mb-10">
+          <div class="label mt-3 mr-10 max-w-80">
+            Do any of your <b>board members</b> self-identify as any of the
+            following?
+          </div>
+          <app-custom-multi-checkbox
+            [values]="companyForm.get('boardMembersIdentify').value"
+            [options]="selfIdentityOptions"
+            (change)="companyForm.get('boardMembersIdentify').setValue($event)"
+          >
+          </app-custom-multi-checkbox>
+        </div>
+        <div class="mb-10 d-flex items-center">
+          <div class="desc max-w-80">
+            How many of your <b>founders</b> identify as the following:
+          </div>
+          <div class="d-flex mx-5 items-center" [formGroup]="founderForm">
+            <div class="mr-3">Female</div>
+            <app-custom-input
+              [formGroup]="founderForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="female"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+          <div class="d-flex mx-5 items-center" [formGroup]="founderForm">
+            <div class="mr-3">Male</div>
+            <app-custom-input
+              [formGroup]="founderForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="male"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+          <div class="d-flex mx-5 items-center" [formGroup]="founderForm">
+            <div class="mr-3">Other</div>
+            <app-custom-input
+              [formGroup]="founderForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="other"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+        </div>
+        <div class="mb-20 d-flex items-center" [formGroup]="boardMembersForm">
+          <div class="desc max-w-80">
+            How many of your <b>board members</b> identify as the following:
+          </div>
+
+          <div class="d-flex mx-5 items-center">
+            <div class="mr-3">Female</div>
+            <app-custom-input
+              [formGroup]="boardMembersForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="female"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+          <div class="d-flex mx-5 items-center">
+            <div class="mr-3">Male</div>
+            <app-custom-input
+              [formGroup]="boardMembersForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="male"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+          <div class="d-flex mx-5 items-center">
+            <div class="mr-3">Other</div>
+            <app-custom-input
+              [formGroup]="boardMembersForm"
+              class="identify"
+              type="number"
+              [positiveOnly]="true"
+              formControlName="other"
+              ngDefaultControl
+            ></app-custom-input>
+          </div>
+        </div>
+        <div class="mb-10">
+          <div class="d-flex items-center space-x-3 mb-5">
+            <div>
+              Please upload any supporting documents (DE&I accolades, awards or
+              accreditations)
+            </div>
+          </div>
+          <div class="container d-flex space-x-5">
+            <div class="flex-1">
+              <div class="mb-1">
+                <custom-file-dropzone
+                  placeholder="Drag and drop or click to upload"
+                  (change)="onChangeFileField($event, '1')"
+                  [value]="companyForm.get('documents.file1').value"
+                  (save)="onSaveDoc($event, 1)"
+                  (remove)="onRemoveDoc(1)"
+                  (download)="onDownload(1)"
+                  [errorText]="docState[1].error"
+                  [isRemoving]="docState[1].isRemoving"
+                  [fid]="docState[1].fid"
+                  [uploadStatus]="docState[1].uploadStatus"
+                  [isSaving]="docState[1].isSaving"
+                ></custom-file-dropzone>
+              </div>
+              <div class="mb-5" [formGroup]="documentsForm">
+                <app-custom-input
+                  label="Document name"
+                  [formGroup]="documentsForm"
+                  formControlName="name1"
+                  ngDefaultControl
+                ></app-custom-input>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="mb-1">
+                <custom-file-dropzone
+                  placeholder="Drag and drop or click to upload"
+                  (change)="onChangeFileField($event, '2')"
+                  [value]="companyForm.get('documents.file2').value"
+                  (save)="onSaveDoc($event, 2)"
+                  (remove)="onRemoveDoc(2)"
+                  (download)="onDownload(2)"
+                  [errorText]="docState[2].error"
+                  [isRemoving]="docState[2].isRemoving"
+                  [fid]="docState[2].fid"
+                  [(uploadStatus)]="docState[2].uploadStatus"
+                  [isSaving]="docState[2].isSaving"
+                ></custom-file-dropzone>
+              </div>
+              <div class="mb-5" [formGroup]="documentsForm">
+                <app-custom-input
+                  label="Document name"
+                  [formGroup]="documentsForm"
+                  formControlName="name2"
+                  ngDefaultControl
+                ></app-custom-input>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="mb-1">
+                <custom-file-dropzone
+                  placeholder="Drag and drop or click to upload"
+                  (change)="onChangeFileField($event, '3')"
+                  [value]="companyForm.get('documents.file3').value"
+                  (save)="onSaveDoc($event, 3)"
+                  (remove)="onRemoveDoc(3)"
+                  (download)="onDownload(3)"
+                  [errorText]="docState[3].error"
+                  [isRemoving]="docState[3].isRemoving"
+                  [fid]="docState[3].fid"
+                  [uploadStatus]="docState[3].uploadStatus"
+                  [isSaving]="docState[3].isSaving"
+                ></custom-file-dropzone>
+              </div>
+              <div class="mb-5" [formGroup]="documentsForm">
+                <app-custom-input
+                  label="Document name"
+                  [formGroup]="documentsForm"
+                  formControlName="name3"
+                  ngDefaultControl
+                ></app-custom-input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-10 d-flex items-center">
+          <div class="label mt-3 mr-10 w-120">
+            Are you carbon <b>neutral</b>?
+          </div>
+          <app-custom-checkbox
+            [value]="companyForm.get('isCarbonNeutral').value"
+            (change)="companyForm.get('isCarbonNeutral').setValue($event)"
+          >
+          </app-custom-checkbox>
+        </div>
+        <div class="mb-10 d-flex items-center">
+          <div class="label mt-3 mr-10 w-120">Are you carbon <b>zero</b>?</div>
+          <app-custom-checkbox
+            [value]="companyForm.get('isCarbonZero').value"
+            (change)="companyForm.get('isCarbonZero').setValue($event)"
+          >
+          </app-custom-checkbox>
+        </div>
+        <div class="mb-10 d-flex items-center">
+          <div class="label mt-3 mr-10 w-120">
+            Does your board have an ESG expert?
+          </div>
+          <app-custom-checkbox
+            [value]="companyForm.get('haveEsgExpert').value"
+            (change)="companyForm.get('haveEsgExpert').setValue($event)"
+          >
+          </app-custom-checkbox>
+        </div>
+        <div class="mb-10 d-flex items-center">
+          <div class="label mt-3 mr-10 w-120">
+            Do you have an ESG committee?
+          </div>
+          <app-custom-checkbox
+            [value]="companyForm.get('haveEsgCommittee').value"
+            (change)="companyForm.get('haveEsgCommittee').setValue($event)"
+          >
+          </app-custom-checkbox>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <company-insurance
+      *ngIf="!onlyMandatory"
+      [formGroup]="insuranceForm"
+      [isMandatory]="onlyMandatory"
+    ></company-insurance>
+    <auditing-experience
+      *ngIf="!onlyMandatory"
+      [formControl]="experienceForm"
+    ></auditing-experience>
+    <mat-card *ngIf="error" class="error-card mt-5">
+      <mat-card-content>
+        <div class="error">
+          {{ error.message }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

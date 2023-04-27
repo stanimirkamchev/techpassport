@@ -1,0 +1,26 @@
+<mat-tab-group class="tabs" animationDuration="0ms">
+  <mat-tab class="tab-content" label="All Investors">
+    <ul *ngIf="investors.length !== 0" [ngClass]="investors.length > 6 ? 'overflow' : ''">
+      <li *ngFor="let investor of investors">{{ investor }}</li>
+    </ul>
+    <p *ngIf="investors.length == 0">
+      No Results Found
+    </p>
+  </mat-tab>
+  <mat-tab class="tab-content" label="Acquirers">
+    <ul *ngIf="acquirers.length !== 0" [ngClass]="acquirers.length > 6 ? 'overflow' : ''">
+      <li *ngFor="let acquirer of acquirers">{{ acquirer }}</li>
+    </ul>
+    <p *ngIf="acquirers.length == 0">
+      No Results Found
+    </p>
+  </mat-tab>
+  <mat-tab class="tab-content" label="Competitors">
+    <ul *ngIf="competitors.length !== 0" [ngClass]="competitors.length > 6 ? 'overflow' : ''">
+      <li *ngFor="let competitor of competitors">{{ competitor }}</li>
+    </ul>
+    <p *ngIf="competitors.length == 0">
+      No Results Found
+    </p>
+  </mat-tab>
+</mat-tab-group>

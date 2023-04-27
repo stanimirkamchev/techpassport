@@ -1,0 +1,350 @@
+<div class="teamContainer">
+  <div class="topBar">
+    <button
+      mat-button
+      mat-raised-button
+      class="add-button add-team-member"
+      color="accent"
+      (click)="addMember()"
+    >
+      <mat-icon matTooltip="Add Member">person_add</mat-icon>&nbsp;Add Member
+    </button>
+
+    <button
+      mat-button
+      mat-raised-button
+      class="add-button add-business"
+      *ngIf="groupAllowed"
+      color="primary"
+      (click)="addGroup()"
+      style="margin-left: 16px"
+    >
+      <mat-icon matTooltip="Add Member">group_add</mat-icon>&nbsp;Add Business
+      Group
+    </button>
+
+    <button
+      mat-button
+      mat-raised-button
+      class="add-button add-team-member"
+      color="warn"
+      [disabled]="allowInProgress"
+      *ngIf="!hideAllow && !allowTp"
+      (click)="grantAccess(true)"
+      style="margin-left: 16px"
+    >
+      <mat-icon matTooltip="Grant Access">accessibility</mat-icon>&nbsp;Grant
+      TechPasssport <strong>write</strong>
+      access
+    </button>
+
+    <button
+      mat-button
+      mat-raised-button
+      class="add-button add-team-member"
+      color="primary"
+      [disabled]="allowInProgress"
+      *ngIf="!hideAllow && allowTp"
+      (click)="grantAccess(false)"
+      style="margin-left: 16px"
+    >
+      <mat-icon matTooltip="Remove Access">accessibility</mat-icon>&nbsp;Remove
+      TechPasssport <strong>write</strong>
+      access
+    </button>
+
+    <span class="fill-space"></span>
+
+    <button
+      mat-button
+      mat-stroked-button
+      class="add-button"
+      color="primary"
+      style="margin-right: 12px"
+      (click)="resetFilters()"
+    >
+      Reset filters
+    </button>
+
+    <div class="searchField">
+      <mat-form-field>
+        <input
+          matInput
+          (keyup)="applyFilter($event.target.value)"
+          placeholder="Search"
+          autocomplete="off"
+          #filterInput
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="container entities" *ngIf="portalType !== 'supplier'">
+    <h4>Entities:</h4>
+    <table mat-table [dataSource]="dataSourceEntities" class="mat-elevation-z8">
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef style="width: 60px"></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="avatar">location_city</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="width: 29%">Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+          <sup *ngIf="element.myself == true"><small>myself</small></sup>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef style="width: 22%">Country</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getUnicodeFlagIcon(element.country) }}
+          {{ getName(element.country) }}
+        </td>
+      </ng-container>
+      <!--
+      <ng-container matColumnDef="members">
+        <th mat-header-cell *matHeaderCellDef> Num of members </th>
+        <td mat-cell *matCellDef="let element"> {{element.members}} </td>
+      </ng-container>
+    -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" align="right">
+        <th mat-header-cell *matHeaderCellDef style="text-align: right"></th>
+        <td mat-cell *matCellDef="let element" align="right"></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsEntities"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsEntities"
+        [ngClass]="{ accent: entitiesGroupsSelection.isSelected(row) }"
+        (click)="entitiesGroupsSelection.toggle(row)"
+      ></tr>
+    </table>
+  </div>
+
+  <div class="container business" *ngIf="portalType !== 'supplier'">
+    <h4>Business groups:</h4>
+    <table
+      mat-table
+      [dataSource]="dataSourceBusinessGroups"
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef style="width: 60px"></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="avatar">groups</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="width: 29%">Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+          <sup *ngIf="element.myself == true"><small>myself</small></sup>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="entity">
+        <th mat-header-cell *matHeaderCellDef style="width: 22%">Entity</th>
+        <td mat-cell *matCellDef="let element">{{ element.entity }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="members">
+        <th mat-header-cell *matHeaderCellDef>Num of members</th>
+        <td mat-cell *matCellDef="let element">{{ element.members }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" align="right">
+        <th mat-header-cell *matHeaderCellDef style="text-align: right"></th>
+        <td mat-cell *matCellDef="let element" align="right">
+          <button
+            mat-button
+            class="actionButton"
+            (click)="updateBusinessGroup(element)"
+            *ngIf="role === 'owner' || role === 'admin'"
+          >
+            <mat-icon matTooltip="Change Role">edit</mat-icon>
+          </button>
+
+          <button
+            mat-button
+            class="actionButton removeButton"
+            (click)="removeBusinessGroup(element)"
+            *ngIf="
+              (role === 'owner' || role === 'admin') && businessData.length > 1
+            "
+          >
+            <mat-icon matTooltip="Remove &quot;{{ element.name }}&quot;"
+              >clear</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsBusinessGroups"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumnsBusinessGroups"
+        [ngClass]="{ accent: businessGroupsSelection.isSelected(row) }"
+        (click)="businessGroupsSelection.toggle(row)"
+      ></tr>
+    </table>
+  </div>
+
+  <div class="container members">
+    <h4>Team members:</h4>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="avatar">
+        <th mat-header-cell *matHeaderCellDef style="width: 60px"></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon class="avatar">person</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="width: 29%">Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name }}
+          <sup *ngIf="element.myself == true"><small>myself</small></sup>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef style="width: 22%">Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="role" *ngIf="portalType === 'supplier'">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="group" *ngIf="portalType !== 'supplier'">
+        <th mat-header-cell *matHeaderCellDef>User Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.group }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="entity" *ngIf="portalType !== 'supplier'">
+        <th mat-header-cell *matHeaderCellDef>Entity</th>
+        <td mat-cell *matCellDef="let element">{{ getEntity(element) }}</td>
+      </ng-container>
+
+      <ng-container
+        matColumnDef="businessGroup"
+        *ngIf="portalType !== 'supplier'"
+      >
+        <th mat-header-cell *matHeaderCellDef>Business Group</th>
+        <td mat-cell *matCellDef="let element">{{ element.businessGroup }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span
+            class="status {{ element.class }}-status"
+            [matTooltip]="element.status"
+            >{{ element.status }}</span
+          >
+        </td>
+      </ng-container>
+
+      <ng-container
+        matColumnDef="isSamlAuthenticated"
+        *ngIf="portalType !== 'supplier' && level == 1"
+      >
+        <th
+          style="width: 100px"
+          mat-header-cell
+          *matHeaderCellDef
+          style="text-align: center"
+        >
+          SAML
+        </th>
+        <td style="padding-left: 10px" mat-cell *matCellDef="let element">
+          <mat-checkbox
+            [disabled]="
+              element.class == 'inactive' ||
+              !isCurrentUserSamlAuthenticated ||
+              element.myself == true
+            "
+            [(ngModel)]="element.isSamlAuthenticated"
+            (change)="changeSAML($event, element)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" align="right">
+        <th mat-header-cell *matHeaderCellDef style="text-align: right"></th>
+        <td mat-cell *matCellDef="let element" align="right">
+          <button
+            mat-button
+            class="actionButton"
+            (click)="editRole(element)"
+            *ngIf="
+              level < 3 &&
+              element.myself !== true &&
+              element.role !== 'owner' &&
+              element.group !== 'Super Users'
+            "
+          >
+            <mat-icon matTooltip="Change Role">edit</mat-icon>
+          </button>
+
+          <button
+            mat-button
+            class="actionButton"
+            [disabled]="element.reinvited === true"
+            (click)="resendInvitation(element)"
+            *ngIf="
+              element.status !== 'active' &&
+              element.myself !== true &&
+              element.role !== 'owner'
+            "
+          >
+            <mat-icon matTooltip="Resend Invitation">refresh</mat-icon>
+          </button>
+
+          <button
+            mat-button
+            class="actionButton removeButton"
+            (click)="removeMember(element)"
+            *ngIf="
+              (role === 'owner' || role === 'admin') &&
+              element.myself !== true &&
+              element.role !== 'owner'
+            "
+          >
+            <mat-icon matTooltip="Remove &quot;{{ element.name }}&quot;"
+              >clear</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <!--
+  <div>
+    <mat-icon>account_circle</mat-icon>
+  </div>
+  <div>
+    <h4>{{member.name}} <sup class="superOptions">[{{member.role}}] <span *ngIf="member.pocNotices">[Notices under the POC]</span> </sup></h4>
+    <h6>{{member.email}}</h6>
+  </div>
+--></div>

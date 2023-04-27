@@ -1,0 +1,83 @@
+<form [formGroup]="formGroup">
+  <div class="row">
+    <div class="column-3">
+      <div class="centerVertically">
+        <span class="checkboxLabel">
+          Are you able to <b>delete</b> all copies of a customers’ data from
+          <br />
+          locations it is held and report this to the customer?
+        </span>
+      </div>
+    </div>
+    <div class="column-9 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="deleteAbility()"
+        (change)="onDeleteAbilityChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+  <div class="row" *ngIf="deleteAbility$ | async">
+    <br />
+    <div class="column-4">Explain the current process</div>
+  </div>
+  <div class="row resetPadding" *ngIf="deleteAbility$ | async">
+    <div class="column-12 resetPadding">
+      <custom-text-area
+        [formGroup]="formGroup"
+        formControlName="currentProcessExplanationOfDeletingCustomersData"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column-3">
+      <div class="centerVertically">
+        <span>
+          Are you able to <b>provide a copy</b> of all bank data in a machine
+          <br />
+          consumable format when requested or when the contract is <br />
+          terminated?
+        </span>
+      </div>
+    </div>
+    <div class="column-9 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="provideACopy()"
+        (change)="onProvideACopyChange($event)"
+      ></custom-checkbox>
+    </div>
+  </div>
+  <div class="row" *ngIf="provideACopy$ | async">
+    <br />
+    <div class="column-4">Explain the current process</div>
+  </div>
+  <div class="row resetPadding" *ngIf="provideACopy$ | async">
+    <div class="column-12 resetPadding">
+      <custom-text-area
+        [formGroup]="formGroup"
+        formControlName="currentProcessExplanationOfCopyingCustomersData"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+  </div>
+  <div class="row" formGroupName="maintainMultipleCopiesOfData">
+    <div class="column-3">
+      <span>
+        Do you maintain multiple copies of customer data at <br />
+        dispersed geographical locations to mitigate events that may <br />
+        cause a loss of availability?
+      </span>
+    </div>
+    <div class="column-9 spaceFromLeft">
+      <custom-multi-checkbox
+        [allowNA]="true"
+        [formGroup]="formGroup.get('maintainMultipleCopiesOfData')"
+        [options]="yesNoOptions"
+        ngDefaultControl
+        (valueChanged)="maintainMultipleCopiesOfDataChanged($event)"
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+</form>

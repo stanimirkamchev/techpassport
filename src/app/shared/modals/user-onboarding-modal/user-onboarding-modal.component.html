@@ -1,0 +1,303 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-user-onboarding" [ngSwitch]="true">
+  <!-- Welcome -->
+  <div class="page" id="page1" *ngSwitchCase="page == 1">
+    <div class="modal-icon">
+      <mat-icon>supervised_user_circle</mat-icon>
+    </div>
+    <div class="space2"></div>
+    <!--<h1>So you're ready to join our community?</h1>-->
+    <h1 class="notSoStrong">
+      So <strong>you're</strong> ready to join <strong>our community</strong>?
+    </h1>
+    <h4>
+      Great news, first we need to know a <strong>few things</strong> about
+      <strong>you</strong>.
+    </h4>
+    <button
+      mat-button
+      class="goIn anim"
+      (click)="letsGo()"
+      (mouseover)="letGoMouseOver()"
+      (mouseout)="letGoMouseOut()"
+    >
+      <mat-icon id="arrow_forward" class="bigOne">arrow_forward</mat-icon>
+    </button>
+  </div>
+  <!-- NAME -->
+  <div class="page" id="page2" *ngSwitchCase="page == 2">
+    <div class="modal-icon">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="space2"></div>
+    <h1 class="notSoStrong">What <strong>name</strong> do you go by?</h1>
+    <form
+      [formGroup]="nameForm"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>First Name</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+          <input
+            matInput
+            niceOnly
+            noSpecialTotal
+            type="text"
+            placeholder="Write here..."
+            formControlName="firstName"
+            autocomplete="given-name"
+            required
+          />
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>Surname</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+          <input
+            matInput
+            niceOnly
+            noSpecialTotal
+            type="text"
+            placeholder="Write here..."
+            formControlName="lastName"
+            autocomplete="family-name"
+            required
+          />
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>Job Title</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+
+          <input
+            matInput
+            niceOnly
+            noSpecial
+            type="text"
+            placeholder="Write here..."
+            formControlName="jobTitle"
+            autocomplete=""
+            required
+          />
+
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label">Phone</div>
+        <div class="formItem40">
+          <input
+            matInput
+            type="text"
+            placeholder="Write here..."
+            formControlName="phone"
+            autocomplete="off"
+            numbersOnly
+          /></div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label"></div>
+        <div class="formItem40">
+          <span class="errorMessage">{{ message }}</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Address -->
+  <div
+    class="page"
+    id="page3"
+    *ngSwitchCase="page == 3 && !isSamlAuthenticated"
+  >
+    <div class="modal-icon">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="space2"></div>
+    <h1 class="notSoStrong">
+      Hi <strong>{{ nameForm.value.firstName }}</strong
+      >! Now, let's get you set up with a personalised <strong>profile</strong>.
+    </h1>
+    <form
+      [formGroup]="profileForm"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>E-mail</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+
+          <input
+            matInput
+            niceOnly
+            noSpecialTotal
+            type="email"
+            placeholder="Write here..."
+            formControlName="email"
+            autocomplete="email"
+            required
+          />
+
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>Password</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+          <input
+            matInput
+            formControlName="password"
+            id="passwordTmp"
+            type="{{ passInputType }}"
+            autocomplete="off"
+            placeholder="Write here..."
+            required
+          />
+        </div>
+        <div class="passVisibility" (click)="changePassInput()">
+          <mat-icon *ngIf="passInputType === 'password'">visibility</mat-icon>
+          <mat-icon *ngIf="passInputType !== 'password'"
+            >visibility_off</mat-icon
+          >
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label">
+          <strong>Confirm password</strong><sup class="mandatory">*</sup>
+        </div>
+        <div class="formItem40">
+          <input
+            matInput
+            type="{{ passInputType }}"
+            placeholder="Write here..."
+            autocomplete="off"
+            formControlName="confirmPassword"
+            required
+          />
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label"></div>
+        <div class="formItem40">
+          <password-strength-meter
+            (strengthChange)="strengthChange($event)"
+            [enableFeedback]="!message || message.length === 0"
+            [password]="profileForm.get('password').value"
+          ></password-strength-meter>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="form-row">
+        <div class="label"></div>
+        <div class="formItem40">
+          <span class="errorMessage">{{ message }}</span>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+  <div
+    class="page"
+    id="page4"
+    *ngSwitchCase="page == 4 && !isSamlAuthenticated"
+  >
+    <div class="modal-icon">
+      <mat-icon>email</mat-icon>
+    </div>
+    <div class="space2"></div>
+    <h1 class="notSoStrong">We've sent you a <strong>6-digit code</strong>.</h1>
+    <h2 class="notSoStrong">
+      Please check <strong>your inbox</strong> to continue registration process.
+    </h2>
+
+    <form
+      [formGroup]="verifyForm"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <div fxLayout="row" class="form-row">
+        <div class="label">6-digit code<sup class="mandatory">*</sup></div>
+        <div class="formItem30">
+          <input
+            matInput
+            type="text"
+            formControlName="code"
+            style="letter-spacing: 6px"
+            maxlength="6"
+            autocomplete="off"
+            numbersOnly
+            required
+          />
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row">
+        <div class="label"></div>
+        <div class="formItem40">
+          <span
+            class="errorMessage"
+            [ngClass]="{ successMessage: success == true }"
+            >{{ message }}</span
+          >
+        </div>
+      </div>
+      <div fxLayout="row" class="form-row" style="margin-top: 7px !important">
+        <div class="label"></div>
+        <div
+          class="formItem40"
+          [hidden]="message.length == 0 || success == true"
+        >
+          <button mat-button (click)="resend()" class="resendButton">
+            <mat-icon>refresh</mat-icon>
+            <span style="padding-top: 3px; padding-left: 10px"
+              >Resend the code!</span
+            >
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="bottomMenu userOnboarding">
+  <button
+    mat-button
+    class="goIn goBack bottomOne"
+    (click)="letsGoBack()"
+    *ngIf="page > 1 && !isSamlAuthenticated"
+    [disabled]="page == 4"
+  >
+    <mat-icon class="bigOne">arrow_backward</mat-icon>
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    *ngIf="page > 1 && isSamlAuthenticated"
+    (click)="saveUser()"
+    [disabled]="requestInProgress === true || pagesForms[this.page - 1].invalid"
+  >
+    Save {{ isSamlAuthenticated ? "and Login via SSO" : "" }}
+  </button>
+  <button
+    mat-button
+    class="goIn bottomOne"
+    (click)="letsGo()"
+    *ngIf="page > 1 && !isSamlAuthenticated"
+    [disabled]="requestInProgress === true"
+  >
+    <mat-icon class="bigOne">arrow_forward</mat-icon>
+  </button>
+</div>
+
+<!-- NAME -->

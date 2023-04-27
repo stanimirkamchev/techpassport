@@ -1,0 +1,261 @@
+@import 'colors.scss';
+
+.review-container{
+position: relative;
+left: 0;
+right: 0;
+top: 0;
+bottom: 0;
+margin-right: 50px;
+margin-left: 15px;
+
+div.legend {
+  //float: right;
+  margin-bottom: 8px;
+  div {
+    display: inline;
+    padding-right:20px;
+    padding-left: 4px;
+    font-size: 8pt;
+    border-left: solid 15px black;
+    border-radius: 1px;
+  }
+
+  div.blue{
+    border-left-color: $tp-blue;
+    color:  $tp-blue;
+  }
+  div.green{
+    border-left-color: $tp-green;
+    color:  $tp-green;
+  }
+  div.amber{
+    border-left-color: $tp-amber;
+    color:  $tp-amber;
+  }
+  div.pink{
+    border-left-color: $tp-purp;
+    color:  $tp-purp ;
+  }
+  div.red{
+    border-left-color: $tp-red;
+    color:  $tp-red ;
+  }
+
+}
+.bankContextAware {
+  .bank {
+    width: 300px;
+  }
+}
+.menu{
+  margin-bottom:15px;
+
+  .utils-menu,  .utils-menu > button {
+    display:inline-block;
+    margin-right:10px;
+  }
+
+
+  .searchField{
+    float:right;
+    ::ng-deep .mat-form-field-infix{
+      background-color: #FFF !important;
+      padding-left:15px !important;
+      border-radius:15px !important }
+    ::ng-deep .mat-form-field-label-wrapper{
+      left:10%;
+      width:85%
+    }
+    .search{
+      position: absolute;
+      top: 7px;
+      left: 2px;
+      font-size: 18px;
+      height: 18px;
+      width:18px;
+      }
+  }
+  .create{
+    .mat-icon{
+    width:14px;
+    vertical-align: middle;
+    height:14px;
+    font-size:14px}
+  }
+  button:hover, button:active, .selectedMenu{
+    background-color:$tp-green;
+    cursor:pointer;
+    color:#FFF;
+  }
+}
+::ng-deep table {
+    box-shadow:none;
+    width:100%;
+    th {
+      background: #F5F5F8;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 9pt;
+      border-top:1px solid #CCC;
+      font-weight:bold;
+      text-align:center;
+      color:$tp-dark;
+    }
+    .mat-sort-header-button{
+      font-weight:bold;
+    }
+    tr.mat-row{
+      background-color:#fcfcfc;
+    }
+    tr.mat-row:nth-child(even){
+      background-color:#f3f3f3;
+    }
+    td {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size:9pt;
+    }
+    .mat-header-row {
+      height: 38px;
+      min-height: 38px;
+      max-height: 38px;
+      background: $tp-dark;
+    }
+    .neutral{
+      color:$tp-dark;
+    }
+
+    .complete{
+        color:$tp-green;
+    }
+    .internal{
+      color:$tp-blue;
+    }
+    .mat-icon{
+        font-size:14px;
+        height:14px;
+        width:14px;
+        position: relative;
+        top:3px;
+    }
+    .mat-sort-header-container{
+      .mat-icon{
+        color: $tp-dark;
+      }
+    }
+    .mat-sort-header-arrow{
+      color: $tp-dark;
+    }
+    .draft{
+        color:$tp-blue;
+    }
+    .internal {
+      color: $tp-blue;
+    }
+    .pending {
+      color: $tp-amber;
+    }
+    .archived {
+      color: $tp-purp;
+    }
+    .rejected{
+        color:$tp-red;
+    }
+    .under{
+        color:#6f46cd;
+    }
+    .waiting{
+        color:#64708e;
+    }
+    .bank{
+        color:#6f46cd;
+    }
+    .supplier{
+        color:$tp-blue;
+    }
+    .date{
+      font-weight:100;
+    }
+    .actions{
+      text-align:center;
+      mat-icon{
+        margin:0 5px;
+        font-size: 13pt;
+      }
+      mat-icon:hover{
+        color:$tp-green;
+        cursor:pointer;
+      }
+    }
+  }
+}
+.review-container::after,.review-container::before{
+  content:"";
+  display: block;
+  clear:both
+}
+
+
+.risk {
+
+  .rr_table {
+    width: 100%;
+    box-shadow: none;
+
+    .cdk-column-title {
+      width: 65%;
+      text-align: left;
+      padding-right: 20px;
+      color: $tp-dark;
+      font-size:12px;
+      font-weight:100;
+
+    }
+    tr  .cdk-column-title {
+      font-weight:100;
+      font-size:13px;
+    }
+    /*.cancel, .check{
+      position: relative;
+      top:4px;
+    }
+    .cancel{
+      color:$tp-orange;
+    }*/
+    tr .mat-header-cell.cdk-column-title  {
+      font-size:14px;
+      font-weight: bold;
+      color: $tp-green;
+    }
+    .cdk-column-value {
+      width: 35%;
+      text-align: right;
+      color: $tp-green;
+    }
+  }
+
+  .rrCat:not(:first-child){
+    margin-top: 20px;
+  }
+  .rrCat {
+    width: 100%;
+  }
+  .rrCat > .assessment-item-group {
+    width: 100%;
+    .utils-menu {
+      width: 50%;
+      min-width: 420px;
+    }
+    .level {
+      padding-left: 50px;
+      width: 44%;
+    }
+
+  }
+}
+
+mat-spinner {
+  margin: 3rem auto;
+  float: revert;
+}

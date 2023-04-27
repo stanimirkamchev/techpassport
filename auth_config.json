@@ -1,0 +1,30 @@
+{
+  "production_tenant": {
+    "prod": {
+      "domain": "techpassport-prod.eu.auth0.com",
+      "clientId": "bPyC6TwsPuHyfpSnhok82oB0szdRGDMG",
+      "audience": "https://portal.techpassport.io/api/v1/user/login/sso",
+      "serverUrl": "https://portal.techpassport.io"
+    }
+  },
+  "uat_tenant": {
+    "local": {
+      "domain": "techpassport-dev.eu.auth0.com",
+      "clientId": "ua2kqPFVPUcfpCjFjhOk9lveIAVHR3IY",
+      "audience": "http://localhost:8099/api/v1/user/login/sso",
+      "serverUrl": "http://localhost:8099"
+    },
+    "demo": {
+      "domain": "techpassport-dev.eu.auth0.com",
+      "clientId": "kg2OoN8gtPmAUbvs2w7vNBJu0mbbywkj",
+      "audience": "https://demo.techpassport.io/api/v1/user/login/sso",
+      "serverUrl": "https://demo.techpassport.io"
+    },
+    "preprod": {
+      "domain": "techpassport-dev.eu.auth0.com",
+      "clientId": "vjeGmJgVkDDirqgwbsc6rra1gkhDNPoe",
+      "audience": "https://pre-prod.techpassport.io/api/v1/user/login/sso",
+      "serverUrl": "https://pre-prod.techpassport.io"
+    }
+  }
+}

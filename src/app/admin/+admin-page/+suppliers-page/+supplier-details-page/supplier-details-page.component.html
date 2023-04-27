@@ -1,0 +1,73 @@
+<div class="container">
+  <ui-page-title>Supplier</ui-page-title>
+  <ui-page-content>
+    <ui-page-close route="/admin/suppliers"></ui-page-close>
+    <mat-spinner
+      *ngIf="loading$ | async; else supplierDetails"
+      diameter="32"
+    ></mat-spinner>
+    <ng-template #supplierDetails>
+      <ng-container *ngIf="supplierDetails$ | async as supplierDetails">
+        <ui-page-header *ngIf="supplierDetails.supplier as supplier">
+          <ui-img
+            src="/api/v1/admin/supplier/{{ supplier._id }}/companylogo"
+            class="logo"
+          ></ui-img>
+          <span class="mat-title">
+            <strong>{{ supplier.name }}</strong> Company Ref
+          </span>
+        </ui-page-header>
+
+        <header-controls
+          [downloadHidden]="true"
+          (download)="download(supplierDetails.supplier)"
+          (approve)="approve(supplierDetails.supplier)"
+          (reject)="reject(supplierDetails.supplier)"
+        >
+          <button
+            [disabled]="!supplierDetails.review?.tpWriteAccess || true"
+            mat-stroked-button
+            color="primary"
+            (click)="addProduct(supplierDetails.supplier)"
+          >
+            Add Product
+          </button>
+          <!-- TEMPORARY DISABLED -->
+          <button
+            [disabled]="!supplierDetails.review?.tpWriteAccess"
+            mat-stroked-button
+            color="primary"
+            (click)="compliance(supplierDetails.supplier)"
+          >
+            Compliance
+          </button>
+        </header-controls>
+
+        <nav mat-tab-nav-bar>
+          <a
+            mat-tab-link
+            [routerLink]="['review']"
+            [active]="router.url.indexOf('/review') > -1"
+          >
+            Supplier Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['products']"
+            [active]="router.url.indexOf('/products') > -1"
+          >
+            Product Review
+          </a>
+          <a
+            mat-tab-link
+            [routerLink]="['compliance']"
+            [active]="router.url.indexOf('/compliance') > -1"
+          >
+            Compliance
+          </a>
+        </nav>
+      </ng-container>
+      <router-outlet></router-outlet>
+    </ng-template>
+  </ui-page-content>
+</div>

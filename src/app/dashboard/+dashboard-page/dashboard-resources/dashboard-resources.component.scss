@@ -1,0 +1,102 @@
+@import 'colors.scss';
+
+:host {
+ // display: flex;
+  //flex-direction: column;
+  //flex: 1 0 100%;
+  min-height: 400px;
+  margin-top: -12px;
+  height: 400px;
+
+  .overall-box { 
+    min-height: 51px;
+  }
+  .bubble {
+    width: 100%;
+    height: 100%;
+    background-color: lightcoral;
+  }
+
+  .boxes {
+    position: relative;
+    top: -14px;
+  }
+
+
+  .total {
+    background:none;
+    width: auto;
+    height: auto;
+
+    padding-top: 14%;
+
+    h4 {
+      color: $tp-dark;
+      font-size: 28pt;
+    }
+    label {
+      color: $tp-dark;
+      font-size: 11pt;
+    }
+  }
+
+  .round {
+    margin-left: 20px;
+    position: absolute;
+    color: #fff;
+    border-radius: 50%!important;
+    border: 0;
+  }
+  .round > div {
+    position: relative;
+    top: 20%;
+    left: 11%;
+
+    h4 {
+      font-size: 25pt;
+    }
+    label {
+      font-size: 9pt;
+    }
+  }
+
+  .round.pending {
+    left: 29%;
+    top: 12px;
+    z-index: 100;
+  
+    width: 210px;
+    height: 210px;
+
+  //  padding: 40px;
+    background-color: $tp-dark;// #26387F;
+  }
+
+  .round.completed {
+    left: calc( 29% + 140px);
+    top: 30px;
+    z-index: 102;
+  
+    width: 150px;
+    height: 150px;
+
+  //  padding: 20px;
+
+    background-color: $tp-green; // #74ACE1;
+  }
+
+  .round.canceled {
+    left: calc( 29% + 100px);
+    top:140px;
+    z-index: 101;
+  
+    width: 130px;
+    height: 130px;
+
+   // padding: 20px;
+    background-color: $tp-purp;// #5F75CF;
+  }
+
+ 
+}
+

@@ -1,0 +1,47 @@
+<div *ngIf="!loading && !!watchlists.length" class="dashboard-watchlist">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let watchlist of watchlists">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div class="d-flex align-center mb-1">
+            <span class="title">{{watchlist.name}}</span>
+          </div>
+          <p class="my-0 subTitle">
+            {{watchlist.products.length}} products · {{watchlist.collaborators.length}} collaborator{{getSuffix(watchlist.collaborators.length)}}
+          </p>
+        </mat-panel-title>
+        <mat-panel-description>
+          <button
+            class="edit-icon-button"
+            mat-icon-button
+            (click)="openEditModal($event, watchlist)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <dashboard-watchlist-detail
+          [watchLists]="watchlist.products"
+          (refresh)="getMyWatchlists()"
+          [watchlistId]="watchlist._id"
+        ></dashboard-watchlist-detail>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div
+  *ngIf="(!watchlists || watchlists.length == 0) && !loading"
+  class="no-data"
+>
+  <p>It’s quiet here</p>
+  <p>
+    Get started by adding products to your watchlist
+    <mat-icon>remove_red_eye</mat-icon>
+  </p>
+</div>
+
+<div *ngIf="loading" class="d-flex justify-center items-center flex-1">
+  <mat-spinner diameter="32"></mat-spinner>
+</div>

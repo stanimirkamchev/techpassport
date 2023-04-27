@@ -1,0 +1,208 @@
+$text-primary-color: #18181B;
+$text-primary-pink: #F43F9C;
+
+@mixin font($name, $weight: null, $style: null, $size: 1rem, $height: 1rem, $color: #000) {
+    font-family: quote($name) !important;
+    font-style: $style;
+    font-weight: $weight;
+    line-height: $height;
+    font-size: $size !important;
+    color: $color !important;
+}
+
+::ng-deep .termsDialogModal {
+    .mat-dialog-container {
+        border-radius: 4px !important;
+    }
+}
+
+.close-btn {
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: #F5F5F8;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    outline: none !important;
+}
+
+.invite-modal {
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .header {
+        border-bottom: 1px solid #E5E7EB !important;
+        padding: 0 0 30px;
+        margin: 0 0 20px 16px;
+
+        h2 {
+            margin: 32px 0 15px;
+            @include font('Public Sans', 600, normal, 36px, 115%, $text-primary-color);
+        }
+
+        h3 {
+            margin: 0 0 10px;
+            @include font('Public Sans', 600, normal, 24px, 115%, $text-primary-color);
+        }
+
+        .subheader {
+            margin: 0 auto 13px;
+            @include font('Public Sans', 600, normal, 20px, 115%, #3F3F46);
+        }
+
+        p {
+            margin: 0 auto;
+            max-width: 540px;
+            @include font('Public Sans', 400, normal, 16px, 110%, $text-primary-color);
+
+            &.light {
+                color: #3F3F46 !important
+            }
+        }
+    }
+
+    .separator {
+        margin: 8px;
+        padding: 0;
+        @include font('Inter', 400, normal, 14px, 140%, #0C1D4A);
+    }
+
+    .errorMessage {
+        color: orange;
+    }
+
+    .successMessage {
+        color: green;
+    }
+
+    ::ng-deep form {
+        div {
+            width: 100%;
+
+            .mat-form-field-wrapper {
+                padding-bottom: 0 !important;
+            }
+
+            .label {
+                margin-bottom: 10px;
+                @include font('Inter', 400, normal, 14px, 150%, #0C1D4A);
+                text-align: left;
+            }
+
+            .mat-form-field-should-float {
+                label {
+                    top: 1.3rem !important
+                }
+            }
+            .mat-focused {
+                label {
+                    top: 1.3rem !important
+                }
+            }
+
+            .mat-form-field-infix {
+                display: flex;
+                height: 70px !important;
+                background: #F3F3F6 !important;
+
+                span {
+                    label {
+                        top: 0.8rem;
+                        left: 0;
+                    }
+                }
+
+                input {
+                    padding: 0 20px !important;
+                    background: #F3F3F6;
+                    border: 1px solid rgba(11, 19, 30, 0.1);
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%;
+                    max-width: 100% !important;
+                    margin: 0;
+                    @include font('Helvetica', 400, normal, 16px, 150%, #0C1D4A);
+                }
+            }
+
+            .textArea {
+                .mat-form-field-infix {
+                    height: 182px !important;
+                    background: none !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+
+                    span {
+                        label {
+                            top: 0.8rem;
+                            left: 0;
+                        }
+                    }
+
+                    textarea {
+                        background: #F3F3F6;
+                        border: 1px solid rgba(11, 19, 30, 0.1);
+                        border-radius: 5px;
+                        height: 100%;
+                        width: 100%;
+                        max-width: 100% !important;
+                        margin: 0;
+                        @include font('Helvetica', 400, normal, 16px, 150%, #0C1D4A);
+                        padding: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .options {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        gap: 10px;
+
+        &.align-center {
+            align-items: center;
+        }
+
+        &.flex-column {
+            flex-direction: column;
+        }
+
+        button {
+            min-width: 49%;
+            width: 49%;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+
+            .mat-button-wrapper {
+                font-weight: 600 !important;
+            }
+        }
+
+        .invite-supplier-link {
+            @include font('Public Sans', 700, normal, 17px, 150%, $text-primary-pink);
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}

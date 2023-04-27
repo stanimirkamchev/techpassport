@@ -1,0 +1,135 @@
+@import "colors.scss";
+
+$percentage: 8.33%;
+
+.column-1 {
+  width: $percentage * 1;
+  display: inline-flex;
+}
+
+.column-2 {
+  width: $percentage * 2;
+  display: inline-flex;
+}
+
+.column-3 {
+  width: $percentage * 3;
+  display: inline-flex;
+}
+
+.column-4 {
+  width: $percentage * 4;
+  display: inline-flex;
+}
+
+.column-5 {
+  width: $percentage * 5;
+  display: inline-flex;
+}
+
+.column-6 {
+  width: $percentage * 6;
+  display: inline-flex;
+}
+
+.column-7 {
+  width: $percentage * 7;
+  display: inline-flex;
+}
+
+.column-8 {
+  width: $percentage * 8;
+  display: inline-flex;
+}
+
+.column-9 {
+  width: $percentage * 9;
+  display: inline-flex;
+}
+
+.column-10 {
+  width: $percentage * 10;
+  display: inline-flex;
+}
+
+.column-11 {
+  width: $percentage * 11;
+  display: inline-flex;
+}
+
+.column-12 {
+  width: 100%;
+  display: inline-flex;
+}
+
+/* Responsive layout - makes the columns stack on top of each other instead of floating next to each other on small screens */
+@media screen and (max-width: 900px) {
+  .column-1, .column-2, .column-3, .column-4, .column-5, .column-6, .column-7,
+  .column-8, .column-9, .column-10, .column-11, .column-12 {
+    width: 100%;
+    padding: 1rem 0;
+  }
+}
+
+.row {
+  position: relative;
+  padding: 1rem 0;
+}
+
+.actionButtons {
+  padding: 0 3rem 0 3rem;
+}
+
+.alignRight {
+  float: right;
+}
+
+.alignLeft {
+  padding: 0 0 0 3rem;
+}
+
+.alignCenter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.primaryBlueButton {
+  border-radius: 0 !important;
+  margin-top: 12px;
+  margin-right: 0.2rem;
+  background-color: $tp-blue;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.outlinedWhiteButton {
+  background: $tp-white;
+  border-radius: 0 !important;
+  border: 1px solid $tp-blue;
+  color: $tp-blue;
+}
+
+b {
+  margin: 0 4px;
+}
+
+.resetPadding {
+  padding: 0 !important;
+}
+
+.resetDisplay { display: inherit; }
+
+.paddingFromLeft {
+  padding: 0 0 0 10rem
+}
+
+.centerVertically {
+  position: absolute;
+  margin: -2.5rem 0 0 0;
+  word-break: break-word;
+  width: inherit;
+}
+
+.spaceFromLeft {
+  padding: 0 0 0 5%;
+}

@@ -1,0 +1,199 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-add-member">
+  <div class="modal-icon">
+    <mat-icon>account_circle</mat-icon>
+  </div>
+  <h4 class="notSoStong">
+    <span
+      *ngIf="message.length > 0"
+      class="message errorMessage"
+      [ngClass]="{ successMessage: success == true }"
+      >{{ message }}</span
+    >
+    <span *ngIf="message.length == 0"
+      >Please enter <strong>e-mail</strong> address of anyone you would like to
+      link to this account.</span
+    >
+  </h4>
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    [formGroup]="teamFormGroup"
+  >
+    <!-- [formGroup]="profileForm"  -->
+    <div fxLayout="row" class="form-row">
+      <div class="label">Name</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            niceOnly
+            type="text"
+            placeholder="Write here..."
+            formControlName="name"
+            autocomplete="off"
+            required
+            [readonly]="editMode"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" class="form-row">
+      <div class="label">E-mail</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            niceOnly
+            type="text"
+            placeholder="Write here..."
+            formControlName="email"
+            autocomplete="email"
+            required
+            [readonly]="editMode"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" class="form-row" *ngIf="data.teamType === 'supplier'">
+      <div class="label">Access Role</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <mat-select formControlName="role">
+            <mat-option value="admin"> Admin</mat-option>
+            <mat-option value="member"> Member</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      fxLayout="row"
+      class="form-row"
+      *ngIf="
+        data.teamType !== 'supplier' &&
+        (apiService.sessionObject.role === 'owner' ||
+          apiService.sessionObject.level < 3)
+      "
+    >
+      <div class="label">User Type</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <mat-select formControlName="role">
+            <mat-option value="Super Users">Super User</mat-option>
+            <mat-option value="Requestors">Requestor</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      class="form-row"
+      *ngIf="
+        data.teamType !== 'supplier' &&
+        (apiService.sessionObject.role === 'owner' ||
+          apiService.sessionObject.level < 3)
+      "
+    >
+      <div class="label">Entity</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <mat-select
+            formControlName="entity"
+            (selectionChange)="entChanged($event)"
+          >
+            <mat-option *ngFor="let g of data.entities" [value]="g._id">{{
+              g.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      class="form-row"
+      *ngIf="
+        data.teamType !== 'supplier' &&
+        (apiService.sessionObject.role === 'owner' ||
+          apiService.sessionObject.level < 3)
+      "
+    >
+      <div class="label">Business Group</div>
+      <div class="formItem">
+        <mat-form-field floatLabel="never">
+          <mat-select formControlName="businessGroup">
+            <mat-option *ngFor="let g of businessGroups" [value]="g._id">{{
+              g.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row" class="form-row" *ngIf="data.teamType === 'supplier'">
+      <div class="label"></div>
+      <div class="formItem">
+        <mat-checkbox formControlName="pocNotices"
+          >Receives contractual notifications?</mat-checkbox
+        >
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      class="form-row"
+      *ngIf="
+        data.teamType !== 'supplier' &&
+        (apiService.sessionObject.role === 'owner' ||
+          apiService.sessionObject.level < 3)
+      "
+    >
+      <div class="label">SAML</div>
+      <div class="formItem">
+        <mat-checkbox
+          [disabled]="
+            data.class == 'inactive' ||
+            level != 1 ||
+            !data.isCurrentUserSamlAuthenticated
+          "
+          formControlName="isSamlAuthenticated"
+        ></mat-checkbox>
+      </div>
+    </div>
+
+    <div class="options" fxLayout="row">
+      <button
+        mat-button
+        mat-raised-button
+        [disabled]="
+          !(teamFormGroup.valid || members.length > 0) ||
+          requestInProgress == true
+        "
+        color="accent"
+        (click)="confirm()"
+        class="mat-elevation-z0"
+      >
+        <span *ngIf="!editMode">Complete</span>
+        <span *ngIf="editMode">Update</span>
+        <span *ngIf="getNumber() > 2">({{ getNumber() }})</span>
+      </button>
+      <!--
+      <button mat-button mat-raised-button [disabled]="teamFormGroup.invalid || requestInProgress == true"
+        color="primary" (click)="addMember(true)" class="mat-elevation-z0">Add more</button>
+      --->
+      <button
+        mat-button
+        mat-raised-button
+        [disabled]="requestInProgress == true"
+        color="warn"
+        (click)="exit()"
+        class="mat-elevation-z0"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

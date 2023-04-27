@@ -1,0 +1,8 @@
+<div class="custom-datepicker-wrapper">
+  <mat-form-field class="custom-datepicker" appearance="fill" [formGroup]="formGroup">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [matDatepicker]="picker" [formControlName]="formControlName" (click)="picker.open()" (change)="picker.open()" disabled>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+  </mat-form-field>
+</div>

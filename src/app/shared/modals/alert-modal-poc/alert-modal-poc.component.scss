@@ -1,0 +1,49 @@
+@import 'colors.scss';
+
+.modal-cont {
+  font-size:9pt;
+  h1,h4 {
+    margin: 0;
+  }
+  mat-icon {
+    font-size: 42pt;
+    color: $tp-orange;
+    margin-left: -35px;
+  }
+  h1 {
+    font-size: 16pt;
+    line-height: 28px;
+    font-weight: normal;
+  }
+  h4 {
+    font-size: 12pt;
+    line-height: 19px;
+    font-weight: 100;
+  }
+  div {
+    padding:0 10px;
+    margin:6px 0;
+  }
+  ul{
+    width: 120px;
+    margin:0 auto;
+    text-align:left;
+  }
+  li{
+    font-weight:bold;
+
+  }
+  button {
+    //position: relative;
+    margin-top: 8px;
+  }
+  button:not(:first-child) {
+    margin-left: 7px;
+  }
+  .row{
+    border-bottom:1px solid gray
+  }
+  .row:last-child{
+    border-bottom:none;
+  }
+}

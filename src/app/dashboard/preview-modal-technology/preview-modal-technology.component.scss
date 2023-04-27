@@ -1,0 +1,16 @@
+@import 'colors.scss';
+
+
+ui-data-table {
+  max-height: 79vh;
+}
+h1 {
+  font-size: 14pt;
+  color: $tp-green;
+  font-weight: bold;
+}
+ui-page-close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}

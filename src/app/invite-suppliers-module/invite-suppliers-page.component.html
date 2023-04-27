@@ -1,0 +1,15 @@
+<div fxLayout="row" fxLayoutGap="10px">
+  <invitation-filters (filterChange)="onfilterChange()"></invitation-filters>
+</div>
+
+<invitation-table [loading]="loading$"></invitation-table>
+
+<div class="paginator pt-7">
+  <invitation-paginations
+    [(pageIndex)]="pageIndex"
+    (pageIndexChange)="onPageIndexChange()"
+    (pageSizeChange)="onPageSizeChange($event)"
+    [(pageSize)]="pageSize"
+    [size]="total"
+  ></invitation-paginations>
+</div>

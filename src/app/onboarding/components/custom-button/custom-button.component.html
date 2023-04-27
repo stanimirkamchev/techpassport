@@ -1,0 +1,4 @@
+<button mat-raised-button class="btn-custom" (click)="handleClick($event)" [disabled]="disabled || loading">
+  <mat-spinner color="white" *ngIf="loading" diameter="20"></mat-spinner>
+  <div *ngIf="!loading">{{label}}</div>
+</button>

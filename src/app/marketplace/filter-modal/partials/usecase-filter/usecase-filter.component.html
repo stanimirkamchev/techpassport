@@ -1,0 +1,25 @@
+<div class="taxonomy-filter-wrapper">
+  <div>
+    Use case contains keyword:
+  </div>
+
+  <mat-form-field class="tags-input scrollbar" appearance="fill">
+    <mat-icon *ngIf="!tags.length" svgIcon="search" class="search-icon"></mat-icon>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>close</mat-icon>
+      </mat-chip>
+      <input
+        *ngIf="tags.length < 10"
+        #input
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="addTag($event)"
+        placeholder="Use case"
+        [formControl]="query"
+      />
+    </mat-chip-list>
+  </mat-form-field>
+</div>

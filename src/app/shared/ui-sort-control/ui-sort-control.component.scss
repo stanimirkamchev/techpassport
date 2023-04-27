@@ -1,0 +1,20 @@
+@import 'colors.scss';
+
+:host {
+  display: inline-flex;
+  height: 40px;
+  vertical-align: middle;
+}
+
+.label,
+.value {
+  color: $tp-dark;
+}
+
+.label {
+  font-weight: bold;
+}
+
+mat-icon {
+  vertical-align: middle;
+}

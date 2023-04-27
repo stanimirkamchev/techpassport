@@ -1,0 +1,631 @@
+<div class="review-container">
+  <div class="menu bankContextAware" *ngIf="bankContextAware">
+    <mat-form-field class="bank">
+      <mat-label>Bank</mat-label>
+      <mat-select
+        placeholder="Bank"
+        (selectionChange)="onBankContextCh($event)"
+      >
+        <mat-option *ngFor="let bank of bankShortlist" [value]="bank._id">
+          {{ bank.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="menu">
+    <div class="utils-menu">
+      <button
+        class="roundTopButton"
+        (click)="applyFilter('Awaiting Supplier')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Awaiting Supplier' }"
+      >
+        Awaiting Supplier
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        class="roundTopButton"
+        (click)="applyFilter('Awaiting Buyer')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Awaiting Buyer' }"
+      >
+        Awaiting Buyer
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        class="roundTopButton"
+        (click)="applyFilter('Action Required')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Action Required' }"
+      >
+        Action Required
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        class="roundTopButton"
+        (click)="applyFilter('Completed')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Completed' }"
+      >
+        Completed
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        class="roundTopButton"
+        (click)="applyFilter('Draft'); selectedMenu = 'Draft'"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Draft' }"
+      >
+        Draft (not submitted)
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        #allButton
+        class="roundTopButton"
+        (click)="applyFilter('All')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'All' }"
+      >
+        All
+      </button>
+    </div>
+    <div class="utils-menu">
+      <button
+        *ngIf="userType !== 'supplier'"
+        class="roundTopButton"
+        (click)="applyFilter('Archived')"
+        [ngClass]="{ selectedMenu: selectedMenu === 'Archived' }"
+      >
+        Archive
+      </button>
+    </div>
+
+    <div class="searchField">
+      <mat-form-field floatLabel="never">
+        <label for="search">
+          <mat-icon class="search">search</mat-icon>
+        </label>
+        <input
+          matInput
+          id="search"
+          (keyup)="applyFilter($event.target.value)"
+          placeholder="Search"
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="utils-menu" style="float: right">
+      <button class="roundTopButton" (click)="initData()">
+        <mat-icon>cached</mat-icon>
+        Refresh
+      </button>
+      <button class="roundTopButton" (click)="exportCSV()">
+        <mat-icon>download</mat-icon>
+        Download CSV
+      </button>
+      <button
+        class="roundTopButton"
+        (click)="changeBusinessGroup()"
+        *ngIf="userType === 'customer'"
+        [ngClass]="{ selectedMenu: allBusinessGroups === true }"
+      >
+        All Business Groups
+      </button>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="blue" *ngIf="userType !== 'supplier'">Internal Process</div>
+    <div class="green">Successfully Completed</div>
+    <div class="amber">
+      <span *ngIf="userType !== 'supplier'">Supplier action required</span>
+      <span *ngIf="userType == 'supplier'">Buyer action required</span>
+    </div>
+    <div class="pink" *ngIf="!bankContextAware">Your action is required</div>
+    <div class="red" *ngIf="!bankContextAware">Unsuccessfully Completed</div>
+  </div>
+  <!-- {{ (filteredDataSource$ | async).length }} -->
+  <table
+    *ngIf="filteredDataSource$ | async; else loading"
+    mat-table
+    [dataSource]="filteredDataSource$ | async"
+    matSort
+    (matSortChange)="onSortChange($event)"
+  >
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let element" class="date">
+        {{ element.date | date : "MM/dd/yyyy" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="originator">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="originator">
+        <span>Originator</span>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.originator }}</td>
+    </ng-container>
+
+    <ng-container *ngIf="userType === 'customer'" matColumnDef="project">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="project">
+        <span>Project</span>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.project }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="productName">
+        <span>Product</span>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="farEndName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span *ngIf="userType == 'supplier'">Buyer</span>
+        <span *ngIf="userType == 'customer'">Supplier</span>
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.farEndName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="pocStartDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="pocStartDate">
+        <span>PoC start</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.pocStartDate | date : "MM/dd/yyyy" }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pocCompleteDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="pocCompleteDate">
+        <span>PoC complete</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.pocCompleteDate | date : "MM/dd/yyyy" }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="scope">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="scope">
+        <span>Scope</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.scope }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pocCost">
+      <th mat-header-cell *matHeaderCellDef>
+        <span>PoC cost</span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>{{ element.pocCost }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nda">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="ndaDisplayStatus">
+        Connection Status
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- <pre>
+          connectionstatus: {{ element?.ndaDisplayStatus }}
+          pocStatus: {{ element?.pocStatus }}
+          actionStatus: {{ element?.pocContractStatus }}
+          scope: {{ element?.scope }}
+        </pre> -->
+        <a
+          href="/api/v1/nda/{{ element.handshakeID }}/pdf"
+          *ngIf="
+            element.scope === 'NDA' &&
+            (element.nda === 'Approved' || element.nda === 'Completed')
+          "
+        >
+          <mat-icon
+            matTooltip="Download NDA"
+            class="complete"
+            style="padding-right: 3px"
+          >
+            picture_as_pdf
+          </mat-icon>
+        </a>
+        <span
+          style="cursor: pointer"
+          *ngIf="
+            (userType === 'supplier' &&
+              (element.nda === 'Pending' || element.nda === 'Started')) ||
+            (userType !== 'supplier' && element.nda === 'Approved')
+          "
+          class="action-required"
+        >
+          {{ element.ndaDisplayStatus }}
+          <br /><small style="font-size: 7pt">{{
+            element.ndaStatusLastUpdated | date : "medium"
+          }}</small>
+        </span>
+        <span
+          *ngIf="
+            !(
+              (userType === 'supplier' &&
+                (element.nda === 'Pending' || element.nda === 'Started')) ||
+              (userType !== 'supplier' && element.nda === 'Approved')
+            )
+          "
+          [class.complete]="element.nda === 'Completed'"
+          [class.internal]="element.nda === 'Internal'"
+          [class.pending]="
+            element.nda !== 'Completed' &&
+            element.nda !== 'Declined' &&
+            element.nda !== 'Internal'
+          "
+          [class.rejected]="element.nda === 'Declined'"
+        >
+          {{ element.ndaDisplayStatus }}
+          <br /><small style="font-size: 7pt">{{
+            element.ndaStatusLastUpdated | date : "medium"
+          }}</small>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pocrequire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="pocStatus">
+        POC status
+      </th>
+      <!-- requirements -->
+      <td mat-cell *matCellDef="let element">
+        <span [class]="getPOCReviewStatusClass(element)">
+          {{ element.pocStatus || "-" }}
+          <!--(element.pocContractStatus === 'Signed')-->
+          <span
+            *ngIf="
+              element.pocStatus === 'Completed' &&
+              element.pocContractStatus !== 'Completed' &&
+              element.pocContractStatus !== 'Signed'
+            "
+            [class]="getPOCContractClass(element)"
+          >
+            <small style="color: #999">/</small> Awaiting Signature</span
+          >
+          <br /><small style="font-size: 6pt">{{
+            element.pocStatusLastUpdated | date : "medium"
+          }}</small>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pocreview">
+      <th mat-header-cell *matHeaderCellDef>Action status</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.pocStatus === 'Draft'"
+          [class]="getPOCReviewStatusClass(element)"
+          (click)="editPOC(element)"
+          style="cursor: pointer"
+        >
+          {{ getPOCReviewStatus(element) }}
+        </span>
+
+        <span
+          *ngIf="
+            element.pocStatus === 'Completed' &&
+            element.pocContractStatus !== 'Completed' &&
+            element.pocContractStatus !== 'Signed'
+          "
+          [class]="getPOCContractClass(element)"
+          (click)="signPOC(element)"
+          style="cursor: pointer"
+        >
+          {{ getPOCContractStatus(element) }}
+        </span>
+
+        <mat-progress-bar
+          *ngIf="element.pocStatus === 'Completed' && downloadingPDF"
+          color="accent"
+          mode="indeterminate"
+          class="upload-progress"
+        >
+        </mat-progress-bar>
+
+        <a
+          href="/api/v1/poc/agreement/{{ element.pocID }}"
+          *ngIf="
+            element.pocStatus === 'Completed' &&
+            !downloadingPDF &&
+            ((element.pocContractStatus === 'Signed' && userLevel < 3) ||
+              element.pocContractStatus === 'Completed')
+          "
+          class="success-label"
+          [class.pending]="element.pocContractStatus === 'Signed'"
+          style="cursor: pointer; text-decoration: none"
+        >
+          Download Trial Agreement
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" *ngIf="!bankContextAware">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element" class="actions">
+        <span
+          *ngIf="
+            element.scope === 'NDA' &&
+            element.nda === 'Approved' &&
+            userLevel < 3
+          "
+        >
+          <mat-checkbox
+            [(ngModel)]="element.waitingForMeCheck"
+            (change)="ndaStatusChange($event, element)"
+          >
+            NDA signed off platform
+            <!-- download -->
+          </mat-checkbox>
+        </span>
+        <span
+          *ngIf="
+            element.scope === 'NDA' &&
+            element.nda === 'Internal' &&
+            userLevel <= 2
+          "
+        >
+          <mat-checkbox
+            (change)="ndaStatusChange($event, element)"
+            class="success-label"
+            [disabled]="element.applying === true"
+          >
+            Send NDA request
+          </mat-checkbox>
+        </span>
+
+        <span
+          *ngIf="
+            element.scope === 'POC' &&
+            userType === 'customer' &&
+            element.pocContractStatus === 'Signed' &&
+            userLevel < 3
+          "
+        >
+          <mat-checkbox
+            (change)="signOffPlatform($event, element)"
+            [class.success-label]="element.pocContractStatus !== 'Signed'"
+            [class.action-required]="element.pocContractStatus === 'Signed'"
+            [disabled]="element.applying === true"
+          >
+            PoC signed off platform
+          </mat-checkbox>
+        </span>
+
+        <button
+          mat-button
+          *ngIf="
+            element.scope === 'NDA' &&
+            element.nda === 'Pending' &&
+            userType === 'supplier'
+          "
+          (click)="signNDA(element)"
+          class="action-required"
+        >
+          Sign NDA
+          <!--{{element.ndaDisplayStatus}} -->
+          - {{ element.nda }}
+        </button>
+
+        <span
+          *ngIf="
+            element.scope === 'Compliance' &&
+            ((userType !== 'supplier' &&
+              element.nda === 'Internal' &&
+              userLevel < 3 &&
+              element.isMyBusinessGroup === true) ||
+              (userType === 'supplier' && element.nda === 'Pending'))
+          "
+        >
+          <mat-checkbox
+            [(ngModel)]="element.waitingForMeCheck"
+            (change)="ndaStatusChange($event, element)"
+            class="success-label"
+            [disabled]="element.applying === true"
+          >
+            Accept
+          </mat-checkbox>
+          <mat-checkbox
+            [(ngModel)]="element.waitingForMeCheckReject"
+            (change)="ndaStatusRejectChange($event, element)"
+            class="warning-label"
+            [disabled]="element.applying === true"
+          >
+            Reject
+          </mat-checkbox>
+        </span>
+
+        <mat-icon
+          matTooltip="Review POC"
+          [class]="getPOCReviewStatusClass(element)"
+          *ngIf="
+            (element.pocStatus && element.pocStatus === 'Completed') ||
+            (element.scope === 'POC' && element.nda === 'Declined') ||
+            element.pocStatus === 'Draft' ||
+            ((element.pocConnectionStatus === 'completed' ||
+              element.pocConnectionStatus === 'internal') &&
+              element.pocStatus === 'Started' &&
+              userType === 'customer' &&
+              element.pocStep > 2)
+          "
+          (click)="editPOC(element)"
+          >assignment</mat-icon
+        >
+
+        <mat-icon
+          matTooltip="POC Creator"
+          *ngIf="this.userType !== 'supplier' && showPOCButton(element)"
+          (click)="startPOC(element)"
+          >queue_play_next
+        </mat-icon>
+
+        <mat-icon
+          matTooltip="Product Details"
+          *ngIf="userType !== 'supplier' && element.nda === 'Completed'"
+          (click)="connectMeService.doAction(element, 'details', 1)"
+          >checklist
+        </mat-icon>
+
+        <mat-icon
+          matTooltip="Risk report"
+          *ngIf="userType !== 'supplier' && element.nda === 'Completed'"
+          (click)="
+            connectMeService.doAction(
+              {
+                reviewConnectionStatus: element.reviewConnectionStatus,
+                offConnectionStatus: element.offConnectionStatus,
+                nda: element.nda,
+                productID: element.productID
+              },
+              'details',
+              3
+            )
+          "
+        >
+          info
+        </mat-icon>
+
+        <mat-icon
+          matTooltip="Justification"
+          class="rejected"
+          *ngIf="element.scope === 'POC' && element.nda === 'Declined'"
+          (click)="openJustification(element)"
+        >
+          contact_support
+        </mat-icon>
+        <a href="/api/v1/poc/summary/{{ element.pocID }}/pdf">
+          <mat-icon
+            matTooltip="Download POC"
+            class="complete"
+            *ngIf="element.pocStatus === 'Completed' && !downloadingPDF"
+          >
+            picture_as_pdf
+          </mat-icon>
+        </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>
+<div style="display: none; width: 100%" *ngIf="downloadingPDF === true">
+  <div class="riskReport tabDetails" id="pocReportElement">
+    <div *ngFor="let rr_element of pocReportData; let i = index" class="rrCat">
+      <table
+        mat-table
+        [dataSource]="rr_element.dataSource"
+        class="mat-elevation-z8 rr_table"
+      >
+        <ng-container matColumnDef="title" style="width: 100%">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="utils-menu"
+            style="text-align: left; width: 100%"
+          >
+            <div style="float: left" *ngIf="rr_element.id === 's'">
+              <img
+                style="
+                  height: 80px;
+                  text-align: left;
+                  width: auto;
+                  max-width: 130px;
+                  margin-right: 12px;
+                  object-fit: contain;
+                "
+                src="/api/v1/admin/supplier/{{
+                  pocReportDataSummary.supplier.id
+                }}/companylogo"
+              />
+            </div>
+            <div style="float: left" *ngIf="rr_element.id === 'b'">
+              <img
+                style="
+                  height: 80px;
+                  text-align: left;
+                  width: auto;
+                  max-width: 130px;
+                  margin-right: 12px;
+                  object-fit: contain;
+                "
+                src="assets/img/Unknown.png"
+              />
+            </div>
+
+            <div
+              style="float: left"
+              [class.m-premium-plus-label]="rr_element.id === 'd'"
+              [class.success-label]="rr_element.id !== 'd'"
+            >
+              <h3>{{ rr_element.title }}</h3>
+            </div>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            style="width: 400px"
+            class="info-dark"
+          >
+            {{ element.title }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            style="min-width: 530px; text-align: right"
+          >
+            <span
+              *ngIf="
+                element.value !== 'yes' &&
+                element.value !== 'no' &&
+                element.title.indexOf('Date') === -1
+              "
+            >
+              &nbsp;&nbsp;&nbsp;{{ element.value }}</span
+            >
+            <span
+              *ngIf="
+                element.value !== 'yes' &&
+                element.value !== 'no' &&
+                element.title.indexOf('Date') > -1
+              "
+            >
+              &nbsp;&nbsp;&nbsp;{{ element.value | date : "fullDate" }}</span
+            >
+            <span *ngIf="element.value === 'yes'"
+              >&nbsp;&nbsp;&nbsp;<mat-icon class="icon check"
+                >check</mat-icon
+              ></span
+            >
+            <span *ngIf="element.value === 'no'"
+              >&nbsp;&nbsp;&nbsp;<mat-icon class="icon cancel"
+                >close</mat-icon
+              ></span
+            >
+          </td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedRRColumns"
+          style="padding-top: 10px; padding-bottom: 10px"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedRRColumns"
+          style="padding-top: 10px; padding-bottom: 10px"
+        ></tr>
+      </table>
+    </div>
+  </div>
+</div>

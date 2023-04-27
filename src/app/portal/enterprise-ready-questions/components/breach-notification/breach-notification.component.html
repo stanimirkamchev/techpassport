@@ -1,0 +1,22 @@
+<form [formGroup]="formGroup" autocomplete="off">
+  <div class="row resetPadding">
+    <div class="column-4">
+      Do you commit to providing notifications to the customer
+      of a breach or a security incident that may impact any of the following:
+    </div>
+    <div class="column-8"></div>
+  </div>
+  <div class="row">
+    <div class="column-4">
+      <ul>
+        <li>Customer service</li>
+        <li>Customer data</li>
+        <li>Subscribers, users or customers</li>
+      </ul>
+    </div>
+    <div class="column-8">
+      <custom-checkbox [value]="breachNotificationValue()"
+                       (change)="onBreachNotificationValueChange($event)"></custom-checkbox>
+    </div>
+  </div>
+</form>

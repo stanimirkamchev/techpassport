@@ -1,0 +1,54 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div class="item-wrapper" *ngIf="true">
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Product trial fee:</h5>
+      <ul>
+        <li>
+          {{
+            payload.details.charges?.trial === "fixedFee"
+              ? "Fixed Fee"
+              : payload.details.charges?.trial === "useCase"
+              ? "Use Case Dependent"
+              : payload.details.charges?.trial === "free"
+              ? "Free"
+              : "n/a"
+          }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Amount:</h5>
+      <ul>
+        <li>
+          {{ payload?.details?.charges?.currency.toUpperCase() || "n/a" }}
+          {{ payload?.details?.charges?.chargesAmtFee || "n/a" }}
+        </li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>RRP:</h5>
+      <span>{{
+        payload?.details?.charges?.rrp === "volume"
+          ? "Volume based (per license)"
+          : payload?.details?.charges?.rrp === "fixed"
+          ? "Fixed"
+          : "n/a"
+      }}</span>
+    </div>
+
+    <div class="two-column">
+      <!-- TODO: NIKOLA: Missing currency for this field  -->
+      <h5>Amount:</h5>
+      <span
+        >{{ payload?.details?.charges?.currency.toUpperCase() || "n/a" }}
+        {{ payload?.details?.charges?.rrpAmount || "n/a" }}</span
+      >
+    </div>
+  </ui-page-content>
+</div>

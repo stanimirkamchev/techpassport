@@ -1,0 +1,95 @@
+<mat-spinner *ngIf="false" diameter="32"></mat-spinner>
+
+<div *ngIf="true" class="item-wrapper">
+  <h3>{{supplier.name}}</h3>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Country:</h5>
+      <ul class="flex-list-row">
+        <li>
+          <button mat-button class="blue">{{ supplier.country }}</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Company number:</h5>
+      <ul class="flex-list-row">
+        <li>{{ supplier.companyNumber }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Stage of funding:</h5>
+      <ul class="flex-list-row">
+        <li>{{ supplier.companyStage }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Incorporation date:</h5>
+      <ul class="flex-list-row">
+        <li>{{ supplier.incorporated | date }}</li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Website:</h5>
+      <ul class="flex-list-row">
+        <li>
+          <a [href]="supplier.companyWebsite">{{ supplier.companyWebsite }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="two-column">
+      <h5>Company address:</h5>
+      <ul class="flex-list-column">
+        <li>{{ supplier.address1 }}</li>
+        <li>{{ supplier.address2 }}</li>
+        <li>{{ supplier.city }}</li>
+        <li>{{ supplier.postcode }}</li>
+        <li>{{ supplier.phone }}</li>
+      </ul>
+    </div>
+  </ui-page-content>
+
+  <ui-page-content class="table" [ngClass]="expansionStyling() | async">
+    <div class="two-column">
+      <h5>Company revenue (year to date):</h5>
+      <ul class="flex-list-row">
+        <li *ngIf="supplier.revenue">£{{ supplier.revenue }}</li>
+        <li *ngIf="!supplier.revenue">n/a</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Can run rapid POC with dummy data (not touching FI systems)</h5>
+      <!-- TODO: Nikola: payload.product.rapidPOC must be 'yes' or 'no' -->
+      <mat-icon *ngIf="product.rapidPOC === 'true'" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="product.rapidPOC !== 'true'" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div>
+      <h5>Custom API call can be built if required</h5>
+      <mat-icon *ngIf="product.isTraining" class="green">{{
+        setIcon("yes")
+      }}</mat-icon>
+      <mat-icon *ngIf="!product.isTraining" class="grey">{{
+        setIcon("no")
+      }}</mat-icon>
+    </div>
+
+    <div class="one-column">
+      <h5>What sets you apart from your competition?</h5>
+      <p>
+        {{ supplier.competition || "n/a" }}
+      </p>
+    </div>
+  </ui-page-content>
+</div>

@@ -1,0 +1,36 @@
+<div class="taxonomy-filter-wrapper">
+  <mat-list>
+    <div *ngFor="let taxonomy of taxonomies">
+      <mat-list-item>
+        <mat-checkbox
+          [checked]="selection.isSelected(taxonomy.value)"
+          (change)="onChange(taxonomy)"
+        >
+          {{taxonomy.title}}
+        </mat-checkbox>
+      </mat-list-item>
+      <div *ngIf="taxonomy.items.length" style="padding-left: 20px">
+        <div *ngFor="let secondLevelTaxonomy of taxonomy.items">
+          <mat-list-item>
+            <mat-checkbox
+              [checked]="selection.isSelected(secondLevelTaxonomy.value)"
+              (change)="onChange(secondLevelTaxonomy)"
+            >
+              {{secondLevelTaxonomy.title}}
+            </mat-checkbox>
+          </mat-list-item>
+          <div *ngIf="secondLevelTaxonomy.items.length" style="padding-left: 20px">
+            <mat-list-item *ngFor="let item of secondLevelTaxonomy.items">
+              <mat-checkbox
+                [checked]="selection.isSelected(item.value)"
+                (change)="onChange(item)"
+              >
+                {{item.title}}
+              </mat-checkbox>
+            </mat-list-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-list>
+</div>

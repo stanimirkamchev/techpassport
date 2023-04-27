@@ -1,0 +1,106 @@
+<ng-container *ngIf="searchesPreview$ | async as searchesPreview">
+  <ui-page-close [mat-dialog-close]></ui-page-close>
+  <h1 mat-dialog-title>Searches Preview</h1>
+  <div mat-dialog-content>
+
+    <ui-data-table>
+      <table mat-table matSort [dataSource]="searchesPreview" (matSortChange)="sort($event)">
+
+        <ng-container matColumnDef="searchDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Search Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.searchDate | date: 'shortDate'}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngFor="let country of element.country" [matTooltip]="getName(country)" matTooltipPosition="right">
+              {{getUnicodeFlagIcon(country)}}
+            </div>
+          </td>
+        </ng-container>
+
+
+        <!--
+          <ng-container matColumnDef="technology">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Technology</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.technology}}
+          </td>
+          </ng-container>
+        -->
+        <ng-container matColumnDef="functionality">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Functionality</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.functionality}}
+          </td>
+        </ng-container>
+
+        <!--'success-label': warning-label==='no'-->
+
+        <!--  <ng-container matColumnDef="haveConversation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Resulted in Converstion</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.haveConversation==='no', 'success-label': element.haveConversation==='yes' }">
+            {{element.haveConversation}}
+          </td>
+        </ng-container>-->
+        <!--
+        <ng-container matColumnDef="haveNDA">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Resulted in Connection</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.haveNDA==='no', 'success-label': element.haveConversation==='yes' }">
+            {{element.haveNDA}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="havePOC">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Resulted in POC</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.havePOC==='no', 'success-label': element.haveConversation==='yes' }">
+            {{element.havePOC}}
+          </td>
+        </ng-container>
+-->
+        <ng-container matColumnDef="productsFound">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Products Found</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.productsFound===0 } ">
+            {{element.productsFound}}
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="suppliersFound">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Suppliers Found</th>
+          <td mat-cell *matCellDef="let element" class="center"
+            [ngClass]=" { 'warning-label': element.suppliersFound===0 } ">
+            {{element.suppliersFound}}
+          </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.user}}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <span *ngIf="!searchesPreview.length" class="nothing-to-show">Nothing to show</span>
+    </ui-data-table>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button color="primary" (click)="download(searchesPreview)" class="download-btn">
+      <mat-icon>get_app</mat-icon>
+      Download CSV
+    </button>
+  </div>
+</ng-container>

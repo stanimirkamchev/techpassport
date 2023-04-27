@@ -1,0 +1,129 @@
+<form [formGroup]="formGroup">
+  <div class="row" formGroupName="cryptographicControls">
+    <div class="column-4">
+      <div class="centerVertically">
+        Are cryptographic controls in place to protect the <br />
+        confidentiality and integrity of all financial institution data (in
+        transit) <br />
+        to meet the following requirements:
+      </div>
+    </div>
+    <div class="row">
+      <div class="column-4">
+        <ul>
+          <li>TLS 1.2 or above</li>
+          <li>IPsec</li>
+          <li>SSHv2</li>
+        </ul>
+      </div>
+      <div class="column-8 spaceFromLeft">
+        <custom-multi-checkbox
+          [allowNA]="true"
+          [formGroup]="formGroup.get('cryptographicControls')"
+          [options]="yesNoOptions"
+          ngDefaultControl
+          (valueChanged)="onCryptographicControlsChange($event)"
+        ></custom-multi-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column-4">
+      <div class="centerVertically">Is a <b>digital signature</b> used?</div>
+    </div>
+    <div class="column-8 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="digitalSignatureValue()"
+        (change)="onDigitalSignatureValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="digitalSignatureValueCheck">
+    <div class="column-6">
+      <div>Select the method of <b>encryption</b> for digital signatures</div>
+    </div>
+  </div>
+  <div class="row" *ngIf="digitalSignatureValueCheck">
+    <custom-selector
+      [formGroup]="formGroup"
+      label="Select"
+      formControlName="encryptionMethod"
+      [options]="digitalSignatureOptions"
+      ngDefaultControl
+    ></custom-selector>
+  </div>
+
+  <div class="row">
+    <div class="column-4">
+      <div class="centerVertically">
+        Are all <b>encryption keys</b> used in the encryption of financial
+        <br />
+        institutions’ data stored in a designated vault or key <br />
+        management service, following industry best practices <br />
+        (for example NIST 800-57, FIPS 140-2 level 2)?
+      </div>
+    </div>
+    <div class="column-8 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="allEncryptionKeysUsedValue()"
+        (change)="onAllEncryptionKeysUsedValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row resetPadding" *ngIf="allEncryptionKeysUsedValueCheck">
+    <div class="column-12 resetPadding">
+      <span>Provide more information</span>
+    </div>
+  </div>
+  <div class="row" *ngIf="allEncryptionKeysUsedValueCheck">
+    <div class="column-12 resetDisplay">
+      <custom-text-area
+        [formGroup]="formGroup"
+        formControlName="allEncryptionKeysMoreInfo"
+        ngDefaultControl
+      ></custom-text-area>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column-4">
+      <span class="centerVertically">
+        Are encryption keys rotated at least once every <b>two years</b>?
+      </span>
+    </div>
+    <div class="column-8 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="areEncryptionKeysRotatedValue()"
+        (change)="onEncryptionKeysRotatedValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column-4">
+      <div class="centerVertically">
+        Are all <b>encryption keys</b> used in conjunction with the financial
+        institutions’ confidential information dedicated to the FI (and not used
+        in conjunction with data of any other customer or supplier)?
+      </div>
+    </div>
+    <div class="column-8 spaceFromLeft">
+      <custom-checkbox
+        [allowNA]="true"
+        [value]="allEncryptionKeysUsedInConjunctionValue()"
+        (change)="onEncryptionKeysUsedInConjunctionValueChange($event)"
+        ngDefaultControl
+      ></custom-checkbox>
+    </div>
+  </div>
+</form>

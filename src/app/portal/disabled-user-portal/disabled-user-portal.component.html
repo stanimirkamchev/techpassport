@@ -1,0 +1,22 @@
+  <button mat-mini-fab class="closeModal2 close-invite-modal" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <div class="modal disabled-user-modal">
+    <div class="header">
+      <h3>Currently another user is making changes, sorry for the inconvenience</h3>
+    </div>
+    <div>
+      <div fxLayout="column">
+      </div>
+    </div>
+    <div class="options success-btns">
+      <button
+        mat-button
+        mat-raised-button
+        (click)="cancel()"
+        class="continue-btn mat-elevation-z0"
+      >
+        Continue
+      </button>
+    </div>
+  </div>

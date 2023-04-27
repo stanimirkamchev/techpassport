@@ -1,0 +1,659 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+  <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-assesment" style="display: flex; flex-direction: column;">
+
+  <div class="topAssesmentBar">
+    <!--  *ngIf="!readOnly" -->
+    <div class="icon">
+      <mat-icon *ngIf="!readOnly">assignment</mat-icon>
+      <img class="logo" *ngIf="readOnly" src="/api/v1/admin/supplier/{{product?.supplier?._id}}/companylogo"/>
+    </div>
+    <div class=" title" *ngIf="!readOnly || horiziontalTabs.selectedIndex===2"><strong>Legacy Compliance</strong>
+      Checklist (read-only)
+    </div>
+    <div class="title" *ngIf="readOnly && horiziontalTabs.selectedIndex===0"><strong>Supplier</strong> details</div>
+    <div class="title" *ngIf="readOnly && horiziontalTabs.selectedIndex===1"><strong>Product</strong> details</div>
+    <div class="info" *ngIf="(readOnly && horiziontalTabs.selectedIndex===0) || data.onBehalf === true">
+      {{data.supplier?.name}}</div>
+    <span class="fill-space"></span>
+    <div class="overallStatus" *ngIf="!readOnly || horiziontalTabs.selectedIndex===2">
+      <strong>{{overallStatus}}%</strong>
+      <mat-progress-bar color="accent" mode="determinate" [value]="overallStatus"></mat-progress-bar>
+      <div>Overall State</div>
+    </div>
+
+    <button mat-button mat-raised-button *ngIf="readOnly === true && horiziontalTabs.selectedIndex===3" color="accent"
+            (click)="genPDF()" [disabled]="downloadingPDF === true" class="mat-elevation-z0 download-button">
+      <mat-icon>picture_as_pdf</mat-icon>
+      Download Risk Report
+    </button>
+
+  </div>
+
+  <mat-tab-group class="riskReportTabs" #horiziontalTabs [hidden]="readOnly !== true">
+    <mat-tab label="Supplier Details" class="supplierTab"></mat-tab>
+    <mat-tab label="Product Details" class="productTab"></mat-tab>
+    <mat-tab label="Compliance Checklist" class="complianceTab"></mat-tab>
+    <mat-tab label="Get Risk Report" class="complianceTab"></mat-tab>
+    <mat-tab label="Product Video" *ngIf="  product.details?.details.video === 'yes' " class="complianceTab"></mat-tab>
+  </mat-tab-group>
+
+  <div class="companyDetail tabDetails" *ngIf="readOnly && horiziontalTabs.selectedIndex===1">
+    <product-review *ngIf="productReview$ | async as productReview" [productReview]="productReview" [hideLog]="true">
+    </product-review>
+  </div>
+  <div class="companyDetail tabDetails vid" *ngIf="readOnly && horiziontalTabs.selectedIndex===4">
+    <div style="width: 100%; height: 100%;">
+      <iframe [src]="getVidUrl(product) | safe"
+              style="width: 100%; height: 100%; margin: 0; border: none; padding: 0;"></iframe>
+    </div>
+  </div>
+  <div class="companyDetail tabDetails" *ngIf="readOnly && horiziontalTabs.selectedIndex===0">
+    <div class="assesment-item-group group-header">
+      <div class="title">Supplier Details</div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Full name:</div>
+      <div class="level">{{product.supplier.name}}</div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Country of incorporation:</div>
+      <div class="level">
+        <ng-container *ngIf="product?.supplier?.country as country">
+          {{getUnicodeFlagIcon(country)}}
+          &nbsp;{{getName(country)}}
+        </ng-container>
+      </div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Date company incorporated:</div>
+      <div class="level">{{product.supplier.incorporated | date: 'mediumDate'}}</div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Company registration number:</div>
+      <div class="level">{{product.supplier.companyNumber}}</div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Registred address:</div>
+      <div class="level">
+        {{product.supplier.address1}}&nbsp;
+        {{product.supplier.address2}}<br/>
+        {{product.supplier.postcode}}&nbsp;
+        {{product.supplier.city}}
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="assesment-item-group">
+      <div class="title">Company website:</div>
+      <div class="level">{{product.supplier.companyStage}}</div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Stage of company:</div>
+      <div class="level">{{product.supplier.companyWebsite}}</div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group spacer-medium"></div>
+
+    <div class="assesment-item-group group-header">
+      <div class="title">Membership</div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Type:</div>
+      <div class="level">Core</div> <!-- TO DO -->
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Since:</div>
+      <div class="level">{{product.supplier.createdAt | date:'mediumDate'}}</div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group spacer-medium"></div>
+
+    <div class="assesment-item-group group-header">
+      <div class="title">Insurance</div>
+    </div>
+
+    <ng-template #noIns>
+      <mat-icon class="icon cancel">close</mat-icon>
+    </ng-template>
+
+    <div class="assesment-item-group">
+      <div class="title">Employee liability:</div>
+      <div class="level">
+        <ng-container *ngIf="getInsuranceVal('Employee') as ins; else noIns">
+          <span class="normal">Value:</span>
+          {{ ins | currency:'GBP' }}
+          <br/>
+          <span class="normal">Vaild date: </span>
+          {{ getInsuranceDate('Employee') | date: 'mediumDate' }}
+        </ng-container>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="assesment-item-group">
+      <div class="title">Public liability:</div>
+      <div class="level">
+        <ng-container *ngIf="getInsuranceVal('Public') as ins; else noIns">
+          <span class="normal">Value:</span>
+          {{ ins | currency:'GBP' }}
+          <br/>
+          <span class="normal">Vaild date: </span>
+          {{ getInsuranceDate('Public') | date: 'mediumDate' }}
+        </ng-container>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="assesment-item-group">
+      <div class="title">Cyber liability:</div>
+      <div class="level">
+        <ng-container *ngIf="getInsuranceVal('Cuber') as ins; else noIns">
+          <span class="normal">Value:</span>
+          {{ ins | currency:'GBP' }}
+          <br/>
+          <span class="normal">Valid date: </span>
+          {{ getInsuranceDate('Cyber') | date: 'mediumDate' }}
+        </ng-container>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="assesment-item-group spacer-medium"></div>
+    <div class="assesment-item-group group-header">
+      <div class="title">Auditing rights</div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Banks:</div>
+      <div class="level">
+        <span
+          *ngIf="product.supplier.auditing.auditRights!=='yes'&& product.supplier.auditing.auditRights!=='no'">{{product.supplier.auditing.auditRights}}</span>
+        <span *ngIf="product.supplier.auditing.auditRights==='yes'">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="product.supplier.auditing.auditRights==='no'">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+    <div class="assesment-item-group">
+      <div class="title">Third parties:</div>
+      <div class="level">
+        <span
+          *ngIf="product.supplier.auditing.auditRights!=='yes'&& product.supplier.auditing.thirdPartyAuditRights!=='no'">{{product.supplier.auditing.thirdPartyAuditRights}}</span>
+        <span *ngIf="product.supplier.auditing.thirdPartyAuditRights==='yes'">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="product.supplier.auditing.thirdPartyAuditRights==='no'">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="assesment-item-group spacer-medium"></div>
+    <div class="assesment-item-group group-header">
+      <div class="title">Previously onboarded with</div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Banking:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.banking">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.banking">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Insurance:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.insurance">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.insurance">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Wealth Management:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.wealthManagement">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.wealthManagement">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Life Assurance and Pensions:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.lifeAssurancePensions">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.lifeAssurancePensions">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Regulatory:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.regulatory">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.regulatory">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+    <div class="assesment-item-group">
+      <div class="title">Asset Management:</div>
+      <div class="level">
+        <span *ngIf="product?.supplier?.experience?.assetManagement">
+          <mat-icon class="icon check">check</mat-icon>
+        </span>
+        <span *ngIf="!product?.supplier?.experience?.assetManagement">
+          <mat-icon class="icon cancel">close</mat-icon>
+        </span>
+      </div>
+      <div class="components-required"></div>
+    </div>
+
+
+    <div class="spacer4"></div>
+
+
+  </div>
+
+
+  <div class="riskReport tabDetails" *ngIf="readOnly && horiziontalTabs.selectedIndex===3" #riskReportElement
+       id="riskReportElement">
+    <div *ngFor="let rr_element of riskReportData; let i = index" class="rrCat">
+      <!--<div class="assesment-item-group group-header">
+        <div class="title">{{rr_element.title}}:</div>
+    </div>-->
+      <!--<div class="assesment-item-group" *ngFor="let element2 of element.items; let j = index">
+      <div class="title">{{element2.title}}:</div>
+      <div class="level">{{element2.value}}</div>
+      <div class="components-required"></div>
+    </div>-->
+      <table mat-table [dataSource]="rr_element.dataSource" class="mat-elevation-z8 rr_table">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef class="title" style="text-align: left">{{rr_element.title}}</th>
+          <td mat-cell *matCellDef="let element" style="width: 700px;"> {{element.title}}
+            <!--<br /><small style="font-size:5pt">{{element.question}}</small></td>-->
+        </ng-container>
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" style="width: 330px;text-align:right">
+            <span *ngIf="element.value!=='yes'&& element.value!=='no'">&nbsp;&nbsp;&nbsp;{{element.value}}</span>
+            <span *ngIf="element.value==='yes'">&nbsp;&nbsp;&nbsp;<mat-icon class="icon check">check</mat-icon></span>
+            <span *ngIf="element.value==='no'">&nbsp;&nbsp;&nbsp;<mat-icon class="icon cancel">close</mat-icon></span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedRRColumns" style="padding-top: 10px; padding-bottom: 10px;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedRRColumns;" style="padding-top: 10px; padding-bottom: 10px;">
+        </tr>
+      </table>
+
+    </div>
+
+  </div>
+  <div *ngIf="readOnly && horiziontalTabs.selectedIndex===2" style="display: flex; overflow: auto">
+    <div *ngIf="assessmentList$ | async as assessmentList" style="display: flex; text-align: left; flex: 1 0 auto;">
+      <compliance-assessment-list [assessmentList]="assessmentList" [informationSecurity]="informationSecurity$ | async"
+                                  [selectedId]="selectedAssesment?.id" (selectAssessment)="selectedAssesment = $event">
+      </compliance-assessment-list>
+      <compliance-assessment-item [assessmentItem]="selectedAssesment" [downloadDisabled]="false">
+      </compliance-assessment-item>
+    </div>
+  </div>
+
+
+  <!---->
+  <mat-sidenav-container class="side-nav-container" *ngIf="!readOnly">
+    <mat-sidenav mode="side" opened class="sidenav">
+      <mat-action-list>
+        <button mat-list-item *ngFor="let element of assessments; let i = index" class="sidenavButton"
+                (click)="changeIndex(i)" [ngClass]="{selected: index === i}"
+                [disabled]="(element.baseLevel === 'product' && !data.id)">
+          <div class="mini-chart">
+            <!---<mat-icon>fiber_manual_record</mat-icon>-->
+            <span [ngClass]="{completed: element.progress == 100}">{{element.progress}}%</span>
+          </div>
+          <div class="title">
+            <mat-icon>{{element.icon}}</mat-icon>
+            {{element.title}}
+          </div>
+        </button>
+      </mat-action-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <!-- <app-tab-content [(index)]=index></app-tab-content> -->
+      <div class="assesment-title">
+        <div>
+          <mat-icon>{{assessments[index].icon}}</mat-icon>
+        </div>
+        <div>
+          <h3>{{assessments[index].title}}</h3>
+        </div>
+        <span class="fill-space"></span>
+        <div *ngIf="!readOnly">
+          <button mat-button mat-raised-button disabled
+                  *ngIf="!(guidancePage === true || index === 0 || index === 7 || index === 9)"
+                  color="accent"
+                  class="mat-elevation-z0">TechPassport Guidance
+          </button>
+          <button mat-button mat-raised-button *ngIf="guidancePage === true" color="accent" (click)="goBack()"
+                  class="mat-elevation-z0">
+            Go Back
+          </button>
+        </div>
+
+
+        <!--<div>CHART</div>-->
+        <div class="chartWrapper">
+          <canvas baseChart [data]="onboardingChart.chartData" [labels]="onboardingChart.chartLabels"
+                  [chartType]="onboardingChart.chartType" [colors]="onboardingChart.chartColors"
+                  [options]="onboardingChart.chartOptions" [plugins]="onboardingChart.chartPlugins"
+                  [legend]="onboardingChart.chartLegend">
+          </canvas>
+        </div>
+        <div>
+          <strong>{{assessments[index].progress}}%</strong><br/>Completed
+        </div>
+      </div>
+      <div id="assessmentsBodyContent" *ngIf="guidancePage !== true">
+        <input type="file"
+               accept="application/pdf,.doc,.docx,.xlsx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.txt,.rtf"
+               (change)="onFileInputChange($event)" id="fileInput" [hidden]='true' #fileInput>
+        <ng-container *ngIf="index === 0" class="security-questions">
+          <!-- Information Security -->
+          <div class="assesment-item" *ngFor="let section of informationSecurityAssesment; let i = index">
+            <div class="section-title">
+              {{section.title}}
+            </div>
+            <div class="assesment-item-group">
+              <!--
+                <div class="title" style="min-width: 52px; font-size: 11px; font-weight: bold">{{section.title}}</div>
+                -->
+              <div class="assesment-item-group-sub">
+                <div style="display: flex; margin-bottom: 50px; "
+                     *ngFor="let question of section.questions; let j = index">
+                  <div class="level" style="flex: 0 0 42%; padding-right: 12px">
+                    <span style="font-size: 11pt">{{question.id}}</span>&nbsp; <span
+                    style="font-weight:normal">{{question.question}}</span>
+                    <mat-icon class="help" style="color: #12AA12; font-size: 15px; width: 15px; height: 15px;"
+                              [matTooltip]="question.guidance">help
+                    </mat-icon>
+                  </div>
+                  <ng-container *ngIf="informationSecurityFormArray.controls[i] as sectionControls"
+                                style="margin-top:12px">
+                    <ng-container *ngIf="sectionControls.controls[j] as questionFormGroup">
+                      <div *ngIf="readOnly === true" class="upload-evidence">
+                        <div class="title-m success-label">
+                          <span>Download evidence:</span>
+                        </div>
+                        <button mat-icon-button class="assesment-actions" (click)="downloadFile(question)"
+                                matTooltip="Download" [disabled]="!(question.status==='allowed' && question.hash)"
+                                color="accent">
+                          <mat-icon>move_to_inbox</mat-icon>
+                        </button>
+                        <div class="state-m">
+                          <a *ngIf="question.hash && question.status!=='processing'"
+                             href="https://metadefender.opswat.com/results#!/file/{{question.hash}}/hash/overview"
+                             target="_blank" rel="noopener">
+                            <img style="border-radius: 4px; margin-top:0"
+                                 src="https://api.metadefender.com/v4/hash/{{question.hash}}/badge?size=small&type=svg"/>
+                          </a>
+                        </div>
+                      </div>
+                      <form class="components-required" style="flex: 1 1 38%; flex-direction: row; padding-top:0"
+                            *ngIf="!readOnly">
+                        <mat-radio-group [formControl]="questionFormGroup.get('compliant')">
+                          <mat-radio-button value="yes">Compliant</mat-radio-button>
+                          <mat-radio-button value="no">Not Compliant</mat-radio-button>
+                          <!--<mat-radio-button value="na">Not applicable</mat-radio-button>-->
+                        </mat-radio-group>
+                        <mat-form-field floatLabel="never" class="textArea" style="margin-top:12px;">
+                          <!-- formControlName="answer"  -->
+                          <textarea [formControl]="questionFormGroup.get('answer')" rows="4" placeholder="Answer"
+                                    maxlength="3000" matInput type="text" noSpecial niceOnly noNA required></textarea>
+                        </mat-form-field>
+                        <mat-form-field floatLabel="never" class="textArea" style="margin-top:4px;">
+                          <!-- formControlName="evidenceDescription"  -->
+                          <textarea [formControl]="questionFormGroup.get('evidenceDescription')" rows="4"
+                                    placeholder="Evidence Description / Page Reference" maxlength="3000" matInput
+                                    type="text"
+                                    noSpecial niceOnly required></textarea>
+                        </mat-form-field>
+                        <div *ngIf="question.uploadingFile===true" class="upload-evidence upload-progress">
+                          <mat-progress-bar color="accent" mode="indeterminate" class="upload-progress">
+                          </mat-progress-bar>
+                        </div>
+                        <div class="upload-evidence" *ngIf="question.templateName && question.templateName.length > 0">
+                          <div class="title-m purp-s-label">
+                            <span>Download template:</span>
+                          </div>
+                          <button mat-icon-button class="assesment-actions" matTooltip="Download template"
+                                  (click)="downloadTemplate( question )" color="primary">
+                            <mat-icon>description</mat-icon>
+                          </button>
+                        </div>
+
+                        <div *ngIf="question.uploadingFile !== true" class="upload-evidence">
+
+                          <div class="title-m success-label">
+                            <span>Upload your evidence:</span>
+                          </div>
+
+                          <button mat-icon-button matTooltip="Upload File"
+                                  (click)="openInfoSecFileInput( question )" [disabled]="question.hash" color="accent">
+                            <!--   (click)="openFileInput(index, level1, level2, component)"-->
+                            <mat-icon>attach_file</mat-icon>
+                          </button>
+
+                          <button mat-icon-button (click)="downloadFile(question)"
+                                  matTooltip="Download" [disabled]="!(question.status==='allowed' && question.hash)"
+                                  color="accent">
+                            <mat-icon>move_to_inbox</mat-icon>
+                          </button>
+
+                          <button mat-icon-button (click)="removeAssesment(index, question)"
+                                  matTooltip="Remove File" [disabled]="!question.hash || question.status==='processing'"
+                                  color="warn">
+                            <mat-icon>highlight_off</mat-icon>
+                          </button>
+
+                          <div class="state-m">
+                            <a *ngIf="question.hash && question.status!=='processing'"
+                               href="https://metadefender.opswat.com/results#!/file/{{question.hash}}/hash/overview"
+                               target="_blank" rel="noopener">
+                              <img style="border-radius: 4px; margin-top:0"
+                                   src="https://api.metadefender.com/v4/hash/{{question.hash}}/badge?size=small&type=svg"/>
+                            </a>
+                            <span *ngIf="question.status==='processing'" class="await-s-label">
+                              <mat-icon
+                                style="font-size: 13px; margin-left: 5px; padding:2px; height:14px; width: 12px; line-height: 8px;">
+                                hourglass_empty</mat-icon>
+                              <small style="font-size: 8pt">Scanning file...</small>
+                            </span>
+                          </div>
+                        </div>
+
+                      </form>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="index > 0">
+          <div class="assesment-item" *ngFor="let level1 of assessments[index].items; let i = index">
+            <div class="assesment-item-group">
+              <div class="title">{{assessments[index].items[i].title}}</div>
+              <div class="level">
+                <div *ngFor="let level2 of level1.items; let j = index">
+                  {{level2.title}}
+                </div>
+              </div>
+              <!--<div class="components-required-title">
+                  <span *ngIf="level1.items[0].components && level1.items[0].components.length > 1">Components<br/>Required</span>
+                </div>-->
+              <div class="components-required">
+                <div *ngFor="let level2 of level1.items; let j = index" class="components-required-level">
+                  <div *ngFor="let component of level2.components; let k = index" class="components-required-item">
+
+                    <div class="date-form">
+                      <!--  *ngIf="level1.title === 'Certifications'"-->
+                      <mat-form-field floatLabel="never" class="validDate"
+                                      *ngIf="!readOnly && component.hasOwnProperty('validDate') && component.uploadingFile!==true">
+                        <input matInput noSpecial [min]="minDateEnd" [(ngModel)]="component.validDate"
+                               autocomplete="off" (ngModelChange)="validDateChanged($event, component, level1, index)"
+                               [matDatepicker]="pickerStart" placeholder="Valid date">
+                        <!--formControlName="incorporated"-->
+                        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerStart disabled="false"></mat-datepicker> <!-- [dateClass]="dateClass" -->
+                      </mat-form-field>
+                    </div>
+
+                    <div class="upload-menu" *ngIf="component.status!=='processing' || !readOnly">
+
+                      <div class="component-title" *ngIf="component.title">{{component.title}}</div>
+
+                      <div style="margin-top:3px; width:100%">
+<!--                        <button mat-icon-button class="assesment-actions" matTooltip="Upload File"-->
+<!--                                *ngIf="!readOnly && component.status!=='allowed' && component.uploadingFile!==true && component.status!=='processing'"-->
+<!--                                (click)="openFileInput(index, level1, level2, component)">-->
+<!--                          <mat-icon>publish</mat-icon>-->
+<!--                        </button>-->
+
+<!--                        <button mat-icon-button class="assesment-actions" (click)="downloadFile(component)"-->
+<!--                                matTooltip="Download" [disabled]="component.status!=='allowed'"-->
+<!--                                *ngIf="component.uploadingFile!==true && !readOnly" color="accent">-->
+<!--                          <mat-icon>move_to_inbox</mat-icon>-->
+<!--                        </button>-->
+
+<!--                        <button mat-icon-button class="assesment-actions" (click)="downloadFile(component)"-->
+<!--                                matTooltip="Download" *ngIf="readOnly === true && component._id" color="accent">-->
+<!--                          <mat-icon>move_to_inbox</mat-icon>-->
+<!--                        </button>-->
+
+<!--                        <button mat-icon-button class="assesment-actions" (click)="removeAssesment(index, component)"-->
+<!--                                matTooltip="Remove File" [disabled]="component.status!=='allowed'"-->
+<!--                                *ngIf="!readOnly && component.uploadingFile!==true && component.status!=='processing'"-->
+<!--                                color="warn">-->
+<!--                          <mat-icon>highlight_off</mat-icon>-->
+<!--                        </button>-->
+
+                        <div class="upload-progress" *ngIf="component.uploadingFile===true">
+                          <mat-progress-bar color="accent" mode="indeterminate" class="upload-progress">
+                          </mat-progress-bar>
+                        </div>
+
+                        <div style="float: right" class="await-s-label" *ngIf="component.status==='processing'">
+                          <small>
+                            <mat-icon
+                              style="font-size: 12px; margin-left: 5px; padding:2px; height:12px; width: 12px; line-height: 4x;">
+                              hourglass_empty
+                            </mat-icon>
+                            Scanning file...
+                          </small>
+                        </div>
+
+                        <div style="float: right" class="await-s-label" *ngIf="component.status==='error'">
+                          <small>{{component.errorMessage}}</small>
+                        </div>
+
+                        <div style="float: right"
+                             *ngIf="component.hash && component.uploadingFile!==true && component.status!=='processing'">
+                          <a href="https://metadefender.opswat.com/results#!/file/{{component.hash}}/hash/overview"
+                             target="_blank" rel="noopener">
+                            <img style="border-radius: 4px;"
+                                 src="https://api.metadefender.com/v4/hash/{{component.hash}}/badge?size=small&type=svg"/>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="guidancePage === true" class="guidancePage">
+
+        <h3>Techpassport Guidance</h3>
+        <section *ngIf="index===9">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/WMiNSQtxzyI?rel=0"
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </section>
+        <section *ngIf="index===4">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/cMz_i2i0B0A?rel=0"
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </section>
+        <section *ngIf="index===1">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/MC7W0wrJ81Y?rel=0"
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </section>
+        <section *ngIf="index===6">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/BAqLGV1uWQM?rel=0"
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </section>
+
+        <guidence-information-security *ngIf="index===0"></guidence-information-security>
+        <guidence-information-security *ngIf="index===1"></guidence-information-security>
+        <guidence-records-management *ngIf="index===2"></guidence-records-management>
+        <guidence-business-continuity *ngIf="index===3"></guidence-business-continuity>
+
+        <guidence-anti-bribery *ngIf="index===4"></guidence-anti-bribery>
+        <guidence-sanctions *ngIf="index===5"></guidence-sanctions>
+        <guidence-anti-money-laundering *ngIf="index===6"></guidence-anti-money-laundering>
+        <guidence-supply-chain *ngIf="index===8"></guidence-supply-chain>
+        <guidence-whistle-blowing *ngIf="index===10"></guidence-whistle-blowing>
+
+      </div>
+
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <!---->
+
+  <iframe style="display:none;" name="hiddenIframe" id="hiddenIframe"></iframe>
+</div>

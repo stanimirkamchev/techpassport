@@ -1,0 +1,116 @@
+@import 'src/styles/colors';
+
+.personal-settings {
+  min-height: 100%;
+  padding-bottom: 20px;
+  margin: 1.5rem;
+
+  .page-header-title {
+    font-weight: 500;
+    font-size: 38px;
+    line-height: 46px;
+    color: $tp-dark;
+  }
+
+  .custom-card {
+    padding: 50px 30px;
+    box-shadow: none;
+
+    .title {
+      font-size: 24px;
+      color: $tp-dark;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-family: Helvetica;
+    }
+    .subTitle {
+      font-size: 18px;
+      line-height: 1.5;
+      color: $tp-dark;
+    }
+  }
+}
+
+.container {
+  max-width: 960px;
+}
+
+.btn-custom {
+  background: $tp-blue !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 2px !important;
+  color: $tp-white !important;
+  padding: 10px 40px;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 40px;
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.btn-custom-outline {
+  border: 1px solid $tp-blue;
+  color: $tp-blue;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 2px !important;
+  padding: 10px 40px;
+  font-size: 14px !important;
+  line-height: 1;
+  height: 40px;
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999999999;
+  background: $tp-dark;
+  height: 72px;
+}
+
+::ng-deep {
+  .mat-slide-toggle {
+    .mat-slide-toggle-bar {
+      background-color: #9CA3AF;
+    }
+    .mat-slide-toggle-content {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 150%;
+      letter-spacing: 0.05em;
+      color: #9CA3AF;
+    }
+    &.mat-checked
+    {
+      .mat-slide-toggle-thumb {
+        background-color: #ffffff
+      }
+      .mat-slide-toggle-bar {
+        background-color: #3F9CF4;
+      }
+    }
+  }
+}
+.last-save {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #FFFFFF;
+}
+
+.save-icon {
+  width: 10px;
+  height: 11px;
+  margin-bottom: 13px;
+  margin-right: 20px;
+  margin-left: 10px;
+}

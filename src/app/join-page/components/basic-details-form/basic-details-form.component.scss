@@ -1,0 +1,160 @@
+@import "colors.scss";
+
+input {
+  height: 70px !important;
+}
+
+.is-invalid {
+  border: 1px solid $tp-red;
+  height: 70px !important;
+}
+
+.is-filled {
+  label {
+    transform: translateY(-140%);
+    font-size: 12px;
+  }
+}
+
+.createAccount {
+  text-align: center;
+  font-size: 2rem !important;
+}
+
+.heading {
+  margin-top: 0 !important;
+  padding-left: 1rem;
+}
+
+.tooltip_icon {
+  border: none;
+  background-color: transparent;
+}
+
+.passwordDetail {
+  padding-right: 1.7rem;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2.2rem;
+  padding-top: 1rem;
+
+  .buttons {
+    padding: 1.125rem 2.5rem;
+    line-height: 0;
+    height: 2.563rem;
+    border-radius: 2px !important;
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+  }
+
+  .cancel-btn {
+    margin-left: 0.75rem;
+    background: $tp-white;
+    color: $tp-blue;
+    border: 2px solid $tp-blue;
+  }
+  .next-btn {
+    background: $tp-blue;
+    color: $tp-white;
+  }
+}
+
+.icon {
+  fill: $tp-black;
+  opacity: 50%;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  .tooltipContainer {
+    visibility: hidden;
+    width: 18rem;
+    font-size: 11pt;
+    line-height: 150%;
+    color: $tp-black;
+    border-radius: 6px;
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    text-align: left;
+    background-color: $tp-sidenav;
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.25);
+    position: absolute;
+    right: -1rem;
+    top: 1.4rem;
+    z-index: 1;
+    margin: 0 !important;
+
+    .tooltipTitle {
+      font-weight: 700;
+      font-size: 12pt;
+    }
+  }
+}
+
+.tooltip:hover .tooltipContainer {
+  visibility: visible;
+}
+
+::ng-deep .mat-form-field:not(.not-shitty) .mat-form-field-infix,
+.InputContainer {
+  background-color: rgba($tp-dark, 0.07) !important;
+  font-size: 12pt !important;
+  font-family: Poppins, serif !important;
+  font-weight: 100;
+  color: $tp-dark;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  max-width: 96.5% !important;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-select-arrow-wrapper {
+  transform: translate(50%) !important;
+  padding-right: 10px !important;
+}
+
+::ng-deep .mat-select-value {
+  font-size: 12pt !important;
+  padding-top: 1.6rem !important;
+}
+
+::ng-deep .mat-form-field-type-mat-select .mat-form-field-label,
+.mat-select-value {
+  font-size: 12pt !important;
+  padding-left: 1rem !important;
+  margin-top: -0.2rem !important;
+}
+
+::ng-deep .mat-form-field-suffix {
+  right: 74px !important;
+}
+
+::ng-deep .mat-select-trigger {
+  height: 70px;
+  padding-right: 10px;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-label {
+  margin-top: -0.2em !important;
+}
+
+::ng-deep input:not(.not-shitty) {
+  background: none;
+  padding-left: 0.7rem !important;
+  max-width: 100% !important;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  color: $tp-dark;
+  font-size: 12pt !important;
+  font-family: Poppins, serif !important;
+  font-weight: 100 !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  height: 70px !important;
+}

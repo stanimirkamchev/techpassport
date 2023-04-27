@@ -1,0 +1,65 @@
+<form [formGroup]="formGroup">
+  <div class="row">
+    <div class="column-4">
+      <span
+        >Select the methods your product uses for authenticating a person’s
+        access to the service</span
+      >
+    </div>
+  </div>
+
+  <div class="row" formGroupName="authenticationMethods">
+    <div class="column-12">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('authenticationMethods')"
+        [options]="authenticationMethods"
+        ngDefaultControl
+        (valueChanged)="authenticationMethodsChanged($event)"
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+
+  <div class="row" formGroupName="authenticationMethods">
+    <div class="column-4">
+      <custom-input *ngIf="otherAuthenticationMethodInputIsVisible$ | async"
+        label="Other"
+        formControlName="otherName"
+        [formGroup]="formGroup.get('authenticationMethods')"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column-12">
+      <span
+        >Select the methods your product uses to
+        <b>encrypt or hash passwords</b> to prevent compromisation</span
+      >
+    </div>
+  </div>
+
+  <div class="row" formGroupName="encryptionMethodOptions">
+    <div class="column-12">
+      <custom-multi-checkbox
+        orientation="vertical"
+        [formGroup]="formGroup.get('encryptionMethodOptions')"
+        [options]="encryptionMethodOptions"
+        ngDefaultControl
+        (valueChanged)="onEncryptionMethodChanged($event)"
+      ></custom-multi-checkbox>
+    </div>
+  </div>
+
+  <div class="row" formGroupName="encryptionMethodOptions">
+    <div class="column-4">
+      <custom-input *ngIf="otherEncryptionMethodInputIsVisible$ | async"
+        label="Other"
+        formControlName="otherName"
+        [formGroup]="formGroup.get('encryptionMethodOptions')"
+        ngDefaultControl
+      ></custom-input>
+    </div>
+  </div>
+</form>

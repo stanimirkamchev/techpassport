@@ -1,0 +1,6 @@
+@import 'mixins.scss';
+@include modal();
+
+[mat-dialog-actions] {
+  margin-top: 24px;
+}

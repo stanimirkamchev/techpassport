@@ -1,0 +1,44 @@
+<button mat-mini-fab class="closeModal2 close-invite-modal" (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <div class="modal edit-user-table-modal">
+    <div class="header">
+      <h3>{{title}}</h3>
+    </div>
+    <div>
+      <div fxLayout="column">
+          <div class="level-1" *ngIf="mode === 'create' && typeText === 'solution' && subLevel === 'type'">
+            <input matInput [(ngModel)]="inputtedTypeText" (input)="onChangeText()" placeholder="Add new {{typeText}} type`"/>
+            <input matInput [(ngModel)]="inputtedNameText" (input)="onChangeText()" placeholder="Add new {{typeText}} name`"/>
+          </div>
+          <input *ngIf="subLevel == 'type' && mode === 'update'" matInput [(ngModel)]="inputtedText" (input)="onChangeText()" placeholder="`Add new {{typeText}}`"/>
+          <input *ngIf="subLevel != 'type'" matInput [(ngModel)]="inputtedText" (input)="onChangeText()" placeholder="`Add new {{typeText}}`"/>
+          <p *ngIf="error && mode == 'create'" class="error"> You are trying to add an existing item </p>
+          <p *ngIf="error && mode == 'update'" class="error"> The item exist in the list above </p>
+      </div>
+    </div>
+    <div class="options success-btns">
+      <button
+        *ngIf="mode === 'update'"
+        [disabled]="disabled()"
+        (click)="update()"
+        [ngStyle]="{'opacity': opacity() ? '1' : '0.6'}"
+        mat-button
+        mat-raised-button
+        class="continue-btn"
+      >
+        Amend
+      </button>
+      <button
+        *ngIf="mode === 'create'"
+        [disabled]="disabled()"
+        (click)="create()"
+        [ngStyle]="{'opacity': opacity() ? '1' : '0.6'}"
+        mat-button
+        mat-raised-button
+        class="continue-btn"
+      >
+      Add
+    </button>
+    </div>
+  </div>

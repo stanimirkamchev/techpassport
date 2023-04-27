@@ -1,0 +1,990 @@
+<div class="container">
+  <div class="left">
+    <div class="search-main filtr">
+      <p class="title first"><span>search the market place</span></p>
+      <div class="search">
+        <mat-form-field floatLabel="never" class="chip-list">
+          <!--<mat-label>Search</mat-label>-->
+          <!--<mat-icon class="icon-search">search</mat-icon>-->
+          <input (input)="inputValue('freeText', $event)" matInput [formControl]="freeTextCtrl" type="text"
+            name="search-territory" placeholder="Search..." />
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="user-case filtr">
+      <p class="title coll" (click)="collRapidPOC = !collRapidPOC">
+        <img class="icon" src="/assets/img/search-icons/flash_on_black_24dp.svg" />
+        Rapid POC
+        <mat-icon *ngIf="collRapidPOC == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collRapidPOC == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collRapidPOC">
+        <mat-checkbox (change)="rapidPOCChange($event)" [(ngModel)]="rapidPOC">Yes</mat-checkbox>
+      </div>
+    </div>
+
+
+
+
+    <div class="territory filtr">
+      <p class="title coll" (click)="collOrigin = !collOrigin">
+        <img class="icon" src="/assets/img/search-icons/place.svg" /> Country of supplier origin
+        <mat-icon *ngIf="collOrigin == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collOrigin == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collOrigin">
+        <mat-form-field floatLabel="never">
+          <mat-icon>arrow_drop_down</mat-icon>
+          <mat-select [formControl]="includedTerritories" multiple placeholder="Select..."
+            (selectionChange)="selectedMulti('territory', $event)">
+            <mat-option *ngFor="let c of allCoutries" value="{{ c.code.toLowerCase() }}"><span
+                class="flag-icon flag-icon-{{ c.code.toLowerCase() }}"></span>
+              {{ c?.name }}</mat-option>
+          </mat-select>
+          <!--<mat-label>Select</mat-label>-->
+        </mat-form-field>
+      </div>
+    </div>
+
+
+
+    <!---->
+    <div class="supplier filtr">
+      <p class="title coll" (click)="collFunctionality = !collFunctionality">
+        <img class="icon" src="/assets/img/search-icons/important_devices.svg" />
+        Functionality
+        <mat-icon *ngIf="collFunctionality == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collFunctionality == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collFunctionality">
+        <mat-form-field floatLabel="never" class="chip-list">
+          <input (input)="inputValue('functionalityText', $event)" matInput [formControl]="functionalityTextCtrl"
+            type="text" name="search-territory" placeholder="Search..." />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!--
+    <div class="product-type filtr">
+      <p class="title coll" (click)="collTags = !collTags">
+        <img class="icon" src="/assets/img/search-icons/work.png" />
+        Product functionality tags
+        <mat-icon *ngIf="collTags == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collTags == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collTags">
+        <mat-form-field floatLabel="never" style="margin: 10px;">
+          <mat-select [formControl]="productTypeCtrl" multiple placeholder="Select..."
+            (selectionChange)="selectedMulti('productType', $event)">
+            <mat-option *ngFor="let type of allproductType" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    -->
+    <div class="product-type filtr">
+      <p class="title coll" (click)="collTags = !collTags">
+        <img class="icon" src="/assets/img/search-icons/work.png" />
+        Product functionality tags
+        <mat-icon *ngIf="collTags == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collTags == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collTags">
+        <mat-form-field floatLabel="never" style="margin: 10px;">
+          <mat-select #selectedTypesSel name="selectedTypesValue" [formControl]="productTypeCtrl"
+            [(value)]="selectedTypes" multiple (selectionChange)="selectedMulti('productType', $event)">
+            <ng-container *ngFor="let group of allproductType; let i = index">
+              <mat-option class="level1" [value]="group.title" (click)="toggleAllSelection(i)">
+                {{group.title}}
+              </mat-option>
+              <ng-container *ngFor="let level2 of group.items; let j = index">
+                <mat-option class="level2" [value]="level2.value" (click)="toggleLevel2Selection(i, j)">
+                  {{level2.title}}
+                </mat-option>
+                <mat-option class="level3" *ngFor="let level3 of level2.items" [value]="level3.value">
+                  {{level3.title}}
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="functionality filtr">
+      <p class="title coll" (click)="collTechnology = !collTechnology">
+        <img class="icon" src="/assets/img/search-icons/toys.svg" />
+        Technology tags
+        <mat-icon *ngIf="collTechnology == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collTechnology == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collTechnology">
+        <mat-form-field floatLabel="never">
+          <!--<mat-icon>arrow_drop_down</mat-icon>-->
+          <mat-select [formControl]="allFunctionalityCtrl" multiple placeholder="Select..."
+            (selectionChange)="selectedMulti('functionality', $event)">
+            <mat-option *ngFor="let function of allFunction" value="{{ function }}">
+              {{ function }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <!---->
+    <div class="functionality filtr">
+      <p class="title coll" (click)="collSupplier = !collSupplier">
+        <img class="icon" src="/assets/img/search-icons/rocket-01.png" />
+        SUPPLIER
+        <mat-icon *ngIf="collSupplier == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collSupplier == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collSupplier">
+        <mat-form-field floatLabel="never">
+          <mat-icon>arrow_drop_down</mat-icon>
+          <mat-select [formControl]="suppliersCtrl" multiple placeholder="Select..."
+            (selectionChange)="selectedMulti('supplier', $event)">
+            <mat-option *ngFor="let supplier of allSuppliers" value="{{ supplier.id }}">
+              {{ supplier.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="functionality filtr">
+      <p class="title coll" (click)="collProduct = !collProduct">
+        <img class="icon" src="/assets/img/search-icons/apps.svg" />
+        PRODUCTS
+        <mat-icon *ngIf="collProduct == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collProduct == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collProduct">
+        <mat-form-field floatLabel="never">
+          <mat-icon>arrow_drop_down</mat-icon>
+          <mat-select [formControl]="productsCtrl" multiple placeholder="Select..."
+            (selectionChange)="selectedMulti('product', $event)">
+            <mat-option *ngFor="let product of allProducts" value="{{ product.id }}">
+              {{ product.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="compliance filtr">
+      <p class="title coll" (click)="collComp = !collComp">
+        <img class="icon" src="/assets/img/search-icons/format_list_bulleted.svg" />
+        COMPLIANCE CHECKLIST
+        <mat-icon *ngIf="collComp == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collComp == true">arrow_drop_up</mat-icon>
+      </p>
+
+      <div class="search search-opt" *ngIf="collComp">
+        <mat-checkbox (change)="complianceChange('all', $event)" [(ngModel)]="compilance.all">All</mat-checkbox>
+        <!-- <mat-checkbox (change)="complianceChange('gold', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.gold">Gold 100%</mat-checkbox>
+        <mat-checkbox (change)="complianceChange('silver', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.silver">Silver 85% - 99%</mat-checkbox>
+        <mat-checkbox (change)="complianceChange('bronze', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.bronze">Bronze 70% - 84%</mat-checkbox> -->
+
+        <mat-checkbox (change)="complianceChange('SOC2', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.SOC2">SOC2</mat-checkbox>
+        <mat-checkbox (change)="complianceChange('ISP', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.ISP">ISP</mat-checkbox>
+        <mat-checkbox (change)="complianceChange('ISO27001', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.ISO27001">ISO27001</mat-checkbox>
+        <mat-checkbox (change)="complianceChange('SQ', $event)" [indeterminate]="compilance.all == true"
+          [(ngModel)]="compilance.SQ">Security questions</mat-checkbox>
+      </div>
+    </div>
+    <div class="membership filtr">
+      <p class="title coll" (click)="collMember = !collMember">
+        <img class="icon" src="/assets/img/search-icons/perm_contact_calendar.svg" />
+        SUPPLIER MEMBERSHIP
+        <mat-icon *ngIf="collMember == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collMember == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collMember">
+        <mat-checkbox (change)="membershipChange('all', $event)" [(ngModel)]="membership.all" [indeterminate]="
+            membership.all === false &&
+            membership.core === false &&
+            membership.premium === false
+          ">All
+        </mat-checkbox>
+        <mat-checkbox (change)="membershipChange('core', $event)" [(ngModel)]="membership.core"
+          [indeterminate]="membership.all === true">Core</mat-checkbox>
+        <mat-checkbox (change)="membershipChange('premium', $event)" [(ngModel)]="membership.premium"
+          [indeterminate]="membership.all === true">Premium</mat-checkbox>
+      </div>
+    </div>
+    <div class="insurance filtr">
+      <p class="title coll" (click)="collInsur = !collInsur">
+        <img class="icon" src="/assets/img/search-icons/verified_user.svg" />
+        INSURANCE
+        <mat-icon *ngIf="collInsur == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collInsur == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collInsur">
+        <!--<mat-checkbox (change)="insuranceChange('all', $event)" [(ngModel)]="insurance.all">All</mat-checkbox>-->
+        <mat-checkbox (change)="insuranceChange('full', $event)" [(ngModel)]="insurance.full" [indeterminate]="
+            insurance.public === true &&
+            insurance.cyber === true &&
+            insurance.employee === true
+          ">Fully insured
+        </mat-checkbox>
+        <mat-checkbox (change)="insuranceChange('public', $event)" [(ngModel)]="insurance.public"
+          [indeterminate]="insurance.full === true">Public</mat-checkbox>
+        <mat-checkbox (change)="insuranceChange('employee', $event)" [(ngModel)]="insurance.employee"
+          [indeterminate]="insurance.full === true">Employee</mat-checkbox>
+        <mat-checkbox (change)="insuranceChange('cyber', $event)" [(ngModel)]="insurance.cyber"
+          [indeterminate]="insurance.full === true">Cyber</mat-checkbox>
+      </div>
+    </div>
+    <div class="maturity filtr">
+      <p class="title coll" (click)="colMaturity = !colMaturity">
+        <img class="icon" src="/assets/img/search-icons/star.svg" />
+        SUPPLIER MATURITY
+        <mat-icon *ngIf="colMaturity == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="colMaturity == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="colMaturity">
+
+        <div class="subtitle space2">Previously onboarded with:</div>
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.banking"
+          (change)="supplierMaturityChange('banking', $event.checked)">
+          Banking
+        </mat-checkbox>
+        <br />
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.insurance"
+          (change)="supplierMaturityChange('insurance', $event.checked)">
+          Insurance</mat-checkbox>
+        <br />
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.wealthManagement"
+          (change)="supplierMaturityChange('wealthManagement', $event.checked)">
+          Wealth Mgmt</mat-checkbox>
+        <br />
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.lifeAssurancePensions"
+          (change)="supplierMaturityChange('lifeAssurancePensions', $event.checked)">
+          Life Insurance
+        </mat-checkbox>
+        <br />
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.regulatory"
+          (change)="supplierMaturityChange('regulatory', $event.checked)">
+          Regulatory
+        </mat-checkbox>
+
+        <mat-checkbox [(ngModel)]="supplierMaturity.assetManagement"
+          (change)="supplierMaturityChange('assetManagement', $event.checked)">
+          Asset Mgmt
+        </mat-checkbox>
+        <br />
+
+        <div class="subtitle">Maximum company age
+          <span *ngIf="supplierMaturity.maxMaturity > 0">{{supplierMaturity.maxMaturity}}</span>
+        </div>
+        <mat-slider matTooltip="Maximum age (years)" matTooltipPosition="below" style="width: 164px"
+          [(ngModel)]="supplierMaturity.maxMaturity" (change)="supplierMaturityDebouncer.next(['maxMaturity', supplierMaturity.maxMaturity])
+          " [tickInterval]="1" [min]="0" [max]="10" thumbLabel>
+        </mat-slider>
+      </div>
+
+
+    </div>
+
+    <div class="poc-charge filtr">
+      <p class="title coll" (click)="colPocCharge = !colPocCharge">
+        <img class="icon" src="/assets/img/search-icons/bar_chart.svg" />
+        POC CHARGE
+        <mat-icon *ngIf="colPocCharge == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="colPocCharge == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="colPocCharge">
+        <mat-checkbox [(ngModel)]="pocCharge.no" (change)="pocChargeChange('no', $event.checked)">No
+        </mat-checkbox>
+
+        <mat-checkbox [disabled]="pocCharge.no" [(ngModel)]="pocCharge.isSet"
+          (change)="pocChargeChange('isSet', $event.checked)">Yes
+        </mat-checkbox> <!-- [disabled]="pocCharge.maxCharge==0"-->
+
+        <div class="subtitle">Charge up to
+          <span *ngIf="pocCharge.maxCharge > 0">{{pocCharge.maxCharge | currency:'GBP'}}</span>
+        </div>
+
+        <mat-slider [disabled]="!pocCharge.isSet || pocCharge.no" matTooltip="Maximum charge"
+          matTooltipPosition="bottom" style="width: 164px" [(ngModel)]="pocCharge.maxCharge" (change)="pocChargeDebouncer.next(['maxCharge', pocCharge.maxCharge]);
+            " [tickInterval]="pocChargeInterval" [min]="0" [max]="pocMaxCharge">
+          <!-- thumbLabel-->
+        </mat-slider>
+
+
+
+      </div>
+    </div>
+    <div class="user-case filtr">
+      <p class="title coll" (click)="collUserCase = !collUserCase">
+        <img class="icon" src="/assets/img/search-icons/new_releases.svg" />
+        USE CASE
+        <mat-icon *ngIf="collUserCase == false">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="collUserCase == true">arrow_drop_up</mat-icon>
+      </p>
+      <div class="search search-opt" *ngIf="collUserCase">
+        <mat-checkbox (change)="useCaseChange($event)" [(ngModel)]="useCase">Yes</mat-checkbox>
+        <mat-form-field floatLabel="never" style="margin-left: -15px">
+          <!--<mat-icon class="icon-search">search</mat-icon>-->
+          <input (input)="inputValue('useCaseText', $event)" matInput type="text" [(ngModel)]="useCaseText"
+            placeholder="Search..." name="search-territory" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="clear-filters">
+      <button class="coll clearall" (click)="clearFilters($event)" mat-button color="warn">
+        <mat-icon>close</mat-icon> Clear all filters
+      </button>
+      <!--<button class="clearall" mat-button color="accent">
+        <mat-icon>new_releases</mat-icon>
+        Invite new Supplier
+      </button>-->
+    </div>
+  </div>
+  <div class="compare-list" *ngIf="showCompareList">
+    <p class="title">COMPARE LIST</p>
+    <div class="compare-list-container">
+      <div class="scroll clearfix" [class.show-detail-compare]="showDetailCompare === true"
+        [ngStyle]="{ 'width.px': 280 * (1 + compareProducts.length) }">
+        <div class="compare-description">
+          <div class="supplier-desc desc-td height-desc height-supp">
+            Supplier and Product
+          </div>
+          <div class="stamp-desc desc-td height-desc-2">Product Type</div>
+          <div class="stamp-desc desc-td height-desc height-stamps">Stamps</div>
+          <div class="desc-td height-desc height-comp">
+            Compliance complete
+            <div class="title-compare-list" (click)="showDetailCompare = !showDetailCompare">
+              <div class="icon-container">
+                <mat-icon *ngIf="!showDetailCompare">read_more</mat-icon>
+                <mat-icon *ngIf="showDetailCompare">close</mat-icon>
+              </div>
+            </div>
+          </div>
+          <div class="desc-td height-desc height-insur">
+            Insurance
+            <ul>
+              <li>Public</li>
+              <li>Employee</li>
+              <li>Cyber</li>
+            </ul>
+          </div>
+          <div class="desc-td height-desc">PoC Charge</div>
+          <div class="desc-td height-desc">Supplier trial fee</div>
+          <div class="desc-td height-desc">Supplier Date incorporated</div>
+          <div class="desc-td height-desc height-experience">
+            Previously onboarded with
+            <ul>
+              <li>Banking</li>
+              <li>Insurance</li>
+              <li>Wealth Management</li>
+              <li>Life Assurance and Pensions</li>
+              <li>Regulatory</li>
+              <li>Asset Management</li>
+            </ul>
+          </div>
+
+
+          <div class="desc-td height-desc">Use case</div>
+          <div class="desc-td height-desc">Use personal data in POC</div>
+          <div class="desc-td height-desc">Maximum number of users</div>
+          <div class="desc-td height-desc">Maximum of software copies</div>
+          <div class="desc-td height-desc">
+            Notice required before POC
+            <!--Timeframe-->
+          </div>
+          <div class="desc-td height-desc">Use open source software</div>
+          <div class="desc-td height-desc-2">&nbsp;</div>
+          <div class="desc-td height-desc-2">&nbsp;</div>
+        </div>
+        <div class="compare-product" *ngFor="let product of compareProducts">
+          <div class="height-supp">
+            <div class="img-container-compare">
+              <img src="/api/v1/admin/supplier/{{product.supplierID}}/companylogo" />
+              <!--<img src="/assets/img/BF8586DC31E4710888976085C06F90AC5839430B.png" alt="d" />-->
+            </div>
+            <h4>{{ product?.name }} - {{ product.productName }}</h4>
+          </div>
+
+          <div class=" compare-list-line height-desc-2">
+            <h4>{{ product.details.type }}</h4>
+          </div>
+          <div class="compare-list-line stamps height-stamps">
+            <div class="compliance icon">
+              <img matTooltip="Golden compliance" [ngClass]=" { 'enabled': product?.stamps.compilance === 'gold' }"
+                src="assets/img/search-icons/stamps/golden.svg" />
+              <img matTooltip="Silver compliance" [ngClass]=" { 'enabled': product?.stamps.compilance === 'siilver' }"
+                src="assets/img/search-icons/stamps/silver.svg" />
+              <img matTooltip="Bronze compliance" [ngClass]=" { 'enabled': product?.stamps.compilance === 'bronze' }"
+                src="assets/img/search-icons/stamps/bronze.svg" />
+            </div>
+            <div class="membership icon">
+              <img matTooltip="Premium membership" class="enabled" *ngIf="product?.stamps.membership == 'premium'"
+                src="assets/img/search-icons/stamps/premium.svg" />
+              <img matTooltip="Core membeship" class="enabled" *ngIf="product?.stamps.membership == 'core'"
+                src="assets/img/search-icons/stamps/core.svg" />
+            </div>
+            <div class="user-case icon">
+              <img matTooltip="Use case - yes" [ngClass]=" { 'enabled': product?.stamps.useCase === true }"
+                src="assets/img/search-icons/stamps/ucyes.svg" />
+            </div>
+            <div class="isnurance icon">
+              <!-- <img *ngIf="product?.stamps.insurance.indexOf('all') > -1" matTooltip="Fully insured"
+                src="assets/img/search-icons/stamps/fully.svg" />-->
+              <img matTooltip="Public insurance"
+                [ngClass]=" { 'enabled': product?.stamps.insurance.indexOf('Public') > -1 || product?.stamps.insurance.indexOf('all') > -1  }"
+                src="assets/img/search-icons/stamps/public.svg" />
+              <img matTooltip="Employee insurance"
+                [ngClass]=" { 'enabled': product?.stamps.insurance.indexOf('Employee') > -1 || product?.stamps.insurance.indexOf('all') > -1  }"
+                src="assets/img/search-icons/stamps/employee.svg" />
+              <img matTooltip="Cyber insurance"
+                [ngClass]=" { 'enabled': product?.stamps.insurance.indexOf('Cyber') > -1 || product?.stamps.insurance.indexOf('all') > -1  }"
+                src="assets/img/search-icons/stamps/cyber.svg" />
+            </div>
+            <div class="video icon">
+              <img matTooltip="Video" src="assets/img/search-icons/stamps/video.svg"
+                [ngClass]=" { 'enabled': product?.stamps.video }" />
+            </div>
+          </div>
+          <div class="compliance height-comp" [class.show-compliance-details]="showDetailCompare">
+            <div class="response-comare-list height-desc" [class.success-label]="product.complianceTotal === 100"
+              [class.warning-label]="product.complianceTotal === 0">
+              {{ product.complianceTotal }}%
+            </div>
+            <div class="details" *ngIf="showDetailCompare">
+              <div class="line" class="clearfix" *ngFor="let a of getAssessments(product.compliance)">
+                <div class="line-inside">{{ a.key }}</div>
+                <div class="line-inside" [class.success-label]="a.value === 100" [class.warning-label]="a.value === 0">
+                  {{ a.value }}%
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="compare-list-line insurance height-insur">
+            <div class="">&nbsp;</div>
+            <ul>
+              <li>
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Public') > -1 ||
+                    product?.stamps.insurance.indexOf('all') > -1
+                  " class="check">check</mat-icon>
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Public') === -1 &&
+                    product?.stamps.insurance.indexOf('all') === -1
+                  " class="close">close</mat-icon>
+                <!--<span *ngIf="product?.stamps.insurance.indexOf('Public') > -1">&#163;</span>
+                                              {{product?.stamps.insurance[product?.stamps.insurance.indexOf('Public')] }} -->
+              </li>
+              <li>
+                <!--<span *ngIf="product?.stamps.insurance.indexOf('Employee') > -1">&#163;</span>
+                                               {{ product?.stamps.insurance[product?.stamps.insurance.indexOf('Employee')] }} -->
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Employee') > -1 ||
+                    product?.stamps.insurance.indexOf('all') > -1
+                  " class="check">check</mat-icon>
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Employee') === -1 &&
+                    product?.stamps.insurance.indexOf('all') === -1
+                  " class="close">close</mat-icon>
+              </li>
+              <li>
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Cyber') > -1 ||
+                    product?.stamps.insurance.indexOf('all') > -1
+                  " class="check">check</mat-icon>
+                <mat-icon *ngIf="
+                    product?.stamps.insurance.indexOf('Cyber') === -1 &&
+                    product?.stamps.insurance.indexOf('all') === -1
+                  " class="close">close</mat-icon>
+                <!--<span *ngIf="product?.stamps.insurance.indexOf('Cyber') > -1">&#163;</span>
+                                                {{product?.stamps.insurance[product?.stamps.insurance.indexOf('Cyber')]}} -->
+              </li>
+            </ul>
+          </div>
+
+
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <mat-icon *ngIf="product.charges.chargesTrialFee === 'yes'; else closeIcon" class="check">
+                check
+              </mat-icon>
+            </div>
+          </div>
+
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <span *ngIf="product.charges.chargesTrialFee === 'no'">N/A</span>
+              <span *ngIf="product.charges.chargesTrialFee === 'yes'">{{ product.charges.chargesAmtFee | currency:
+                product.charges.currency.toUpperCase() }}</span>
+            </div>
+          </div>
+
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              {{product.supplierDetails?.incorporated | date: 'mediumDate'}}
+            </div>
+          </div>
+
+          <div class="compare-list-line experience height-experience">
+            <ng-template #closeIcon>
+              <mat-icon class="close">close</mat-icon>
+            </ng-template>
+            <div class="">&nbsp;</div>
+            <ul>
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.banking; else closeIcon" class="check">
+                  check
+                </mat-icon>
+              </li>
+
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.insurance; else closeIcon" class="check">
+                  check
+                </mat-icon>
+              </li>
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.wealthManagement; else closeIcon" class="check">
+                  check
+                </mat-icon>
+              </li>
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.lifeAssurancePensions; else closeIcon"
+                  class="check">
+                  check
+                </mat-icon>
+              </li>
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.regulatory; else closeIcon" class="check">
+                  check
+                </mat-icon>
+              </li>
+              <li>
+                <mat-icon *ngIf="!!product.supplierDetails?.experience?.assetManagement; else closeIcon" class="check">
+                  check
+                </mat-icon>
+              </li>
+            </ul>
+          </div>
+
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <mat-icon *ngIf="product?.stamps.useCase == true" class="check">check</mat-icon>
+              <mat-icon *ngIf="product?.stamps.useCase == false" class="close">close</mat-icon>
+            </div>
+          </div>
+          <div class="compare-list-line height-desc">
+            <mat-icon *ngIf="product.personaldata === 'yes'" class="check">check</mat-icon>
+            <mat-icon *ngIf="product.personaldata !== 'yes'" class="close">close</mat-icon>
+          </div>
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <span *ngIf="product.numusers.length == 0"> N/A </span>
+              <span *ngIf="product.numusers.length > 0">
+                {{ product.numusers }}
+              </span>
+            </div>
+          </div>
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <span *ngIf="product.sofcopier.length == 0"> N/A </span>
+              <span *ngIf="product.sofcopier.length > 0">
+                {{ product.sofcopier }}
+              </span>
+            </div>
+          </div>
+          <div class="compare-list-line height-desc">
+            <div class="response-comare-list">
+              <span *ngIf="product.timeframe.length == 0"> N/A </span>
+              <span *ngIf="product.timeframe.length > 0">
+                min. {{ product.timeframe }} days
+              </span>
+            </div>
+          </div>
+          <div class="compare-list-line height-desc">
+            <mat-icon *ngIf="product.usecase == 'Yes'" class="check">check</mat-icon>
+            <mat-icon *ngIf="product.usecase != 'Yes'" class="close">close</mat-icon>
+          </div>
+          <div class="compare-list-line height-desc-2">
+            <button mat-button mat-raised-button color="accent"
+              (click)="compilanceModal(false, false, false, product, true)" class="connects-me-button">
+              Supplier Details
+            </button>
+          </div>
+          <!-- <div class="compare-list-line height-desc-2" *ngIf="checkPermissionsForButton(product, 'nda')">
+            <button mat-button mat-raised-button color="accent" (click)="connectMeService.doAction(product, 'nda')"
+              class="connects-me-button">
+              Connect Me
+            </button>
+          </div>-->
+
+          <div class="compare-list-line height-desc-2" *ngIf="checkPermissionsForButton(product, 'compliance')">
+            <button mat-button mat-raised-button color="accent"
+              (click)="connectMeService.doAction(product, 'compliance')" class="connects-me-button rapid-nda-button">
+              Compliance Details
+            </button>
+          </div>
+          <div class="compare-list-line height-desc-2" *ngIf="checkPermissionsForButton(product, 'poc')">
+            <button mat-button mat-raised-button color="accent" (click)="connectMeService.doAction(product, 'POC')"
+              class="connects-me-button rapid-poc-button">
+              Start POC
+            </button>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+    <div class="button-line">
+      <button mat-button mat-raised-button color="primary" class="button-cancel" (click)="
+          showCompareDialog = false; showCompareList = false; removeAllCompare()
+        ">
+        Back
+      </button>
+    </div>
+  </div>
+  <div class="right" [class.big]="showSearchRes === true || trial === true || !topTechEnabled">
+    <div class="compare-dialoge" *ngIf="showCompareDialog">
+      <p class="title">COMPARE</p>
+      <div class="columne">
+        <h4>Select Companies from the list below</h4>
+        <span class="sub" *ngIf="showCompareButton == false">You need at least 2 Companies selected.</span>
+        <li class="product-li" *ngFor="let product of compareProducts">
+          <span class="title-dialoge">{{ product?.name }} {{ product.productName }}</span>
+          <mat-icon class="cancel" (click)="removeProductCampare(product.id)">cancel</mat-icon>
+        </li>
+      </div>
+      <div class="button-line">
+        <button mat-button mat-raised-button class="compare-button"
+          (click)="showCompareDialog = false; removeAllCompare()" color="primary">
+          Clear all
+        </button>
+        <button mat-button mat-raised-button class="compare-button" color="accent"
+          [disabled]="showCompareButton !== true" (click)="showCompareDialog = false; showCompareList = true">
+          Compare
+        </button>
+      </div>
+    </div>
+    <div class="top-tech" *ngIf="showSearchRes === false && topTechEnabled">
+      <!-- !(!showSearchRes && topTech && topTech.id) -->
+      <p class="title"><span>TOP TECH COMPANY</span></p>
+      <div class="clearfix">
+        <div class="card">
+          <div class="logo">
+            <img *ngIf="!topTech || !topTech.logo" src="assets/img/logo_placeholder.png" alt="logo" />
+            <!-- assets/img/logo-products/g512.png -->
+            <img *ngIf="topTech && topTech.logo" src="/api/v1/admin/supplier/{{topTech.id}}/companylogo" alt="logo" />
+            <!-- assets/img/logo-products/g512.png -->
+          </div>
+          <div class="name">{{ topTech?.name }}</div>
+          <div class="bottom">
+            <div class="stamps">
+              <div class="compliance icon">
+                <img *ngIf="topTech?.stamps.compilance == 'gold'" matTooltip="Golden compliance"
+                  src="assets/img/search-icons/stamps/golden.svg" />
+                <img *ngIf="topTech?.stamps.compilance == 'silver'" matTooltip="Silver compliance"
+                  src="assets/img/search-icons/stamps/silver.svg" />
+                <img *ngIf="topTech?.stamps.compilance == 'bronze'" matTooltip="Bronze compliance"
+                  src="assets/img/search-icons/stamps/bronze.svg" />
+              </div>
+              <div class="membership icon" *ngIf="topTech?.stamps.membership">
+                <img *ngIf="topTech?.stamps.membership == 'premium'" matTooltip="Premium membership"
+                  src="assets/img/search-icons/stamps/premium.svg" />
+                <img *ngIf="topTech?.stamps.membership == 'core'" matTooltip="Core membeship"
+                  src="assets/img/search-icons/stamps/core.svg" />
+              </div>
+              <div class="user-case icon" *ngIf="topTech?.stamps.useCase">
+                <img matTooltip="Use case - yes" src="assets/img/search-icons/stamps/ucyes.svg" />
+              </div>
+              <div class="isnurance icon">
+                <img *ngIf="topTech?.stamps.insurance.indexOf('all') > -1" matTooltip="Fully insured"
+                  src="assets/img/search-icons/stamps/fully.svg" />
+
+                <img *ngIf="topTech?.stamps.insurance.indexOf('Public') > -1" matTooltip="Public insurance"
+                  src="assets/img/search-icons/stamps/public.svg" />
+
+                <img *ngIf="topTech?.stamps.insurance.indexOf('Employee') > -1" matTooltip="Employee insurance"
+                  src="assets/img/search-icons/stamps/employee.svg" />
+
+                <img *ngIf="topTech?.stamps.insurance.indexOf('Cyber') > -1" matTooltip="Cyber insurance"
+                  src="assets/img/search-icons/stamps/cyber.svg" />
+              </div>
+              <div class="video icon">
+                <!-- <mat-icon matTooltip="Training video">music_video</mat-icon>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="desc-box">
+          <h1>{{ topTech?.name }}</h1>
+          <p class="description">{{ topTech?.about }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="based-on" [class.line]="gridDisplay === 'line'" [class.lower]="showCompareDialog === true">
+      <div class="grid-icons">
+        <span class="compare-list-counter">Compare list ({{ compareProducts.length }})
+        </span>
+        <span>
+          <img src="assets/img/search-icons/apps.svg" (click)="gridDisplay = 'grid'" />
+        </span>
+        <span (click)="gridDisplay = 'line'">
+          <img src="assets/img/search-icons/format_list_bulleted.svg" />
+        </span>
+      </div>
+      <p class="title second">
+        <!--<span *ngIf="!showSearchRes">RECOMMENDED PRODUCTS FOR YOU</span>
+        <span *ngIf="showSearchRes">SEARCH RESULTS</span>-->
+        SEARCH RESULTS
+      </p>
+
+
+
+      <div class="legend">
+        <div class="legendit blue">
+          <div class="sqr"></div>
+          <div class="legendtit">Rapid Product</div>
+        </div>
+        <div class="legendit green">
+          <div class="sqr"></div>
+          <div class="legendtit">Connected</div>
+        </div>
+      </div>
+      <div class="invite">
+        <button mat-button color="primary" (click)="inviteNew()">
+          <mat-icon>new_releases</mat-icon>
+          Invite new Supplier
+        </button>
+      </div>
+      <div class="company-grid">
+        <div class="company" *ngFor="let product of filteredProducts"
+          [class.has-access]="hasDetailsAccess(product) === true" [class.is-rapid-poc]="isRapidPOC(product) === true">
+          <!-- [class.rapid]="product.rapidNDA || product.rapidPOC"-->
+          <!--  //filteredProducts 
+          [class.is-rapid-nda]="isRapidNDA(product) === true"
+          -->
+          <span class="add-to-compare-out" matTooltip="Add to compare list" *ngIf="!product.compareList"
+            (click)="addCompare(product, product.productID, $event)">
+            ADD&nbsp;
+            <mat-icon> add_circle_outline </mat-icon>
+          </span>
+          <div [class.added-compare]="product.compareList">
+            <div [class.added-compare]="product.compareList">
+              <div class="top-menu" id="top-menu-{{ product.id }}">
+                <!--  [class.rapid]=" product.rapidNDA || product.rapidPOC"
+                  [class.has-poc]="product.productName.indexOf( 'Camarchee'  ) > -1" -->
+                <mat-icon class="show">arrow_drop_down</mat-icon>
+                <div class="logo-reverse revers" *ngIf="!product.loading" id="revers-{{ product.id }}">
+                  <!--<div class="reverse-contact" *ngIf="checkPermissionsForButton(product, 'nda') &&  trial !== true"
+                  (click)="connectMeService.doAction(product, 'nda')">   
+                  Connect me
+                </div>-->
+
+                  <!--
+                    /// START POC if RAPIPD POC 
+                    /// Request for compliance details 
+                    /// 
+                -->
+                  <div class="reverse-contact-info" *ngIf="checkPermissionsForButton(product, 'ndaInfo')">
+                    <i>Waiting for Approval...</i>
+                  </div>
+
+                  <div class="reverse-contact reverse-contact-success rapid-poc"
+                    *ngIf="checkPermissionsForButton(product, 'poc')"
+                    (click)="connectMeService.doAction(product, 'POC')">
+                    Start POC
+                  </div>
+
+
+                  <div class="reverse-contact reverse-contact-success rapid-nda"
+                    *ngIf="checkPermissionsForButton(product, 'compliance')"
+                    (click)="connectMeService.doAction(product, 'compliance')">  
+                    Request Compliance Details
+                  </div>
+
+
+                  <div class="reverse-contact reverse-contact-success" *ngIf="checkPermissionsForButton(product, 'nda')"
+                    (click)="connectMeService.doAction(product, 'nda')">  
+                    <!-- Connect Me --> Request NDA
+                  </div>
+
+
+                  <div class="reverse-contact" *ngIf="checkPermissionsForButton(product, 'info')"
+                    (click)="compilanceModal(false, false, false, product, true)">
+                    Supplier Info
+                  </div>
+                  <div class="reverse-contact" *ngIf="checkPermissionsForButton(product, 'info')"
+                    (click)="compilanceModal(false, false, true, product)">
+                    Product Info
+                  </div>
+                  <div class="reverse-contact" *ngIf="checkPermissionsForButton(product, 'info')"
+                    (click)="compilanceModal(true, false, false, product)">
+                    Compliance Checklist
+                  </div>
+                  <div class="reverse-contact" *ngIf="checkPermissionsForButton(product, 'info')"
+                    (click)="compilanceModal(false, true, false, product)">
+                    Insurance
+                  </div>
+
+
+
+                  <div class="reverse-contact reverse-contact-success"
+                    *ngIf="checkPermissionsForButton(product, 'details')"
+                    (click)="connectMeService.doAction(product, 'details', 0)">
+                    Supplier Details
+                  </div>
+                  <div class="reverse-contact reverse-contact-success"
+                    *ngIf="checkPermissionsForButton(product, 'details')"
+                    (click)="connectMeService.doAction(product, 'details', 1)">
+                    Product Details
+                  </div>
+                  <div class="reverse-contact reverse-contact-success"
+                    *ngIf="checkPermissionsForButton(product, 'details')"
+                    (click)="connectMeService.doAction(product, 'details', 2)">
+                    Compliance Checklist
+                  </div>
+                  <div class="reverse-contact reverse-contact-success"
+                    *ngIf="checkPermissionsForButton(product, 'details')"
+                    (click)="connectMeService.doAction(product, 'details', 3)">
+                    Risk Report
+                  </div>
+
+
+                  <!--<div class="reverse-contact" (click)="ndaModal(product)">Sign</div>
+                        <div class="reverse-poc" (click)="pocModal()">Start POC</div>-->
+                </div>
+              </div>
+              <div class="line-look line-look-left">
+                <div (mouseout)="hiddenDetails(product.id)" checked="false" class="details"
+                  id="details-{{ product.id }}">
+                  {{ product.details }}
+                </div>
+                <div *ngIf="product.loading" style="
+                  top: 60px;
+                  padding-left: 90px;
+                  padding-right: 90px;
+                  position: relative;
+                ">
+                  <mat-progress-bar color="accent" mode="indeterminate" class="upload-progress"></mat-progress-bar>
+                </div>
+
+                <div class="logo" [hidden]="product.loading">
+                  <div class="productName">{{ product.productName }}</div>
+                  <!--<img  src={{product.logoBig}}>-->
+                  <img *ngIf="!product.logo" src="assets/img/logo_placeholder.png" alt="{{ product?.name }}" />
+                  <!-- assets/img/logo-products/g512.png -->
+                  <img *ngIf="product.logo" src="/api/v1/admin/supplier/{{product?.supplierID}}/companylogo"
+                    alt="{{ product?.name }}" />
+                  <!-- assets/img/logo-products/g512.png -->
+                </div>
+                <div class="bottom" [hidden]="product.loading">
+                  <input type="checkbox" class="check_box" id="checkbox-{{ product.id }}}" />
+                  <label class="title-product" for="checkbox-{{ product.id }}}">
+                    <p style="text-align: center">
+                      <small>{{ product?.name }}</small>
+                    </p>
+                  </label>
+                </div>
+                <div class="stamps">
+
+                  <!-- <div class="rapid icon">
+
+                    <mat-icon class="enabled noneRapid" matTooltip="None Rapid"
+                      *ngIf="product?.rapidNDA === false && product?.rapidPOC === false">
+                      lock
+                    </mat-icon>
+                    <mat-icon class="enabled" matTooltip="Rapid NDA"
+                      *ngIf="product?.rapidNDA === true && product?.rapidPOC !== true">
+                      speed
+                    </mat-icon>
+                    <mat-icon class="enabled fullyRapid" matTooltip="Rapid POC" *ngIf="product?.rapidPOC === true">
+                      speed
+                    </mat-icon>
+                  </div>-->
+                  <div class="compliance icon">
+                    <img matTooltip="Golden compliance" class="enabled" *ngIf="product?.stamps.compilance === 'gold'"
+                      src="assets/img/search-icons/stamps/golden.svg" />
+                    <!--  [ngClass]=" { 'enabled': product?.stamps.useCase === true }" -->
+                    <img matTooltip="Silver compliance" class="enabled" *ngIf="product?.stamps.compilance === 'silver'"
+                      src="assets/img/search-icons/stamps/silver.svg" />
+                    <img matTooltip="Bronze compliance" class="enabled" *ngIf="product?.stamps.compilance === 'bronze'"
+                      src="assets/img/search-icons/stamps/bronze.svg" />
+                  </div>
+                  <div class="membership icon">
+                    <img matTooltip="Premium membership" class="enabled"
+                      *ngIf="product?.stamps.membership?.indexOf('premium') > -1"
+                      src="assets/img/search-icons/stamps/premium.svg" />
+                    <img matTooltip="Core membeship" class="enabled"
+                      *ngIf="product?.stamps.membership?.indexOf('core') > -1"
+                      src="assets/img/search-icons/stamps/core.svg" />
+                  </div>
+                  <div class="user-case icon">
+                    <img matTooltip="Use case - yes" [ngClass]=" { 'enabled': product?.stamps.useCase === true }"
+                      src="assets/img/search-icons/stamps/ucyes.svg" />
+                  </div>
+                  <div class="isnurance icon">
+                    <img [ngClass]=" { 'enabled': product?.stamps.insurance.indexOf('all') > -1 }"
+                      matTooltip="Fully insured" src="assets/img/search-icons/stamps/fully.svg" />
+                    <img matTooltip="Public insurance" class="enabled"
+                      *ngIf="product?.stamps.insurance.indexOf('Public') > -1"
+                      src="assets/img/search-icons/stamps/public.svg" />
+                    <img matTooltip="Employee insurance" class="enabled"
+                      *ngIf="product?.stamps.insurance.indexOf('Employee') > -1"
+                      src="assets/img/search-icons/stamps/employee.svg" />
+                    <img matTooltip="Cyber insurance" class="enabled"
+                      *ngIf="product?.stamps.insurance.indexOf('Cyber') > -1"
+                      src="assets/img/search-icons/stamps/cyber.svg" />
+                  </div>
+                  <div class="video icon">
+                    <img matTooltip="Video" src="assets/img/search-icons/stamps/video.svg"
+                      [ngClass]=" { 'enabled': product?.stamps.video }" />
+                  </div>
+                </div>
+              </div>
+              <div class="line-look line-look-right">
+                <div class="desc">
+                  <p>
+                    <strong>About product:<br /></strong>
+                    {{ product.description }}
+                  </p>
+                  <p>
+                    <small>
+                      <strong>About supplier:<br /></strong>
+                      <!--*ngIf="gridDisplay === 'line'"-->
+                      {{ product?.about }}
+                    </small>
+                  </p>
+
+                  <!-- {{product?.about}} -->
+                </div>
+                <div class="desc-full-product">
+                  <!--Product Details: {{product.details}}-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

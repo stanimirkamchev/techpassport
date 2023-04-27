@@ -1,0 +1,49 @@
+<mat-spinner *ngIf="loading; else loaded" diameter="32"></mat-spinner>
+<ng-template #loaded>
+  <div class="alert-box-wrp col" *ngIf="alerts">
+    <alert-box class="alert-box grey" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+        <span class="count">{{alerts.pendingNDAs}}</span>
+        <h4>
+            Connections
+            <span class="mat-caption">Are waiting for internal approval</span>
+        </h4>
+    </alert-box>
+    <alert-box class="alert-box grey" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+        <span class="count">{{alerts.pendingPOCs}}</span>
+        <h4>
+            POCs
+            <span class="mat-caption">Are waiting for internal approval</span>
+        </h4>
+    </alert-box>
+    <alert-box class="alert-box grey" (click)="openConnections(alerts, 'Completed', true)">
+        <span class="count">{{alerts.pendingProjects}}</span>
+        <h4>
+            Projects
+            <span class="mat-caption">Are waiting for internal approval</span>
+        </h4>
+    </alert-box>
+  </div>
+  <div class="alert-box-wrp  col" *ngIf="alerts">
+    <alert-box class="alert-box pink" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+        <span class="count">{{alerts.urgentNDAs}}</span>
+        <h4>
+            Connections
+            <span class="mat-caption">Waiting for more than 7 days</span>
+        </h4>
+    </alert-box>
+    <alert-box class="alert-box pink" (click)="openConnections(alerts, 'Awaiting Buyer', true)">
+        <span class="count">{{alerts.urgentPOCs}}</span>
+        <h4>
+            POCs
+            <span class="mat-caption">Waiting for more than 7 days</span>
+        </h4>
+    </alert-box>
+    <alert-box class="alert-box pink" (click)="openConnections(alerts, 'Completed', true)">
+        <span class="count">{{alerts.urgentProjects}}</span>
+        <h4>
+            Projects
+            <span class="mat-caption">Waiting for more than 7 days</span>
+        </h4>
+    </alert-box>
+  </div>
+</ng-template>

@@ -1,0 +1,54 @@
+@import 'colors.scss';
+
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+  //z-index: 10000;
+}
+
+button.details {
+  font-size: 10px;
+  height: 30px;
+  border-radius: 4px!important;
+  line-height: 10px;
+  margin-top: 12px;
+  background-color: $tp-blue;
+}
+button.details.pink {
+  background-color: $tp-purp;
+}
+
+
+
+.mat-subtitle {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0 0 16px 0;
+  font-weight: bold;
+  font-size: 10pt;
+  color: $tp-dark;
+}
+
+
+
+
+
+.inner-title-wrapped {
+  max-width: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner-title strong {
+  font-size: 9pt;
+}
+
+canvas {
+  max-width: 180px;
+  width: 180px;
+}

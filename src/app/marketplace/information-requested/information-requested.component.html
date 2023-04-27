@@ -1,0 +1,32 @@
+<div class="information-requested">
+  <div class="close-wrapper" style="cursor: pointer" (click)="cancel()">
+    <mat-icon class="close-icon" svgIcon="close"></mat-icon>
+  </div>
+  <div class="wrapper">
+    <div class="d-flex justify-center mb-8">
+      <mat-icon svgIcon="send" class="send-icon"></mat-icon>
+    </div>
+    <div class="title mb-3">Information requested</div>
+    <div class="description1 mb-3">
+      We’ve asked the selected supplier(s) to provide <br />more information
+    </div>
+    <div class="description2 mb-6">
+      We’ll let you know when they have updated their information <br />in
+      alerts on the dashboard
+    </div>
+
+    <div class="d-flex justify-center">
+      <button
+        class="btn-custom"
+        style="cursor: pointer"
+        (click)="backToMarketplace()"
+      >
+        Back to marketplace
+      </button>
+    </div>
+
+    <div class="d-flex justify-center" style="cursor: pointer">
+      <div class="link" (click)="goToDashboard()">Go to dashboard</div>
+    </div>
+  </div>
+</div>

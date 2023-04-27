@@ -1,0 +1,95 @@
+@import "../product-modal.common";
+
+mat-expansion-panel.mat-expanded {
+  width: 90% !important;
+}
+
+::ng-deep .flex-list-row {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+
+  li {
+    padding-top: 5px !important;
+    padding-right: 10px !important;
+    flex: auto !important;
+  }
+}
+
+::ng-deep .flex-list-column {
+  display: flex;
+  align-items: start;
+  justify-items: start;
+  flex-direction: column !important;
+
+  li {
+    padding-top: 3px !important;
+    padding-left: 0 !important;
+  }
+}
+
+::ng-deep .two-column {
+  display: flex;
+  align-items: baseline;
+  justify-items: start;
+  justify-content: start;
+  flex-direction: row !important;
+
+  h5 {
+    flex-basis: auto;
+    max-width: 28%;
+    min-width: 28%;
+    padding-right: 10px;
+  }
+
+  ul {
+
+  }
+}
+
+::ng-deep .one-column {
+  display: flex;
+  align-items: stretch;
+  justify-items: start;
+  flex-direction: column !important;
+}
+
+mat-expansion-panel.mat-expanded {
+  width: 90% !important;
+}
+
+::ng-deep .file-attached {
+  background: #F5F5F8;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  justify-content: space-between !important;
+  align-items: center !important;
+
+  h5 {
+    display: flex;
+    align-items: center;
+
+    .mat-icon {
+      margin: 0 4px 0 0 !important;
+    }
+  }
+
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 6px 8px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    border: none;
+    font-family: 'Public Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #3F9CF4;
+  }
+}

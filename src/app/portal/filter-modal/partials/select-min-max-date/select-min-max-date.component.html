@@ -1,0 +1,13 @@
+<mat-form-field class="select-min-max-date" appearance="outline">
+    <mat-label>From Date</mat-label>
+    <input class="min" [(value)]="selectedMinVal" #inputs disabled (dateChange)="onChangeDateMin($event)" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" [startAt]="minDate"></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field class="select-min-max-date" appearance="outline">
+    <mat-label>To Date</mat-label>
+    <input class="max" [(value)]="selectedMaxVal" #inputs disabled (dateChange)="onChangeDateMax($event)" matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1 disabled="false" [startAt]="maxDate"></mat-datepicker>
+</mat-form-field>

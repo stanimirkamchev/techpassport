@@ -1,0 +1,47 @@
+<button mat-mini-fab class="closeModal2" (click)="exit()">
+    <mat-icon>clear</mat-icon>
+</button>
+<div class="modal-cont modal-add-member">
+    <div class="modal-icon">
+        <mat-icon>group_add</mat-icon>
+    </div>
+    <h4 class="notSoStong">
+        <span *ngIf="message.length > 0" class="message errorMessage"
+            [ngClass]="{'successMessage' : success == true}">{{message}}</span>
+        <span *ngIf="message.length === 0 && !editMode">Add <strong>business group</strong></span>
+        <span *ngIf="message.length === 0 && editMode">Edit <strong>{{data.element.name}}</strong> business group</span>
+    </h4>
+    <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="groupFormGroup">
+        <!-- [formGroup]="profileForm"  -->
+
+
+        <div fxLayout="row" class="form-row">
+            <div class="label">Entity</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never">
+                    <mat-select formControlName="entity">
+                        <mat-option *ngFor="let ent of entities" [value]="ent._id">{{ent.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" class="form-row">
+            <div class="label">Group Name</div>
+            <div class="formItem">
+                <mat-form-field floatLabel="never">
+                    <input matInput niceOnly type="text" placeholder="Write here..." formControlName="name"
+                        autocomplete="off" required />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="options">
+            <button mat-button mat-raised-button [disabled]="!groupFormGroup.valid || requestInProgress == true"
+                color="accent" (click)="confirm()" class="mat-elevation-z0">Confirm
+            </button>
+            <button mat-button mat-raised-button [disabled]="requestInProgress == true" color="warn" (click)="exit()"
+                class="mat-elevation-z0">Cancel</button>
+        </div>
+    </form>
+</div>

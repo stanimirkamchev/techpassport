@@ -1,0 +1,6 @@
+
+<ul *ngIf="items && items.length > 0" class="list">
+    <li *ngFor="let item of items">
+        <list-item class="list-item" [type]="type" [entities]="items" [item]="item"></list-item>
+    </li>
+<ul>

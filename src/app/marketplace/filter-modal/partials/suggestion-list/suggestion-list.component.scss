@@ -1,0 +1,81 @@
+@import 'src/styles/colors';
+
+.suggestion-list-wrapper {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 5px;
+
+  .search-input-wrapper {
+    position: relative;
+    background: #F3F3F6;
+    border-radius: 5px 5px 0px 0px;
+    padding: 14px 0;
+
+    .mat-icon {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .search-input {
+      border: none;
+      font-size: 16px !important;
+      padding-left: 50px !important;
+      padding-right: 16px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  ::ng-deep {
+    .mat-list-base {
+      padding-bottom: 8px !important;
+      max-height: 300px;
+      overflow: auto;
+    }
+    mat-list-item {
+      height: 40px;
+    }
+    .mat-list-item-content {
+      padding: 0 24px;
+    }
+
+    .mat-checkbox-checked {
+      .mat-checkbox-inner-container {
+        .mat-checkbox-background {
+          background-color: $tp-dark;
+        }
+      }
+    }
+    .mat-checkbox-inner-container {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+    }
+    .mat-checkbox-label {
+      font-family: "Public Sans" !important;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.02em;
+      color: #41495F;
+    }
+
+    .mat-list-text {
+      font-family: 'Public Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #0C1D4A;
+
+      opacity: 0.5;
+    }
+  }
+}
